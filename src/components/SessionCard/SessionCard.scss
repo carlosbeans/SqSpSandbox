@@ -1,0 +1,35 @@
+@use "../../styles/color";
+@use "../../styles/spacing";
+
+.sessionCard {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  justify-content: space-between;
+  width: 343px;
+  height: 182px;
+  border: 1px solid color.$borderColor;
+  padding: spacing.$space-03 0;
+
+  .row {
+    padding-top: 0;
+    gap: 11px;
+  }
+
+  .col {
+    padding: spacing.$space-01 0;
+  }
+  .val {
+    color: color.$gray100;
+  }
+
+  .label {
+    color: color.$gray300;
+  }
+  .sessionCardFooter {
+    padding: 0 spacing.$space-03;
+  }
+  .sessionCardFooter a {
+    color: color.$danger;
+  }
+}

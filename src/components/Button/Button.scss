@@ -1,0 +1,12 @@
+@use "../../styles/spacing" as spacing;
+@use "../../styles/color" as color;
+
+.btn {
+}
+
+.primary {
+  background: color.$gray100;
+  color: color.$gray800;
+  padding: spacing.$space-03;
+  text-transform: uppercase;
+}

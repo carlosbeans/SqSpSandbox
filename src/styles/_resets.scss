@@ -1,0 +1,15 @@
+@use "color";
+
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: "Clarkson", sans-serif;
+  font-size: 14px;
+}
+a {
+  text-decoration: none;
+  color: color.$gray100;
+  position: relative;
+}

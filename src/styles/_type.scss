@@ -1,0 +1,21 @@
+//vars
+$pageTitle: 22px;
+$sectionTitle: 20px;
+$eyebrow: 9.75px;
+$caption: 12px;
+
+//classes
+.pageTitle {
+  font-size: $pageTitle;
+}
+.sectionTitle {
+  font-size: $sectionTitle;
+}
+.eyebrow {
+  font-size: $eyebrow;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.caption {
+  font-size: $caption;
+}

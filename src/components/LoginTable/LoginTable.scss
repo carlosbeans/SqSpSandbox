@@ -1,0 +1,27 @@
+@use "../../styles/color";
+@use "../../styles/spacing";
+
+.loginTable {
+  margin: spacing.$space-04 0 0;
+}
+.table {
+  .th {
+    font-weight: medium;
+  }
+  .tr {
+    display: flex;
+    position: relative;
+    border-bottom: 1px solid color.$borderColor;
+    padding: spacing.$space-02 0;
+    transition: background 0.2s ease-in-out;
+
+    & > span {
+      display: flex;
+      flex: 1;
+    }
+
+    &:hover {
+      background: darken(color.$base, 5%);
+    }
+  }
+}
