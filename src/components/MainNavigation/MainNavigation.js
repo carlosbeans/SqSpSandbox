@@ -25,6 +25,12 @@ export default function MainNavigation() {
           <Link className="mainNavLink" to="Domains">
             Domains
           </Link>
+          <Link className="mainNavLink" to="Websites">
+            Websites
+          </Link>
+          <Link className="mainNavLink" to="DomainWebsiteConnection">
+            Domain Website Connection
+          </Link>
         </div>
       </div>
       <div className="avatarContainer">

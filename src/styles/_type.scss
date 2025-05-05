@@ -1,8 +1,48 @@
+//font imports
+@font-face {
+  font-family: 'Clarkson';
+  src: url('../../public/assets/fonts/Clarkson-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clarkson';
+  src: url('../../public/assets/fonts/Clarkson-BookProduct.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clarkson';
+  src: url('../../public/assets/fonts/Clarkson-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clarkson';
+  src: url('../../public/assets/fonts/Clarkson-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 //vars
 $pageTitle: 22px;
 $sectionTitle: 20px;
 $eyebrow: 9.75px;
 $caption: 12px;
+
+//weights
+$light: 300;
+$regular: 400;
+$medium: 500;
+$bold: 700;
+
 
 //classes
 .pageTitle {

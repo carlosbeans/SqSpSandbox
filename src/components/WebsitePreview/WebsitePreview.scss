@@ -1,0 +1,25 @@
+@use "../../styles/color";
+@use "../../styles/spacing";
+
+.websitePreview {
+    background-color: color.$gray100;
+    border-radius: 8px;    
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: spacing.$space-02;
+
+    .websiteActions {
+        display: flex;
+        gap: spacing.$space-02;
+        margin-top: auto;
+    }
+
+    .websiteStatus {
+        margin-top: auto;
+        p {
+            color: color.$gray800;
+            margin-bottom: spacing.$space-02;
+        }
+    }
+}
