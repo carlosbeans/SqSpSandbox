@@ -1,0 +1,32 @@
+@use '../../styles/color' as color;
+@use '../../styles/spacing' as spacing;
+@use '../../styles/type' as type;
+
+.website-node {
+  background: color.$base;
+  border: 1px solid color.$gray800;
+  border-radius: spacing.$space-02;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  width: 380px;
+  overflow: hidden;
+
+  .react-flow__handle {
+    background: color.$green500;
+    width: 8px;
+    height: 8px;
+    border: none;
+    // Position it in the middle of the left edge
+    top: 50%;
+  }
+
+  .website-node-content {
+    .siteThumbnail--large {
+      // Assuming this is the class for the large thumbnail
+      height: 250px; 
+      background-image: url('../../../public/assets/websitePreviewThumb.png');
+      background-size: cover;
+      background-position: top;
+      border-bottom: 1px solid color.$gray800;
+    }
+  }
+} 

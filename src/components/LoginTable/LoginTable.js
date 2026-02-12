@@ -63,9 +63,9 @@ export default function LoginTable() {
               />
             </div>
           )}
-          <span className="osVal">MacOS</span>
-          <span className="timeVal">8 min ago</span>
-          <span className="timeVal">New York</span>
+          <td className="osVal">MacOS</td>
+          <td className="timeVal">8 min ago</td>
+          <td className="timeVal">New York</td>
         </div>
       ))}
     </div>

@@ -1,0 +1,16 @@
+.dwc-container {
+  width: 100%;
+  height: calc(100vh - 80px); /* Using viewport height to make it large */
+} 
+
+.dwc-back-link {
+  appearance: none;
+  background: transparent;
+  border: none;
+  color: #0a66c2;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px 8px;
+  margin: 0 0 8px 0;
+}

@@ -7,6 +7,11 @@
   flex-direction: row;
 }
 
+.vertical-center {
+  display: flex;
+  align-items: center;
+}
+
 .col {
   display: flex;
   flex-direction: column;
@@ -17,8 +22,12 @@
   min-height: 100svh;
   max-width: 1100px;
   margin: 0 auto;
-}
 
+  &.full-width {
+    max-width: none;
+    width: 100%;
+  }
+}
 .space-between {
   justify-content: space-between;
 }
@@ -29,3 +38,4 @@
   gap: 24px;
   margin-top: 24px;
 }
+

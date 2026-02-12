@@ -1,5 +1,9 @@
 // SafeError.js
 import { useRouteError } from "react-router-dom";
+import { Button } from '@sqs/rosetta-primitives';
+import { Grid } from '@sqs/rosetta-elements';
+
+
 
 export default function SafeError() {
   // Check if we're in a router context
@@ -26,9 +30,15 @@ export default function SafeError() {
 
   // We're in an error boundary, so we can use the error info
   return (
-    <div>
+    <Grid.Container gridConstraint={12}>
+      <Grid.Item columns={12} mb={1}>      
       <h1>:/ Oh shit, y'all done fucked up now.</h1>
       <h2>{errorInfo.statusText || errorInfo.message}</h2>
-    </div>
+      </Grid.Item>
+
+      <Grid.Item columns={12} mb={1}>
+          <Button.Primary>Back to the Account Dashboard</Button.Primary>
+      </Grid.Item>
+    </Grid.Container>
   );
 }

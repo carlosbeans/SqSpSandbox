@@ -1,0 +1,45 @@
+@use '../../styles/color' as color;
+@use '../../styles/spacing' as spacing;
+@use '../../styles/type' as type;
+
+.domain-node {
+  background: color.$base;
+  border: 1px solid color.$gray800;
+  border-radius: spacing.$space-02;
+  padding: spacing.$space-04;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+
+  .react-flow__handle {
+    background: color.$green800;
+    width: 8px;
+    height: 8px;
+    border: none;
+    border-top-right-radius: 80px;
+    border-bottom-right-radius: 80px;
+    right: -4px;
+    top: 50%;
+  }
+
+  .domain-node-status {
+    background-color: color.$green100;
+    color: color.$green800;
+    border-radius: 999px;
+    padding: spacing.$space-01 spacing.$space-02;
+    font-size: 12px;
+    font-weight: type.$medium;
+    display: inline-block;
+    margin-bottom: spacing.$space-03;
+  }
+
+  .domain-node-label {
+    font-size: type.$caption;
+    font-weight: type.$medium;
+  }
+
+  .domain-node-renewal {
+    font-size: type.$caption;
+    color: color.$gray400;
+    margin-top: spacing.$space-01;
+  }
+} 

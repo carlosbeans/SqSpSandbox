@@ -1,5 +1,6 @@
 @use "../../styles/color";
 @use "../../styles/spacing";
+@use "../../styles/utilities";
 
 nav {
   position: sticky;
@@ -12,11 +13,6 @@ nav {
   align-items: center;
   background: color.$base;
   border-bottom: 1px solid color.$gray800;
-
-  .row {
-    margin: 0;
-    padding: 0;
-  }
 }
 
 .mainNavigation {
@@ -41,24 +37,11 @@ nav {
     left: 0;
     bottom: 0;
     width: 0%;
-    height: 1px;
+    height: 2px;
     background: color.$gray100;
     transition: width 0.25s ease-out;
   }
   .mainNavLink:hover:after {
     width: 100%;
   }
-}
-
-//avatar
-.avatarContainer {
-  padding: spacing.$space-02;
-}
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 100%;
-  background-color: color.$gray800;
-  background-image: url("../../../public/assets/carlosAvatar.jpg");
-  background-size: 100%;
 }

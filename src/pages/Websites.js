@@ -1,13 +1,20 @@
 import WebsitePreview from "../components/WebsitePreview/WebsitePreview";
-import Button from "../components/Button/Button";
+// import Button from "../components/Button/Button.tsx";
 import "../styles/styles.scss";
+import { rosetta } from '@sqs/rosetta-themes';
+import { ThemeContext } from '@sqs/rosetta-styled';
+import { Button } from '@sqs/rosetta-primitives';
+
+
 
 export default function Websites() {
     return (
+        <ThemeContext.Provider theme={rosetta.dark}>
         <div className="container">
             <div className="row space-between">
                 <h1>Dashboard</h1>
                 <Button buttonLabel={"Create Website"} />
+                <Button backgroundColor="pink.200">click me</Button>
             </div>
 
             <div className="websitesGrid">
@@ -31,5 +38,6 @@ export default function Websites() {
                 </WebsitePreview>
             </div>
         </div>
+        </ThemeContext.Provider>
     );
 }

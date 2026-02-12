@@ -9,7 +9,7 @@
     font-weight: medium;
   }
   .tr {
-    display: flex;
+    display: table-row;
     position: relative;
     border-bottom: 1px solid color.$borderColor;
     padding: spacing.$space-02 0;

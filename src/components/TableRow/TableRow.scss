@@ -1,0 +1,124 @@
+@use "../../styles/spacing";
+@use "../../styles/color";
+@use "../../styles/type";
+
+.tr {
+    box-sizing: border-box;
+    border-bottom: 1px solid color.$borderColor;
+    display: table-row;
+    cursor: pointer;
+    height: 68px;
+
+    &:hover {
+        background-color: color.$gray900;
+    }
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.td {
+    padding: spacing.$space-04 spacing.$space-02;
+    vertical-align: middle;
+    font-size: 14px;
+    line-height: 22px;
+}
+
+// Domain cell with thumbnail
+.domain-with-thumbnail {
+    display: flex;
+    align-items: center;
+    gap: spacing.$space-03;
+    padding-left: spacing.$space-02;
+}
+
+.domainThumbnail {
+    flex-shrink: 0;
+    width: 66px;
+    height: 38px;
+    overflow: hidden;
+    background-color: color.$gray800;
+    
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.domainName {
+    color: color.$gray100;
+    font-weight: type.$regular;
+}
+
+// Provider & expiration muted text
+.tdMuted {
+    color: color.$gray300;
+    font-weight: type.$regular;
+}
+
+// Expiration cell with icon
+.expirationCell {
+    display: flex;
+    align-items: center;
+    gap: spacing.$space-02;
+    color: color.$gray300;
+}
+
+.refreshIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    color: color.$gray300;
+
+    svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+// Status chip
+.statusChip {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px spacing.$space-02;
+    border-radius: 11px;
+    font-size: type.$caption;
+    font-weight: type.$regular;
+    line-height: 16px;
+    white-space: nowrap;
+
+    // Default / Pending - gray
+    &--default {
+        background-color: color.$gray800;
+        color: color.$gray100;
+    }
+
+    // Active - green
+    &--active {
+        background-color: color.$green100;
+        color: color.$green800;
+    }
+
+    // Warning / Transfer in progress - yellow
+    &--warning {
+        background-color: color.$yellow800;
+        color: color.$yellow300;
+    }
+
+    // Danger / Transfer canceled - red
+    &--danger {
+        background-color: color.$red800;
+        color: color.$red300;
+    }
+
+    // Pending renewal
+    &--pending {
+        background-color: color.$gray800;
+        color: color.$gray100;
+    }
+}

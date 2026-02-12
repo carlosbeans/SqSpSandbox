@@ -98,6 +98,7 @@ export default function SelectAndDrag() {
   }, [selectionEnd]);
 
   return (
+    <div className="container">
     <div
       className="App"
       ref={containerRef}
@@ -129,6 +130,7 @@ export default function SelectAndDrag() {
           );
         })}
       </div>
+    </div>
     </div>
   );
 }

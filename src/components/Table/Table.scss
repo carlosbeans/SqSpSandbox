@@ -1,0 +1,60 @@
+@use "../../styles/spacing";
+@use "../../styles/color";
+@use "../../styles/type";
+
+.table {
+    box-sizing: border-box;
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+// Search row
+
+
+// Column headers
+.th {
+    box-sizing: border-box;
+    padding: spacing.$space-02;
+    text-align: left;
+    font-size: type.$eyebrow;
+    font-weight: type.$medium;
+    text-transform: uppercase;
+    letter-spacing: 0.75px;
+    color: color.$gray600;
+    line-height: 16px;
+    height: 45px;
+    vertical-align: middle;
+    border-bottom: 1px solid color.$borderColor;
+}
+
+.thLabel {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sortIcon {
+    display: inline-flex;
+    align-items: center;
+    width: 8px;
+    height: 8px;
+    opacity: 0.5;
+}
+
+// Column widths
+.colDomain {
+    width: 49%;
+}
+
+.colStatus {
+    width: 14%;
+}
+
+.colProvider {
+    width: 18%;
+}
+
+.colExpiration {
+    width: auto;
+}

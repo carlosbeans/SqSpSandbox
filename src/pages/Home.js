@@ -2,14 +2,14 @@ import Modal from "../components/Modal/Modal";
 export default function Home() {
   return (
     <>
-      <Modal />
+      {/* <Modal /> */}
       <div className="container">
-        <div className="row">
+        <div className="row space-between">
           <div className="col">
             <h1>Account Dashboard</h1>
           </div>
           <div className="col">
-            <button>Create Website</button>
+            <button className="btn primary">Create Website</button>
           </div>
         </div>
       </div>
