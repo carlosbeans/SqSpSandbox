@@ -17,6 +17,14 @@ import DomainWebsiteConnection from "./pages/DomainWebsiteConnection";
 import DomainOverview from "./pages/DomainOverview";
 import DNS_Settings from "./pages/DNS_Settings.js";
 import Experiments from "./pages/Experiments.js";
+import Activity from "./pages/Activity";
+import Billing from "./pages/Billing";
+import DNSSEC from "./pages/DNSSEC";
+import DomainNameservers from "./pages/DomainNameservers";
+import Email from "./pages/Email";
+import NameserverRegistration from "./pages/NameserverRegistration";
+import Permissions from "./pages/Permissions";
+import Website from "./pages/Website";
 
 //components
 const router = createBrowserRouter([
@@ -60,6 +68,38 @@ const router = createBrowserRouter([
         {
           path: "experiments",
           element: <Experiments />,
+        },
+        {
+          path: "activity",
+          element: <Activity />,
+        },
+        {
+          path: "billing",
+          element: <Billing />,
+        },
+        {
+          path: "dnssec",
+          element: <DNSSEC />,
+        },
+        {
+          path: "domain-nameservers",
+          element: <DomainNameservers />,
+        },
+        {
+          path: "email",
+          element: <Email />,
+        },
+        {
+          path: "nameserver-registration",
+          element: <NameserverRegistration />,
+        },
+        {
+          path: "permissions",
+          element: <Permissions />,
+        },
+        {
+          path: "website",
+          element: <Website />,
         },
     ],
   },

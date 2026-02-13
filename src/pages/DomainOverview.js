@@ -3,10 +3,8 @@ import "../styles/styles.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import { loadJsonData } from "../utils/dataUtils.ts";
 import React, { useEffect, useState } from "react";
-
 import { BackButton } from "@sqs/rosetta-elements";
 import { ActivityIndicator } from "@sqs/rosetta-elements";
-import { NavMenu } from "@sqs/rosetta-compositions";
 import { Text } from "@sqs/rosetta-primitives";
 import { Button } from "@sqs/rosetta-primitives";
 import { Chip } from "@sqs/rosetta-elements";
@@ -23,6 +21,7 @@ import { TextLink } from "@sqs/rosetta-elements";
 //components
 import SiteThumbnail from "../components/SiteThumbnail/SiteThumbnail";
 import { Grid, Stack } from "@sqs/rosetta-elements";
+import SidePanelNav from "../components/SidePanelNav/SidePanelNav";
 
 export default function DomainOverview() {
   const { domainId } = useParams();
@@ -30,8 +29,6 @@ export default function DomainOverview() {
   const [domain, setDomain] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { NavItem, NavText } = NavMenu;
-  const [navValue, onNavChange] = React.useState("overview");
 
   // Toggle states
   const [autoRenew, setAutoRenew] = useState(true);
@@ -101,29 +98,7 @@ export default function DomainOverview() {
       <Grid.Container gridConstraint={12}>
         {/* Left sidebar nav */}
         <Grid.Item columns={[12, 3]}>
-          <Stack space={2}>
-            <BackButton label="Domains List" onClick={() => navigate(-1)} />
-            <NavMenu value={navValue} onChange={onNavChange}>
-              <NavItem value="overview" is="div" isSelected={navValue === "overview"}>
-                <NavText variant="subtitle">Overview</NavText>
-              </NavItem>
-              <NavItem value="dns" is="div">
-                <NavText variant="subtitle">DNS</NavText>
-              </NavItem>
-              <NavItem value="website" is="div">
-                <NavText variant="subtitle">Website</NavText>
-              </NavItem>
-              <NavItem value="email" is="div">
-                <NavText variant="subtitle">Email</NavText>
-              </NavItem>
-              <NavItem value="activity" is="div">
-                <NavText variant="subtitle">Activity</NavText>
-              </NavItem>
-              <NavItem value="permissions" is="div">
-                <NavText variant="subtitle">Permissions</NavText>
-              </NavItem>
-            </NavMenu>
-          </Stack>
+          <SidePanelNav />
         </Grid.Item>
 
         {/* Main content area */}

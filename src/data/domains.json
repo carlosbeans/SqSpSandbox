@@ -13,7 +13,17 @@
       "state": "TX",
       "zip": "73301",
       "phone": "+1 (512) 555-0147",
-      "email": "james.carter@example.com"
+      "email": "james.carter@example.com",
+      "billing": {
+        "firstName": "James",
+        "lastName": "Carter",
+        "streetAddress": "482 Elm Street",
+        "city": "Austin",
+        "state": "TX",
+        "zip": "73301",
+        "country": "United States",
+        "creditCard": "4532 8910 1456 3789"
+      }
     },
     {
       "thumbnailImage": "/assets/images/domain2-thumbnail.jpg",
@@ -28,7 +38,17 @@
       "state": "CA",
       "zip": "94103",
       "phone": "+1 (415) 555-0293",
-      "email": "priya.menon@mysite.net"
+      "email": "priya.menon@mysite.net",
+      "billing": {
+        "firstName": "Priya",
+        "lastName": "Menon",
+        "streetAddress": "1200 Market Street, Suite 300",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94103",
+        "country": "United States",
+        "creditCard": "5214 6378 9021 4453"
+      }
     },
     {
       "thumbnailImage": "/assets/images/domain3-thumbnail.jpg",
@@ -43,7 +63,17 @@
       "state": "OR",
       "zip": "97201",
       "phone": "+1 (503) 555-0182",
-      "email": "elena.rossi@pixelperfect.design"
+      "email": "elena.rossi@pixelperfect.design",
+      "billing": {
+        "firstName": "Elena",
+        "lastName": "Rossi",
+        "streetAddress": "37 Magnolia Avenue",
+        "city": "Portland",
+        "state": "OR",
+        "zip": "97201",
+        "country": "United States",
+        "creditCard": "3782 412093 56721"
+      }
     },
     {
       "thumbnailImage": "/assets/images/domain4-thumbnail.jpg",
@@ -58,7 +88,17 @@
       "state": "WA",
       "zip": "98101",
       "phone": "+1 (206) 555-0364",
-      "email": "marcus.chen@acmewidgets.io"
+      "email": "marcus.chen@acmewidgets.io",
+      "billing": {
+        "firstName": "Marcus",
+        "lastName": "Chen",
+        "streetAddress": "901 Innovation Drive",
+        "city": "Seattle",
+        "state": "WA",
+        "zip": "98101",
+        "country": "United States",
+        "creditCard": "4716 0234 5678 9102"
+      }
     },
     {
       "thumbnailImage": "/assets/images/domain5-thumbnail.jpg",
@@ -73,7 +113,17 @@
       "state": "CA",
       "zip": "90401",
       "phone": "+1 (310) 555-0418",
-      "email": "sofia.ramirez@coastalbakery.com"
+      "email": "sofia.ramirez@coastalbakery.com",
+      "billing": {
+        "firstName": "Sofia",
+        "lastName": "Ramirez",
+        "streetAddress": "225 Ocean Boulevard",
+        "city": "Santa Monica",
+        "state": "CA",
+        "zip": "90401",
+        "country": "United States",
+        "creditCard": "5389 2104 7763 8821"
+      }
     },
     {
       "thumbnailImage": "/assets/images/domain6-thumbnail.jpg",
@@ -88,7 +138,17 @@
       "state": "CO",
       "zip": "80202",
       "phone": "+1 (720) 555-0531",
-      "email": "owen.fitzgerald@northstar.studio"
+      "email": "owen.fitzgerald@northstar.studio",
+      "billing": {
+        "firstName": "Owen",
+        "lastName": "Fitzgerald",
+        "streetAddress": "58 Pine Ridge Road",
+        "city": "Denver",
+        "state": "CO",
+        "zip": "80202",
+        "country": "United States",
+        "creditCard": "6011 4523 8901 2345"
+      }
     },
     {
       "thumbnailImage": "/assets/images/domain7-thumbnail.jpg",
@@ -103,7 +163,17 @@
       "state": "GA",
       "zip": "30305",
       "phone": "+1 (404) 555-0672",
-      "email": "amara.okafor@wanderlust.travel"
+      "email": "amara.okafor@wanderlust.travel",
+      "billing": {
+        "firstName": "Amara",
+        "lastName": "Okafor",
+        "streetAddress": "3400 Peachtree Lane NE",
+        "city": "Atlanta",
+        "state": "GA",
+        "zip": "30305",
+        "country": "United States",
+        "creditCard": "4929 7381 0256 4490"
+      }
     },
     {
       "thumbnailImage": "/assets/images/domain8-thumbnail.jpg",
@@ -118,7 +188,17 @@
       "state": "MN",
       "zip": "55401",
       "phone": "+1 (612) 555-0789",
-      "email": "liam.nakamura@greensprout.org"
+      "email": "liam.nakamura@greensprout.org",
+      "billing": {
+        "firstName": "Liam",
+        "lastName": "Nakamura",
+        "streetAddress": "712 Birchwood Terrace",
+        "city": "Minneapolis",
+        "state": "MN",
+        "zip": "55401",
+        "country": "United States",
+        "creditCard": "5102 6834 9017 2256"
+      }
     },
     {
       "thumbnailImage": "/assets/images/domain9-thumbnail.jpg",
@@ -133,7 +213,17 @@
       "state": "VA",
       "zip": "22901",
       "phone": "+1 (434) 555-0856",
-      "email": "hannah.whitfield@rivervalleyfarm.co"
+      "email": "hannah.whitfield@rivervalleyfarm.co",
+      "billing": {
+        "firstName": "Hannah",
+        "lastName": "Whitfield",
+        "streetAddress": "1045 County Road 12",
+        "city": "Charlottesville",
+        "state": "VA",
+        "zip": "22901",
+        "country": "United States",
+        "creditCard": "3714 496210 83947"
+      }
     },
     {
       "thumbnailImage": "/assets/images/domain10-thumbnail.jpg",
@@ -148,7 +238,17 @@
       "state": "MA",
       "zip": "02210",
       "phone": "+1 (617) 555-0943",
-      "email": "daniel.park@blueoak.dev"
+      "email": "daniel.park@blueoak.dev",
+      "billing": {
+        "firstName": "Daniel",
+        "lastName": "Park",
+        "streetAddress": "289 Congress Avenue, Unit 4B",
+        "city": "Boston",
+        "state": "MA",
+        "zip": "02210",
+        "country": "United States",
+        "creditCard": "4485 1672 3098 5541"
+      }
     },
     {
       "thumbnailImage": "/assets/images/domain11-thumbnail.jpg",
@@ -163,7 +263,17 @@
       "state": "TN",
       "zip": "37201",
       "phone": "+1 (615) 555-0117",
-      "email": "isla.brennan@artisanmart.shop"
+      "email": "isla.brennan@artisanmart.shop",
+      "billing": {
+        "firstName": "Isla",
+        "lastName": "Brennan",
+        "streetAddress": "560 Main Street",
+        "city": "Nashville",
+        "state": "TN",
+        "zip": "37201",
+        "country": "United States",
+        "creditCard": "5267 9043 1185 6672"
+      }
     },
     {
       "thumbnailImage": "/assets/images/domain12-thumbnail.jpg",
@@ -178,7 +288,17 @@
       "state": "IL",
       "zip": "60614",
       "phone": "+1 (312) 555-0258",
-      "email": "victor.johansson@evergreenphotography.us"
+      "email": "victor.johansson@evergreenphotography.us",
+      "billing": {
+        "firstName": "Victor",
+        "lastName": "Johansson",
+        "streetAddress": "1833 Lakeview Drive",
+        "city": "Chicago",
+        "state": "IL",
+        "zip": "60614",
+        "country": "United States",
+        "creditCard": "6011 8823 4567 0198"
+      }
     }
   ]
 }
