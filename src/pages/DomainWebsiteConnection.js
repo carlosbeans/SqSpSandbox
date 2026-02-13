@@ -6,7 +6,6 @@ import {
   Background,
   applyNodeChanges,
   applyEdgeChanges,
-  addEdge,
 } from '@xyflow/react';
 
 import { BackButton } from '@sqs/rosetta-elements';
@@ -77,7 +76,7 @@ export default function DomainWebsiteConnection() {
         type: 'smoothstep', // Ensure new connections are also curved
         animated: true,
       };
-      setEdges((eds) => addEdge(newConnection, eds));
+      setEdges((eds) => [...eds, { ...newConnection, id: `${newConnection.source}-${newConnection.target}` }]);
     },
     [setEdges]
   );

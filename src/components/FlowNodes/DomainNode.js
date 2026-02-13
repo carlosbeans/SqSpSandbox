@@ -1,4 +1,4 @@
-import { Handle, Position } from '@xyflow/react';
+import { Handle } from '@xyflow/react';
 import './DomainNode.scss';
 
 export default function DomainNode({ data }) {
@@ -8,7 +8,7 @@ export default function DomainNode({ data }) {
       <div className="domain-node-label">{data.label}</div>
       <div className="domain-node-renewal">{data.renewalInfo}</div>
       {/* A "source" handle can only have outgoing connections */}
-      <Handle type="source" position={Position.Right} />
+      <Handle type="source" position="right" />
     </div>
   );
 } 
