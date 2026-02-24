@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import Button from "../components/Button/Button-New.tsx";
 import Table from "../components/Table/Table.tsx";
 import { loadJsonData } from "../utils/dataUtils.ts";
 import { PageHeader, Banner } from "@sqs/rosetta-compositions";

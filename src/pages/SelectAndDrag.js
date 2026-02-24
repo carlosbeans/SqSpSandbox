@@ -1,12 +1,13 @@
 import React from "react";
 import { useState, useRef, useEffect } from "react";
+import { Grid } from "@sqs/rosetta-elements";
+import SidePanelNav from "../components/SidePanelNav/SidePanelNav";
 
 //import components
 import SelectionBox from "../components/SelectionBox/SelectionBox";
 import SelectableCard from "../components/SelectableCard/SelectableCard";
 
 export default function SelectAndDrag() {
-  //state management and refs
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [highlightedCards, setHighlightedCards] = useState(new Set());
   const [selectionStart, setSelectionStart] = useState(null);
@@ -14,7 +15,6 @@ export default function SelectAndDrag() {
   const containerRef = useRef(null);
   const cardRefs = useRef({});
 
-  //write out cards
   const cardData = Array.from({ length: 20 }, (_, index) => ({
     id: index,
     title: `Site name ${index + 1}`,
@@ -62,6 +62,7 @@ export default function SelectAndDrag() {
 
     setHighlightedCards(newHighlightedCards);
   };
+
   const handleMouseDown = (e) => {
     const rect = containerRef.current.getBoundingClientRect();
     setIsMouseDown(true);
@@ -98,39 +99,46 @@ export default function SelectAndDrag() {
   }, [selectionEnd]);
 
   return (
-    <div className="container">
-    <div
-      className="App"
-      ref={containerRef}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
-    >
-      <SelectionBox startPoint={selectionStart} endPoint={selectionEnd} />
-      <div className="row">
-        <div className="col">
-          <h1>Multi-select cards</h1>
-          <p>Click and drag to highlight and select cards on the page.</p>
-        </div>
-      </div>
-      <div className="cardsContainer">
-        {cardData.map((card) => {
-          if (!cardRefs.current[card.id]) {
-            cardRefs.current[card.id] = React.createRef();
-          }
-          return (
-            <SelectableCard
-              key={card.id}
-              title={card.title}
-              description={card.description}
-              isHighlighted={highlightedCards.has(card.id)}
-              cardRef={cardRefs.current[card.id]}
-            />
-          );
-        })}
-      </div>
-    </div>
+    <div className="container full-width">
+      <Grid.Container gridConstraint={12}>
+        <Grid.Item columns={[12, 3]}>
+          <SidePanelNav />
+        </Grid.Item>
+        <Grid.Item columns={[12, 9]}>
+          <div
+            className="App"
+            ref={containerRef}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+          >
+            <SelectionBox startPoint={selectionStart} endPoint={selectionEnd} />
+            <div className="row">
+              <div className="col">
+                <h1>Multi-select cards</h1>
+                <p>Click and drag to highlight and select cards on the page.</p>
+              </div>
+            </div>
+            <div className="cardsContainer">
+              {cardData.map((card) => {
+                if (!cardRefs.current[card.id]) {
+                  cardRefs.current[card.id] = React.createRef();
+                }
+                return (
+                  <SelectableCard
+                    key={card.id}
+                    title={card.title}
+                    description={card.description}
+                    isHighlighted={highlightedCards.has(card.id)}
+                    cardRef={cardRefs.current[card.id]}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        </Grid.Item>
+      </Grid.Container>
     </div>
   );
 }

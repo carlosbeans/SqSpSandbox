@@ -1,57 +1,52 @@
-import { useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   ReactFlow,
   Controls,
   Background,
   applyNodeChanges,
   applyEdgeChanges,
-} from '@xyflow/react';
+} from "@xyflow/react";
 
-import { BackButton } from '@sqs/rosetta-elements';
+import { BackButton, Grid } from "@sqs/rosetta-elements";
 
-// It's important to import the styles provided by the library.
-import '@xyflow/react/dist/style.css';
+import "@xyflow/react/dist/style.css";
 
-// We'll create this file next to define some basic styles for the container.
-import './DomainWebsiteConnection.scss';
+import "./DomainWebsiteConnection.scss";
 
-// Import the custom nodes we created
-import DomainNode from '../components/FlowNodes/DomainNode';
-import WebsiteNode from '../components/FlowNodes/WebsiteNode';
+import DomainNode from "../components/FlowNodes/DomainNode";
+import WebsiteNode from "../components/FlowNodes/WebsiteNode";
+import SidePanelNav from "../components/SidePanelNav/SidePanelNav";
 
-// Map the node types to our custom components
 const nodeTypes = {
   domain: DomainNode,
   website: WebsiteNode,
 };
 
-// Define the initial state for nodes based on the reference image
 const initialNodes = [
   {
-    id: 'domain-1',
-    type: 'domain',
+    id: "domain-1",
+    type: "domain",
     position: { x: 0, y: 100 },
     data: {
-      label: 'pixelperfect.design',
-      renewalInfo: 'Renews February 26, 2026 for $20',
+      label: "pixelperfect.design",
+      renewalInfo: "Renews February 26, 2026 for $20",
     },
   },
   {
-    id: 'website-1',
-    type: 'website',
+    id: "website-1",
+    type: "website",
     position: { x: 420, y: 0 },
     data: {},
   },
 ];
 
-// Define the initial connection between the two nodes
 const initialEdges = [
-  { 
-    id: 'e1-2', 
-    source: 'domain-1', 
-    target: 'website-1', 
-    type: 'smoothstep', // This creates the curved line
+  {
+    id: "e1-2",
+    source: "domain-1",
+    target: "website-1",
+    type: "smoothstep",
     animated: true,
   },
 ];
@@ -73,35 +68,46 @@ export default function DomainWebsiteConnection() {
     (connection) => {
       const newConnection = {
         ...connection,
-        type: 'smoothstep', // Ensure new connections are also curved
+        type: "smoothstep",
         animated: true,
       };
-      setEdges((eds) => [...eds, { ...newConnection, id: `${newConnection.source}-${newConnection.target}` }]);
+      setEdges((eds) => [
+        ...eds,
+        {
+          ...newConnection,
+          id: `${newConnection.source}-${newConnection.target}`,
+        },
+      ]);
     },
     [setEdges]
   );
   const proOptions = { hideAttribution: true };
+
   return (
-    <div className="dwc-container">
-      <div className="pageSubNav">
-        <BackButton onClick={() => navigate(-1)} />
-      </div>
-      
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        nodeTypes={nodeTypes} // Pass the custom node types
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        fitView
-        // Limit zoom to 20% in either direction from the default
-        minZoom={0.8}
-        maxZoom={1.2}
-      >
-        <Background />
-        <Controls />
-      </ReactFlow>
+    <div className="container full-width">
+      <Grid.Container gridConstraint={12}>
+        <Grid.Item columns={[12, 3]}>
+          <SidePanelNav />
+        </Grid.Item>
+        <Grid.Item columns={[12, 9]}>
+          <div className="dwc-container">
+            <ReactFlow
+              nodes={nodes}
+              edges={edges}
+              nodeTypes={nodeTypes}
+              onNodesChange={onNodesChange}
+              onEdgesChange={onEdgesChange}
+              onConnect={onConnect}
+              fitView
+              minZoom={0.8}
+              maxZoom={1.2}
+            >
+              <Background />
+              <Controls />
+            </ReactFlow>
+          </div>
+        </Grid.Item>
+      </Grid.Container>
     </div>
   );
 }

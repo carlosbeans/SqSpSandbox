@@ -13,35 +13,13 @@ nav {
   align-items: center;
   background: color.$base;
   border-bottom: 1px solid color.$gray800;
-}
-
-.mainNavigation {
-  display: flex;
-  flex-direction: row;
-  padding: spacing.$space-01 spacing.$space-01;
-}
-.mainNavLinks {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: spacing.$space-03;
-
-  .mainNavLink {
-    position: relative;
-  }
-
-  .mainNavLink:after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 0%;
-    height: 2px;
-    background: color.$gray100;
-    transition: width 0.25s ease-out;
-  }
-  .mainNavLink:hover:after {
+  
+  & > ul {
     width: 100%;
+    justify-content: space-between;
+  }
+
+  [role="tablist"]::before {
+    background-color: transparent;
   }
 }
