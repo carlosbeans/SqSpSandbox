@@ -101,9 +101,7 @@ export default function SelectAndDrag() {
   return (
     <div className="container full-width">
       <Grid.Container gridConstraint={12}>
-        <Grid.Item columns={[12, 3]}>
-          <SidePanelNav />
-        </Grid.Item>
+
         <Grid.Item columns={[12, 9]}>
           <div
             className="App"

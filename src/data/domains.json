@@ -23,7 +23,15 @@
         "zip": "73301",
         "country": "United States",
         "creditCard": "4532 8910 1456 3789"
-      }
+      },
+      "customDnsRecords": [
+        { "host": "www", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "ext-sq.squarespace.com" },
+        { "host": "mail", "type": "CNAME", "priority": "N/A", "ttl": "1 hr", "data": "ghs.googlehosted.com" },
+        { "host": "@", "type": "MX", "priority": "1", "ttl": "4 hrs", "data": "aspmx.l.google.com" },
+        { "host": "@", "type": "MX", "priority": "5", "ttl": "4 hrs", "data": "alt1.aspmx.l.google.com" },
+        { "host": "@", "type": "TXT", "priority": "N/A", "ttl": "1 hr", "data": "v=spf1 include:_spf.google.com ~all" },
+        { "host": "blog", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "hosting.ghost.io" }
+      ]
     },
     {
       "thumbnailImage": "/assets/images/domain2-thumbnail.jpg",
@@ -73,7 +81,14 @@
         "zip": "97201",
         "country": "United States",
         "creditCard": "3782 412093 56721"
-      }
+      },
+      "customDnsRecords": [
+        { "host": "www", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "ext-sq.squarespace.com" },
+        { "host": "@", "type": "TXT", "priority": "N/A", "ttl": "1 hr", "data": "google-site-verification=a1b2c3d4e5f6g7h8i9" },
+        { "host": "_dmarc", "type": "TXT", "priority": "N/A", "ttl": "4 hrs", "data": "v=DMARC1; p=quarantine; rua=mailto:dmarc@pixelperfect.design" },
+        { "host": "portfolio", "type": "A", "priority": "N/A", "ttl": "1 hr", "data": "76.76.21.21" },
+        { "host": "shop", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "shops.myshopify.com" }
+      ]
     },
     {
       "thumbnailImage": "/assets/images/domain4-thumbnail.jpg",
@@ -98,7 +113,16 @@
         "zip": "98101",
         "country": "United States",
         "creditCard": "4716 0234 5678 9102"
-      }
+      },
+      "customDnsRecords": [
+        { "host": "www", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "ext-sq.squarespace.com" },
+        { "host": "api", "type": "A", "priority": "N/A", "ttl": "30 min", "data": "34.120.54.55" },
+        { "host": "staging", "type": "A", "priority": "N/A", "ttl": "30 min", "data": "34.120.54.60" },
+        { "host": "@", "type": "MX", "priority": "10", "ttl": "4 hrs", "data": "mx1.forwardemail.net" },
+        { "host": "@", "type": "MX", "priority": "20", "ttl": "4 hrs", "data": "mx2.forwardemail.net" },
+        { "host": "@", "type": "TXT", "priority": "N/A", "ttl": "1 hr", "data": "v=spf1 a mx include:forwardemail.net ~all" },
+        { "host": "_acme-challenge", "type": "TXT", "priority": "N/A", "ttl": "30 min", "data": "dGVzdC12YWxpZGF0aW9uLXRva2Vu" }
+      ]
     },
     {
       "thumbnailImage": "/assets/images/domain5-thumbnail.jpg",
@@ -173,7 +197,15 @@
         "zip": "30305",
         "country": "United States",
         "creditCard": "4929 7381 0256 4490"
-      }
+      },
+      "customDnsRecords": [
+        { "host": "www", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "ext-sq.squarespace.com" },
+        { "host": "booking", "type": "CNAME", "priority": "N/A", "ttl": "1 hr", "data": "cname.vercel-dns.com" },
+        { "host": "@", "type": "MX", "priority": "1", "ttl": "4 hrs", "data": "aspmx.l.google.com" },
+        { "host": "@", "type": "MX", "priority": "5", "ttl": "4 hrs", "data": "alt1.aspmx.l.google.com" },
+        { "host": "@", "type": "MX", "priority": "10", "ttl": "4 hrs", "data": "alt2.aspmx.l.google.com" },
+        { "host": "@", "type": "TXT", "priority": "N/A", "ttl": "1 hr", "data": "v=spf1 include:_spf.google.com ~all" }
+      ]
     },
     {
       "thumbnailImage": "/assets/images/domain8-thumbnail.jpg",
@@ -248,7 +280,14 @@
         "zip": "02210",
         "country": "United States",
         "creditCard": "4485 1672 3098 5541"
-      }
+      },
+      "customDnsRecords": [
+        { "host": "www", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "ext-sq.squarespace.com" },
+        { "host": "docs", "type": "CNAME", "priority": "N/A", "ttl": "1 hr", "data": "cname.vercel-dns.com" },
+        { "host": "status", "type": "CNAME", "priority": "N/A", "ttl": "1 hr", "data": "statuspage.betteruptime.com" },
+        { "host": "@", "type": "TXT", "priority": "N/A", "ttl": "4 hrs", "data": "v=spf1 include:mailgun.org ~all" },
+        { "host": "k1._domainkey", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "dkim.mailgun.org" }
+      ]
     },
     {
       "thumbnailImage": "/assets/images/domain11-thumbnail.jpg",
@@ -298,7 +337,16 @@
         "zip": "60614",
         "country": "United States",
         "creditCard": "6011 8823 4567 0198"
-      }
+      },
+      "customDnsRecords": [
+        { "host": "www", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "ext-sq.squarespace.com" },
+        { "host": "gallery", "type": "A", "priority": "N/A", "ttl": "1 hr", "data": "151.101.1.195" },
+        { "host": "@", "type": "MX", "priority": "10", "ttl": "4 hrs", "data": "in1-smtp.messagingengine.com" },
+        { "host": "@", "type": "MX", "priority": "20", "ttl": "4 hrs", "data": "in2-smtp.messagingengine.com" },
+        { "host": "@", "type": "TXT", "priority": "N/A", "ttl": "1 hr", "data": "v=spf1 include:messagingengine.com ~all" },
+        { "host": "fm1._domainkey", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "fm1.evergreenphotography.us.dkim.fmhosted.com" },
+        { "host": "fm2._domainkey", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "fm2.evergreenphotography.us.dkim.fmhosted.com" }
+      ]
     }
   ]
 }

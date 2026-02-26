@@ -7,7 +7,7 @@ import Logo from "../Logo/Logo";
 import Avatar from "../Avatar/Avatar";
 
 const TAB_OPTIONS = [
-  { label: "Websites", value: "websites" },
+  { label: "Dashboard", value: "websites" },
   { label: "Domains", value: "domains" },
   { label: "Experiments", value: "experiments" },
 ];

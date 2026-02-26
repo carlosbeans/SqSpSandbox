@@ -4,7 +4,7 @@ import { Text, Button } from "@sqs/rosetta-primitives";
 
 export default function Experiments() {
   return (
-    <div id="experiments">
+    <Stack py={5}>
       <Grid.Container gridConstraint={12}>
         <Grid.Item columns={[12, 12, 12]}>
           <h1>Experiments</h1>
@@ -81,6 +81,6 @@ export default function Experiments() {
           </Card>
         </Grid.Item>
       </Grid.Container>
-    </div>
+    </Stack>
   );
 }

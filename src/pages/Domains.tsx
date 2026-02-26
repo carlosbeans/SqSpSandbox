@@ -43,7 +43,7 @@ export default function Domains() {
   }
 
   return (
-    <div className="container">
+    <div>
       <PageHeader>
         <PageHeader.Body>
           <PageHeader.Title title="Domains" />

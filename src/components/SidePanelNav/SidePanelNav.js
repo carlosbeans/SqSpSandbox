@@ -1,6 +1,8 @@
 //css
 import "./SidePanelNav.scss";
 import React from "react";
+
+import { borders, colors, space, radii } from '@sqs/rosetta-tokens';
 import { useNavigate } from "react-router-dom";
 import { NavMenu } from "@sqs/rosetta-compositions";
 import { BackButton } from "@sqs/rosetta-elements";
@@ -30,7 +32,7 @@ export default function SidePanelNav() {
   };
 
   return (
-    <Stack space={2}>
+    <Stack space={2} style={{ borderRight: borders[1], borderColor: colors.gray[800], display: "flex", flexDirection: "column", alignItems: "flex-start", flex: "1 0 auto", minHeight: "100vh" }}>
       <BackButton label="Domains List" onClick={() => navigate(-1)} />
       <NavMenu value={navValue} onChange={onNavChange}>
         <NavItem value="overview" is="div" isSelected={navValue === "overview"}>

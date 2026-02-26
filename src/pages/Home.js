@@ -24,7 +24,7 @@ export default function Home() {
           formattingLocale: "en-US",
         }}
       >
-        <div className="container full-width">
+        <div>
           <Grid.Container gridConstraint={12}>
             <Grid.Item columns={[12, 3]}>
               <SidePanelNav />
@@ -40,7 +40,10 @@ export default function Home() {
                           default: () => (
                             <>
                               <Button.Primary>Create Website</Button.Primary>
-                              <SegmentedControl onChange={setValue} value={value}>
+                              <SegmentedControl
+                                onChange={setValue}
+                                value={value}
+                              >
                                 <Option value={1} data-test="id-1">
                                   <Website />
                                 </Option>
