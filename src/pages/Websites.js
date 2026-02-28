@@ -1,48 +1,83 @@
-import WebsitePreview from "../components/WebsitePreview/WebsitePreview";
-import "../styles/styles.scss";
+import React from "react";
+
 import { rosetta } from "@sqs/rosetta-themes";
 import { ThemeContext } from "@sqs/rosetta-styled";
-import { Button } from "@sqs/rosetta-primitives";
-import { PageHeader } from "@sqs/rosetta-compositions";
+import { Button, Text } from "@sqs/rosetta-primitives";
+import { PageHeader, Table, Search } from "@sqs/rosetta-compositions";
 import { Banner } from "@sqs/rosetta-compositions/banner/next";
-import { Breakpoint } from "@sqs/rosetta-utilities";
+import { Breakpoint, Keyboard, withFocusManagedDivider } from "@sqs/rosetta-utilities";
 import { Touchable } from "@sqs/rosetta-primitives";
 import { Print, Ellipses } from "@sqs/rosetta-icons";
+import { SegmentedControl, Stack, Cell, Divider } from "@sqs/rosetta-elements";
+import SiteThumbnail from "../components/SiteThumbnail/SiteThumbnail";
+
+const columnHelper = Table.Utils.createColumnHelper();
+
+const websiteColumns = [
+  columnHelper.accessor("thumbnail", {
+    header: "",
+    cell: () => <SiteThumbnail size="small" />,
+  }),
+  columnHelper.accessor("name", {
+    header: "Name",
+    cell: (info) => <Text.Body>{info.getValue()}</Text.Body>,
+  }),
+  columnHelper.accessor("domain", {
+    header: "Domain",
+    cell: (info) => <Text.Body>{info.getValue()}</Text.Body>,
+  }),
+  columnHelper.accessor("role", {
+    header: "Role",
+    cell: (info) => <Text.Body>{info.getValue()}</Text.Body>,
+  }),
+];
+
+const websiteData = [
+  {
+    thumbnail: null,
+    name: "Portfolio Site",
+    domain: "portfolio.example.com",
+    role: "Owner",
+  },
+  {
+    thumbnail: null,
+    name: "Online Store",
+    domain: "shop.example.com",
+    role: "Owner",
+  },
+  {
+    thumbnail: null,
+    name: "Company Blog",
+    domain: "blog.example.com",
+    role: "Editor",
+  },
+  {
+    thumbnail: null,
+    name: "Marketing Site",
+    domain: "marketing.example.com",
+    role: "Admin",
+  },
+  {
+    thumbnail: null,
+    name: "Client Project",
+    domain: "client.example.com",
+    role: "Contributor",
+  },
+];
+const FocusManagedCell = withFocusManagedDivider(Cell, Divider);
 
 export default function Websites() {
-  // #region agent log
-  fetch("http://127.0.0.1:7242/ingest/a68b89c3-a8fd-4d27-8840-939e3ec42511", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Debug-Session-Id": "716dd8",
-    },
-    body: JSON.stringify({
-      sessionId: "716dd8",
-      location: "Websites.js:render",
-      message: "Post-fix component check",
-      data: {
-        Banner: typeof Banner,
-        "Banner.Main": typeof Banner?.Main,
-        "Banner.Row": typeof Banner?.Row,
-        "Banner.Glyph": typeof Banner?.Glyph,
-        "Banner.Column": typeof Banner?.Column,
-        "Banner.Action": typeof Banner?.Action,
-        "Banner.Close": typeof Banner?.Close,
-      },
-      timestamp: Date.now(),
-      runId: "post-fix",
-      hypothesisId: "A-verify",
-    }),
-  }).catch(() => {});
-  // #endregion
+  const [query, setQuery] = React.useState('');
+  const debouncedSearch = (value) => {
+    // add search logic
+  };
   return (
-    <ThemeContext.Provider theme={rosetta.dark}>
+    <ThemeContext.Provider theme={rosetta.light}>
       <PageHeader>
         <PageHeader.Body>
           <PageHeader.Title
             subtitle="Modern solutions making it with Squarespace"
-            title="L1-2 Page Title"
+            title="Dashboard"
           />
           <PageHeader.Actions>
             <Breakpoint.Provider>
@@ -50,25 +85,29 @@ export default function Websites() {
                 render={{
                   default: () => (
                     <>
-                      <Button.Tertiary>Button</Button.Tertiary>
-                      <Button.Primary>Button</Button.Primary>
-                      <Touchable.Element.Icon
-                        aria-label="Print icon"
-                        onClick={() => {}}
-                      >
-                        <Print />
-                      </Touchable.Element.Icon>
-                      <Touchable.Element.Icon
-                        aria-label="Extra Options"
-                        onClick={() => {}}
-                      >
-                        <Ellipses />
-                      </Touchable.Element.Icon>
+                      <FocusManagedCell
+                        variant="floating"
+                        p={0}
+                        body={
+                          <Search.Input
+                            inputValue={query}
+                            onChange={setQuery}
+                            onKeyDown={(e) => {
+                              if (Keyboard.isEnter(e)) {
+                                debouncedSearch(query);
+                              }
+                            }}
+                            placeholder="Search"
+                            variant="floating"
+                          />
+                        }
+                      />
+                      <Button.Primary>Create Website</Button.Primary>
                     </>
                   ),
                   "mobile-0": () => (
                     <>
-                      <Button.Primary>Button</Button.Primary>
+                      <Button.Primary>Create Website</Button.Primary>
                       <Touchable.Element.Icon
                         aria-label="Extra Options"
                         onClick={() => {}}
@@ -82,6 +121,7 @@ export default function Websites() {
             </Breakpoint.Provider>
           </PageHeader.Actions>
         </PageHeader.Body>
+        { false && (
         <Banner>
           <Banner.Main>
             <Banner.Row>
@@ -95,36 +135,16 @@ export default function Websites() {
           </Banner.Main>
           <Banner.Close />
         </Banner>
+        )}
       </PageHeader>
-      <div className="container">
-        <div className="row space-between">
-          <h1 ref={el => {
-            // #region agent log
-            if (el) { const cs = window.getComputedStyle(el); fetch('http://127.0.0.1:7242/ingest/a68b89c3-a8fd-4d27-8840-939e3ec42511',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'716dd8'},body:JSON.stringify({sessionId:'716dd8',location:'Websites.js:h1-ref',message:'h1 computed styles',data:{color:cs.color,backgroundColor:cs.backgroundColor,parentBg:window.getComputedStyle(el.parentElement).backgroundColor,bodyBg:window.getComputedStyle(document.body).backgroundColor,themeScope:'rosetta.dark wraps h1'},timestamp:Date.now(),runId:'h1-style',hypothesisId:'theme-scope'})}).catch(()=>{}); }
-            // #endregion
-          }}>Dashboard</h1>
-          <Button buttonLabel={"Create Website"} />
-          <Button backgroundColor="pink.200">click me</Button>
-        </div>
-
-        <div className="websitesGrid">
-          <WebsitePreview />
-
-          <WebsitePreview>
-            <div className="websiteActions">
-              <Button buttonLabel={"Edit"} />
-              <Button buttonLabel={"Delete"} />
-            </div>
-          </WebsitePreview>
-
-          <WebsitePreview>
-            <div className="websiteStatus">
-              <p>Status: Live</p>
-              <p>Visitors: 1,234</p>
-            </div>
-          </WebsitePreview>
-        </div>
-      </div>
+      <Stack space={4}>
+        <Table columns={websiteColumns} data={websiteData}>
+          <Table.List>
+            <Table.List.Head />
+            <Table.List.Body />
+          </Table.List>
+        </Table>
+      </Stack>
     </ThemeContext.Provider>
   );
 }

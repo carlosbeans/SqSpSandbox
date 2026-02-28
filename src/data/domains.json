@@ -1,7 +1,7 @@
 {
   "domains": [
     {
-      "thumbnailImage": "/assets/images/domain1-thumbnail.jpg",
+      "thumbnailImage": "/assets/screenshots/Img1_Landscape.jpeg",
       "domainName": "example.com",
       "domainStatus": "active",
       "domainProvider": "GoDaddy",
@@ -34,7 +34,7 @@
       ]
     },
     {
-      "thumbnailImage": "/assets/images/domain2-thumbnail.jpg",
+      "thumbnailImage": "/assets/screenshots/Img5_Landscape.jpeg",
       "domainName": "mysite.net",
       "domainStatus": "pending-renewal",
       "domainProvider": "Namecheap",
@@ -59,7 +59,7 @@
       }
     },
     {
-      "thumbnailImage": "/assets/images/domain3-thumbnail.jpg",
+      "thumbnailImage": "/assets/screenshots/Img3_Landscape.jpeg",
       "domainName": "pixelperfect.design",
       "domainStatus": "active",
       "domainProvider": "Squarespace",
@@ -91,7 +91,7 @@
       ]
     },
     {
-      "thumbnailImage": "/assets/images/domain4-thumbnail.jpg",
+      "thumbnailImage": "/assets/screenshots/Img7_Landscape.jpeg",
       "domainName": "acmewidgets.io",
       "domainStatus": "active",
       "domainProvider": "Cloudflare",
@@ -125,7 +125,7 @@
       ]
     },
     {
-      "thumbnailImage": "/assets/images/domain5-thumbnail.jpg",
+      "thumbnailImage": "/assets/screenshots/Img2_Landscape.jpeg",
       "domainName": "coastalbakery.com",
       "domainStatus": "pending-renewal",
       "domainProvider": "Squarespace",
@@ -150,7 +150,7 @@
       }
     },
     {
-      "thumbnailImage": "/assets/images/domain6-thumbnail.jpg",
+      "thumbnailImage": "/assets/screenshots/Img6_Landscape.jpeg",
       "domainName": "northstar.studio",
       "domainStatus": "active",
       "domainProvider": "Google Domains",
@@ -175,7 +175,7 @@
       }
     },
     {
-      "thumbnailImage": "/assets/images/domain7-thumbnail.jpg",
+      "thumbnailImage": "/assets/screenshots/Img4_Landscape.jpeg",
       "domainName": "wanderlust.travel",
       "domainStatus": "active",
       "domainProvider": "Hover",
@@ -208,7 +208,7 @@
       ]
     },
     {
-      "thumbnailImage": "/assets/images/domain8-thumbnail.jpg",
+      "thumbnailImage": "/assets/screenshots/Img8_Landscape.jpeg",
       "domainName": "greensprout.org",
       "domainStatus": "active",
       "domainProvider": "Namecheap",
@@ -233,7 +233,7 @@
       }
     },
     {
-      "thumbnailImage": "/assets/images/domain9-thumbnail.jpg",
+      "thumbnailImage": "/assets/screenshots/Img3_Landscape.jpeg",
       "domainName": "rivervalleyfarm.co",
       "domainStatus": "pending-renewal",
       "domainProvider": "GoDaddy",
@@ -258,7 +258,7 @@
       }
     },
     {
-      "thumbnailImage": "/assets/images/domain10-thumbnail.jpg",
+      "thumbnailImage": "/assets/screenshots/Img1_Landscape.jpeg",
       "domainName": "blueoak.dev",
       "domainStatus": "active",
       "domainProvider": "Cloudflare",
@@ -290,7 +290,7 @@
       ]
     },
     {
-      "thumbnailImage": "/assets/images/domain11-thumbnail.jpg",
+      "thumbnailImage": "/assets/screenshots/Img5_Landscape.jpeg",
       "domainName": "artisanmart.shop",
       "domainStatus": "active",
       "domainProvider": "Squarespace",
@@ -315,7 +315,7 @@
       }
     },
     {
-      "thumbnailImage": "/assets/images/domain12-thumbnail.jpg",
+      "thumbnailImage": "/assets/screenshots/Img7_Landscape.jpeg",
       "domainName": "evergreenphotography.us",
       "domainStatus": "active",
       "domainProvider": "Bluehost",

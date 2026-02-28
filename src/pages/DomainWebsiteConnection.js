@@ -8,7 +8,7 @@ import {
   applyEdgeChanges,
 } from "@xyflow/react";
 
-import { BackButton, Grid } from "@sqs/rosetta-elements";
+import { BackButton } from "@sqs/rosetta-elements";
 
 import "@xyflow/react/dist/style.css";
 
@@ -16,8 +16,6 @@ import "./DomainWebsiteConnection.scss";
 
 import DomainNode from "../components/FlowNodes/DomainNode";
 import WebsiteNode from "../components/FlowNodes/WebsiteNode";
-import SidePanelNav from "../components/SidePanelNav/SidePanelNav";
-
 const nodeTypes = {
   domain: DomainNode,
   website: WebsiteNode,
@@ -84,30 +82,21 @@ export default function DomainWebsiteConnection() {
   const proOptions = { hideAttribution: true };
 
   return (
-    <div className="container full-width">
-      <Grid.Container gridConstraint={12}>
-        <Grid.Item columns={[12, 3]}>
-          <SidePanelNav />
-        </Grid.Item>
-        <Grid.Item columns={[12, 9]}>
-          <div className="dwc-container">
-            <ReactFlow
-              nodes={nodes}
-              edges={edges}
-              nodeTypes={nodeTypes}
-              onNodesChange={onNodesChange}
-              onEdgesChange={onEdgesChange}
-              onConnect={onConnect}
-              fitView
-              minZoom={0.8}
-              maxZoom={1.2}
-            >
-              <Background />
-              <Controls />
-            </ReactFlow>
-          </div>
-        </Grid.Item>
-      </Grid.Container>
+    <div className="dwc-container">
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        nodeTypes={nodeTypes}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        fitView
+        minZoom={0.8}
+        maxZoom={1.2}
+      >
+        <Background />
+        <Controls />
+      </ReactFlow>
     </div>
   );
 }

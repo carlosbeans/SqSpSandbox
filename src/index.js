@@ -7,7 +7,7 @@ import "./styles/styles.scss";
 
 //pages
 import Root from "./pages/Root";
-import Home from "./pages/Home";
+
 import SelectAndDrag from "./pages/SelectAndDrag";
 import CodePreview from "./pages/CodePreview";
 import Domains from "./pages/Domains.tsx";
@@ -26,7 +26,9 @@ import NameserverRegistration from "./pages/NameserverRegistration";
 import Permissions from "./pages/Permissions";
 import Website from "./pages/Website";
 
-//components
+//layouts
+import DomainLayout from "./layouts/DomainLayout";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,7 +37,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <Websites />,
       },
       {
         path: "websites",
@@ -54,53 +56,26 @@ const router = createBrowserRouter([
         element: <Domains />,
       },
       {
-        path: "domainwebsiteconnection",
-        element: <DomainWebsiteConnection />,
+        path: "experiments",
+        element: <Experiments />,
       },
       {
-        path: "domainoverview/:domainId",
-        element: <DomainOverview />,
+        path: "domains/:domainId",
+        element: <DomainLayout />,
+        children: [
+          { index: true, element: <DomainOverview /> },
+          { path: "dns", element: <DNS_Settings /> },
+          { path: "website", element: <Website /> },
+          { path: "email", element: <Email /> },
+          { path: "activity", element: <Activity /> },
+          { path: "permissions", element: <Permissions /> },
+          { path: "billing", element: <Billing /> },
+          { path: "dnssec", element: <DNSSEC /> },
+          { path: "nameservers", element: <DomainNameservers /> },
+          { path: "nameserver-registration", element: <NameserverRegistration /> },
+          { path: "connection", element: <DomainWebsiteConnection /> },
+        ],
       },
-        {
-          path: "dns-settings",
-          element: <DNS_Settings />,
-        },
-        {
-          path: "experiments",
-          element: <Experiments />,
-        },
-        {
-          path: "activity",
-          element: <Activity />,
-        },
-        {
-          path: "billing",
-          element: <Billing />,
-        },
-        {
-          path: "dnssec",
-          element: <DNSSEC />,
-        },
-        {
-          path: "domain-nameservers",
-          element: <DomainNameservers />,
-        },
-        {
-          path: "email",
-          element: <Email />,
-        },
-        {
-          path: "nameserver-registration",
-          element: <NameserverRegistration />,
-        },
-        {
-          path: "permissions",
-          element: <Permissions />,
-        },
-        {
-          path: "website",
-          element: <Website />,
-        },
     ],
   },
 ]);

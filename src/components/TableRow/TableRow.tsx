@@ -50,7 +50,7 @@ export default function TableRow({ domain, status, provider, expiration, thumbna
     const navigate = useNavigate();
     const handleClick = () => {
         const domainId = encodeURIComponent(domain);
-        navigate(`/domainoverview/${domainId}`);
+        navigate(`/domains/${domainId}`);
     };
     return (
         <tr className="tr" onClick={handleClick}>
