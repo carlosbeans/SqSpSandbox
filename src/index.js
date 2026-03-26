@@ -60,6 +60,10 @@ const router = createBrowserRouter([
         element: <Experiments />,
       },
       {
+        path: "DomainWebsiteConnection",
+        element: <DomainWebsiteConnection />,
+      },
+      {
         path: "domains/:domainId",
         element: <DomainLayout />,
         children: [
@@ -81,7 +85,5 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <RouterProvider router={router} />
 );

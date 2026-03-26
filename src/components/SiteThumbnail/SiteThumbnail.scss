@@ -41,5 +41,7 @@
 
 .siteThumbnailImage {
     width: 100%;
-    background-color: color.$base;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
