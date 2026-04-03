@@ -1,7 +1,6 @@
 import React from "react";
 import { useState, useRef, useEffect } from "react";
 import { Grid } from "@sqs/rosetta-elements";
-import SidePanelNav from "../components/SidePanelNav/SidePanelNav";
 
 //import components
 import SelectionBox from "../components/SelectionBox/SelectionBox";

@@ -1,0 +1,165 @@
+---
+# smartling.plurals_detection = on
+# smartling.placeholder_format_custom = \{[^\{\}]+?\}|\{\{[^\{\}]+?\}\}|\{\{\{[^\{\}]+?\}\}\}|\\<(?:[a-z]+.*?|\/[a-z]+?)>
+#  | source: src/components/AppCard/components/AppStoreButton.tsx
+0252a6ae7aa26277a31d1a65c62ca22e: "Télécharger sur Google Play"
+#  | source: src/components/ColorPicker/components/Input/Type.tsx
+05d466d42813d0e45e5c68a9e32d09cd: "Format de couleur"
+#  | source: src/components/Table/components/Pagination/PageCount.tsx
+08881d6eb0dee247ca166f9e53ac8a3e: "{numberOfRows}\_lignes"
+#  | source: src/components/ColorPicker/components/Input/HEX.tsx (+ 1 other file(s))
+0e3b33b1a65371edf32090e6b0e838c0: "Hex"
+#  | source: src/components/Search/components/Input.tsx
+15e35f987f7167a5686096618b6d6efa: "effacer la recherche"
+#  | source: src/components/Table/components/Filter/Filter.tsx
+16deed513e967cd15d9a92e437e0b43f: "Ouvrir le filtre"
+#  | source: src/components/Search/components/MobileHeader.tsx
+1bc7d0695061625921a28281f789e1dc: "annuler"
+#  | source: src/components/Table/components/Pagination/index.tsx
+1d263460e537ff6f47b8d3cb750135e3: "Page précédente"
+#  | source: src/components/Table/components/Search/index.tsx
+24e29296ba76212419ceee81e52501f5: "Recherche\_: affichage de {matchingRows}\_enregistrement(s) sur {totalRows} qui correspondent à\_: {searchTerm}."
+# Matching a search term | source: src/components/Table/components/RecordSearch/index.tsx
+24f84eb85af930c8a5e5d9aed365796d: "Correspondance ({searchTerm})"
+#  | source: src/components/Dropdown/_next/Trigger/Value.tsx
+2a6b02e829f07de003011314e2e0fba7: "Sélectionnez une option…"
+#  | source: src/components/Wizard/Navigation/Navigation.native.tsx (+ 1 other file(s))
+32165099c664472652d7f6302ddc9b8f: "Suivant"
+#  | source: src/components/ColorPicker/components/Slider/Slider.tsx
+3b475b89ff8ec4fe7c71d052e2e43f8e: "Curseur {type}"
+#  | source: src/components/PageHeader/components/Menu.tsx
+402addd5fbf4e90fabb005e25e881b48: "Ouvrir le menu de création"
+#  | source: src/components/ColorPicker/components/Slider/Slider.tsx
+422c724a0b4e8afebf86bb05abe0f501: "Couleur"
+#  | source: src/components/Table/components/Filter/Bar.tsx
+43a5f640fadc1f17a18c691e0cfd89d4: "fermer {filterGroup}"
+#  | source: src/components/ChipInput/ChipInput.tsx
+48b564f163815e9f5164fcc03855b82b: "Ajouter…"
+#  | source: src/components/Table/components/Pagination/PageLabel.tsx
+4c5bbfbf1b16664fcf4679f269792959: "Page {currentPage}"
+#  | source: src/components/AddressInput/AddressInput.tsx
+4e8169cce4d2139b1d8030702b6a8057: "Aucun résultat"
+#  | source: src/components/DatePicker/components/MonthNav.tsx
+5228c61af5586cd28882733ac1490be3: "Mois précédent"
+#  | source: src/components/EditableDropdown/components/SheetContainer.tsx
+548a749f9317ca2930988b600c63a040: "Enregistrer"
+#  | source: src/components/Table/components/Pagination/PageJump.tsx
+584ba2643bd90457eb835e01dfbe9e4d: "Cliquez pour ouvrir le champ de texte"
+#  | source: src/components/ActionBar/SelectBox/index.tsx
+59405aac712ed0be6e2150956fb21f1c: "Désélectionnez toutes les lignes. "
+#  | source: src/components/Table/components/Filter/Save.tsx
+5b8f316caff04de6ee2f27f09126ebdb: "Enregistrer la vue"
+#  | source: src/components/Table/components/Pagination/index.tsx
+5c674514403d1a0dd658a23513d5e41b: "Page suivante"
+#  | source: src/components/NavigationController/NavigationControllerHeader.tsx (+ 1 other file(s))
+5dbd235db659b619ea0f922e64502421: "Retour"
+#  | source: src/components/ColorPicker/components/Input/RGBA.tsx
+5ea69e4018912bf2447edf4a547e62fb: "Bleu"
+#  | source: src/components/Breadcrumbs/components/TruncationPopOver.tsx
+65bf371008afb97c21289a2efb8741d4: "Autres liens"
+#  | source: src/components/Table/components/Sort/SortDropdown.tsx (+ 1 other file(s))
+673d85574a578df404548ed39ca06812: "Trier par"
+#  | source: src/components/PageHeader/components/Menu.tsx
+68471e83549f8e93ac94f4e84da92337: "Créer "
+#  | source: src/components/AppCard/components/AppStoreButton.tsx
+6ce2c86c522f658d279379225766d76d: "Télécharger dans l’App Store"
+#  | source: src/components/Table/components/Pagination/ItemRangeLabel.tsx
+6eb176a1b59a112ddb73ab79fbc2adf5: " sur {itemsAmount}"
+#  | source: src/components/Table/components/Filter/Filter.tsx
+70518ad85555154a69d1d6ff2cd5522e: "Filtrer"
+#  | source: src/components/Table/components/Sort/SortDropdown.tsx
+72a2677777eeb2bb52a9365417432753: "Trier par options"
+#  | source: src/components/ColorPicker/components/Input/RGBA.tsx
+7471bab81fbfbc5735ce8c21afc4986f: "Rouge"
+#  | source: src/components/DatePicker/components/MonthNav.tsx
+7805d57405c9e59ff2d0dc0101b61926: "Mois suivant"
+#  | source: src/components/EditableDropdown/components/SheetContainer.tsx
+7a6a469de5bfc972ad5e600ea7c9335a: "Annuler"
+#  | source: src/components/Table/components/Search/index.tsx
+808af46f454f5f547defa96115a7aa9f: "Rechercher"
+#  | source: src/components/Table/components/Sort/Sort.tsx
+8e6462a1be9fa66b511e3138d9c5e6b0: "Trier par {label}"
+#  | source: src/internals/ErrorState.tsx
+8efd7e19ac06d33fb4ec877e9b544943: "Impossible de charger les résultats"
+#  | source: src/components/Table/_deprecated/renderers/TableCards/internal/components/TableCardsHeadContent.tsx
+901857f18995e3e0eb85880fddfa6f1d: "Non trié"
+#  | source: src/components/ColorPicker/components/Input/HSLA.tsx
+959d587a82db540fba997b5a2893e750: "Saturation"
+#  | source: src/components/Wizard/ProgressIndicator/ProgressIndicator.native.tsx (+ 1 other file(s))
+963a3712611efff380083cc6f67e9332: "{currentStepNumber} sur {stepCount}"
+#  | source: src/components/Table/components/Sort/Sort.tsx
+980bfbe7743b95b18963402cbb39fa66: "Trier par"
+#  | source: src/components/Table/components/Pagination/PageJump.tsx
+9e0a029f54f43193ad0db80c74ef17b7: "Page"
+#  | source: src/components/ColorPicker/components/Input/Type.tsx
+a271012d40d6477f47c6d4f27dd43f1b: "HSL"
+#  | source: src/components/ActionBar/SelectBox/index.tsx
+a4aeed2cd609cf3258760ed8a894a773: "Sélectionnez toutes les lignes. "
+#  | source: src/components/Table/components/Filter/Bar.tsx
+a58964b3158817f741c5433317a67905: "{filterLabel} • {filterValue}"
+# A list of links to the parent pages of the current page in hierarchical order. | source: src/components/Breadcrumbs/components/Nav.tsx
+a5f22b4ad5aed1cdfbe50444012cadff: "Fils d’Ariane"
+#  | source: src/components/ColorPicker/components/ColorMap/ColorMap.tsx
+a724e07a8223eb4b064e2bedd19349fc: "Carte couleur"
+#  | source: src/components/ColorPicker/components/Input/RGBA.tsx
+a76a57d9bb9bf2047d69c6573fda55a0: "Vert"
+#  | source: src/components/Table/components/Filter/Bar.tsx
+aaeb2c431e04933a97178fbabba1c2e3: "Supprimer le filtre"
+#  | source: src/components/Table/components/Pagination/PageCount.tsx
+ad1dc32e55a07d150a0e5c83ac169c85: "{perPage} par page"
+#  | source: src/components/Dropdown/components/Dropdown.mobile.tsx (+ 1 other file(s))
+ad65efce4a5eb0eab2cba5cf04acf6a1: "Terminé"
+#  | source: src/components/Table/_deprecated/renderers/TableCards/internal/components/TableCardsHeadContent.tsx
+ae609a6f4f091c550073e7aba5c22601: "Trier par {colHeader}"
+#  | source: src/components/Table/_deprecated/renderers/TableCards/internal/components/TableCardsHeadContent.tsx
+ae836be5aa762b2c791800debf99e3c8: "Trier par en-tête de colonne"
+# close a modal dialog | source: src/components/Dialog/components/CloseButton.tsx (+ 1 other file(s))
+b0507aa68523e414b4f7eb8817948c94: "Fermer"
+#  | source: src/components/Table/components/Search/index.tsx
+b3a47a3e61efe8c601b143393c2c4160: "Saisir un terme de recherche"
+#  | source: src/internals/ErrorState.tsx
+b3f0d951e69fc06eba0db441e4254f0e: "Réessayer"
+#  | source: src/components/Table/components/Pagination/ItemRangeLabel.tsx
+b827dfbfeb0a3a17e872f007d39742eb: "{firstNum}-{lastNum}"
+#  | source: src/components/ColorPicker/components/Input/HSLA.tsx (+ 1 other file(s))
+ba1e725cedcd008945a381c5a9fd3c26: "Teinte"
+#  | source: src/components/Table/components/Pagination/ItemRangeLabel.tsx
+bf2a987bac959b1d9a9bfdee3f2db326: " sur {itemsAmount}\_éléments"
+#  | source: src/components/DatePicker/DateUtil/DateUtilProvider.tsx
+c00f3cdfe2016fe147b92e5f156d3eef: "Échec du chargement du fuseau horaire «\_{timeZone}\_». Effectuez une nouvelle tentative de connexion ou vérifiez la disponibilité du site Squarespace."
+#  | source: src/components/ActionBar/ActionBar.tsx
+c2c2776426813b2689e9802ed170bc93: "Plus d’options"
+#  | source: src/components/ColorPicker/components/Input/Type.tsx
+c47629aa520ba46cd208c4d0613b5254: "Sélectionner le format de couleur"
+#  | source: src/components/Table/components/Filter/Reset.tsx
+c7e5f5f6a796ab77a315b6a199825d74: "Réinitialiser"
+#  | source: src/components/Table/components/Filter/Bar.tsx
+caf3c5ca716a861d4d40fdd6cc0f166f: "Enregistré • {filterGroup}"
+#  | source: src/components/AppCard/AppCard.tsx (+ 3 other file(s))
+d0bd8e70760169c8a435f5c07c397fc6: "Fermer"
+#  | source: src/components/Table/components/RecordCount/index.tsx
+d332cad340e522dfd76e2b4e05f5485f: "Affichage de {firstNum}-{lastNum}\_enregistrement(s) sur {itemsAmount}"
+#  | source: src/components/ColorPicker/components/Input/HSLA.tsx
+d51c21d88522993a1de8833166afc7bc: "Clarté"
+#  | source: src/components/PageHeader/components/Menu.tsx
+d761186f9ce3873e7dbd7b53fb64841d: "icône chevron"
+#  | source: src/components/Table/components/LayoutSettings/LayoutSettings.tsx
+dba8ac51011da181a09eddddff5dea5e: "Disposition\_: grille"
+#  | source: src/components/Table/components/LayoutSettings/LayoutSettings.tsx
+e145e7aa98c87d33187b625f90ca0608: "Paramètres de disposition"
+#  | source: src/components/ActionBar/ActionBar.native.tsx (+ 3 other file(s))
+e6a67840fd60a2ed0a769cd18ffc50aa: 
+    one: "{%n} sélectionné"
+    other: "{%n} sélectionnés"
+#  | source: src/components/Dropdown/components/Dropdown.mobile.tsx
+e8aa17dd7915009aac21940b8df7bb50: "Sélectionner"
+#  | source: src/components/AppCard/AppCard.tsx
+f3389f4087b781033ef5a0f4987f6733: "Continuer"
+#  | source: src/components/ColorPicker/components/Slider/Slider.tsx
+f8c9cc30c8e896485abadff6561a134b: "Opacité"
+#  | source: src/components/ColorPicker/components/Input/Type.tsx
+f97f065a995142dcab2ee24030e65a60: "RVB"
+#  | source: src/components/Table/components/LayoutSettings/LayoutSettings.tsx
+fa2036fe27fbc63a1cad0bc0578ef569: "Disposition\_: liste"
+#  | source: src/components/ColorPicker/components/Input/Alpha.tsx
+fd0b0c42f0f842e2de6d4136c24b4dfb: "Alpha"

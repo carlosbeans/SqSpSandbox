@@ -2,18 +2,16 @@ import { useNavigate } from "react-router-dom";
 import { Stack, Grid, Card, Image } from "@sqs/rosetta-elements";
 import { Text, Button } from "@sqs/rosetta-primitives";
 import { PageHeader } from "@sqs/rosetta-compositions";
-
 export default function Experiments() {
   const navigate = useNavigate();
   return (
     <Stack>
       <PageHeader>
-            <PageHeader.Body>
-              <PageHeader.Title title="Experiments" />
-            </PageHeader.Body>
-          </PageHeader>
+        <PageHeader.Body>
+          <PageHeader.Title title="Experiments" />
+        </PageHeader.Body>
+      </PageHeader>
       <Grid.Container gridConstraint={12}>
-        
         <Grid.Item columns={[4, 3, 4]}>
           <Card isHoverable>
             <Card.Body pb={1}>
@@ -23,7 +21,11 @@ export default function Experiments() {
                   Allows a user to select multiple items from a grid by clicking
                   and dragging to select items.
                 </Text.Body>
-                <Button.Secondary width="100%" size={2} onClick={() => navigate("/selectanddrag")}>
+                <Button.Secondary
+                  width="100%"
+                  size={2}
+                  onClick={() => navigate("/selectanddrag")}
+                >
                   Demo
                 </Button.Secondary>
               </Stack>
@@ -34,14 +36,16 @@ export default function Experiments() {
           <Card>
             <Card.Body pb={1}>
               <Stack space={1}>
-                <Text.Subtitle>
-                  Enterprise Code Preview
-                </Text.Subtitle>
+                <Text.Subtitle>Enterprise Code Preview</Text.Subtitle>
                 <Text.Body>
                   As an Enterprise customer, see a preview of what your custom
                   code snippet will result in.
                 </Text.Body>
-                <Button.Secondary width="100%" size={2} onClick={() => navigate("/CodePreview")}>
+                <Button.Secondary
+                  width="100%"
+                  size={2}
+                  onClick={() => navigate("/CodePreview")}
+                >
                   Demo
                 </Button.Secondary>
               </Stack>
@@ -52,14 +56,16 @@ export default function Experiments() {
           <Card>
             <Card.Body pb={1}>
               <Stack space={1}>
-                <Text.Subtitle>
-                  Domain Website Connection
-                </Text.Subtitle>
+                <Text.Subtitle>Domain Website Connection</Text.Subtitle>
                 <Text.Body>
                   As an Enterprise customer, see a preview of what your custom
                   code snippet will result in.
                 </Text.Body>
-                <Button.Secondary width="100%" size={2} onClick={() => navigate("/DomainWebsiteConnection")}>
+                <Button.Secondary
+                  width="100%"
+                  size={2}
+                  onClick={() => navigate("/DomainWebsiteConnection")}
+                >
                   Demo
                 </Button.Secondary>
               </Stack>
@@ -70,13 +76,15 @@ export default function Experiments() {
           <Card>
             <Card.Body pb={1}>
               <Stack space={1}>
-                <Text.Subtitle>
-                  Connect & Move Redesign
-                </Text.Subtitle>
+                <Text.Subtitle>Connect & Move Redesign</Text.Subtitle>
                 <Text.Body>
                   Re-imagining the Connect & Move experience.
                 </Text.Body>
-                <Button.Secondary width="100%" size={2} onClick={() => navigate("/DomainWebsiteConnection")}>
+                <Button.Secondary
+                  width="100%"
+                  size={2}
+                  onClick={() => navigate("/DomainWebsiteConnection")}
+                >
                   Demo
                 </Button.Secondary>
               </Stack>

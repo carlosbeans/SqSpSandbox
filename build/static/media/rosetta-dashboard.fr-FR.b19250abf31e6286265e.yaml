@@ -1,0 +1,53 @@
+---
+# smartling.plurals_detection = on
+# smartling.placeholder_format_custom = \{[^\{\}]+?\}|\{\{[^\{\}]+?\}\}|\{\{\{[^\{\}]+?\}\}\}|\\<(?:[a-z]+.*?|\/[a-z]+?)>
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+0085c54681169b3f9a214db3e44bf36e: "Populaire auprès de\_:"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+0b5cd2157ece998433244384b3f6fbdb: "Créateurs de contenu"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+10422fb2fd35d4bab1a6fa5439c5c0ff: "Créez des communautés réservées aux membres et vendez du contenu derrière un paywall"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+161a1ff6718dc58979535d7063a03262: "Organisateurs d’événements"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+367f4a89dd6b5a48098936056c84dbbe: "Blogueurs"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+40fade404a73ff3ef19a1d05cc69af21: "Travailleurs indépendants"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+4a4aa372e77f73b6362a062307300ef5: "Collecteurs de fonds"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+587fa43a48382e337d248d3594416412: "Organismes à but non lucratif"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+66e21ec0cf79d55a6fa6da8a034dd564: "Photographes"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+74f7861831370868d1b84fdbe4c92439: "Petites entreprises"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+75e329b88d1724a2e2c3cf283e29d422: "Entrepreneurs"
+#  | source: src/components/Spotlight/Spotlight.tsx (+ 1 other file(s))
+91f842784b28d893ce73402192c09cc7: "Fermer"
+#  | source: src/components/Spotlight/Spotlight.tsx
+98be878bc64f90a340e913603cfa2477: "Afficher précédent"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+a1dbaa969917c87961decda156923e14: "Prestataires"
+#  | source: src/components/CreateCard/CreateCard.tsx (+ 1 other file(s))
+afefc5bf840edf0d95cb2cd3c517620e: "icône de flèche"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+b1e3673afd697f29f70819639ae3fc8b: "Tout ce dont vous avez besoin pour vendre en ligne, des outils de promotion au paiement"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+ba468cb9160cec130cec0c2e02a17454: "Collectez des fonds pour votre cause et gérez les donateurs"
+#  | source: src/components/Spotlight/Spotlight.tsx
+c2cada31f68ba2499d1cbbaccc1a9503: "Afficher suivant"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+c6945d7f96b0cf6c3984f6eba4d37c25: "Organismes caritatifs"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+c812c3a9777220430e53e118d44e1702: "Instructeurs"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+d74e8a0eb7535897ad682c9a1df15ddd: "Groupes de défense"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+d80394e4718ebed070b8a1477f5c9929: "Bâtisseurs de communauté"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+de145b26299288280095b4ec31cc8182: "Organisateurs d’événements"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+e1c4cb1de6c55a351630e7bb26d8a927: "Créateurs de produits"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+ec618cc50f69752c9a9883f47aa5d233: "Outils permettant de recueillir des informations sur les prospects, de décrocher des contrats et de percevoir les paiements"

@@ -78,7 +78,7 @@ export default function DomainOverview() {
       <Card>
         <Card.Body>
           <Flex alignItems="center" gap={4}>
-            <SiteThumbnail size="small" />
+            <SiteThumbnail size="small" src={domain.thumbnailImage} />
             <Stack space={1}>
               <Flex alignItems="center" gap={2}>
                 <Text.Title>{domain.domainName}</Text.Title>

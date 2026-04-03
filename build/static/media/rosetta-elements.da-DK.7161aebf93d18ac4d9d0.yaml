@@ -1,0 +1,13 @@
+---
+# smartling.plurals_detection = on
+# smartling.placeholder_format_custom = \{[^\{\}]+?\}|\{\{[^\{\}]+?\}\}|\{\{\{[^\{\}]+?\}\}\}|\\<(?:[a-z]+.*?|\/[a-z]+?)>
+#  | source: src/components/Toast/Toast.tsx
+6862c62ba693b4de3c94f6861af8991f: 'Luk notifikation'
+#  | source: src/components/Chip/components/CloseButton.native.tsx (+ 1 other file(s))
+7207411965ab9aff33e75d642471280b: 'Slet'
+#  | source: src/components/Sheet/Sheet.native.tsx
+8a4c5f30aee8483373272dfcd6f270de: 'Annuller'
+#  | source: src/components/BackButton/BackButton.native.tsx (+ 1 other file(s))
+a4aa9f3b93d1133d04837a978fa4ebb7: 'Tilbage'
+#  | source: src/components/TextLink/ExternalLink.tsx
+af1e53845e046c18e015666e8c192b91: '(Åbner eksternt websted)'

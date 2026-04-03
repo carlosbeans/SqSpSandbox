@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 
 //css
 import "./styles/styles.scss";
@@ -23,11 +23,12 @@ import DNSSEC from "./pages/DNSSEC";
 import DomainNameservers from "./pages/DomainNameservers";
 import Email from "./pages/Email";
 import NameserverRegistration from "./pages/NameserverRegistration";
+import PayLinks from "./pages/PayLinks";
 import Permissions from "./pages/Permissions";
 import Website from "./pages/Website";
 
 //layouts
-import DomainLayout from "./layouts/DomainLayout";
+import SidePanelShell from "./layouts/SidePanelShell";
 
 const router = createBrowserRouter([
   {
@@ -64,20 +65,29 @@ const router = createBrowserRouter([
         element: <DomainWebsiteConnection />,
       },
       {
-        path: "domains/:domainId",
-        element: <DomainLayout />,
+        element: <SidePanelShell />,
         children: [
-          { index: true, element: <DomainOverview /> },
-          { path: "dns", element: <DNS_Settings /> },
-          { path: "website", element: <Website /> },
-          { path: "email", element: <Email /> },
-          { path: "activity", element: <Activity /> },
-          { path: "permissions", element: <Permissions /> },
-          { path: "billing", element: <Billing /> },
-          { path: "dnssec", element: <DNSSEC /> },
-          { path: "nameservers", element: <DomainNameservers /> },
-          { path: "nameserver-registration", element: <NameserverRegistration /> },
-          { path: "connection", element: <DomainWebsiteConnection /> },
+          {
+            path: "pay-links",
+            element: <PayLinks />,
+          },
+          {
+            path: "domains/:domainId",
+            element: <Outlet />,
+            children: [
+              { index: true, element: <DomainOverview /> },
+              { path: "dns", element: <DNS_Settings /> },
+              { path: "website", element: <Website /> },
+              { path: "email", element: <Email /> },
+              { path: "activity", element: <Activity /> },
+              { path: "permissions", element: <Permissions /> },
+              { path: "billing", element: <Billing /> },
+              { path: "dnssec", element: <DNSSEC /> },
+              { path: "nameservers", element: <DomainNameservers /> },
+              { path: "nameserver-registration", element: <NameserverRegistration /> },
+              { path: "connection", element: <DomainWebsiteConnection /> },
+            ],
+          },
         ],
       },
     ],

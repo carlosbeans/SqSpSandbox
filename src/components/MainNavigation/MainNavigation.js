@@ -1,7 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Tabs, Stack } from "@sqs/rosetta-elements";
-
-import "../MainNavigation/MainNavigation.scss";
+import { borders, colors } from "@sqs/rosetta-tokens";
 
 import Logo from "../Logo/Logo";
 import Avatar from "../Avatar/Avatar";
@@ -23,7 +22,15 @@ export default function MainNavigation() {
 
   return (
     <nav>
-      <Stack space={5} direction="row" alignItems="center" px={2}>
+      <Stack
+        space={5}
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        width="100%"
+        px={2}
+        sx={{ borderBottom: borders[1], borderColor: colors.gray[800] }}
+      >
         <Stack space={2} direction="row" alignItems="center">
           <Link className="mainNavLink" to="/" id="logo">
             <Logo color="#000" size="55" />
@@ -34,6 +41,7 @@ export default function MainNavigation() {
             onChange={(val) => navigate(`/${val}`)}
             sx={{
               minHeight: "77px",
+              '&::before': { display: 'none' },
             }}
           />
         </Stack>
