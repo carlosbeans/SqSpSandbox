@@ -13,6 +13,7 @@ const NAV_ITEMS = [
   { value: "email", label: "Email", path: "email" },
   { value: "activity", label: "Activity", path: "activity" },
   { value: "permissions", label: "Permissions", path: "permissions" },
+  { value: "security", label: "Security", path: "security" },
   { value: "billing", label: "Billing", path: "billing" },
 ];
 

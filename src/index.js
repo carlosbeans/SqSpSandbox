@@ -24,6 +24,7 @@ import DomainNameservers from "./pages/DomainNameservers";
 import Email from "./pages/Email";
 import NameserverRegistration from "./pages/NameserverRegistration";
 import Permissions from "./pages/Permissions";
+import Security from "./pages/Security";
 import Website from "./pages/Website";
 
 //layouts
@@ -73,6 +74,7 @@ const router = createBrowserRouter([
           { path: "email", element: <Email /> },
           { path: "activity", element: <Activity /> },
           { path: "permissions", element: <Permissions /> },
+          { path: "security", element: <Security /> },
           { path: "billing", element: <Billing /> },
           { path: "dnssec", element: <DNSSEC /> },
           { path: "nameservers", element: <DomainNameservers /> },
