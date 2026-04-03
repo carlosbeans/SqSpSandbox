@@ -16,6 +16,7 @@ const NAV_ITEMS = [
   { value: "activity", label: "Activity", path: "activity" },
   { value: "pay-links", label: "Pay Links", path: "/pay-links" },
   { value: "permissions", label: "Permissions", path: "permissions" },
+  { value: "security", label: "Security", path: "security" },
   { value: "billing", label: "Billing", path: "billing" },
 ];
 
