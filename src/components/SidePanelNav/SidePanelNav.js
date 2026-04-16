@@ -5,7 +5,11 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { NavMenu } from "@sqs/rosetta-compositions";
 import { BackButton } from "@sqs/rosetta-elements";
 import { Stack } from "@sqs/rosetta-elements";
+import { Flex } from "@sqs/rosetta-primitives";
+import { Button } from "@sqs/rosetta-primitives";
+import { Badge } from "@sqs/rosetta-elements";
 import { SidePanelDomainContext } from "../../layouts/SidePanelDomainContext";
+import { radii } from "@sqs/rosetta-tokens";
 
 const NAV_ITEMS = [
   { value: "overview", label: "Overview", path: "." },
@@ -22,7 +26,11 @@ const NAV_ITEMS = [
 const DNS_SUB_ITEMS = [
   { value: "dns-settings", label: "DNS Settings", path: "dns" },
   { value: "nameservers", label: "Nameservers", path: "nameservers" },
-  { value: "nameserver-registration", label: "Nameserver Registration", path: "nameserver-registration" },
+  {
+    value: "nameserver-registration",
+    label: "Nameserver Registration",
+    path: "nameserver-registration",
+  },
   { value: "dnssec", label: "DNSSEC", path: "dnssec" },
 ];
 
@@ -31,7 +39,9 @@ const DNS_PATHS = DNS_SUB_ITEMS.map((item) => item.path);
 const PAY_LINKS_PREFIX = "/pay-links";
 
 function isPayLinksPath(pathname) {
-  return pathname === PAY_LINKS_PREFIX || pathname.startsWith(`${PAY_LINKS_PREFIX}/`);
+  return (
+    pathname === PAY_LINKS_PREFIX || pathname.startsWith(`${PAY_LINKS_PREFIX}/`)
+  );
 }
 
 function domainIdFromPathname(pathname) {
@@ -43,7 +53,9 @@ function getActiveNav(pathname, domainId) {
   if (isPayLinksPath(pathname)) return "pay-links";
   if (!domainId) return "overview";
   const base = `/domains/${domainId}`;
-  const sub = pathname.startsWith(base) ? pathname.slice(base.length).replace(/^\//, "") : "";
+  const sub = pathname.startsWith(base)
+    ? pathname.slice(base.length).replace(/^\//, "")
+    : "";
   if (DNS_PATHS.includes(sub)) return "dns";
   const match = NAV_ITEMS.find((item) => item.path === sub);
   return match ? match.value : "overview";
@@ -52,7 +64,9 @@ function getActiveNav(pathname, domainId) {
 function getActiveDnsSub(pathname, domainId) {
   if (!domainId || isPayLinksPath(pathname)) return "dns-settings";
   const base = `/domains/${domainId}`;
-  const sub = pathname.startsWith(base) ? pathname.slice(base.length).replace(/^\//, "") : "";
+  const sub = pathname.startsWith(base)
+    ? pathname.slice(base.length).replace(/^\//, "")
+    : "";
   const match = DNS_SUB_ITEMS.find((item) => item.path === sub);
   return match ? match.value : "dns-settings";
 }
@@ -100,12 +114,32 @@ export default function SidePanelNav() {
   };
 
   return (
-    <Box sx={{ borderRight: borders[1], borderColor: colors.gray[800], flex: "0 0 250px", minHeight: "100vh" }}>
-      <BackButton label="Domains List" onClick={() => navigate("/domains")} py={6} />
+    <Box
+      sx={{
+        borderRight: borders[1],
+        borderColor: colors.gray[800],
+        flex: "0 0 250px",
+        minHeight: "100vh",
+        justifyContent: "space-between",
+      }}
+    >
+      <Box px={6}>
+        <BackButton
+          label="Domains List"
+          onClick={() => navigate("/domains")}
+          py={6}
+        />
+      </Box>
+
       <NavMenu value={activeNav} onChange={onNavChange}>
         {NAV_ITEMS.flatMap(({ value, label }) => {
           const items = [
-            <NavItem key={value} value={value} is="div" isSelected={activeNav === value}>
+            <NavItem
+              key={value}
+              value={value}
+              is="div"
+              isSelected={activeNav === value}
+            >
               <NavText variant="subtitle">{label}</NavText>
             </NavItem>,
           ];
@@ -120,13 +154,18 @@ export default function SidePanelNav() {
                   onClick={() => navigateDnsSub(sub.path)}
                 >
                   <NavText>{sub.label}</NavText>
-                </NavItem>
+                </NavItem>,
               );
             });
           }
           return items;
         })}
       </NavMenu>
+      <Box px={6} py={6}>
+      <Button size="medium" variant="secondary" sx={{ width: "100%",textTransform:"none", fontSize: "16px", borderRadius: radii[1], textAlign: "left", letterSpacing: "0" }}>
+        Form an LLC <Badge appearance="blue" mx={2}>New</Badge>
+      </Button>
+      </Box>      
     </Box>
   );
 }
