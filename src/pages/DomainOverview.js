@@ -73,7 +73,7 @@ export default function DomainOverview() {
   }
 
   return (
-    <Stack space={6}>
+    <Stack space={6} pt={4}>
       {/* Hero Card — domain name + thumbnail */}
       <Card>
         <Card.Body>

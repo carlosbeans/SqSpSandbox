@@ -1,41 +1,32 @@
-import { PageHeader } from "@sqs/rosetta-compositions";
 import { Stack } from "@sqs/rosetta-elements";
 import { useTheme } from "@sqs/rosetta-styled";
 import { Button, Box } from "@sqs/rosetta-primitives";
 import { Breakpoint } from "@sqs/rosetta-utilities";
+import { usePageHeader } from "../layouts/PageHeaderContext";
+
 export default function DomainNameservers() {
   const { borders, colors } = useTheme();
+
+  usePageHeader({
+    title: "Domain Nameservers",
+    actions: (
+      <Breakpoint.Provider>
+        <Breakpoint.Renderer
+          render={{
+            default: () => (
+              <Button.Primary>Use Squarespace Nameservers</Button.Primary>
+            ),
+            "mobile-0": () => (
+              <Button.Primary>Use Squarespace Nameservers</Button.Primary>
+            ),
+          }}
+        />
+      </Breakpoint.Provider>
+    ),
+  });
+
   return (
     <Stack space={6}>
-      <Stack>
-        <PageHeader>
-          <PageHeader.Body>
-            <PageHeader.Title title="Domain Nameservers" />
-            <PageHeader.Actions>
-              <Breakpoint.Provider>
-                <Breakpoint.Renderer
-                  render={{
-                    default: () => (
-                      <>
-                        <Button.Primary>
-                          Use Squarespace Nameservers
-                        </Button.Primary>
-                      </>
-                    ),
-                    "mobile-0": () => (
-                      <>
-                        <Button.Primary>
-                          Use Squarespace Nameservers
-                        </Button.Primary>
-                      </>
-                    ),
-                  }}
-                />
-              </Breakpoint.Provider>
-            </PageHeader.Actions>
-          </PageHeader.Body>
-        </PageHeader>
-      </Stack>
       <Stack>
         <Box py={4} sx={{ borderBottom: borders[1], borderColor: colors.gray[800] }}>ns-cloud-b1.googledomains.com
         </Box>

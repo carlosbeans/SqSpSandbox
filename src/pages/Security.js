@@ -1,14 +1,6 @@
-import { Stack } from "@sqs/rosetta-elements";
-import { PageHeader } from "@sqs/rosetta-compositions";
+import { usePageHeader } from "../layouts/PageHeaderContext";
 
 export default function Security() {
-  return (
-    <Stack>
-      <PageHeader>
-        <PageHeader.Body>
-          <PageHeader.Title title="Security" />
-        </PageHeader.Body>
-      </PageHeader>
-    </Stack>
-  );
+  usePageHeader({ title: "Security" });
+  return null;
 }

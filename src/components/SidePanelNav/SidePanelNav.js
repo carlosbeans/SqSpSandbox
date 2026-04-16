@@ -1,6 +1,5 @@
-import "./SidePanelNav.scss";
-
 import * as React from "react";
+import { Box } from "@sqs/rosetta-primitives";
 import { useTheme } from "@sqs/rosetta-styled";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { NavMenu } from "@sqs/rosetta-compositions";
@@ -101,7 +100,7 @@ export default function SidePanelNav() {
   };
 
   return (
-    <Stack space={1} style={{ borderRight: borders[1], borderColor: colors.gray[800], display: "flex", flexDirection: "column", alignItems: "flex-start", flex: "1 0 auto", minHeight: "100vh" }}>
+    <Box sx={{ borderRight: borders[1], borderColor: colors.gray[800], flex: "0 0 250px", minHeight: "100vh" }}>
       <BackButton label="Domains List" onClick={() => navigate("/domains")} py={6} />
       <NavMenu value={activeNav} onChange={onNavChange}>
         {NAV_ITEMS.flatMap(({ value, label }) => {
@@ -118,7 +117,6 @@ export default function SidePanelNav() {
                   value={sub.value}
                   is="div"
                   isSelected={activeDnsSub === sub.value}
-                  className="dns-sub-item"
                   onClick={() => navigateDnsSub(sub.path)}
                 >
                   <NavText>{sub.label}</NavText>
@@ -129,6 +127,6 @@ export default function SidePanelNav() {
           return items;
         })}
       </NavMenu>
-    </Stack>
+    </Box>
   );
 }

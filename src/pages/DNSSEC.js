@@ -1,11 +1,6 @@
-import { PageHeader } from "@sqs/rosetta-compositions";
+import { usePageHeader } from "../layouts/PageHeaderContext";
 
 export default function DNSSEC() {
-  return (
-    <PageHeader>
-      <PageHeader.Body>
-        <PageHeader.Title title="DNSSEC" />
-      </PageHeader.Body>
-    </PageHeader>
-  );
+  usePageHeader({ title: "DNSSEC" });
+  return null;
 }

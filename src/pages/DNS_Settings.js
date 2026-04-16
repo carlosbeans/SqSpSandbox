@@ -5,9 +5,8 @@ import { Text, Button, Flex, Box } from "@sqs/rosetta-primitives";
 import { Table } from "@sqs/rosetta-compositions";
 import { InfoCircle, Trash } from "@sqs/rosetta-icons";
 import { useTheme } from "@sqs/rosetta-styled";
-import { PageHeader } from "@sqs/rosetta-compositions";
-import { Banner } from "@sqs/rosetta-compositions";
 import { Breakpoint } from "@sqs/rosetta-utilities";
+import { usePageHeader } from "../layouts/PageHeaderContext";
 
 const columnHelper = Table.Utils.createColumnHelper();
 
@@ -83,51 +82,25 @@ function DNSTable({ records }) {
 
 export default function DNS_Settings() {
   const { radii, borders, colors } = useTheme();
+
+  usePageHeader({
+    title: "DNS Settings",
+    subtitle:
+      "DNS records point to services your domain uses, like forwarding your domain or setting up an email service. Learn more about DNS settings",
+    actions: (
+      <Breakpoint.Provider>
+        <Breakpoint.Renderer
+          render={{
+            default: () => <Button.Primary>Add Preset</Button.Primary>,
+            "mobile-0": () => <Button.Primary>Add Preset</Button.Primary>,
+          }}
+        />
+      </Breakpoint.Provider>
+    ),
+  });
+
   return (
     <Stack space={6}>
-      <PageHeader>
-        <PageHeader.Body>
-          <PageHeader.Title
-            subtitle="DNS records point to services your domain uses, like forwarding your domain or setting up an email service. Learn more about DNS settings"
-            title="DNS Settings"
-          />
-          <PageHeader.Actions>
-            <Breakpoint.Provider>
-              <Breakpoint.Renderer
-                render={{
-                  default: () => (
-                    <>
-                      <Button.Primary>Add Preset</Button.Primary>
-                    </>
-                  ),
-                  "mobile-0": () => (
-                    <>
-                      <Button.Primary>Add Preset</Button.Primary>
-                    </>
-                  ),
-                }}
-              />
-            </Breakpoint.Provider>
-          </PageHeader.Actions>
-        </PageHeader.Body>
-        {false && (
-          <Banner>
-            <Banner.Main>
-              <Banner.Row>
-                <Banner.Glyph />
-                <Banner.Column>
-                  <Banner.Title>Title</Banner.Title>
-                  <Banner.Body>Description</Banner.Body>
-                </Banner.Column>
-              </Banner.Row>
-              <Banner.Action>Action</Banner.Action>
-            </Banner.Main>
-            <Banner.Close />
-          </Banner>
-        )}
-      </PageHeader>
-
-      {/* Squarespace Defaults */}
       <Stack space={2}>
         <Text.Subtitle>DNS Presets</Text.Subtitle>
         <Text.Body>

@@ -1,11 +1,6 @@
-import { PageHeader } from "@sqs/rosetta-compositions";
+import { usePageHeader } from "../layouts/PageHeaderContext";
 
 export default function Email() {
-  return (
-    <PageHeader>
-      <PageHeader.Body>
-        <PageHeader.Title title="Email" />
-      </PageHeader.Body>
-    </PageHeader>
-  );
+  usePageHeader({ title: "Email" });
+  return null;
 }

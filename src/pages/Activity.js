@@ -1,5 +1,6 @@
 import { Stack } from "@sqs/rosetta-elements";
-import { PageHeader, Table } from "@sqs/rosetta-compositions";
+import { Table } from "@sqs/rosetta-compositions";
+import { usePageHeader } from "../layouts/PageHeaderContext";
 
 const columnHelper = Table.Utils.createColumnHelper();
 
@@ -20,13 +21,9 @@ const data = [
 ];
 
 export default function Activity() {
+  usePageHeader({ title: "Activity" });
   return (
     <Stack space={6}>
-      <PageHeader>
-        <PageHeader.Body>
-          <PageHeader.Title title="Activity" />
-        </PageHeader.Body>
-      </PageHeader>
       <Table columns={columns} data={data}>
         <Table.List />
       </Table>

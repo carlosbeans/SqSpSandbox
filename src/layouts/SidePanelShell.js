@@ -1,8 +1,11 @@
 import * as React from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import { Grid } from "@sqs/rosetta-elements";
+import { Flex, Box } from "@sqs/rosetta-primitives";
+import { Stack } from "@sqs/rosetta-elements";
+import { PageHeader } from "@sqs/rosetta-compositions";
 import SidePanelNav from "../components/SidePanelNav/SidePanelNav";
 import { SidePanelDomainContext } from "./SidePanelDomainContext";
+import { PageHeaderProvider, usePageHeaderConfig } from "./PageHeaderContext";
 
 const STORAGE_KEY = "sqspSandbox:lastDomainId";
 
@@ -32,19 +35,38 @@ function useStoredDomainId() {
   return { effectiveDomainId };
 }
 
+function ShellPageHeader() {
+  const config = usePageHeaderConfig();
+  if (!config) return null;
+  return (
+    <PageHeader>
+      <PageHeader.Body>
+        <PageHeader.Title title={config.title} subtitle={config.subtitle} />
+        {config.actions && (
+          <PageHeader.Actions>{config.actions}</PageHeader.Actions>
+        )}
+      </PageHeader.Body>
+    </PageHeader>
+  );
+}
+
 export default function SidePanelShell() {
   const { effectiveDomainId } = useStoredDomainId();
 
   return (
     <SidePanelDomainContext.Provider value={{ effectiveDomainId }}>
-      <Grid.Container gridConstraint={12}>
-        <Grid.Item columns={[12, 2]}>
+      <PageHeaderProvider>
+        <Flex direction="row">
           <SidePanelNav />
-        </Grid.Item>
-        <Grid.Item columns={[12, 10]}>
-          <Outlet />
-        </Grid.Item>
-      </Grid.Container>
+          <Box sx={{ width: "100%" }}>
+            
+              <ShellPageHeader />
+              <Stack px={6}>
+              <Outlet />
+            </Stack>
+          </Box>
+        </Flex>
+      </PageHeaderProvider>
     </SidePanelDomainContext.Provider>
   );
 }

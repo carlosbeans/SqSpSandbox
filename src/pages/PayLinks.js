@@ -1,16 +1,12 @@
-import { PageHeader } from "@sqs/rosetta-compositions";
-import { Stack } from "@sqs/rosetta-elements";
 import { HeroBanner } from "@sqs/rosetta-dashboard";
+import { Box } from "@sqs/rosetta-primitives";
+import { usePageHeader } from "../layouts/PageHeaderContext";
 
 export default function PayLinks() {
+  usePageHeader({ title: "Pay Links" });
   return (
-    <Stack space={4}>
-      <PageHeader>
-        <PageHeader.Body>
-          <PageHeader.Title title="Pay Links" />
-        </PageHeader.Body>
-      </PageHeader>
+    <Box>
       <HeroBanner variant="productsAndServices" />
-    </Stack>
+    </Box>
   );
 }
