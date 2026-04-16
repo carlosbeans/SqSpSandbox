@@ -1,7 +1,7 @@
 import "./SidePanelNav.scss";
 
 import * as React from "react";
-import { borders, colors } from "@sqs/rosetta-tokens";
+import { useTheme } from "@sqs/rosetta-styled";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { NavMenu } from "@sqs/rosetta-compositions";
 import { BackButton } from "@sqs/rosetta-elements";
@@ -64,6 +64,7 @@ function domainSectionPath(domainId, segment) {
 }
 
 export default function SidePanelNav() {
+  const { borders, colors } = useTheme();
   const { NavItem, NavText } = NavMenu;
   const navigate = useNavigate();
   const { pathname } = useLocation();

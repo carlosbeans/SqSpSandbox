@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Tabs, Stack } from "@sqs/rosetta-elements";
-import { borders, colors } from "@sqs/rosetta-tokens";
+import { useTheme } from "@sqs/rosetta-styled";
 
 import Logo from "../Logo/Logo";
 import Avatar from "../Avatar/Avatar";
@@ -14,6 +14,7 @@ const TAB_OPTIONS = [
 const VALID_TABS = new Set(TAB_OPTIONS.map((o) => o.value));
 
 export default function MainNavigation() {
+  const { borders, colors } = useTheme();
   const navigate = useNavigate();
   const { pathname } = useLocation();
 

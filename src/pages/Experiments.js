@@ -11,8 +11,8 @@ export default function Experiments() {
           <PageHeader.Title title="Experiments" />
         </PageHeader.Body>
       </PageHeader>
-      <Grid.Container gridConstraint={12}>
-        <Grid.Item columns={[4, 3, 4]}>
+      <Grid.Container gridConstraint={12} gutter={4}>
+        <Grid.Item columns={[4, 3, 4]} mb={4}>
           <Card isHoverable>
             <Card.Body pb={1}>
               <Stack space={1}>

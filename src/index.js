@@ -2,8 +2,6 @@ import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 
-//css
-import "./styles/styles.scss";
 
 //pages
 import Root from "./pages/Root";

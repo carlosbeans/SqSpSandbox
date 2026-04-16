@@ -1,7 +1,7 @@
 import { Stack, TextLink } from "@sqs/rosetta-elements";
 import { Text, Button, Flex, Box } from "@sqs/rosetta-primitives";
 import { PageHeader, ActionList } from "@sqs/rosetta-compositions";
-import { borders, colors } from "@sqs/rosetta-tokens";
+import { useTheme } from "@sqs/rosetta-styled";
 import { Ellipses } from "@sqs/rosetta-icons";
 
 const DOMAIN_OWNER = { name: "Martin Scorsese", avatar: "https://i.pravatar.cc/40?img=11" };
@@ -62,13 +62,14 @@ function OverflowMenu() {
 
 function SectionLabel({ children }) {
   return (
-    <Text.Body sx={{ color: "gray.500", fontSize: "11px", letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 600 }}>
+    <Text.Body sx={{ color: "gray.500", fontSize: "11px", letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 500 }}>
       {children}
     </Text.Body>
   );
 }
 
 function PersonRow({ name, subtitle, avatar, showMenu }) {
+  const { borders, colors } = useTheme();
   return (
     <Box sx={{ borderBottom: borders[1], borderColor: colors.gray[800] }} py={3}>
       <Flex alignItems="center" justifyContent="space-between">

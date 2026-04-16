@@ -1,0 +1,53 @@
+---
+# smartling.plurals_detection = on
+# smartling.placeholder_format_custom = \{[^\{\}]+?\}|\{\{[^\{\}]+?\}\}|\{\{\{[^\{\}]+?\}\}\}|\\<(?:[a-z]+.*?|\/[a-z]+?)>
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+0085c54681169b3f9a214db3e44bf36e: "Kimler kullanıyor:"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+0b5cd2157ece998433244384b3f6fbdb: "İçerik Oluşturucular"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+10422fb2fd35d4bab1a6fa5439c5c0ff: "Üyelere özel topluluklar oluşturun ve ödeme duvarlı içerik satın"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+161a1ff6718dc58979535d7063a03262: "Etkinlik Planlayıcılar"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+367f4a89dd6b5a48098936056c84dbbe: "Blog yazarları"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+40fade404a73ff3ef19a1d05cc69af21: "Serbest Çalışanlar"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+4a4aa372e77f73b6362a062307300ef5: "Bağış Toplayanlar"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+587fa43a48382e337d248d3594416412: "Kâr Amacı Gütmeyen Kuruluşlar"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+66e21ec0cf79d55a6fa6da8a034dd564: "Fotoğraf Sanatçıları"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+74f7861831370868d1b84fdbe4c92439: "Küçük İşletmeler"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+75e329b88d1724a2e2c3cf283e29d422: "Girişimciler"
+#  | source: src/components/Spotlight/Spotlight.tsx (+ 1 other file(s))
+91f842784b28d893ce73402192c09cc7: "Kapatın"
+#  | source: src/components/Spotlight/Spotlight.tsx
+98be878bc64f90a340e913603cfa2477: "Sola döngü"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+a1dbaa969917c87961decda156923e14: "Yükleniciler"
+#  | source: src/components/CreateCard/CreateCard.tsx (+ 1 other file(s))
+afefc5bf840edf0d95cb2cd3c517620e: "ok simgesi"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+b1e3673afd697f29f70819639ae3fc8b: "Perakendecilikten ödemeye kadar çevrimiçi satış yapmak için ihtiyacınız olan her şey"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+ba468cb9160cec130cec0c2e02a17454: "Herhangi bir amaç doğrultusunda fon toplayın ve bağışçıları yönetin"
+#  | source: src/components/Spotlight/Spotlight.tsx
+c2cada31f68ba2499d1cbbaccc1a9503: "Sağa döngü"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+c6945d7f96b0cf6c3984f6eba4d37c25: "Hayır Kurumları"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+c812c3a9777220430e53e118d44e1702: "Eğitmenler"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+d74e8a0eb7535897ad682c9a1df15ddd: "Savunuculuk Grupları"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+d80394e4718ebed070b8a1477f5c9929: "Topluluk Oluşturucular"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+de145b26299288280095b4ec31cc8182: "Etkinlik Düzenleyenler"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+e1c4cb1de6c55a351630e7bb26d8a927: "Ürün Oluşturucular"
+#  | source: src/components/HeroBanner/HeroBanner.tsx
+ec618cc50f69752c9a9883f47aa5d233: "Potansiyel müşteri kazanmak, iş bulmak ve ödeme almak için araçlar"

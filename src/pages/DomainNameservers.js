@@ -1,9 +1,10 @@
 import { PageHeader } from "@sqs/rosetta-compositions";
 import { Stack } from "@sqs/rosetta-elements";
-import { borders, colors } from "@sqs/rosetta-tokens";
+import { useTheme } from "@sqs/rosetta-styled";
 import { Button, Box } from "@sqs/rosetta-primitives";
 import { Breakpoint } from "@sqs/rosetta-utilities";
 export default function DomainNameservers() {
+  const { borders, colors } = useTheme();
   return (
     <Stack space={6}>
       <Stack>

@@ -4,7 +4,7 @@ import { Stack, Card, TextLink } from "@sqs/rosetta-elements";
 import { Text, Button, Flex, Box } from "@sqs/rosetta-primitives";
 import { Table } from "@sqs/rosetta-compositions";
 import { InfoCircle, Trash } from "@sqs/rosetta-icons";
-import { radii, borders, colors } from "@sqs/rosetta-tokens";
+import { useTheme } from "@sqs/rosetta-styled";
 import { PageHeader } from "@sqs/rosetta-compositions";
 import { Banner } from "@sqs/rosetta-compositions";
 import { Breakpoint } from "@sqs/rosetta-utilities";
@@ -82,6 +82,7 @@ function DNSTable({ records }) {
 }
 
 export default function DNS_Settings() {
+  const { radii, borders, colors } = useTheme();
   return (
     <Stack space={6}>
       <PageHeader>
@@ -110,11 +111,19 @@ export default function DNS_Settings() {
           </PageHeader.Actions>
         </PageHeader.Body>
         {false && (
-          <PageHeader.Banner variant="default">
-            <Banner.Title>Title</Banner.Title>
-            <Banner.Body>Description</Banner.Body>
-            <Banner.Buttons>Action</Banner.Buttons>
-          </PageHeader.Banner>
+          <Banner>
+            <Banner.Main>
+              <Banner.Row>
+                <Banner.Glyph />
+                <Banner.Column>
+                  <Banner.Title>Title</Banner.Title>
+                  <Banner.Body>Description</Banner.Body>
+                </Banner.Column>
+              </Banner.Row>
+              <Banner.Action>Action</Banner.Action>
+            </Banner.Main>
+            <Banner.Close />
+          </Banner>
         )}
       </PageHeader>
 
