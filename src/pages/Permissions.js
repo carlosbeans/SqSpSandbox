@@ -138,7 +138,7 @@ export default function Permissions() {
     title: "Domain Permissions",
     subtitle: (
       <>
-        Add people to help manage your domain or transfer domain ownership.
+        Test. Add people to help manage your domain or transfer domain ownership.
         Please note: Domain ownership can only be transferred to an existing
         manager. <TextLink href="#">Learn more</TextLink>
       </>
