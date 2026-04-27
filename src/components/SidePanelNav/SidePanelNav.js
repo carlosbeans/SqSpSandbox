@@ -16,12 +16,17 @@ const NAV_ITEMS = [
   { value: "dns", label: "DNS", path: "dns" },
   { value: "website", label: "Website", path: "website" },
   { value: "email", label: "Email", path: "email" },
-  { value: "activity", label: "Activity", path: "activity" },
   { value: "pay-links", label: "Pay Links", path: "/pay-links" },
   { value: "permissions", label: "Permissions", path: "permissions" },
   { value: "security", label: "Security", path: "security" },
+];
+
+const FOOTER_NAV_ITEMS = [
+  { value: "activity", label: "Activity", path: "activity" },
   { value: "billing", label: "Billing", path: "billing" },
 ];
+
+const ALL_NAV_ITEMS = [...NAV_ITEMS, ...FOOTER_NAV_ITEMS];
 
 const DNS_SUB_ITEMS = [
   { value: "dns-settings", label: "DNS Settings", path: "dns" },
@@ -57,7 +62,7 @@ function getActiveNav(pathname, domainId) {
     ? pathname.slice(base.length).replace(/^\//, "")
     : "";
   if (DNS_PATHS.includes(sub)) return "dns";
-  const match = NAV_ITEMS.find((item) => item.path === sub);
+  const match = ALL_NAV_ITEMS.find((item) => item.path === sub);
   return match ? match.value : "overview";
 }
 
@@ -92,7 +97,7 @@ export default function SidePanelNav() {
   const isDnsActive = activeNav === "dns";
 
   const onNavChange = (value) => {
-    const item = NAV_ITEMS.find((i) => i.value === value);
+    const item = ALL_NAV_ITEMS.find((i) => i.value === value);
     if (!item) return;
     if (item.path.startsWith("/")) {
       navigate(item.path);
@@ -161,11 +166,39 @@ export default function SidePanelNav() {
           return items;
         })}
       </NavMenu>
-      <Box px={6} py={6}>
-      <Button size="medium" variant="secondary" sx={{ width: "100%",textTransform:"none", fontSize: "16px", borderRadius: radii[1], textAlign: "left", letterSpacing: "0" }}>
-        Form an LLC <Badge appearance="blue" mx={2}>New</Badge>
-      </Button>
-      </Box>      
+      <Box id="sidenav-footerLinks" sx={{ position: "fixed", bottom: 0}}>
+        <NavMenu value={activeNav} onChange={onNavChange}>
+          {FOOTER_NAV_ITEMS.map(({ value, label }) => (
+            <NavItem
+              key={value}
+              value={value}
+              is="div"
+              isSelected={activeNav === value}
+            >
+              <NavText variant="subtitle">{label}</NavText>
+            </NavItem>
+          ))}
+        </NavMenu>
+        <Box px={6} py={6}>
+          <Button
+            size="medium"
+            variant="secondary"
+            sx={{
+              width: "100%",
+              textTransform: "none",
+              fontSize: "16px",
+              borderRadius: radii[1],
+              textAlign: "left",
+              letterSpacing: "0",
+            }}
+          >
+            Form an LLC{" "}
+            <Badge appearance="blue" mx={2}>
+              New
+            </Badge>
+          </Button>
+        </Box>
+      </Box>
     </Box>
   );
 }

@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.784c9936.css",
-    "main.js": "/static/js/main.9563ed95.js",
+    "main.css": "/static/css/main.b7ae7d8d.css",
+    "main.js": "/static/js/main.910377ce.js",
     "static/js/871.c30dcc10.chunk.js": "/static/js/871.c30dcc10.chunk.js",
     "static/js/885.e2ce2f0c.chunk.js": "/static/js/885.e2ce2f0c.chunk.js",
     "static/media/carlosAvatar.jpg": "/static/media/carlosAvatar.28a7f71b54e8db4c2667.jpg",
@@ -55,12 +55,12 @@
     "static/media/rosetta-compositions.nl-NL.yaml": "/static/media/rosetta-compositions.nl-NL.7702dbf151adf5ce2d88.yaml",
     "index.html": "/index.html",
     "static/media/rosetta-elements.ja-JP.yaml": "/static/media/rosetta-elements.ja-JP.7bc09b04045c43ac51ce.yaml",
-    "main.784c9936.css.map": "/static/css/main.784c9936.css.map",
-    "main.9563ed95.js.map": "/static/js/main.9563ed95.js.map",
+    "main.b7ae7d8d.css.map": "/static/css/main.b7ae7d8d.css.map",
+    "main.910377ce.js.map": "/static/js/main.910377ce.js.map",
     "885.e2ce2f0c.chunk.js.map": "/static/js/885.e2ce2f0c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.784c9936.css",
-    "static/js/main.9563ed95.js"
+    "static/css/main.b7ae7d8d.css",
+    "static/js/main.910377ce.js"
   ]
 }

@@ -27,7 +27,7 @@ import Security from "./pages/Security";
 import Website from "./pages/Website";
 
 //layouts
-import SidePanelShell from "./layouts/SidePanelShell";
+import AppShell from "./layouts/AppShell";
 
 const router = createBrowserRouter([
   {
@@ -64,7 +64,7 @@ const router = createBrowserRouter([
         element: <DomainWebsiteConnection />,
       },
       {
-        element: <SidePanelShell />,
+        element: <AppShell />,
         children: [
           {
             path: "pay-links",
