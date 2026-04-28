@@ -1,0 +1,43 @@
+---
+description: Require unique outer container IDs for new page components and key sections
+globs:
+  - src/pages/**/*.{js,jsx,ts,tsx}
+  - src/layouts/**/*.{js,jsx,ts,tsx}
+alwaysApply: false
+---
+
+# Page Section Debug IDs
+
+When adding a new component to a page or introducing a new key section in a page/layout, the outermost container for that unit must include a unique `id` for easier debugging and DOM inspection.
+
+## Required implementation
+
+- Add an `id` on the top-level container of each newly added page-level component or key section.
+- Ensure each `id` is unique within the page.
+- Use stable, descriptive kebab-case names that reflect page and section purpose.
+- Prefer semantic wrappers (`section`, `main`, `aside`, `header`) when possible, with the `id` on that outer wrapper.
+- Keep existing IDs intact unless there is a direct conflict.
+
+## Naming guidance
+
+- Format: `<page>-<section>-<purpose>`
+- Good examples: `website-domains-overview`, `permissions-role-table`, `appshell-primary-nav`
+- Avoid generic IDs like `container`, `wrapper`, or `section1`
+
+## Example pattern
+
+```jsx
+export function WebsitePage() {
+  return (
+    <main id="website-main-content">
+      <section id="website-connected-domains">
+        <ConnectedDomains />
+      </section>
+
+      <section id="website-dns-records">
+        <DnsRecords />
+      </section>
+    </main>
+  );
+}
+```

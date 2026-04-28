@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { useLocation, useOutlet } from "react-router-dom";
 import { Flex, Box } from "@sqs/rosetta-primitives";
-import { Stack } from "@sqs/rosetta-elements";
 import { PageHeader } from "@sqs/rosetta-compositions";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import SidePanelNav from "../components/SidePanelNav/SidePanelNav";
 import { SidePanelDomainContext } from "./SidePanelDomainContext";
 import { PageHeaderProvider, usePageHeaderConfig } from "./PageHeaderContext";
@@ -38,32 +38,60 @@ function useStoredDomainId() {
 function ShellPageHeader() {
   const config = usePageHeaderConfig();
   if (!config) return null;
+
   return (
-    <PageHeader>
-      <PageHeader.Body>
-        <PageHeader.Title title={config.title} subtitle={config.subtitle} />
-        {config.actions && (
-          <PageHeader.Actions>{config.actions}</PageHeader.Actions>
-        )}
-      </PageHeader.Body>
-    </PageHeader>
+    <Box id="appBodyHeader">
+      <PageHeader>
+        <PageHeader.Body>
+          <PageHeader.Title title={config.title} subtitle={config.subtitle} />
+          {config.actions && (
+            <PageHeader.Actions>{config.actions}</PageHeader.Actions>
+          )}
+        </PageHeader.Body>
+      </PageHeader>
+    </Box>
   );
 }
 
+const contentVariants = {
+  initial: { opacity: 0, y: 12 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -8 },
+};
+
 export default function AppShell() {
   const { effectiveDomainId } = useStoredDomainId();
+  const location = useLocation();
+  const outlet = useOutlet();
+  const reduceMotion = useReducedMotion();
+  const contentTransition = React.useMemo(
+    () =>
+      reduceMotion
+        ? { duration: 0 }
+        : { duration: 0.35, ease: [0.25, 0.1, 0.25, 1] },
+    [reduceMotion],
+  );
 
   return (
     <SidePanelDomainContext.Provider value={{ effectiveDomainId }}>
       <PageHeaderProvider>
         <Flex direction="row">
           <SidePanelNav />
-          <Box sx={{ width: "100%" }}>
-            <ShellPageHeader />
-            <Stack px={6}>
-              <Outlet />
-            </Stack>
-          </Box>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={`${location.pathname}${location.search}`}
+              variants={contentVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={contentTransition}
+              style={{ width: "100%" }}
+              id="contentPanel"
+            >
+              <ShellPageHeader />
+              {outlet}
+            </motion.div>
+          </AnimatePresence>
         </Flex>
       </PageHeaderProvider>
     </SidePanelDomainContext.Provider>

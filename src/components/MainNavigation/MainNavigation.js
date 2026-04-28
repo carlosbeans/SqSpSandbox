@@ -22,7 +22,7 @@ export default function MainNavigation() {
   const activeTab = VALID_TABS.has(segment) ? segment : "";
 
   return (
-    <nav>
+    <nav style={{ position: "sticky", top: 0, zIndex: 2, background: "white" }}>
       <Stack
         space={5}
         direction="row"

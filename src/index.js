@@ -9,7 +9,7 @@ import Root from "./pages/Root";
 import SelectAndDrag from "./pages/SelectAndDrag";
 import CodePreview from "./pages/CodePreview";
 import Domains from "./pages/Domains.tsx";
-import SafeError from "./SafeError";
+import RouteErrorState from "./components/ErrorState/ErrorState";
 import Websites from "./pages/Websites";
 import DomainWebsiteConnection from "./pages/DomainWebsiteConnection";
 import DomainOverview from "./pages/DomainOverview";
@@ -33,7 +33,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
-    errorElement: <SafeError />,
+    errorElement: <RouteErrorState />,
     children: [
       {
         index: true,

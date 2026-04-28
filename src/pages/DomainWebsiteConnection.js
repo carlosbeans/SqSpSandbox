@@ -12,8 +12,6 @@ import { BackButton } from "@sqs/rosetta-elements";
 
 import "@xyflow/react/dist/style.css";
 
-import "./DomainWebsiteConnection.scss";
-
 import DomainNode from "../components/FlowNodes/DomainNode";
 import WebsiteNode from "../components/FlowNodes/WebsiteNode";
 const nodeTypes = {
@@ -82,7 +80,12 @@ export default function DomainWebsiteConnection() {
   const proOptions = { hideAttribution: true };
 
   return (
-    <div className="dwc-container">
+    <div
+      style={{
+        width: "100%",
+        height: "calc(100vh - 80px)",
+      }}
+    >
       <ReactFlow
         nodes={nodes}
         edges={edges}

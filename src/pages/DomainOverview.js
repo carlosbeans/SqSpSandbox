@@ -1,5 +1,3 @@
-//css
-import "../styles/styles.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import { loadJsonData } from "../utils/dataUtils.ts";
 import React, { useEffect, useState } from "react";
@@ -7,8 +5,7 @@ import { BackButton } from "@sqs/rosetta-elements";
 import { ActivityIndicator } from "@sqs/rosetta-elements";
 import { Text } from "@sqs/rosetta-primitives";
 import { Button } from "@sqs/rosetta-primitives";
-import { Chip } from "@sqs/rosetta-elements";
-import { CheckmarkCircle, InfoCircle } from "@sqs/rosetta-icons";
+import { InfoCircle } from "@sqs/rosetta-icons";
 import { Flex } from "@sqs/rosetta-primitives";
 import { Divider } from "@sqs/rosetta-elements";
 import { Box } from "@sqs/rosetta-primitives";
@@ -19,7 +16,6 @@ import { Tabs } from "@sqs/rosetta-elements";
 import { TextLink } from "@sqs/rosetta-elements";
 import { PageHeader } from "@sqs/rosetta-compositions";
 
-import SiteThumbnail from "../components/SiteThumbnail/SiteThumbnail";
 import { Grid, Stack } from "@sqs/rosetta-elements";
 
 export default function DomainOverview() {
@@ -73,34 +69,7 @@ export default function DomainOverview() {
   }
 
   return (
-    <Stack space={6} pt={4}>
-      {/* Hero Card — domain name + thumbnail */}
-      <Card>
-        <Card.Body>
-          <Flex alignItems="center" gap={4}>
-            <SiteThumbnail size="small" src={domain.thumbnailImage} />
-            <Stack space={1}>
-              <Flex alignItems="center" gap={2}>
-                <Text.Title>{domain.domainName}</Text.Title>
-                <Chip.Container status="success" sx={{ flex: "0 0 auto" }}>
-                  <CheckmarkCircle
-                    css={{
-                      flex: "0 0 auto",
-                      marginRight: 4,
-                      color: "inherit",
-                    }}
-                  />
-                  <Chip.Label>Active</Chip.Label>
-                </Chip.Container>
-              </Flex>
-              <Text.Body color="gray.300">
-                Provider: {domain.domainProvider || "Squarespace"}
-              </Text.Body>
-            </Stack>
-          </Flex>
-        </Card.Body>
-      </Card>
-
+    <Flex gap={6} flexDirection="column" id="domainOverview">
       {/* Info section — 3 columns */}
       <Grid.Container gridConstraint={12}>
         {/* Expires On */}
@@ -245,13 +214,13 @@ export default function DomainOverview() {
       </Grid.Container>
 
       {/* Footer actions */}
-      <Box mt={2} mb={4}>
+      <Box mt={2} mb={4} id="appBodyFooterActions">
         <Flex direction="row" gap={4}>
           <Button.Tertiary>Request Transfer Code</Button.Tertiary>
           <Button.Danger>Delete Domain</Button.Danger>
           <Button.Tertiary>Move Domain</Button.Tertiary>
         </Flex>
       </Box>
-    </Stack>
+    </Flex>
   );
 }

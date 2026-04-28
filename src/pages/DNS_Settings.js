@@ -1,5 +1,4 @@
 import React from "react";
-import "./DNS_Settings.scss";
 import { Stack, Card, TextLink } from "@sqs/rosetta-elements";
 import { Text, Button, Flex, Box } from "@sqs/rosetta-primitives";
 import { Table } from "@sqs/rosetta-compositions";
@@ -115,9 +114,22 @@ export default function DNS_Settings() {
             <Flex alignItems="center" justifyContent="space-between">
               <Text.Subtitle px={2}>Squarespace Defaults</Text.Subtitle>
 
-              <button className="delete-icon" aria-label="Delete defaults">
+              <Box
+                as="button"
+                aria-label="Delete defaults"
+                css={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  padding: 4,
+                  color: "#900",
+                  display: "flex",
+                  alignItems: "center",
+                  "&:hover": { color: "#c00" },
+                }}
+              >
                 <Trash css={{ width: 20, height: 20 }} />
-              </button>
+              </Box>
             </Flex>
             <DNSTable records={defaultRecords} />
           </Stack>

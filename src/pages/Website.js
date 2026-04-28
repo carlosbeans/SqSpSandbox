@@ -138,7 +138,11 @@ function AICrossSellCard() {
             gap: 4,
           }}
         >
-          <Flex flexWrap="wrap" alignItems="center" sx={{ rowGap: 0, columnGap: 1 }}>
+          <Flex
+            flexWrap="wrap"
+            alignItems="center"
+            sx={{ rowGap: 0, columnGap: 1 }}
+          >
             <Text.Body
               m={0}
               sx={{
@@ -236,10 +240,10 @@ export default function Website() {
   });
 
   return (
-    <Stack space={8} pt={2} pb={6}>
+    <Flex flexDirection="column" gap={8} px={6} pt={2} pb={6} id="websitePage">
       <AICrossSellCard />
       <SSLBanner />
       <DomainForwardingSection />
-    </Stack>
+    </Flex>
   );
 }
