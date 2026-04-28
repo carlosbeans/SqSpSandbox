@@ -1,0 +1,25 @@
+---
+description: Enforce Rosetta 11px spacing increments for layout adjustments
+alwaysApply: true
+---
+
+# Rosetta Spacing Increments
+
+When making spacing adjustments, use Rosetta's 11px-based spacing system.
+
+## Required implementation
+
+- Use Rosetta spacing tokens or values that map to the 11px increment scale.
+- Prefer tokenized spacing in component props and styles (for example, `gap`, `margin`, `padding`).
+- Keep spacing consistent with Rosetta's scale instead of introducing arbitrary custom values.
+- If a one-off value is proposed, convert it to the nearest valid Rosetta increment before implementation.
+
+## Examples
+
+```jsx
+// ✅ Preferred: tokenized spacing
+<Flex gap={2} mt={4} px={3} />
+
+// ❌ Avoid: arbitrary values outside Rosetta increments
+<Flex style={{ gap: '14px', marginTop: '30px', paddingInline: '19px' }} />
+```

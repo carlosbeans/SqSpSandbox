@@ -120,6 +120,7 @@ export default function SidePanelNav() {
 
   return (
     <Box
+    id="sidePanelNav"
       sx={{
         borderRight: borders[1],
         borderColor: colors.gray[800],
@@ -128,45 +129,47 @@ export default function SidePanelNav() {
         justifyContent: "space-between",
       }}
     >
-      <Box px={6}>
-        <BackButton
-          label="Domains List"
-          onClick={() => navigate("/domains")}
-          py={6}
-        />
-      </Box>
+      <Flex flexDirection="column" sx={{ position: "sticky", top: 78 }}>
+        <Box px={6}>
+          <BackButton
+            label="Domains List"
+            onClick={() => navigate("/domains")}
+            py={6}
+          />
+        </Box>
 
-      <NavMenu value={activeNav} onChange={onNavChange}>
-        {NAV_ITEMS.flatMap(({ value, label }) => {
-          const items = [
-            <NavItem
-              key={value}
-              value={value}
-              is="div"
-              isSelected={activeNav === value}
-            >
-              <NavText variant="subtitle">{label}</NavText>
-            </NavItem>,
-          ];
-          if (value === "dns" && isDnsActive) {
-            DNS_SUB_ITEMS.forEach((sub) => {
-              items.push(
-                <NavItem
-                  key={sub.value}
-                  value={sub.value}
-                  is="div"
-                  isSelected={activeDnsSub === sub.value}
-                  onClick={() => navigateDnsSub(sub.path)}
-                >
-                  <NavText>{sub.label}</NavText>
-                </NavItem>,
-              );
-            });
-          }
-          return items;
-        })}
-      </NavMenu>
-      <Box id="sidenav-footerLinks" sx={{ position: "fixed", bottom: 0}}>
+        <NavMenu value={activeNav} onChange={onNavChange}>
+          {NAV_ITEMS.flatMap(({ value, label }) => {
+            const items = [
+              <NavItem
+                key={value}
+                value={value}
+                is="div"
+                isSelected={activeNav === value}
+              >
+                <NavText variant="subtitle">{label}</NavText>
+              </NavItem>,
+            ];
+            if (value === "dns" && isDnsActive) {
+              DNS_SUB_ITEMS.forEach((sub) => {
+                items.push(
+                  <NavItem
+                    key={sub.value}
+                    value={sub.value}
+                    is="div"
+                    isSelected={activeDnsSub === sub.value}
+                    onClick={() => navigateDnsSub(sub.path)}
+                  >
+                    <NavText variant="body">{sub.label}</NavText>
+                  </NavItem>,
+                );
+              });
+            }
+            return items;
+          })}
+        </NavMenu>
+      </Flex>
+      <Box id="sidenav-footerLinks" sx={{ position: "fixed", bottom: 0 }}>
         <NavMenu value={activeNav} onChange={onNavChange}>
           {FOOTER_NAV_ITEMS.map(({ value, label }) => (
             <NavItem

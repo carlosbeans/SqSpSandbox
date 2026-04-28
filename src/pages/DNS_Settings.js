@@ -99,7 +99,7 @@ export default function DNS_Settings() {
   });
 
   return (
-    <Stack space={6}>
+    <Flex id="dnsSettingsPage" flexDirection="column" gap={6} px={6} pt={2} pb={6}>
       <Stack space={2}>
         <Text.Subtitle>DNS Presets</Text.Subtitle>
         <Text.Body>
@@ -160,6 +160,6 @@ export default function DNS_Settings() {
           <DNSTable records={customRecords} />
         </Stack>
       </Stack>
-    </Stack>
+    </Flex>
   );
 }

@@ -4,6 +4,7 @@ import { Flex, Box } from "@sqs/rosetta-primitives";
 import { PageHeader } from "@sqs/rosetta-compositions";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import SidePanelNav from "../components/SidePanelNav/SidePanelNav";
+import DomainInfoHeader from "../components/DomainInfoHeader/DomainInfoHeader";
 import { SidePanelDomainContext } from "./SidePanelDomainContext";
 import { PageHeaderProvider, usePageHeaderConfig } from "./PageHeaderContext";
 
@@ -88,6 +89,7 @@ export default function AppShell() {
               style={{ width: "100%" }}
               id="contentPanel"
             >
+              <DomainInfoHeader />
               <ShellPageHeader />
               {outlet}
             </motion.div>
