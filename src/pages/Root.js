@@ -17,14 +17,30 @@ const pageVariants = {
   exit: { opacity: 0, y: -8 },
 };
 
+/**
+ * One stable key for all routes that share <AppShell /> (pay-links + domain detail).
+ * Otherwise switching /pay-links ↔ /domains/:id/* changes the first path segment and
+ * would remount the whole shell (including the sidebar).
+ */
+function rootLayoutMotionKey(pathname, search) {
+  const p = pathname.endsWith("/") && pathname.length > 1 ? pathname.slice(0, -1) : pathname;
+  if (p === "/pay-links" || p.startsWith("/pay-links/")) {
+    return `app-shell${search}`;
+  }
+  if (/^\/domains\/[^/]+(\/|$)/.test(p)) {
+    return `app-shell${search}`;
+  }
+  return `${pathname}${search}`;
+}
+
 export default function Root() {
   const outlet = useOutlet();
   const { pathname, search } = useLocation();
   const reduceMotion = useReducedMotion();
-  const rootRouteKey = React.useMemo(() => {
-    const topSegment = pathname.split("/").filter(Boolean)[0] || "root";
-    return `${topSegment}${search}`;
-  }, [pathname, search]);
+  const rootRouteKey = React.useMemo(
+    () => rootLayoutMotionKey(pathname, search),
+    [pathname, search],
+  );
   const pageTransition = React.useMemo(
     () =>
       reduceMotion

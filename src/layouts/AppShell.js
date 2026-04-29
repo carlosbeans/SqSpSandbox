@@ -78,22 +78,23 @@ export default function AppShell() {
       <PageHeaderProvider>
         <Flex direction="row">
           <SidePanelNav />
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={`${location.pathname}${location.search}`}
-              variants={contentVariants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              transition={contentTransition}
-              style={{ width: "100%" }}
-              id="contentPanel"
-            >
-              <DomainInfoHeader />
-              <ShellPageHeader />
-              {outlet}
-            </motion.div>
-          </AnimatePresence>
+          <Box sx={{ width: "100%" }} id="contentPanel">
+            <DomainInfoHeader />
+            <ShellPageHeader />
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={`${location.pathname}${location.search}`}
+                variants={contentVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                transition={contentTransition}
+                style={{ width: "100%" }}
+              >
+                {outlet}
+              </motion.div>
+            </AnimatePresence>
+          </Box>
         </Flex>
       </PageHeaderProvider>
     </SidePanelDomainContext.Provider>
