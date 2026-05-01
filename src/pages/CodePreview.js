@@ -1,6 +1,3 @@
-//css
-import "../styles/styles.scss";
-
 import { Grid, Stack } from "@sqs/rosetta-elements";
 import { PageHeader } from "@sqs/rosetta-compositions";
 

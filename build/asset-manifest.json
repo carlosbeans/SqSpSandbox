@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/static/css/main.9d59d697.css",
-    "main.js": "/static/js/main.546009a7.js",
-    "static/js/871.c30dcc10.chunk.js": "/static/js/871.c30dcc10.chunk.js",
+    "main.css": "/static/css/main.4e39f582.css",
+    "main.js": "/static/js/main.057acea1.js",
+    "static/js/871.aca18df4.chunk.js": "/static/js/871.aca18df4.chunk.js",
     "static/js/885.e2ce2f0c.chunk.js": "/static/js/885.e2ce2f0c.chunk.js",
     "static/media/websitePreviewThumb.png": "/static/media/websitePreviewThumb.a8a4d4de6c6d18864ddd.png",
     "static/media/Clarkson-Medium.woff2": "/static/media/Clarkson-Medium.66610c5920a62c9a32b4.woff2",
@@ -54,12 +54,12 @@
     "static/media/rosetta-compositions.nl-NL.yaml": "/static/media/rosetta-compositions.nl-NL.7702dbf151adf5ce2d88.yaml",
     "index.html": "/index.html",
     "static/media/rosetta-elements.ja-JP.yaml": "/static/media/rosetta-elements.ja-JP.7bc09b04045c43ac51ce.yaml",
-    "main.9d59d697.css.map": "/static/css/main.9d59d697.css.map",
-    "main.546009a7.js.map": "/static/js/main.546009a7.js.map",
+    "main.4e39f582.css.map": "/static/css/main.4e39f582.css.map",
+    "main.057acea1.js.map": "/static/js/main.057acea1.js.map",
     "885.e2ce2f0c.chunk.js.map": "/static/js/885.e2ce2f0c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9d59d697.css",
-    "static/js/main.546009a7.js"
+    "static/css/main.4e39f582.css",
+    "static/js/main.057acea1.js"
   ]
 }

@@ -8,9 +8,6 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 //components
 import MainNavigation from "../components/MainNavigation/MainNavigation";
 
-//css
-import "../styles/styles.scss";
-
 const pageVariants = {
   initial: { opacity: 0, y: 12 },
   animate: { opacity: 1, y: 0 },

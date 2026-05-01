@@ -147,7 +147,7 @@ export default function Permissions() {
   });
 
   return (
-    <>
+    <Box flexDirection="column" gap={6} px={6} pt={2} pb={6}>
       <Stack space={1}>
         <SectionLabel>Domain Owner</SectionLabel>
         <PersonRow
@@ -182,6 +182,6 @@ export default function Permissions() {
           />
         ))}
       </Stack>
-    </>
+    </Box>
   );
 }

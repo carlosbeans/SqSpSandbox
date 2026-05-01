@@ -1,8 +1,5 @@
-@use "../../styles/color";
-@use "../../styles/spacing";
-
 .siteThumbnail {
-    background-color: color.$gray800;
+    background-color: #e7e7e7;
     border-radius: 4px;
     overflow: hidden;
     transition: transform 0.2s ease;
@@ -11,7 +8,6 @@
         transform: translateY(-2px);
     }
 
-    // Size variants
     &--small {
         width: 200px;
         height: 120px;
@@ -22,7 +18,7 @@
 
     &--medium {
         width: 300px;
-        height: 120px;        
+        height: 120px;
         .siteThumbnailInfo h2 {
             font-size: 16px;
         }

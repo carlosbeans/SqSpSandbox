@@ -1,0 +1,52 @@
+@font-face {
+  font-family: 'Clarkson';
+  src: url('../public/assets/fonts/Clarkson-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clarkson';
+  src: url('../public/assets/fonts/Clarkson-BookProduct.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clarkson';
+  src: url('../public/assets/fonts/Clarkson-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clarkson';
+  src: url('../public/assets/fonts/Clarkson-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Clarkson', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+a {
+  text-decoration: none;
+  color: #0e0e0e;
+  position: relative;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 300;
+}

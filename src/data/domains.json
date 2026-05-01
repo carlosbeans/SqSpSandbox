@@ -347,6 +347,98 @@
         { "host": "fm1._domainkey", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "fm1.evergreenphotography.us.dkim.fmhosted.com" },
         { "host": "fm2._domainkey", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "fm2.evergreenphotography.us.dkim.fmhosted.com" }
       ]
+    },
+    {
+      "thumbnailImage": "/assets/screenshots/Img2_Landscape.jpeg",
+      "domainName": "secondcityimprov.com",
+      "domainStatus": "active",
+      "domainProvider": "Squarespace",
+      "expirationDate": "2027-03-15",
+      "firstName": "Amy",
+      "lastName": "Poehler",
+      "organization": "Second City",
+      "streetAddress": "1616 North Wells Street",
+      "city": "Chicago",
+      "state": "IL",
+      "zip": "60614",
+      "phone": "+1 (312) 555-0331",
+      "email": "amy.poehler@secondcityimprov.com",
+      "billing": {
+        "firstName": "Amy",
+        "lastName": "Poehler",
+        "streetAddress": "1616 North Wells Street",
+        "city": "Chicago",
+        "state": "IL",
+        "zip": "60614",
+        "country": "United States",
+        "creditCard": "4539 7821 0043 6617"
+      },
+      "customDnsRecords": [
+        { "host": "www", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "ext-sq.squarespace.com" },
+        { "host": "@", "type": "MX", "priority": "1", "ttl": "4 hrs", "data": "aspmx.l.google.com" },
+        { "host": "@", "type": "TXT", "priority": "N/A", "ttl": "1 hr", "data": "v=spf1 include:_spf.google.com ~all" },
+        { "host": "tickets", "type": "CNAME", "priority": "N/A", "ttl": "1 hr", "data": "shops.myshopify.com" },
+        { "host": "classes", "type": "A", "priority": "N/A", "ttl": "1 hr", "data": "76.76.21.21" }
+      ]
+    },
+    {
+      "thumbnailImage": "/assets/screenshots/Img6_Landscape.jpeg",
+      "domainName": "keanuinc.io",
+      "domainStatus": "active",
+      "domainProvider": "Cloudflare",
+      "expirationDate": "2027-09-22",
+      "firstName": "Keanu",
+      "lastName": "Reeves",
+      "organization": "Keanu Inc.",
+      "streetAddress": "9100 Wilshire Boulevard, Suite 700",
+      "city": "Los Angeles",
+      "state": "CA",
+      "zip": "90212",
+      "phone": "+1 (310) 555-0874",
+      "email": "keanu.reeves@keanuinc.io",
+      "billing": {
+        "firstName": "Keanu",
+        "lastName": "Reeves",
+        "streetAddress": "9100 Wilshire Boulevard, Suite 700",
+        "city": "Los Angeles",
+        "state": "CA",
+        "zip": "90212",
+        "country": "United States",
+        "creditCard": "5412 7530 8891 2204"
+      }
+    },
+    {
+      "thumbnailImage": "/assets/screenshots/Img4_Landscape.jpeg",
+      "domainName": "blackmages.jp",
+      "domainStatus": "active",
+      "domainProvider": "Namecheap",
+      "expirationDate": "2026-12-01",
+      "firstName": "Nobuo",
+      "lastName": "Uematsu",
+      "organization": "Black Mages",
+      "streetAddress": "2-4-7 Nishi-Shinjuku",
+      "city": "Tokyo",
+      "state": "Shinjuku-ku",
+      "zip": "160-0023",
+      "phone": "+81 3-5555-0192",
+      "email": "nobuo.uematsu@blackmages.jp",
+      "billing": {
+        "firstName": "Nobuo",
+        "lastName": "Uematsu",
+        "streetAddress": "2-4-7 Nishi-Shinjuku",
+        "city": "Tokyo",
+        "state": "Shinjuku-ku",
+        "zip": "160-0023",
+        "country": "Japan",
+        "creditCard": "3530 1489 0267 5531"
+      },
+      "customDnsRecords": [
+        { "host": "www", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "ext-sq.squarespace.com" },
+        { "host": "music", "type": "CNAME", "priority": "N/A", "ttl": "1 hr", "data": "cname.vercel-dns.com" },
+        { "host": "@", "type": "MX", "priority": "10", "ttl": "4 hrs", "data": "mx1.forwardemail.net" },
+        { "host": "@", "type": "MX", "priority": "20", "ttl": "4 hrs", "data": "mx2.forwardemail.net" },
+        { "host": "@", "type": "TXT", "priority": "N/A", "ttl": "1 hr", "data": "v=spf1 a mx include:forwardemail.net ~all" }
+      ]
     }
   ]
 }

@@ -29,6 +29,8 @@ function SandboxSettingsModal({
   setIsReturningUser,
   singleDomainUser,
   setSingleDomainUser,
+  securityEnabled,
+  setSecurityEnabled,
 }) {
   if (!open || typeof document === "undefined") {
     return null;
@@ -102,6 +104,15 @@ function SandboxSettingsModal({
               aria-label="Single-domain"
             />
           </Flex>
+
+          <Flex alignItems="center" justifyContent="space-between">
+            <Text.Body>Security</Text.Body>
+            <Toggle
+              checked={securityEnabled}
+              onChange={(checked) => setSecurityEnabled(checked)}
+              aria-label="Security"
+            />
+          </Flex>
         </Stack>
 
         <Flex
@@ -123,6 +134,7 @@ export default function Avatar() {
   const [isNewUser, setIsNewUser] = React.useState(false);
   const [isReturningUser, setIsReturningUser] = React.useState(false);
   const [singleDomainUser, setSingleDomainUser] = React.useState(false);
+  const [securityEnabled, setSecurityEnabled] = React.useState(false);
   return (
     <div style={avatarContainerStyle}>
       <ActionList.PopOver
@@ -155,6 +167,8 @@ export default function Avatar() {
         setIsReturningUser={setIsReturningUser}
         singleDomainUser={singleDomainUser}
         setSingleDomainUser={setSingleDomainUser}
+        securityEnabled={securityEnabled}
+        setSecurityEnabled={setSecurityEnabled}
       />
     </div>
   );

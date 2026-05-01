@@ -155,7 +155,12 @@ export default function DomainOverview() {
                 {/* Header */}
                 <Flex alignItems="center" justifyContent="space-between">
                   <Text.Subtitle>Registration Information</Text.Subtitle>
-                  <Button.Tertiary size="small">Edit</Button.Tertiary>
+                  <Button.Tertiary
+                    size="small"
+                    onClick={() => navigate(`/domains/${encodeURIComponent(domainId)}/registration`)}
+                  >
+                    Edit
+                  </Button.Tertiary>
                 </Flex>
 
                 {/* Tabs */}
@@ -178,43 +183,50 @@ export default function DomainOverview() {
                   <Text.Body>123-345-6789</Text.Body>
                   <Text.Body>email@email.com</Text.Body>
                 </Stack>
-
-                <Divider.Horizontal />
-
-                {/* Additional Information */}
-                <Flex alignItems="center" justifyContent="space-between">
-                  <Text.Body>Additional Information</Text.Body>
-                  <Button.Tertiary size="small">Edit</Button.Tertiary>
-                </Flex>
               </Stack>
             </Card.Body>
           </Card>
         </Grid.Item>
 
-        {/* Upsell Card */}
-        <Grid.Item columns={[12, 6]}>
+        {/* Upsell Card — horizontal layout */}
+        <Grid.Item columns={[12, 6]} id="upsellCard">
           <Card>
-            <Image src="../assets/upsellImg1.png" alt="Create a website" />
-            <Card.Body>
-              <Stack space={2}>
-                <Text.Label>Suggested for You</Text.Label>
-                <Text.Subtitle>Create a website</Text.Subtitle>
-                <Text.Body color="gray.300">
-                  Stand out online with a professional website, online store, or
-                  portfolio.
-                </Text.Body>
+            <Flex direction="row">
+              <Box sx={{ width: "40%", flexShrink: 0 }}>
+                <Image
+                  src="../assets/upsellImg1.png"
+                  alt="Create a website"
+                  sx={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
+              </Box>
+              <Card.Body sx={{ width: "60%" }}>
                 <Stack space={2}>
-                  <Button.Secondary>Start Trial</Button.Secondary>
-                  <Button.Tertiary>Connect Existing Website</Button.Tertiary>
+                  <Text.Label>Suggested for You</Text.Label>
+                  <Text.Subtitle>
+                    Create a website
+                  </Text.Subtitle>
+                  <Text.Body color="gray.300">
+                    Stand out online with a professional website, online store,
+                    or portfolio.
+                  </Text.Body>
+                  <Stack space={2}>
+                    <Button.Secondary sx={{ width: "100%" }}>
+                      Start Trial
+                    </Button.Secondary>
+                    <Button.Tertiary sx={{ width: "100%" }}>
+                      Connect Existing Website
+                    </Button.Tertiary>
+                  </Stack>
                 </Stack>
-              </Stack>
-            </Card.Body>
+              </Card.Body>
+            </Flex>
           </Card>
         </Grid.Item>
+
       </Grid.Container>
 
       {/* Footer actions */}
-      <Box mt={2} mb={4} id="appBodyFooterActions">
+      <Box px={6} mt={2} mb={4} id="appBodyFooterActions">
         <Flex direction="row" gap={4}>
           <Button.Tertiary>Request Transfer Code</Button.Tertiary>
           <Button.Danger>Delete Domain</Button.Danger>

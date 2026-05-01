@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import "./global.scss";
 
 
 //pages
@@ -10,7 +11,7 @@ import SelectAndDrag from "./pages/SelectAndDrag";
 import CodePreview from "./pages/CodePreview";
 import Domains from "./pages/Domains.tsx";
 import RouteErrorState from "./components/ErrorState/ErrorState";
-import Websites from "./pages/Websites";
+import Dashboard from "./pages/Dashboard";
 import DomainWebsiteConnection from "./pages/DomainWebsiteConnection";
 import DomainOverview from "./pages/DomainOverview";
 import DNS_Settings from "./pages/DNS_Settings.js";
@@ -25,6 +26,7 @@ import PayLinks from "./pages/PayLinks";
 import Permissions from "./pages/Permissions";
 import Security from "./pages/Security";
 import Website from "./pages/Website";
+import DomainRegistration from "./pages/DomainRegistration";
 
 //layouts
 import AppShell from "./layouts/AppShell";
@@ -37,11 +39,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Websites />,
+        element: <Dashboard />,
       },
       {
-        path: "websites",
-        element: <Websites />,
+        path: "dashboard",
+        element: <Dashboard />,
       },
       {
         path: "selectanddrag",
@@ -75,6 +77,7 @@ const router = createBrowserRouter([
             element: <Outlet />,
             children: [
               { index: true, element: <DomainOverview /> },
+              { path: "registration", element: <DomainRegistration /> },
               { path: "dns", element: <DNS_Settings /> },
               { path: "website", element: <Website /> },
               { path: "email", element: <Email /> },

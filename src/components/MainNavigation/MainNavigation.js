@@ -6,7 +6,7 @@ import Logo from "../Logo/Logo";
 import Avatar from "../Avatar/Avatar";
 
 const TAB_OPTIONS = [
-  { label: "Dashboard", value: "websites" },
+  { label: "Dashboard", value: "dashboard" },
   { label: "Domains", value: "domains" },
   { label: "Experiments", value: "experiments" },
 ];
@@ -19,7 +19,8 @@ export default function MainNavigation() {
   const { pathname } = useLocation();
 
   const segment = pathname.split("/")[1] || "";
-  const activeTab = VALID_TABS.has(segment) ? segment : "";
+  const activeTab =
+    segment === "" ? "dashboard" : VALID_TABS.has(segment) ? segment : "";
 
   return (
     <nav style={{ position: "sticky", top: 0, zIndex: 2, background: "white" }}>

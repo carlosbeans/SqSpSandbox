@@ -1,8 +1,5 @@
-@use "../../styles/color";
-@use "../../styles/spacing";
-
 .loginTable {
-  margin: spacing.$space-04 0 0;
+  margin: 22px 0 0;
 }
 .table {
   .th {
@@ -11,8 +8,8 @@
   .tr {
     display: table-row;
     position: relative;
-    border-bottom: 1px solid color.$borderColor;
-    padding: spacing.$space-02 0;
+    border-bottom: 1px solid #e7e7e7;
+    padding: 11px 0;
     transition: background 0.2s ease-in-out;
 
     & > span {
@@ -21,7 +18,7 @@
     }
 
     &:hover {
-      background: darken(color.$base, 5%);
+      background: darken(#fff, 5%);
     }
   }
 }

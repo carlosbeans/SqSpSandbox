@@ -1,13 +1,9 @@
-@use "../../styles/color";
-@use "../../styles/utilities";
-@use "../../styles/spacing";
-
 .modalSidebar {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   min-width: 288px;
-  background: darken(color.$base, 2%);
+  background: darken(#fff, 2%);
 
   nav {
     display: flex;
@@ -21,12 +17,12 @@
     align-self: flex-start;
     align-items: flex-start;
     flex-direction: column;
-    padding: 22px spacing.$space-03;
+    padding: 22px 16px;
 
     a {
       position: relative;
       flex-grow: 0;
-      padding: spacing.$space-01 0;
+      padding: 6px 0;
 
       &:after {
         content: "";
@@ -44,6 +40,5 @@
     }
   }
   .secondaryNav {
-    // outline: 1px solid red;
   }
 }

@@ -9,7 +9,6 @@ import { Ellipses, Refresh } from "@sqs/rosetta-icons";
 import type { TableColumnDef } from "@sqs/rosetta-compositions";
 import { Stack } from "@sqs/rosetta-elements";
 
-import "../styles/styles.scss";
 import "./Domains.scss";
 
 

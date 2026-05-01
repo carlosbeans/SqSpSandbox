@@ -1,11 +1,7 @@
-@use "../styles/spacing";
-@use "../styles/color";
-@use "../styles/type";
-
 .domainCell {
     display: flex;
     align-items: center;
-    gap: spacing.$space-03;
+    gap: 16px;
 }
 
 .domainThumbnail {
@@ -13,7 +9,7 @@
     width: 66px;
     height: 38px;
     overflow: hidden;
-    background-color: color.$gray800;
+    background-color: #e7e7e7;
 
     img {
         width: 100%;
@@ -25,7 +21,7 @@
 .expirationCell {
     display: flex;
     align-items: center;
-    gap: spacing.$space-02;
+    gap: 11px;
 }
 
 .refreshIcon {
@@ -35,7 +31,7 @@
     width: 22px;
     height: 22px;
     flex-shrink: 0;
-    color: color.$gray300;
+    color: #666666;
 
     svg {
         width: 18px;

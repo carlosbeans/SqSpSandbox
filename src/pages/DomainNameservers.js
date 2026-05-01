@@ -26,7 +26,7 @@ export default function DomainNameservers() {
   });
 
   return (
-    <Stack space={6}>
+    <Stack space={6} px={6}>
       <Stack>
         <Box py={4} sx={{ borderBottom: borders[1], borderColor: colors.gray[800] }}>ns-cloud-b1.googledomains.com
         </Box>
