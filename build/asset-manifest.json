@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/static/css/main.4e39f582.css",
-    "main.js": "/static/js/main.057acea1.js",
-    "static/js/871.aca18df4.chunk.js": "/static/js/871.aca18df4.chunk.js",
+    "main.js": "/static/js/main.2a2fb4e1.js",
+    "static/js/871.e01ee8b9.chunk.js": "/static/js/871.e01ee8b9.chunk.js",
     "static/js/885.e2ce2f0c.chunk.js": "/static/js/885.e2ce2f0c.chunk.js",
     "static/media/websitePreviewThumb.png": "/static/media/websitePreviewThumb.a8a4d4de6c6d18864ddd.png",
     "static/media/Clarkson-Medium.woff2": "/static/media/Clarkson-Medium.66610c5920a62c9a32b4.woff2",
@@ -55,11 +55,11 @@
     "index.html": "/index.html",
     "static/media/rosetta-elements.ja-JP.yaml": "/static/media/rosetta-elements.ja-JP.7bc09b04045c43ac51ce.yaml",
     "main.4e39f582.css.map": "/static/css/main.4e39f582.css.map",
-    "main.057acea1.js.map": "/static/js/main.057acea1.js.map",
+    "main.2a2fb4e1.js.map": "/static/js/main.2a2fb4e1.js.map",
     "885.e2ce2f0c.chunk.js.map": "/static/js/885.e2ce2f0c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.4e39f582.css",
-    "static/js/main.057acea1.js"
+    "static/js/main.2a2fb4e1.js"
   ]
 }

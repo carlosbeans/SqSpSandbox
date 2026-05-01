@@ -354,6 +354,7 @@
       "domainStatus": "active",
       "domainProvider": "Squarespace",
       "expirationDate": "2027-03-15",
+      "avatar": "/assets/avatars/amyPoehler.png",
       "firstName": "Amy",
       "lastName": "Poehler",
       "organization": "Second City",
@@ -387,6 +388,7 @@
       "domainStatus": "active",
       "domainProvider": "Cloudflare",
       "expirationDate": "2027-09-22",
+      "avatar": "/assets/avatars/keanuReeves.png",
       "firstName": "Keanu",
       "lastName": "Reeves",
       "organization": "Keanu Inc.",
@@ -413,6 +415,7 @@
       "domainStatus": "active",
       "domainProvider": "Namecheap",
       "expirationDate": "2026-12-01",
+      "avatar": "/assets/avatars/nobuoUematsu.png",
       "firstName": "Nobuo",
       "lastName": "Uematsu",
       "organization": "Black Mages",
@@ -431,6 +434,18 @@
         "zip": "160-0023",
         "country": "Japan",
         "creditCard": "3530 1489 0267 5531"
+      },
+      "owner": {
+        "firstName": "Nobuo",
+        "lastName": "Uematsu",
+        "organization": "Black Mages",
+        "streetAddress": "2-4-7 Nishi-Shinjuku",
+        "city": "Tokyo",
+        "state": "Shinjuku-ku",
+        "zip": "160-0023",
+        "country": "Japan",
+        "phone": "+81 3-5555-0192",
+        "email": "nobuo.uematsu@blackmages.jp"
       },
       "customDnsRecords": [
         { "host": "www", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "ext-sq.squarespace.com" },

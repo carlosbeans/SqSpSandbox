@@ -66,7 +66,7 @@ export default function Billing() {
   });
 
   return (
-    <Stack space={6} pt={2} pb={8}>
+    <Stack space={6} pt={2} pb={8} px={6} id="billing-page-content">
       <Banner.Info>
         <Banner.Main>
           <Banner.Row alignItems="flex-start">

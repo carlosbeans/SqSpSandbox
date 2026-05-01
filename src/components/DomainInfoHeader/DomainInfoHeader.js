@@ -23,10 +23,10 @@ const TITLE_LINE_EXPANDED_PX = 44;
 const TITLE_FONT_COLLAPSED_PX = Math.round(TITLE_FONT_EXPANDED_PX * 0.35);
 const TITLE_LINE_COLLAPSED_PX = Math.round(TITLE_LINE_EXPANDED_PX * 0.35);
 
-const PADDING_LEFT_PX = 33;
-const PADDING_RIGHT_PX = 33;
-const PADDING_VERTICAL_EXPANDED_PX = 33;
-const PADDING_VERTICAL_COLLAPSED_PX = 8;
+const PADDING_LEFT_PX = 66;
+const PADDING_RIGHT_PX = 66;
+const PADDING_VERTICAL_EXPANDED_PX = 66;
+const PADDING_VERTICAL_COLLAPSED_PX = 22;
 /** Gap between domain column and screenshot (Figma space-6). */
 const COLUMN_GAP_PX = 33;
 /** Inset rows: Figma space-4 ≈ 22px — closest 8pt step is 24 (gap 3). */
@@ -185,7 +185,7 @@ export default function DomainInfoHeader() {
         top: 77,
         zIndex: 3,
         overflow:
-          collapsed && !switcherOpen ? "hidden" : "visible",
+          "hidden",
         marginBottom: 24,
         backgroundColor: insetBg,
         borderBottomWidth: "1px",
@@ -194,7 +194,9 @@ export default function DomainInfoHeader() {
       }}
     >
       <motion.div
+        id="domainInfoContainer"
         style={{
+          position: "relative",
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
@@ -387,21 +389,22 @@ export default function DomainInfoHeader() {
           }}
           transition={layoutTransition}
           style={{
+            position: "absolute",
+            top: 33,
+            right: 33,
             overflow: "hidden",
             flexShrink: 0,
             pointerEvents: collapsed ? "none" : undefined,
             minHeight: collapsed ? 0 : undefined,
           }}
         >
-          <Box
-            position="relative"
+          <Box            
             width={PREVIEW_MAX_W}
             height={PREVIEW_H}
             maxWidth="100%"
             css={{
               overflow: "hidden",
-              borderRadius: `${PREVIEW_RADIUS_PX}px`,
-              backgroundColor: "#fff",
+              borderRadius: `${PREVIEW_RADIUS_PX}px`,              
               boxShadow: PREVIEW_SHADOW,
             }}
           >
@@ -423,19 +426,19 @@ export default function DomainInfoHeader() {
               <Box
                 width="100%"
                 height="100%"
-                backgroundColor="gray.800"
                 css={{ borderRadius: `${PREVIEW_RADIUS_PX}px` }}
               />
             )}
             <Box
               position="absolute"
-              bottom={16}
-              right={12}
+              bottom={55}
+              right={22}
               css={{ zIndex: 1 }}
             >
               <Touchable.Element.Icon
                 aria-label="Edit website preview"
                 onClick={() => {}}
+                sx={{ backgroundColor: "gray.950", borderRadius: "4px" }}
               >
                 <Edit />
               </Touchable.Element.Icon>
