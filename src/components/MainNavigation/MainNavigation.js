@@ -4,6 +4,7 @@ import { useTheme } from "@sqs/rosetta-styled";
 
 import Logo from "../Logo/Logo";
 import Avatar from "../Avatar/Avatar";
+import { useTopChromeInset } from "../../contexts/TopChromeInsetContext";
 
 const TAB_OPTIONS = [
   { label: "Dashboard", value: "dashboard" },
@@ -17,13 +18,21 @@ export default function MainNavigation() {
   const { borders, colors } = useTheme();
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const topChromeInsetPx = useTopChromeInset();
 
   const segment = pathname.split("/")[1] || "";
   const activeTab =
     segment === "" ? "dashboard" : VALID_TABS.has(segment) ? segment : "";
 
   return (
-    <nav style={{ position: "sticky", top: 0, zIndex: 2, background: "white" }}>
+    <nav
+      style={{
+        position: "sticky",
+        top: topChromeInsetPx,
+        zIndex: 2,
+        background: "white",
+      }}
+    >
       <Stack
         space={5}
         direction="row"

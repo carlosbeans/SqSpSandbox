@@ -7,6 +7,21 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 //components
 import MainNavigation from "../components/MainNavigation/MainNavigation";
+import TwoFactorAuthBanner, {
+  TWO_FACTOR_BANNER_HEIGHT_PX,
+} from "../components/TwoFactorAuthBanner/TwoFactorAuthBanner";
+import { SandboxTwoFaBannerContext } from "../contexts/SandboxTwoFaBannerContext";
+import { TopChromeInsetContext } from "../contexts/TopChromeInsetContext";
+
+const TWO_FA_BANNER_DISMISSED_KEY = "sqspSandbox:dismissTwoFactorBanner";
+
+function readBannerDismissed() {
+  try {
+    return sessionStorage.getItem(TWO_FA_BANNER_DISMISSED_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
 
 const pageVariants = {
   initial: { opacity: 0, y: 12 },
@@ -34,6 +49,51 @@ export default function Root() {
   const outlet = useOutlet();
   const { pathname, search } = useLocation();
   const reduceMotion = useReducedMotion();
+
+  const [sandboxTwoFaBannerEnabled, setSandboxTwoFaBannerEnabled] =
+    React.useState(false);
+  const [bannerDismissed, setBannerDismissed] = React.useState(() =>
+    readBannerDismissed(),
+  );
+
+  React.useEffect(() => {
+    if (sandboxTwoFaBannerEnabled) {
+      setBannerDismissed(false);
+    }
+  }, [sandboxTwoFaBannerEnabled]);
+
+  const twoFactorBannerVisible =
+    sandboxTwoFaBannerEnabled && !bannerDismissed;
+
+  const [topChromeInsetPx, setTopChromeInsetPx] = React.useState(0);
+
+  React.useEffect(() => {
+    if (twoFactorBannerVisible) {
+      setTopChromeInsetPx(TWO_FACTOR_BANNER_HEIGHT_PX);
+    }
+  }, [twoFactorBannerVisible]);
+
+  const sandboxTwoFaBannerContextValue = React.useMemo(
+    () => ({
+      sandboxTwoFaBannerEnabled,
+      setSandboxTwoFaBannerEnabled,
+    }),
+    [sandboxTwoFaBannerEnabled],
+  );
+
+  const dismissTwoFactorBanner = React.useCallback(() => {
+    try {
+      sessionStorage.setItem(TWO_FA_BANNER_DISMISSED_KEY, "1");
+    } catch {
+      /* ignore */
+    }
+    setBannerDismissed(true);
+  }, []);
+
+  const onTwoFactorBannerExitComplete = React.useCallback(() => {
+    setTopChromeInsetPx(0);
+  }, []);
+
   const rootRouteKey = React.useMemo(
     () => rootLayoutMotionKey(pathname, search),
     [pathname, search],
@@ -54,23 +114,41 @@ export default function Root() {
           formattingLocale: "en-US",
         }}
       >
-        <div className="appContainer">
-          <MainNavigation />
-          <div className="appBody">
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={rootRouteKey}
-                variants={pageVariants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                transition={pageTransition}
-              >
-                {outlet}
-              </motion.div>
+        <SandboxTwoFaBannerContext.Provider value={sandboxTwoFaBannerContextValue}>
+          <TopChromeInsetContext.Provider value={topChromeInsetPx}>
+            <AnimatePresence
+              initial={false}
+              onExitComplete={onTwoFactorBannerExitComplete}
+            >
+              {twoFactorBannerVisible ? (
+                <TwoFactorAuthBanner
+                  key="two-factor-auth-banner"
+                  onDismiss={dismissTwoFactorBanner}
+                />
+              ) : null}
             </AnimatePresence>
-          </div>
-        </div>
+            <div
+              className="appContainer"
+              style={{ paddingTop: topChromeInsetPx }}
+            >
+              <MainNavigation />
+              <div className="appBody">
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={rootRouteKey}
+                    variants={pageVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    transition={pageTransition}
+                  >
+                    {outlet}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </div>
+          </TopChromeInsetContext.Provider>
+        </SandboxTwoFaBannerContext.Provider>
       </I18nContext.Provider>
     </ThemeContext.Provider>
   );

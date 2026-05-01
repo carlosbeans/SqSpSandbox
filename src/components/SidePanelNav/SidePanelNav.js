@@ -9,6 +9,10 @@ import { Flex } from "@sqs/rosetta-primitives";
 import { Button } from "@sqs/rosetta-primitives";
 import { Badge } from "@sqs/rosetta-elements";
 import { SidePanelDomainContext } from "../../layouts/SidePanelDomainContext";
+import { useTopChromeInset } from "../../contexts/TopChromeInsetContext";
+
+/** Main nav stripe + banner offset (<MainNavigation /> tabs + chrome). */
+const SIDE_PANEL_STICKY_TOP_BASE_PX = 78;
 import { radii } from "@sqs/rosetta-tokens";
 
 const NAV_ITEMS = [
@@ -81,6 +85,7 @@ function domainSectionPath(domainId, segment) {
 }
 
 export default function SidePanelNav() {
+  const topChromeInsetPx = useTopChromeInset();
   const { borders, colors } = useTheme();
   const { NavItem, NavText } = NavMenu;
   const navigate = useNavigate();
@@ -128,7 +133,10 @@ export default function SidePanelNav() {
         justifyContent: "space-between",
       }}
     >
-      <Flex flexDirection="column" sx={{ position: "sticky", top: 78 }}>
+      <Flex
+        flexDirection="column"
+        sx={{ position: "sticky", top: SIDE_PANEL_STICKY_TOP_BASE_PX + topChromeInsetPx }}
+      >
         <Box px={6}>
           <BackButton
             label="Domains List"

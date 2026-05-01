@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { ActionList } from "@sqs/rosetta-compositions";
 import { Box, Button, Flex, Text } from "@sqs/rosetta-primitives";
 import { Stack, Toggle } from "@sqs/rosetta-elements";
+import { useSandboxTwoFaBanner } from "../../contexts/SandboxTwoFaBannerContext";
 
 const avatarContainerStyle = {
   padding: "11px",
@@ -31,6 +32,8 @@ function SandboxSettingsModal({
   setSingleDomainUser,
   securityEnabled,
   setSecurityEnabled,
+  sandboxTwoFaBannerEnabled,
+  setSandboxTwoFaBannerEnabled,
 }) {
   if (!open || typeof document === "undefined") {
     return null;
@@ -113,6 +116,15 @@ function SandboxSettingsModal({
               aria-label="Security"
             />
           </Flex>
+
+          <Flex alignItems="center" justifyContent="space-between">
+            <Text.Body>2FA</Text.Body>
+            <Toggle
+              checked={sandboxTwoFaBannerEnabled}
+              onChange={(checked) => setSandboxTwoFaBannerEnabled(checked)}
+              aria-label="Show two-factor authentication banner"
+            />
+          </Flex>
         </Stack>
 
         <Flex
@@ -130,6 +142,8 @@ function SandboxSettingsModal({
 }
 
 export default function Avatar() {
+  const { sandboxTwoFaBannerEnabled, setSandboxTwoFaBannerEnabled } =
+    useSandboxTwoFaBanner();
   const [isSandboxSettingsOpen, setIsSandboxSettingsOpen] = React.useState(false);
   const [isNewUser, setIsNewUser] = React.useState(false);
   const [isReturningUser, setIsReturningUser] = React.useState(false);
@@ -169,6 +183,8 @@ export default function Avatar() {
         setSingleDomainUser={setSingleDomainUser}
         securityEnabled={securityEnabled}
         setSecurityEnabled={setSecurityEnabled}
+        sandboxTwoFaBannerEnabled={sandboxTwoFaBannerEnabled}
+        setSandboxTwoFaBannerEnabled={setSandboxTwoFaBannerEnabled}
       />
     </div>
   );

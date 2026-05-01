@@ -8,6 +8,7 @@ import { useTheme } from "@sqs/rosetta-styled";
 import { ChevronLargeDown, Edit } from "@sqs/rosetta-icons";
 import { loadJsonData } from "../../utils/dataUtils.ts";
 import { SidePanelDomainContext } from "../../layouts/SidePanelDomainContext";
+import { useTopChromeInset } from "../../contexts/TopChromeInsetContext";
 
 /**
  * Preview matches Figma "Screenshot Container" ratio (477×272), scaled to fit content area.
@@ -19,9 +20,9 @@ const PREVIEW_H = Math.round((PREVIEW_MAX_W * 272) / 477);
 /** Hero domain line — Figma Desktop/Hero figure (40 / 44, book). */
 const TITLE_FONT_EXPANDED_PX = 40;
 const TITLE_LINE_EXPANDED_PX = 44;
-/** Collapsed toolbar — ~35% of hero for compact strip. */
-const TITLE_FONT_COLLAPSED_PX = Math.round(TITLE_FONT_EXPANDED_PX * 0.35);
-const TITLE_LINE_COLLAPSED_PX = Math.round(TITLE_LINE_EXPANDED_PX * 0.35);
+/** Collapsed toolbar — ~70% of hero (compact strip, still readable). */
+const TITLE_FONT_COLLAPSED_PX = Math.round(TITLE_FONT_EXPANDED_PX * 0.7);
+const TITLE_LINE_COLLAPSED_PX = Math.round(TITLE_LINE_EXPANDED_PX * 0.7);
 
 const PADDING_LEFT_PX = 66;
 const PADDING_RIGHT_PX = 66;
@@ -31,6 +32,9 @@ const PADDING_VERTICAL_COLLAPSED_PX = 22;
 const COLUMN_GAP_PX = 33;
 /** Inset rows: Figma space-4 ≈ 22px — closest 8pt step is 24 (gap 3). */
 const INNER_ROW_GAP = 3;
+
+/** Meta row (provider + chip): max animated height (~24 + single line ~22). */
+const META_ROW_MAX_HEIGHT_PX = 64;
 
 const PREVIEW_RADIUS_PX = 11;
 const PREVIEW_SHADOW =
@@ -72,16 +76,20 @@ function suffixAfterDomainSegment(pathname) {
   return m && m[1] ? m[1] : "";
 }
 
+/** Main chrome nav row height (tabs `minHeight` in MainNavigation). */
+const MAIN_NAV_STICKY_OFFSET_PX = 77;
+
 export default function DomainInfoHeader() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const topChromeInsetPx = useTopChromeInset();
   const { effectiveDomainId } = React.useContext(SidePanelDomainContext);
   const { colors, fontWeights } = useTheme();
 
   const [domain, setDomain] = React.useState(null);
   const [allDomains, setAllDomains] = React.useState([]);
   const [collapsed, setCollapsed] = React.useState(false);
-  const [switcherOpen, setSwitcherOpen] = React.useState(false);
+  const [popoverOpen, setPopoverOpen] = React.useState(false);
 
   const prefersReducedMotion = useReducedMotion();
   const layoutTransition = React.useMemo(
@@ -91,6 +99,20 @@ export default function DomainInfoHeader() {
         : { duration: 0.4, ease: easeSmooth },
     [prefersReducedMotion],
   );
+  const stackedTransition = React.useMemo(
+    () =>
+      prefersReducedMotion
+        ? { duration: 0.01 }
+        : { duration: 0.38, ease: easeSmooth },
+    [prefersReducedMotion],
+  );
+
+  const titleTypographyTransition = prefersReducedMotion
+    ? undefined
+    : "font-size 0.4s cubic-bezier(0.25, 0.1, 0.25, 1), line-height 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)";
+  const chevronRotateTransition = prefersReducedMotion
+    ? undefined
+    : "transform 0.38s cubic-bezier(0.25, 0.1, 0.25, 1)";
 
   React.useEffect(() => {
     const onScroll = () => {
@@ -104,7 +126,7 @@ export default function DomainInfoHeader() {
 
   React.useEffect(() => {
     if (collapsed) {
-      setSwitcherOpen(false);
+      setPopoverOpen(false);
     }
   }, [collapsed]);
 
@@ -175,6 +197,9 @@ export default function DomainInfoHeader() {
     return null;
   }
 
+  /** Reserve vertical space while cross-fading stacked header layers. */
+  const headerStackMinPx = collapsed ? 52 : 132;
+
   return (
     <motion.header
       id="appshell-domain-info-header"
@@ -182,10 +207,9 @@ export default function DomainInfoHeader() {
       transition={layoutTransition}
       style={{
         position: "sticky",
-        top: 77,
+        top: MAIN_NAV_STICKY_OFFSET_PX + topChromeInsetPx,
         zIndex: 3,
-        overflow:
-          "hidden",
+        overflow: popoverOpen ? "visible" : "hidden",
         marginBottom: 24,
         backgroundColor: insetBg,
         borderBottomWidth: "1px",
@@ -203,7 +227,6 @@ export default function DomainInfoHeader() {
           justifyContent: "flex-start",
           width: "100%",
           boxSizing: "border-box",
-          columnGap: collapsed ? 0 : COLUMN_GAP_PX,
           paddingLeft: `${PADDING_LEFT_PX}px`,
           paddingRight: `${PADDING_RIGHT_PX}px`,
         }}
@@ -212,42 +235,38 @@ export default function DomainInfoHeader() {
           paddingBottom: collapsed
             ? PADDING_VERTICAL_COLLAPSED_PX
             : PADDING_VERTICAL_EXPANDED_PX,
+          columnGap: collapsed ? 0 : COLUMN_GAP_PX,
         }}
         transition={layoutTransition}
       >
-        <Flex
-          flexDirection="column"
-          justifyContent={collapsed ? "center" : "flex-start"}
-          flex="1"
-          gap={collapsed ? 2 : 4}
-          minWidth={0}
-          minHeight={0}
+        <motion.div
+          style={{
+            position: "relative",
+            flex: "1",
+            width: "100%",
+            minWidth: 0,          
+          }}
+          
+          transition={layoutTransition}
         >
-          {collapsed ? (
-            <Flex alignItems="center" gap={2} flexWrap="nowrap">
-              <motion.div
-                initial={false}
-                animate={{
-                  fontSize: `${TITLE_FONT_COLLAPSED_PX}px`,
-                  lineHeight: `${TITLE_LINE_COLLAPSED_PX}px`,
-                }}
-                transition={layoutTransition}
-                style={{ ...titleMotionStyles, alignSelf: "center" }}
-              >
-                {domain.domainName}
-              </motion.div>
-              <Chip
-                label={getStatusLabel(domain.domainStatus)}
-                status={getChipStatus(domain.domainStatus)}
-                usage="badge"
-              />
-            </Flex>
-          ) : (
-            <>
+          <Flex
+            flexDirection="column"
+            gap={collapsed ? 2 : 4}
+            minWidth={0}
+            sx={{ justifyContent: collapsed ? "center" : "flex-start" }}
+          >
+            <Flex
+              alignItems="center"
+              gap={collapsed ? 2 : INNER_ROW_GAP}
+              flexWrap="nowrap"
+              minWidth={0}
+            >
               <ActionList.PopOver
                 position="bottom-left"
-                onRequestOpen={() => setSwitcherOpen(true)}
-                onRequestClose={() => setSwitcherOpen(false)}
+                closeOnClickOutside
+                closeOnEsc
+                onRequestOpen={() => setPopoverOpen(true)}
+                onRequestClose={() => setPopoverOpen(false)}
                 renderTrigger={({ toggleActionListOpen, isOpen }) => (
                   <Box
                     id="appshell-domain-switcher-trigger"
@@ -278,30 +297,36 @@ export default function DomainInfoHeader() {
                       minWidth={0}
                       sx={{ flex: "1 1 auto", minWidth: 0 }}
                     >
-                      <motion.div
-                        initial={false}
-                        animate={{
-                          fontSize: `${TITLE_FONT_EXPANDED_PX}px`,
-                          lineHeight: `${TITLE_LINE_EXPANDED_PX}px`,
+                      <span
+                        style={{
+                          ...titleMotionStyles,
+                          alignSelf: "center",
+                          minWidth: 0,
+                          flex: collapsed ? undefined : "1 1 auto",
+                          fontSize: `${collapsed ? TITLE_FONT_COLLAPSED_PX : TITLE_FONT_EXPANDED_PX}px`,
+                          lineHeight: `${collapsed ? TITLE_LINE_COLLAPSED_PX : TITLE_LINE_EXPANDED_PX}px`,
+                          transition: titleTypographyTransition,
                         }}
-                        transition={layoutTransition}
-                        style={{ ...titleMotionStyles, minWidth: 0 }}
                       >
                         {domain.domainName}
-                      </motion.div>
-                      <ChevronLargeDown
+                      </span>
+                      <span
                         aria-hidden
-                        css={{
-                          width: 22,
-                          height: 22,
-                          color: fg,
+                        style={{
+                          display: "inline-flex",
                           flexShrink: 0,
-                          transform: isOpen ? "rotate(180deg)" : undefined,
-                          transition: prefersReducedMotion
-                            ? "none"
-                            : "transform 0.2s ease",
+                          transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+                          transition: chevronRotateTransition,
                         }}
-                      />
+                      >
+                        <ChevronLargeDown
+                          css={{
+                            width: 22,
+                            height: 22,
+                            color: fg,
+                          }}
+                        />
+                      </span>
                     </Flex>
                   </Box>
                 )}
@@ -353,6 +378,29 @@ export default function DomainInfoHeader() {
                   </Flex>
                 )}
               </ActionList.PopOver>
+              {collapsed ? (
+                <Box flexShrink={0}>
+                  <Chip
+                    label={getStatusLabel(domain.domainStatus)}
+                    status={getChipStatus(domain.domainStatus)}
+                    usage="badge"
+                  />
+                </Box>
+              ) : null}
+            </Flex>
+            <motion.div
+              initial={false}
+              animate={{
+                opacity: collapsed ? 0 : 1,
+                y: collapsed ? -8 : 0,
+                maxHeight: collapsed ? 0 : META_ROW_MAX_HEIGHT_PX,
+              }}
+              transition={stackedTransition}
+              style={{
+                overflow: collapsed ? "hidden" : "visible",
+                pointerEvents: collapsed ? "none" : "auto",
+              }}
+            >
               <Flex
                 alignItems="center"
                 gap={INNER_ROW_GAP}
@@ -376,35 +424,30 @@ export default function DomainInfoHeader() {
                   />
                 </Box>
               </Flex>
-            </>
-          )}
-        </Flex>
+            </motion.div>
+          </Flex>
+        </motion.div>
 
         <motion.div
           initial={false}
-          animate={{
-            opacity: collapsed ? 0 : 1,
-            maxWidth: collapsed ? 0 : PREVIEW_MAX_W,
-            maxHeight: collapsed ? 0 : PREVIEW_H,
-          }}
-          transition={layoutTransition}
+          animate={{ opacity: collapsed ? 0 : 1 }}
+          transition={stackedTransition}
           style={{
             position: "absolute",
             top: 33,
             right: 33,
             overflow: "hidden",
             flexShrink: 0,
-            pointerEvents: collapsed ? "none" : undefined,
-            minHeight: collapsed ? 0 : undefined,
+            pointerEvents: collapsed ? "none" : "auto",
           }}
         >
-          <Box            
+          <Box
             width={PREVIEW_MAX_W}
             height={PREVIEW_H}
             maxWidth="100%"
             css={{
               overflow: "hidden",
-              borderRadius: `${PREVIEW_RADIUS_PX}px`,              
+              borderRadius: `${PREVIEW_RADIUS_PX}px`,
               boxShadow: PREVIEW_SHADOW,
             }}
           >
