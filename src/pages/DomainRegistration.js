@@ -14,7 +14,7 @@ import { Grid, Stack } from "@sqs/rosetta-elements";
 export default function DomainRegistration() {
   const { domainId } = useParams();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("owner");
+  const [activeTab, setActiveTab] = useState("registrant");
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -50,7 +50,7 @@ export default function DomainRegistration() {
         value={activeTab}
         onChange={(val) => setActiveTab(val)}
         options={[
-          { label: "Owner", value: "owner" },
+          { label: "Registrant", value: "registrant" },
           { label: "Billing", value: "billing" },
           { label: "Tech", value: "tech" },
         ]}
@@ -60,7 +60,7 @@ export default function DomainRegistration() {
       <Stack space={4}>
         <Text.Subtitle>Contact</Text.Subtitle>
 
-        <Grid.Container gridConstraint={12}>
+        <Grid.Container gridConstraint={12} margin={0}>
           <Grid.Item columns={[12, 6]}>
             <TextField
               label="First Name"
@@ -84,7 +84,7 @@ export default function DomainRegistration() {
           inputProps={{ placeholder: "Org name" }}
         />
 
-        <Grid.Container gridConstraint={12}>
+        <Grid.Container gridConstraint={12} margin={0}>
           <Grid.Item columns={[12, 6]}>
             <TextField
               label="Email Address"
@@ -122,7 +122,7 @@ export default function DomainRegistration() {
           inputProps={{ placeholder: "Apt/Suite" }}
         />
 
-        <Grid.Container gridConstraint={12}>
+        <Grid.Container gridConstraint={12} margin={0}>
           <Grid.Item columns={[12, 6]}>
             <TextField
               label="City"
@@ -154,7 +154,7 @@ export default function DomainRegistration() {
           </Grid.Item>
         </Grid.Container>
 
-        <Grid.Container gridConstraint={12}>
+        <Grid.Container gridConstraint={12} margin={0}>
           <Grid.Item columns={[12, 4]}>
             <TextField
               label="Postal Code"

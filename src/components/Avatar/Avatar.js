@@ -118,7 +118,7 @@ function SandboxSettingsModal({
           </Flex>
 
           <Flex alignItems="center" justifyContent="space-between">
-            <Text.Body>2FA</Text.Body>
+            <Text.Body>2FA Banner</Text.Body>
             <Toggle
               checked={sandboxTwoFaBannerEnabled}
               onChange={(checked) => setSandboxTwoFaBannerEnabled(checked)}
