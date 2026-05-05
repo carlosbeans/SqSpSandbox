@@ -5,7 +5,7 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { NavMenu } from "@sqs/rosetta-compositions";
 import { BackButton } from "@sqs/rosetta-elements";
 import { Stack } from "@sqs/rosetta-elements";
-import { Flex } from "@sqs/rosetta-primitives";
+import { Flex, Text } from "@sqs/rosetta-primitives";
 import { Button } from "@sqs/rosetta-primitives";
 import { Badge } from "@sqs/rosetta-elements";
 import { SidePanelDomainContext } from "../../layouts/SidePanelDomainContext";
@@ -87,7 +87,7 @@ function domainSectionPath(domainId, segment) {
 export default function SidePanelNav() {
   const topChromeInsetPx = useTopChromeInset();
   const { borders, colors } = useTheme();
-  const { NavItem, NavText } = NavMenu;
+  const { NavItem, NavText, NavGroup } = NavMenu;
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { domainId: paramDomainId } = useParams();
@@ -144,7 +144,7 @@ export default function SidePanelNav() {
             py={6}
           />
         </Box>
-
+        
         <NavMenu value={activeNav} onChange={onNavChange}>
           {NAV_ITEMS.flatMap(({ value, label }) => {
             const items = [
@@ -158,19 +158,23 @@ export default function SidePanelNav() {
               </NavItem>,
             ];
             if (value === "dns" && isDnsActive) {
-              DNS_SUB_ITEMS.forEach((sub) => {
-                items.push(
-                  <NavItem
-                    key={sub.value}
-                    value={sub.value}
-                    is="div"
-                    isSelected={activeDnsSub === sub.value}
-                    onClick={() => navigateDnsSub(sub.path)}
-                  >
-                    <NavText variant="body">{sub.label}</NavText>
-                  </NavItem>,
-                );
-              });
+              items.push(
+                <Flex key="dns-sub" flexDirection="column" gap="6px" ml="11px" my="11px">
+                  {DNS_SUB_ITEMS.map((sub) => (
+                    <NavItem
+                      key={sub.value}
+                      value={sub.value}
+                      is="div"
+                      isSelected={activeDnsSub === sub.value}
+                      onClick={() => navigateDnsSub(sub.path)}
+                    >
+                      <Box sx={{ fontWeight: 500 }}>
+                        <NavText>{sub.label}</NavText>
+                      </Box>
+                    </NavItem>
+                  ))}
+                </Flex>,
+              );
             }
             return items;
           })}

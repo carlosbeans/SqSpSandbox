@@ -21,6 +21,10 @@ const avatarStyle = {
 
 const SANDBOX_SETTINGS_MODAL_Z = 1700;
 
+/** Static account header copy for the avatar menu (sandbox). */
+const AVATAR_MENU_DISPLAY_NAME = "Carlos Andujar";
+const AVATAR_MENU_EMAIL = "iamcrandujar@gmail.com";
+
 function SandboxSettingsModal({
   open,
   onClose,
@@ -158,16 +162,46 @@ export default function Avatar() {
         position="bottom-right"
       >
         {({ onRequestClose }) => (
-          <Flex as="ul" bg="white" flexDirection="column" py={1}>
-            <ActionList.Item onClick={onRequestClose}>Account Settings</ActionList.Item>            
-            <ActionList.Item
-              onClick={() => {
-                onRequestClose();
-                setIsSandboxSettingsOpen(true);
-              }}
+          <Flex
+            id="avatar-account-popover"
+            flexDirection="column"
+            bg="white"
+            m={0}
+            sx={{
+              listStyle: "none",
+              minWidth: "min(280px, 92vw)",
+            }}
+          >
+            <Box
+              px={4}
+              pt={4}
             >
-              Sandbox Settings
-            </ActionList.Item>
+              <Flex flexDirection="column" gap={2} alignItems="flex-start">
+                <Text.Body
+                  as="p"
+                  m={0}
+                  color="gray.100"
+                  lineHeight="heading"
+                  fontWeight="medium"
+                >
+                  {AVATAR_MENU_DISPLAY_NAME}
+                </Text.Body>
+                <Text.Body as="p" m={0} fontSize={2} color="gray.300">
+                  {AVATAR_MENU_EMAIL}
+                </Text.Body>
+              </Flex>
+            </Box>
+            <Flex as="ul" flexDirection="column" py={1} m={0} px={0} sx={{ listStyle: "none" }}>
+              <ActionList.Item onClick={onRequestClose}>Account Settings</ActionList.Item>
+              <ActionList.Item
+                onClick={() => {
+                  onRequestClose();
+                  setIsSandboxSettingsOpen(true);
+                }}
+              >
+                Sandbox Settings
+              </ActionList.Item>
+            </Flex>
           </Flex>
         )}
       </ActionList.PopOver>

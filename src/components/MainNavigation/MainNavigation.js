@@ -4,6 +4,7 @@ import { useTheme } from "@sqs/rosetta-styled";
 
 import Logo from "../Logo/Logo";
 import Avatar from "../Avatar/Avatar";
+import NotificationsPopover from "../NotificationsPopover/NotificationsPopover";
 import { useTopChromeInset } from "../../contexts/TopChromeInsetContext";
 
 const TAB_OPTIONS = [
@@ -58,6 +59,7 @@ export default function MainNavigation() {
         </Stack>
         <div className="userInfo">
           <Stack space={2} direction="row" alignItems="center">
+            <NotificationsPopover />
             <Link className="mainNavLink" to="#">
               Help
             </Link>

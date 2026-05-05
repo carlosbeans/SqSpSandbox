@@ -261,8 +261,14 @@ export default function DomainInfoHeader() {
               flexWrap="nowrap"
               minWidth={0}
             >
+              {/*
+                Rosetta PopOver: horizontal "left" uses anchorX − width, so with the default
+                (center) anchor the menu shifts far left. bottom-right + anchor left/bottom
+                lines the list up with the trigger’s start and drops it below the trigger.
+              */}
               <ActionList.PopOver
-                position="bottom-left"
+                position="bottom-right"
+                anchorPoint={{ x: "left", y: "bottom" }}
                 closeOnClickOutside
                 closeOnEsc
                 onRequestOpen={() => setPopoverOpen(true)}
