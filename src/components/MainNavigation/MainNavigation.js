@@ -40,10 +40,10 @@ export default function MainNavigation() {
         alignItems="center"
         justifyContent="space-between"
         width="100%"
-        px={2}
+        px={6}
         sx={{ borderBottom: borders[1], borderColor: colors.gray[800] }}
       >
-        <Stack space={2} direction="row" alignItems="center">
+        <Stack space={2} direction="row" alignItems="center" ml="-16px">
           <Link className="mainNavLink" to="/" id="logo">
             <Logo color="#000" size="55" />
           </Link>
@@ -58,14 +58,14 @@ export default function MainNavigation() {
           />
         </Stack>
         <div className="userInfo">
-          <Stack space={2} direction="row" alignItems="center">
-            <NotificationsPopover />
+          <Stack space={3} direction="row" alignItems="center">            
             <Link className="mainNavLink" to="#">
               Help
             </Link>
             <Link className="mainNavLink" to="#">
               Account Settings
             </Link>
+            <NotificationsPopover />
             <Avatar />
           </Stack>
         </div>

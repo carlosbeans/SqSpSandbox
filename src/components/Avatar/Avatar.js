@@ -5,10 +5,6 @@ import { Box, Button, Flex, Text } from "@sqs/rosetta-primitives";
 import { Stack, Toggle } from "@sqs/rosetta-elements";
 import { useSandboxTwoFaBanner } from "../../contexts/SandboxTwoFaBannerContext";
 
-const avatarContainerStyle = {
-  padding: "11px",
-};
-
 const avatarStyle = {
   width: "40px",
   height: "40px",
@@ -20,6 +16,9 @@ const avatarStyle = {
 };
 
 const SANDBOX_SETTINGS_MODAL_Z = 1700;
+
+/** Stacks above sticky nav, domain chrome, and 2FA banner; PopOver portals to document.body + position fixed */
+const AVATAR_ACTION_LIST_Z_INDEX = 2000;
 
 /** Static account header copy for the avatar menu (sandbox). */
 const AVATAR_MENU_DISPLAY_NAME = "Carlos Andujar";
@@ -153,13 +152,24 @@ export default function Avatar() {
   const [isReturningUser, setIsReturningUser] = React.useState(false);
   const [singleDomainUser, setSingleDomainUser] = React.useState(false);
   const [securityEnabled, setSecurityEnabled] = React.useState(false);
+
+  const documentScrollRoot = React.useMemo(
+    () =>
+      typeof document !== "undefined" ? document.documentElement : undefined,
+    [],
+  );
+
   return (
-    <div style={avatarContainerStyle}>
+    <Box>
       <ActionList.PopOver
+        anchorPoint={{ x: "left", y: "bottom" }}
+        position="bottom-right"
+        recalculateAnchorOnScroll
+        scrollNode={documentScrollRoot}
+        zIndex={AVATAR_ACTION_LIST_Z_INDEX}
         renderTrigger={({ toggleActionListOpen }) => (
           <div style={avatarStyle} onClick={toggleActionListOpen} />
         )}
-        position="bottom-right"
       >
         {({ onRequestClose }) => (
           <Flex
@@ -220,6 +230,6 @@ export default function Avatar() {
         sandboxTwoFaBannerEnabled={sandboxTwoFaBannerEnabled}
         setSandboxTwoFaBannerEnabled={setSandboxTwoFaBannerEnabled}
       />
-    </div>
+    </Box>
   );
 }

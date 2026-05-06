@@ -117,28 +117,36 @@ export default function NotificationsPopover() {
   const [activeTab, setActiveTab] = React.useState("unread");
 
   return (
-    <ActionList.PopOver
-      position="bottom-right"
-      anchorPoint={{ x: "right", y: "bottom" }}
-      closeOnClickOutside
-      closeOnEsc
-      renderTrigger={({ toggleActionListOpen, isOpen }) => (
-        <Touchable.Element.Icon
-          aria-label="Notifications and announcements"
-          aria-expanded={isOpen}
-          aria-haspopup="dialog"
-          onClick={toggleActionListOpen}
-        >
-          <NotificationBell
-            css={{
-              width: 22,
-              height: 22,
-              color: colors.gray[100],
-            }}
-          />
-        </Touchable.Element.Icon>
-      )}
+    <Box
+      sx={{
+        display: "inline-flex",
+        flexShrink: 0,
+        flexGrow: 0,
+        alignItems: "center",
+      }}
     >
+      <ActionList.PopOver
+        position="bottom-center"
+        anchorPoint={{ x: "center", y: "bottom" }}
+        closeOnClickOutside
+        closeOnEsc
+        renderTrigger={({ toggleActionListOpen, isOpen }) => (
+          <Touchable.Element.Icon
+            aria-label="Notifications and announcements"
+            aria-expanded={isOpen}
+            aria-haspopup="dialog"
+            onClick={toggleActionListOpen}
+          >
+            <NotificationBell
+              css={{
+                width: 22,
+                height: 22,
+                color: colors.gray[100],
+              }}
+            />
+          </Touchable.Element.Icon>
+        )}
+      >
       {() => (
         <Flex
           id="appshell-notifications-panel"
@@ -216,6 +224,7 @@ export default function NotificationsPopover() {
           </Box>
         </Flex>
       )}
-    </ActionList.PopOver>
+      </ActionList.PopOver>
+    </Box>
   );
 }

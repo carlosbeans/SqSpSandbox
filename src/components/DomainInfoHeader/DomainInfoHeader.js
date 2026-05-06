@@ -2,7 +2,7 @@ import * as React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Box, Flex, Text, Touchable } from "@sqs/rosetta-primitives";
-import { ActionList } from "@sqs/rosetta-compositions";
+import { ActionList, Search } from "@sqs/rosetta-compositions";
 import { Chip } from "@sqs/rosetta-elements";
 import { useTheme } from "@sqs/rosetta-styled";
 import { ChevronLargeDown, Edit } from "@sqs/rosetta-icons";
@@ -90,6 +90,7 @@ export default function DomainInfoHeader() {
   const [allDomains, setAllDomains] = React.useState([]);
   const [collapsed, setCollapsed] = React.useState(false);
   const [popoverOpen, setPopoverOpen] = React.useState(false);
+  const [domainSwitcherQuery, setDomainSwitcherQuery] = React.useState("");
 
   const prefersReducedMotion = useReducedMotion();
   const layoutTransition = React.useMemo(
@@ -129,6 +130,12 @@ export default function DomainInfoHeader() {
       setPopoverOpen(false);
     }
   }, [collapsed]);
+
+  React.useEffect(() => {
+    if (!popoverOpen) {
+      setDomainSwitcherQuery("");
+    }
+  }, [popoverOpen]);
 
   React.useEffect(() => {
     let cancelled = false;
@@ -175,6 +182,16 @@ export default function DomainInfoHeader() {
     },
     [domain?.domainName, navigate, pathname],
   );
+
+  const filteredSwitcherDomains = React.useMemo(() => {
+    const q = domainSwitcherQuery.trim().toLowerCase();
+    if (!q) {
+      return allDomains;
+    }
+    return allDomains.filter((d) =>
+      String(d.domainName || "").toLowerCase().includes(q),
+    );
+  }, [allDomains, domainSwitcherQuery]);
 
   const insetBg = colors?.gray?.[950] ?? "#f9f9f9";
   const muted = colors?.gray?.[300] ?? "#666666";
@@ -339,48 +356,92 @@ export default function DomainInfoHeader() {
               >
                 {({ onRequestClose }) => (
                   <Flex
-                    id="appshell-domain-switcher-menu"
-                    as="ul"
+                    id="appshell-domain-switcher-menu-root"
                     flexDirection="column"
-                    mx={0}
-                    my={0}
-                    px={0}
-                    py={2}
-                    bg="white"
+                    maxHeight={320}
                     sx={{
-                      listStyle: "none",
+                      width: "100%",
                       minWidth: "min(320px, 92vw)",
-                      maxHeight: 320,
-                      overflowY: "auto",
+                      margin: 0,
+                      padding: 0,
+                      overflow: "hidden",
+                      backgroundColor: "white",
                     }}
                   >
-                    {allDomains.length === 0 ? (
-                      <Box px={4} py={2}>
-                        <Text.Body fontSize={3} color="gray.300">
-                          No domains found
-                        </Text.Body>
-                      </Box>
-                    ) : (
-                      allDomains.map((d) => {
-                        const isCurrent = d.domainName === domain.domainName;
-                        return (
-                          <ActionList.Item
-                            key={d.domainName}
-                            onClick={() => goToDomain(d.domainName, onRequestClose)}
-                            sx={
-                              isCurrent
-                                ? {
-                                    backgroundColor: "gray.950",
-                                    fontWeight: "medium",
-                                  }
-                                : undefined
-                            }
-                          >
-                            {d.domainName}
-                          </ActionList.Item>
-                        );
-                      })
-                    )}
+                    <Box
+                      flexShrink={0}
+                      px={2}
+                      pt={2}
+                      pb={2}
+                      bg="white"
+                      sx={{
+                        borderBottomWidth: "1px",
+                        borderBottomStyle: "solid",
+                        borderBottomColor: "gray.900",
+                      }}
+                    >
+                      <Search.Input
+                        aria-label="Search your domains"
+                        autoFocus={popoverOpen && !prefersReducedMotion}
+                        inputValue={domainSwitcherQuery}
+                        onChange={setDomainSwitcherQuery}
+                        placeholder="Search your domains"
+                        variant="floating"
+                        sx={{
+                          width: "100%",
+                          backgroundColor: "transparent",
+                        }}
+                      />
+                    </Box>
+                    <Flex
+                      id="appshell-domain-switcher-menu"
+                      flex={1}
+                      flexDirection="column"
+                      minHeight={0}
+                      
+                      py={4}
+                      bg="white"
+                      as="ul"
+                      sx={{
+                        listStyle: "none",
+                        overflowY: "auto",
+                      }}
+                    >
+                      {allDomains.length === 0 ? (
+                        <Box px={4} py={4}>
+                          <Text.Body fontSize={3} color="gray.300">
+                            No domains found
+                          </Text.Body>
+                        </Box>
+                      ) : filteredSwitcherDomains.length === 0 ? (
+                        <Box px={4} py={4}>
+                          <Text.Body fontSize={3} color="gray.300">
+                            No matching domains
+                          </Text.Body>
+                        </Box>
+                      ) : (
+                        filteredSwitcherDomains.map((d) => {
+                          const isCurrent = d.domainName === domain.domainName;
+                          return (
+                            <ActionList.Item
+                              key={d.domainName}
+                              onClick={() =>
+                                goToDomain(d.domainName, onRequestClose)}
+                              sx={
+                                isCurrent
+                                  ? {
+                                      backgroundColor: "gray.950",
+                                      fontWeight: "medium",
+                                    }
+                                  : undefined
+                              }
+                            >
+                              {d.domainName}
+                            </ActionList.Item>
+                          );
+                        })
+                      )}
+                    </Flex>
                   </Flex>
                 )}
               </ActionList.PopOver>

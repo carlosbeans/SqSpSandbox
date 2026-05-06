@@ -27,35 +27,17 @@ function MastercardLogo({ size = 32 }) {
   );
 }
 
-function EditControl({ label }) {
-  const { colors } = useTheme();
-  return (
-    <Box
-      as="button"
-      type="button"
-      sx={{
-        background: "none",
-        border: "none",
-        cursor: "pointer",
-        paddingY: 2,
-        paddingX: 2,
-        marginRight: -2,
-        minHeight: 44,
-        display: "inline-flex",
-        alignItems: "center",
-        fontWeight: 600,
-        fontSize: 2,
-        lineHeight: "22px",
-        textTransform: "uppercase",
-        letterSpacing: "0.06em",
-        color: colors.gray?.[100] ?? "inherit",
-        fontFamily: "inherit",
-      }}
-    >
-      {label}
-    </Box>
-  );
-}
+const editLinkSx = {
+  fontWeight: 600,
+  textTransform: "uppercase",
+  letterSpacing: "0.06em",
+  display: "inline-flex",
+  alignItems: "center",
+  minHeight: 44,
+  py: 2,
+  px: 2,
+  marginRight: -2,
+};
 
 export default function Billing() {
   const { colors } = useTheme();
@@ -84,7 +66,13 @@ export default function Billing() {
       <Stack space={4}>
         <Flex alignItems="center" justifyContent="space-between" gap={4}>
           <Text.Subtitle>Billing Address</Text.Subtitle>
-          <EditControl label="EDIT" />
+          <TextLink
+            href="#"
+            onClick={(e) => e.preventDefault()}
+            sx={editLinkSx}
+          >
+            Edit
+          </TextLink>
         </Flex>
         <Stack space={1}>
           <Text.Body m={0}>{BILLING_ADDRESS.name}</Text.Body>
@@ -98,7 +86,13 @@ export default function Billing() {
       <Stack space={4}>
         <Flex alignItems="center" justifyContent="space-between" gap={4}>
           <Text.Subtitle>Payment Method</Text.Subtitle>
-          <EditControl label="EDIT" />
+          <TextLink
+            href="#"
+            onClick={(e) => e.preventDefault()}
+            sx={editLinkSx}
+          >
+            Edit
+          </TextLink>
         </Flex>
         <Flex alignItems="center" gap={3}>
           <Box sx={{ flexShrink: 0, display: "flex" }}>

@@ -23,7 +23,7 @@ const data = [
 export default function Activity() {
   usePageHeader({ title: "Activity" });
   return (
-    <Stack space={6}>
+    <Stack space={6} px={6}>
       <Table columns={columns} data={data}>
         <Table.List />
       </Table>
