@@ -14,9 +14,8 @@ import { Card } from "@sqs/rosetta-elements";
 import { Toggle } from "@sqs/rosetta-elements";
 import { Tabs } from "@sqs/rosetta-elements";
 import { TextLink } from "@sqs/rosetta-elements";
-import { PageHeader } from "@sqs/rosetta-compositions";
-
 import { Grid, Stack } from "@sqs/rosetta-elements";
+import DomainOverviewHeader from "../components/DomainOverviewHeader/DomainOverviewHeader";
 
 export default function DomainOverview() {
   const { domainId } = useParams();
@@ -26,7 +25,6 @@ export default function DomainOverview() {
   const [error, setError] = useState(null);
 
   // Toggle states
-  const [autoRenew, setAutoRenew] = useState(true);
   const [privateRegistration, setPrivateRegistration] = useState(true);
   const [domainLock, setDomainLock] = useState(true);
 
@@ -70,37 +68,9 @@ export default function DomainOverview() {
 
   return (
     <Flex gap={6} flexDirection="column" id="domainOverview">
-      {/* Info section — 3 columns */}
+      <DomainOverviewHeader />
+      {/* Info section — 2 columns */}
       <Grid.Container gridConstraint={12}>
-        {/* Expires On */}
-        <Grid.Item
-          columns={[12, 4]}
-          p={2}
-          divider={<Divider.Vertical my={1} />}
-        >
-          <Stack space={2}>
-            <Flex alignItems="center" gap={1}>
-              <Text.Label>Expires On</Text.Label>
-              <InfoCircle css={{ color: "gray.400", width: 16, height: 16 }} />
-            </Flex>
-            <Box>
-              <Text.Subtitle>
-                {domain.expirationDate || "Aug 23, 2024"}{" "}
-                <Text.Body as="span">for $12</Text.Body>
-              </Text.Subtitle>
-            </Box>
-            <Flex alignItems="center" gap={2}>
-              <Toggle
-                checked={autoRenew}
-                onChange={(checked) => setAutoRenew(checked)}
-                aria-label="Auto-renew"
-              />
-              <Text.Body>Auto-renew</Text.Body>
-            </Flex>
-            <TextLink href="#">Add years</TextLink>
-          </Stack>
-        </Grid.Item>
-
         {/* WHOIS Privacy */}
         <Grid.Item
           columns={[12, 4]}
@@ -149,7 +119,7 @@ export default function DomainOverview() {
       <Grid.Container gridConstraint={12}>
         {/* Registration Information */}
         <Grid.Item columns={[12, 6]}>
-          <Card>
+          <Card sx={{ borderRadius: 2 }}>
             <Card.Body>
               <Stack space={3}>
                 {/* Header */}
@@ -190,7 +160,7 @@ export default function DomainOverview() {
 
         {/* Upsell Card — horizontal layout */}
         <Grid.Item columns={[12, 6]} id="upsellCard">
-          <Card>
+          <Card sx={{ borderRadius: 2, overflow: "hidden" }}>
             <Flex direction="row">
               <Box sx={{ width: "40%", flexShrink: 0 }}>
                 <Image
@@ -223,6 +193,34 @@ export default function DomainOverview() {
           </Card>
         </Grid.Item>
 
+      </Grid.Container>
+
+      {/* Security & Health + Email */}
+      <Grid.Container gridConstraint={12}>
+        <Grid.Item columns={[12, 6]}>
+          <Card sx={{ borderRadius: 2 }}>
+            <Card.Body>
+              <Stack space={2}>
+                <Text.Subtitle>Security & health</Text.Subtitle>
+                <Text.Body color="gray.300">
+                  No security or health issues detected.
+                </Text.Body>
+              </Stack>
+            </Card.Body>
+          </Card>
+        </Grid.Item>
+        <Grid.Item columns={[12, 6]}>
+          <Card sx={{ borderRadius: 2 }}>
+            <Card.Body>
+              <Stack space={2}>
+                <Text.Subtitle>Email connections</Text.Subtitle>
+                <Text.Body color="gray.300">
+                  No email connections configured.
+                </Text.Body>
+              </Stack>
+            </Card.Body>
+          </Card>
+        </Grid.Item>
       </Grid.Container>
 
       {/* Footer actions */}

@@ -4,6 +4,7 @@ import { ActionList } from "@sqs/rosetta-compositions";
 import { Box, Button, Flex, Text } from "@sqs/rosetta-primitives";
 import { Stack, Toggle } from "@sqs/rosetta-elements";
 import { useSandboxTwoFaBanner } from "../../contexts/SandboxTwoFaBannerContext";
+import { useSandboxDomainRedesign2026 } from "../../contexts/SandboxDomainRedesign2026Context";
 
 const avatarStyle = {
   width: "40px",
@@ -37,6 +38,8 @@ function SandboxSettingsModal({
   setSecurityEnabled,
   sandboxTwoFaBannerEnabled,
   setSandboxTwoFaBannerEnabled,
+  domainRedesign2026Enabled,
+  setDomainRedesign2026Enabled,
 }) {
   if (!open || typeof document === "undefined") {
     return null;
@@ -128,6 +131,15 @@ function SandboxSettingsModal({
               aria-label="Show two-factor authentication banner"
             />
           </Flex>
+
+          <Flex alignItems="center" justifyContent="space-between">
+            <Text.Body>Domain Redesign 2026</Text.Body>
+            <Toggle
+              checked={domainRedesign2026Enabled}
+              onChange={(checked) => setDomainRedesign2026Enabled(checked)}
+              aria-label="Domain Redesign 2026"
+            />
+          </Flex>
         </Stack>
 
         <Flex
@@ -147,6 +159,8 @@ function SandboxSettingsModal({
 export default function Avatar() {
   const { sandboxTwoFaBannerEnabled, setSandboxTwoFaBannerEnabled } =
     useSandboxTwoFaBanner();
+  const { domainRedesign2026Enabled, setDomainRedesign2026Enabled } =
+    useSandboxDomainRedesign2026();
   const [isSandboxSettingsOpen, setIsSandboxSettingsOpen] = React.useState(false);
   const [isNewUser, setIsNewUser] = React.useState(false);
   const [isReturningUser, setIsReturningUser] = React.useState(false);
@@ -229,6 +243,8 @@ export default function Avatar() {
         setSecurityEnabled={setSecurityEnabled}
         sandboxTwoFaBannerEnabled={sandboxTwoFaBannerEnabled}
         setSandboxTwoFaBannerEnabled={setSandboxTwoFaBannerEnabled}
+        domainRedesign2026Enabled={domainRedesign2026Enabled}
+        setDomainRedesign2026Enabled={setDomainRedesign2026Enabled}
       />
     </Box>
   );

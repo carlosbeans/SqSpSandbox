@@ -27,6 +27,7 @@ import Permissions from "./pages/Permissions";
 import Security from "./pages/Security";
 import Website from "./pages/Website";
 import DomainRegistration from "./pages/DomainRegistration";
+import DomainSettings from "./pages/DomainSettings";
 
 //layouts
 import AppShell from "./layouts/AppShell";
@@ -89,6 +90,7 @@ const router = createBrowserRouter([
               { path: "nameservers", element: <DomainNameservers /> },
               { path: "nameserver-registration", element: <NameserverRegistration /> },
               { path: "connection", element: <DomainWebsiteConnection /> },
+              { path: "settings", element: <DomainSettings /> },
             ],
           },
         ],

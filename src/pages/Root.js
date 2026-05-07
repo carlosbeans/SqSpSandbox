@@ -11,6 +11,7 @@ import TwoFactorAuthBanner, {
   TWO_FACTOR_BANNER_HEIGHT_PX,
 } from "../components/TwoFactorAuthBanner/TwoFactorAuthBanner";
 import { SandboxTwoFaBannerContext } from "../contexts/SandboxTwoFaBannerContext";
+import { SandboxDomainRedesign2026Context } from "../contexts/SandboxDomainRedesign2026Context";
 import { TopChromeInsetContext } from "../contexts/TopChromeInsetContext";
 
 const TWO_FA_BANNER_DISMISSED_KEY = "sqspSandbox:dismissTwoFactorBanner";
@@ -81,6 +82,16 @@ export default function Root() {
     [sandboxTwoFaBannerEnabled],
   );
 
+  const [domainRedesign2026Enabled, setDomainRedesign2026Enabled] =
+    React.useState(true);
+  const sandboxDomainRedesign2026ContextValue = React.useMemo(
+    () => ({
+      domainRedesign2026Enabled,
+      setDomainRedesign2026Enabled,
+    }),
+    [domainRedesign2026Enabled],
+  );
+
   const dismissTwoFactorBanner = React.useCallback(() => {
     try {
       sessionStorage.setItem(TWO_FA_BANNER_DISMISSED_KEY, "1");
@@ -115,39 +126,43 @@ export default function Root() {
         }}
       >
         <SandboxTwoFaBannerContext.Provider value={sandboxTwoFaBannerContextValue}>
-          <TopChromeInsetContext.Provider value={topChromeInsetPx}>
-            <AnimatePresence
-              initial={false}
-              onExitComplete={onTwoFactorBannerExitComplete}
-            >
-              {twoFactorBannerVisible ? (
-                <TwoFactorAuthBanner
-                  key="two-factor-auth-banner"
-                  onDismiss={dismissTwoFactorBanner}
-                />
-              ) : null}
-            </AnimatePresence>
-            <div
-              className="appContainer"
-              style={{ paddingTop: topChromeInsetPx }}
-            >
-              <MainNavigation />
-              <div className="appBody">
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.div
-                    key={rootRouteKey}
-                    variants={pageVariants}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    transition={pageTransition}
-                  >
-                    {outlet}
-                  </motion.div>
-                </AnimatePresence>
+          <SandboxDomainRedesign2026Context.Provider
+            value={sandboxDomainRedesign2026ContextValue}
+          >
+            <TopChromeInsetContext.Provider value={topChromeInsetPx}>
+              <AnimatePresence
+                initial={false}
+                onExitComplete={onTwoFactorBannerExitComplete}
+              >
+                {twoFactorBannerVisible ? (
+                  <TwoFactorAuthBanner
+                    key="two-factor-auth-banner"
+                    onDismiss={dismissTwoFactorBanner}
+                  />
+                ) : null}
+              </AnimatePresence>
+              <div
+                className="appContainer"
+                style={{ paddingTop: topChromeInsetPx }}
+              >
+                <MainNavigation />
+                <div className="appBody">
+                  <AnimatePresence mode="wait" initial={false}>
+                    <motion.div
+                      key={rootRouteKey}
+                      variants={pageVariants}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      transition={pageTransition}
+                    >
+                      {outlet}
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
               </div>
-            </div>
-          </TopChromeInsetContext.Provider>
+            </TopChromeInsetContext.Provider>
+          </SandboxDomainRedesign2026Context.Provider>
         </SandboxTwoFaBannerContext.Provider>
       </I18nContext.Provider>
     </ThemeContext.Provider>

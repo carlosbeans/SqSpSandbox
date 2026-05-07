@@ -1,4 +1,5 @@
 import { Stack } from "@sqs/rosetta-elements";
+import { Box } from "@sqs/rosetta-primitives";
 import { Table } from "@sqs/rosetta-compositions";
 import { usePageHeader } from "../layouts/PageHeaderContext";
 
@@ -20,13 +21,22 @@ const data = [
   { action: "Enabled DNSSEC", name: "Laura Lejano", location: "Richmond, VA", time: "1 year ago" },
 ];
 
-export default function Activity() {
-  usePageHeader({ title: "Activity" });
+/** Table and layout from the standalone Activity route; omit outer padding when embedding (e.g. Domain Settings tabs). */
+export function ActivityContent() {
   return (
-    <Stack space={6} px={6}>
+    <Stack space={6} id="domain-settings-tab-activity-inner">
       <Table columns={columns} data={data}>
         <Table.List />
       </Table>
     </Stack>
+  );
+}
+
+export default function Activity() {
+  usePageHeader({ title: "Activity" });
+  return (
+    <Box px={6} id="activity-page-content">
+      <ActivityContent />
+    </Box>
   );
 }

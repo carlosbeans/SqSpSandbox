@@ -39,16 +39,28 @@ const editLinkSx = {
   marginRight: -2,
 };
 
-export default function Billing() {
+/**
+ * @param {{ inlineHeader?: boolean }} props
+ * When `inlineHeader` is true (e.g. Domain Settings tab), renders title + subtitle that were previously in the shell page header.
+ */
+export function BillingContent({ inlineHeader = false }) {
   const { colors } = useTheme();
 
-  usePageHeader({
-    title: "Payment Information",
-    subtitle: "All your payment information is securely submitted.",
-  });
-
   return (
-    <Stack space={6} pt={2} pb={8} px={6} id="billing-page-content">
+    <Stack
+      space={6}
+      pt={inlineHeader ? 0 : 2}
+      pb={inlineHeader ? 0 : 8}
+      id={inlineHeader ? "domain-settings-tab-billing" : "billing-page-content"}
+    >
+      {inlineHeader ? (
+        <Stack space={2} id="domain-settings-billing-intro">
+          <Text.Subtitle>Payment Information</Text.Subtitle>
+          <Text.Body color="gray.300">
+            All your payment information is securely submitted.
+          </Text.Body>
+        </Stack>
+      ) : null}
       <Banner.Info>
         <Banner.Main>
           <Banner.Row alignItems="flex-start">
@@ -111,5 +123,18 @@ export default function Billing() {
         <Divider sx={{ borderColor: colors.gray[800] }} />
       </Stack>
     </Stack>
+  );
+}
+
+export default function Billing() {
+  usePageHeader({
+    title: "Payment Information",
+    subtitle: "All your payment information is securely submitted.",
+  });
+
+  return (
+    <Box px={6}>
+      <BillingContent inlineHeader={false} />
+    </Box>
   );
 }

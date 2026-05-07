@@ -1,6 +1,8 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Tabs, Stack } from "@sqs/rosetta-elements";
+import { Box, Touchable } from "@sqs/rosetta-primitives";
 import { useTheme } from "@sqs/rosetta-styled";
+import { Ai } from "@sqs/rosetta-icons";
 
 import Logo from "../Logo/Logo";
 import Avatar from "../Avatar/Avatar";
@@ -58,14 +60,30 @@ export default function MainNavigation() {
           />
         </Stack>
         <div className="userInfo">
-          <Stack space={3} direction="row" alignItems="center">            
-            <Link className="mainNavLink" to="#">
-              Help
-            </Link>
-            <Link className="mainNavLink" to="#">
-              Account Settings
-            </Link>
+          <Stack space={3} direction="row" alignItems="center">
             <NotificationsPopover />
+            <Box
+              sx={{
+                display: "inline-flex",
+                flexShrink: 0,
+                flexGrow: 0,
+                alignItems: "center",
+              }}
+            >
+              <Touchable.Element.Icon
+                id="appshell-header-ai-trigger"
+                aria-label="Design intelligence"
+                onClick={() => {}}
+              >
+                <Ai
+                  css={{
+                    width: 22,
+                    height: 22,
+                    color: colors.gray[100],
+                  }}
+                />
+              </Touchable.Element.Icon>
+            </Box>
             <Avatar />
           </Stack>
         </div>

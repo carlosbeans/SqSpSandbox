@@ -79,27 +79,28 @@ function DNSTable({ records }) {
   );
 }
 
-export default function DNS_Settings() {
+export function DNSSettingsContent({ inlineHeader = false }) {
   const { radii, borders, colors } = useTheme();
 
-  usePageHeader({
-    title: "DNS Settings",
-    subtitle:
-      "DNS records point to services your domain uses, like forwarding your domain or setting up an email service. Learn more about DNS settings",
-    actions: (
-      <Breakpoint.Provider>
-        <Breakpoint.Renderer
-          render={{
-            default: () => <Button.Primary>Add Preset</Button.Primary>,
-            "mobile-0": () => <Button.Primary>Add Preset</Button.Primary>,
-          }}
-        />
-      </Breakpoint.Provider>
-    ),
-  });
-
   return (
-    <Flex id="dnsSettingsPage" flexDirection="column" gap={6} px={6} pt={2} pb={6}>
+    <Flex
+      id={inlineHeader ? "domain-settings-tab-dns-settings-content" : "dnsSettingsPage"}
+      flexDirection="column"
+      gap={6}
+      px={inlineHeader ? 0 : 6}
+      pt={inlineHeader ? 0 : 2}
+      pb={inlineHeader ? 0 : 6}
+    >
+      {inlineHeader ? (
+        <Stack space={4}>
+          <Text.Subtitle>DNS Settings</Text.Subtitle>
+          <Text.Body>
+            DNS records point to services your domain uses, like forwarding your
+            domain or setting up an email service.{" "}
+            <TextLink href="#">Learn more about DNS settings</TextLink>
+          </Text.Body>
+        </Stack>
+      ) : null}
       <Stack space={2}>
         <Text.Subtitle>DNS Presets</Text.Subtitle>
         <Text.Body>
@@ -162,4 +163,24 @@ export default function DNS_Settings() {
       </Stack>
     </Flex>
   );
+}
+
+export default function DNS_Settings() {
+  usePageHeader({
+    title: "DNS Settings",
+    subtitle:
+      "DNS records point to services your domain uses, like forwarding your domain or setting up an email service. Learn more about DNS settings",
+    actions: (
+      <Breakpoint.Provider>
+        <Breakpoint.Renderer
+          render={{
+            default: () => <Button.Primary>Add Preset</Button.Primary>,
+            "mobile-0": () => <Button.Primary>Add Preset</Button.Primary>,
+          }}
+        />
+      </Breakpoint.Provider>
+    ),
+  });
+
+  return <DNSSettingsContent />;
 }
