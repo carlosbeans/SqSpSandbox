@@ -179,13 +179,11 @@ export default function Email() {
         </Flex>
       </Box>
 
-      <Grid.Container
-        as="section"
+      <Grid.Container          
         gridConstraint={12}
         id="email-provider-cards"
-        gutter={6}
       >
-        <Grid.Item columns={[12, 6]}>
+        <Grid.Item columns={[12, 6]} id="email-provider-card-google-container" px={0}>
           <Card
             sx={{
               height: "100%",
@@ -193,10 +191,11 @@ export default function Email() {
               borderColor: "gray.800",
               borderRadius: 1,
             }}
+            id="email-provider-card-google"
           >
             <Card.Body>
-              <Stack space={2} sx={{ height: "100%" }}>
-                <Flex alignItems="center" gap={1}>
+              <Stack space={2} sx={{ height: "100%" }} id="email-provider-card-google-body">
+                <Flex alignItems="center" gap={2} id="email-provider-card-google">
                   <Box
                     sx={{
                       width: 22,
@@ -268,7 +267,7 @@ export default function Email() {
                       style={{ display: "block" }}
                     />
                   </Box>
-                  <Text.Subtitle m={0}>
+                  <Text.Subtitle>
                     Essential Email by Titan
                   </Text.Subtitle>
                 </Flex>
