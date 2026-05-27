@@ -23,10 +23,10 @@
     "react-router": "7.2.0",
     "react-router-dom": "7.2.0",
     "react-scripts": "5.0.1",
-    "sass": "1.85.1"
+    "sass": "1.85.1",
+    "@craco/craco": "^7.1.0"
   },
   "devDependencies": {
-    "@craco/craco": "^7.1.0",
     "@types/react": "18.2.38",
     "@types/react-dom": "18.2.15",
     "ajv": "^8.12.0",
