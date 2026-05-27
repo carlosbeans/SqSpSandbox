@@ -5,6 +5,7 @@
   "keywords": [],
   "main": "src/index.tsx",
   "dependencies": {
+    "@craco/craco": "^7.1.0",
     "@sqs/i18n-react": "^1.14.0",
     "@sqs/network": "^10.0.1",
     "@sqs/rosetta-compositions": "^12.21.0",
@@ -24,7 +25,7 @@
     "react-router-dom": "7.2.0",
     "react-scripts": "5.0.1",
     "sass": "1.85.1",
-    "@craco/craco": "^7.1.0"
+    "serve": "^14.2.6"
   },
   "devDependencies": {
     "@types/react": "18.2.38",
@@ -35,7 +36,8 @@
     "typescript": "4.4.4"
   },
   "scripts": {
-    "start": "HOST=0.0.0.0 craco start",
+    "start": "node scripts/appspace-start.cjs",
+    "start:dev": "HOST=0.0.0.0 craco start",
     "build": "craco build",
     "test": "craco test --env=jsdom",
     "eject": "react-scripts eject"
