@@ -79,36 +79,22 @@ function DNSTable({ records }) {
   );
 }
 
-export function DNSSettingsContent({ inlineHeader = false }) {
+export function DNSSettingsContent() {
   const { radii, borders, colors } = useTheme();
 
   return (
-    <Flex
-      id={inlineHeader ? "domain-settings-tab-dns-settings-content" : "dnsSettingsPage"}
-      flexDirection="column"
-      gap={6}
-      px={inlineHeader ? 0 : 6}
-      pt={inlineHeader ? 0 : 2}
-      pb={inlineHeader ? 0 : 6}
-    >
-      {inlineHeader ? (
-        <Stack space={4}>
-          <Text.Subtitle>DNS Settings</Text.Subtitle>
+    <Flex id="dnsSettingsPage" flexDirection="column" gap={6} px={6}>
+      <Flex alignItems="center" justifyContent="space-between">
+        <Stack>
+          <Text.Subtitle>DNS Presets</Text.Subtitle>
           <Text.Body>
             DNS records point to services your domain uses, like forwarding your
-            domain or setting up an email service.{" "}
-            <TextLink href="#">Learn more about DNS settings</TextLink>
+            domain or setting up an email service. <br />
+            <TextLink href="#">Learn more about DNS settings</TextLink>          
           </Text.Body>
         </Stack>
-      ) : null}
-      <Stack space={2}>
-        <Text.Subtitle>DNS Presets</Text.Subtitle>
-        <Text.Body>
-          DNS records point to services your domain uses, like forwarding your
-          domain or setting up an email service. <br />
-          <TextLink href="#">Learn more about DNS settings</TextLink>
-        </Text.Body>
-      </Stack>
+        <Button.Primary size="medium">Add Preset</Button.Primary>
+      </Flex>
       <Card sx={{ borderRadius: radii[1] }}>
         <Card.Body>
           <Stack space={3}>
@@ -148,7 +134,7 @@ export function DNSSettingsContent({ inlineHeader = false }) {
               <TextLink href="#">Learn more about DNS settings</TextLink>
             </Text.Body>
           </Stack>
-          <Button.Secondary>Add Record</Button.Secondary>
+          <Button.Primary size="medium">Add Record</Button.Primary>
         </Flex>
         <Stack
           p={3}
@@ -169,17 +155,7 @@ export default function DNS_Settings() {
   usePageHeader({
     title: "DNS Settings",
     subtitle:
-      "DNS records point to services your domain uses, like forwarding your domain or setting up an email service. Learn more about DNS settings",
-    actions: (
-      <Breakpoint.Provider>
-        <Breakpoint.Renderer
-          render={{
-            default: () => <Button.Primary>Add Preset</Button.Primary>,
-            "mobile-0": () => <Button.Primary>Add Preset</Button.Primary>,
-          }}
-        />
-      </Breakpoint.Provider>
-    ),
+      "DNS records point to services your domain uses, like forwarding your domain or setting up an email service. Learn more about DNS settings",   
   });
 
   return <DNSSettingsContent />;

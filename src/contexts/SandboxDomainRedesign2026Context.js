@@ -1,7 +1,7 @@
 import * as React from "react";
 
 export const SandboxDomainRedesign2026Context = React.createContext({
-  domainRedesign2026Enabled: true,
+  domainRedesign2026Enabled: false,
   setDomainRedesign2026Enabled: () => {},
 });
 

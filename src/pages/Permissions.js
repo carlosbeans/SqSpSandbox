@@ -8,16 +8,6 @@ import { Ellipses } from "@sqs/rosetta-icons";
 import { usePageHeader } from "../layouts/PageHeaderContext";
 import { loadJsonData } from "../utils/dataUtils.ts";
 
-function PermissionsHeaderSubtitle() {
-  return (
-    <>
-      Add people to help manage your domain or transfer domain ownership. Please
-      note: Domain ownership can only be transferred to an existing manager.{" "}
-      <TextLink href="#">Learn more</TextLink>
-    </>
-  );
-}
-
 /** Domain owner from mock `domains.json`: nested `owner` if present, else registrant fields on the domain. */
 function getDomainOwnerDisplay(domain) {
   if (!domain) return null;
@@ -157,11 +147,7 @@ function PersonRow({ name, subtitle, avatar, showMenu }) {
   );
 }
 
-/**
- * @param {{ inlineHeader?: boolean }} props
- * When `inlineHeader` is true (e.g. Domain Settings tab), renders the former page-header title, description, and primary action inline.
- */
-export function PermissionsContent({ inlineHeader = false }) {
+export function PermissionsContent() {
   const { domainId } = useParams();
   const [domain, setDomain] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -189,23 +175,13 @@ export function PermissionsContent({ inlineHeader = false }) {
     };
   }, [domainId]);
 
-  const contentId = inlineHeader
-    ? "domain-settings-tab-permissions"
-    : "permissions-page-content";
-
   if (loading) {
     return <ActivityIndicator />;
   }
 
-  const errorBoxSx = {
-    px: inlineHeader ? 0 : 6,
-    pt: inlineHeader ? 0 : 2,
-    pb: 6,
-  };
-
   if (error) {
     return (
-      <Box {...errorBoxSx}>
+      <Box px={6} pt={2} pb={6}>
         <Text.Body>{error}</Text.Body>
       </Box>
     );
@@ -215,7 +191,7 @@ export function PermissionsContent({ inlineHeader = false }) {
 
   if (!domain || !domainOwner) {
     return (
-      <Box {...errorBoxSx}>
+      <Box px={6} pt={2} pb={6}>
         <Text.Body>
           Domain not found. Unable to show permissions for this domain.
         </Text.Body>
@@ -224,24 +200,7 @@ export function PermissionsContent({ inlineHeader = false }) {
   }
 
   return (
-    <Box
-      flexDirection="column"
-      px={inlineHeader ? 0 : 6}
-      pt={inlineHeader ? 0 : 2}
-      id={contentId}
-    >
-      {inlineHeader ? (
-        <Stack space={4} pb={6} id="domain-settings-permissions-intro">
-          <Text.Subtitle>Domain Permissions</Text.Subtitle>
-          <Text.Body>
-            <PermissionsHeaderSubtitle />
-          </Text.Body>
-          <Flex>
-            <Button.Primary>Add Domain Manager</Button.Primary>
-          </Flex>
-        </Stack>
-      ) : null}
-
+    <Box flexDirection="column" px={6} id="permissions-page-content">
       <Stack space={1}>
         <SectionLabel>Domain Owner</SectionLabel>
         <PersonRow
@@ -284,9 +243,15 @@ export function PermissionsContent({ inlineHeader = false }) {
 export default function Permissions() {
   usePageHeader({
     title: "Domain Permissions",
-    subtitle: <PermissionsHeaderSubtitle />,
-    actions: <Button.Primary>Add Domain Manager</Button.Primary>,
+    subtitle: (
+      <>
+        Add people to help manage your domain or transfer domain
+        ownership. Please note: Domain ownership can only be transferred to an
+        existing manager. <TextLink href="#">Learn more</TextLink>
+      </>
+    ),
+    actions: <Button.Primary size="large">Add Domain Manager</Button.Primary>,
   });
 
-  return <PermissionsContent inlineHeader={false} />;
+  return <PermissionsContent />;
 }

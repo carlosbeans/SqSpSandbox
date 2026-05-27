@@ -8,28 +8,38 @@ import { Stack } from "@sqs/rosetta-elements";
 import { Flex, Text } from "@sqs/rosetta-primitives";
 import { Button } from "@sqs/rosetta-primitives";
 import { Badge } from "@sqs/rosetta-elements";
-import { Settings } from "@sqs/rosetta-icons";
 import { SidePanelDomainContext } from "../../layouts/SidePanelDomainContext";
 import { useTopChromeInset } from "../../contexts/TopChromeInsetContext";
-import { useSandboxDomainRedesign2026 } from "../../contexts/SandboxDomainRedesign2026Context";
-import { radii } from "@sqs/rosetta-tokens";
 
 /** Main nav stripe + banner offset (<MainNavigation /> tabs + chrome). */
 const SIDE_PANEL_STICKY_TOP_BASE_PX = 78;
+import { radii } from "@sqs/rosetta-tokens";
 
 const NAV_ITEMS = [
   { value: "overview", label: "Overview", path: "." },
+  { value: "dns", label: "DNS", path: "dns" },
   { value: "website", label: "Website", path: "website" },
   { value: "email", label: "Email", path: "email" },
   { value: "pay-links", label: "Pay Links", path: "/pay-links" },
+  { value: "permissions", label: "Permissions", path: "permissions" },
 ];
 
-const FOOTER_NAV_ITEMS = [];
+const FOOTER_NAV_ITEMS = [
+  { value: "activity", label: "Activity", path: "activity" },
+  { value: "billing", label: "Billing", path: "billing" },
+];
 
 const ALL_NAV_ITEMS = [...NAV_ITEMS, ...FOOTER_NAV_ITEMS];
 
 const DNS_SUB_ITEMS = [
   { value: "dns-settings", label: "DNS Settings", path: "dns" },
+  { value: "nameservers", label: "Nameservers", path: "nameservers" },
+  {
+    value: "nameserver-registration",
+    label: "Nameserver Registration",
+    path: "nameserver-registration",
+  },
+  { value: "dnssec", label: "DNSSEC", path: "dnssec" },
 ];
 
 const DNS_PATHS = DNS_SUB_ITEMS.map((item) => item.path);
@@ -54,7 +64,6 @@ function getActiveNav(pathname, domainId) {
   const sub = pathname.startsWith(base)
     ? pathname.slice(base.length).replace(/^\//, "")
     : "";
-  if (sub === "settings" || sub.startsWith("settings/")) return "domain-settings";
   if (DNS_PATHS.includes(sub)) return "dns";
   const match = ALL_NAV_ITEMS.find((item) => item.path === sub);
   return match ? match.value : "overview";
@@ -77,7 +86,6 @@ function domainSectionPath(domainId, segment) {
 
 export default function SidePanelNav() {
   const topChromeInsetPx = useTopChromeInset();
-  const { domainRedesign2026Enabled } = useSandboxDomainRedesign2026();
   const { borders, colors } = useTheme();
   const { NavItem, NavText, NavGroup } = NavMenu;
   const navigate = useNavigate();
@@ -160,8 +168,8 @@ export default function SidePanelNav() {
                       isSelected={activeDnsSub === sub.value}
                       onClick={() => navigateDnsSub(sub.path)}
                     >
-                      <Box sx={{ fontWeight: 500 }}>
-                        <NavText>{sub.label}</NavText>
+                      <Box sx={{ "& *": { fontWeight: "500 !important" } }}>
+                        <NavText variant="subtitle">{sub.label}</NavText>
                       </Box>
                     </NavItem>
                   ))}
@@ -185,54 +193,25 @@ export default function SidePanelNav() {
             </NavItem>
           ))}
         </NavMenu>
-        {domainRedesign2026Enabled ? (
-          <Box px={6} py={4} mb={3}>
-            <Flex
-              alignItems="center"
-              gap={2}
-              sx={{ cursor: "pointer" }}
-              onClick={() => {
-                if (!domainIdForNav) {
-                  navigate("/domains");
-                  return;
-                }
-                navigate(domainSectionPath(domainIdForNav, "settings"));
-              }}
-            >
-              <Settings css={{ width: 22, height: 22, flexShrink: 0 }} />
-              <Text.Body
-                sx={{
-                  fontWeight: 500,
-                  fontSize: "16px",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Domain settings
-              </Text.Body>
-            </Flex>
-          </Box>
-        ) : null}
-        {!domainRedesign2026Enabled ? (
-          <Box px={6} py={6}>
-            <Button
-              size="medium"
-              variant="secondary"
-              sx={{
-                width: "100%",
-                textTransform: "none",
-                fontSize: "16px",
-                borderRadius: radii[1],
-                textAlign: "left",
-                letterSpacing: "0",
-              }}
-            >
-              Form an LLC{" "}
-              <Badge appearance="blue" mx={2}>
-                New
-              </Badge>
-            </Button>
-          </Box>
-        ) : null}
+        <Box px={6} pb={6} pt={3}>
+          <Button
+            size="medium"
+            variant="secondary"
+            sx={{
+              width: "100%",
+              textTransform: "none",
+              fontSize: "16px",
+              borderRadius: radii[1],
+              textAlign: "left",
+              letterSpacing: "0",
+            }}
+          >
+            Form an LLC{" "}
+            <Badge appearance="blue" mx={2}>
+              New
+            </Badge>
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

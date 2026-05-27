@@ -27,40 +27,41 @@ function MastercardLogo({ size = 32 }) {
   );
 }
 
-const editLinkSx = {
-  fontWeight: 600,
-  textTransform: "uppercase",
-  letterSpacing: "0.06em",
-  display: "inline-flex",
-  alignItems: "center",
-  minHeight: 44,
-  py: 2,
-  px: 2,
-  marginRight: -2,
-};
+function EditControl({ label }) {
+  const { colors } = useTheme();
+  return (
+    <Box
+      as="button"
+      type="button"
+      sx={{
+        background: "none",
+        border: "none",
+        cursor: "pointer",
+        paddingY: 2,
+        paddingX: 2,
+        marginRight: -2,
+        minHeight: 44,
+        display: "inline-flex",
+        alignItems: "center",
+        fontWeight: 600,
+        fontSize: 2,
+        lineHeight: "22px",
+        textTransform: "uppercase",
+        letterSpacing: "0.06em",
+        color: colors.gray?.[100] ?? "inherit",
+        fontFamily: "inherit",
+      }}
+    >
+      {label}
+    </Box>
+  );
+}
 
-/**
- * @param {{ inlineHeader?: boolean }} props
- * When `inlineHeader` is true (e.g. Domain Settings tab), renders title + subtitle that were previously in the shell page header.
- */
-export function BillingContent({ inlineHeader = false }) {
+export function BillingContent() {
   const { colors } = useTheme();
 
   return (
-    <Stack
-      space={6}
-      pt={inlineHeader ? 0 : 2}
-      pb={inlineHeader ? 0 : 8}
-      id={inlineHeader ? "domain-settings-tab-billing" : "billing-page-content"}
-    >
-      {inlineHeader ? (
-        <Stack space={2} id="domain-settings-billing-intro">
-          <Text.Subtitle>Payment Information</Text.Subtitle>
-          <Text.Body color="gray.300">
-            All your payment information is securely submitted.
-          </Text.Body>
-        </Stack>
-      ) : null}
+    <Stack space={6} pt={2} pb={8} id="billing-page-content">
       <Banner.Info>
         <Banner.Main>
           <Banner.Row alignItems="flex-start">
@@ -78,13 +79,7 @@ export function BillingContent({ inlineHeader = false }) {
       <Stack space={4}>
         <Flex alignItems="center" justifyContent="space-between" gap={4}>
           <Text.Subtitle>Billing Address</Text.Subtitle>
-          <TextLink
-            href="#"
-            onClick={(e) => e.preventDefault()}
-            sx={editLinkSx}
-          >
-            Edit
-          </TextLink>
+          <EditControl label="EDIT" />
         </Flex>
         <Stack space={1}>
           <Text.Body m={0}>{BILLING_ADDRESS.name}</Text.Body>
@@ -98,13 +93,7 @@ export function BillingContent({ inlineHeader = false }) {
       <Stack space={4}>
         <Flex alignItems="center" justifyContent="space-between" gap={4}>
           <Text.Subtitle>Payment Method</Text.Subtitle>
-          <TextLink
-            href="#"
-            onClick={(e) => e.preventDefault()}
-            sx={editLinkSx}
-          >
-            Edit
-          </TextLink>
+          <EditControl label="EDIT" />
         </Flex>
         <Flex alignItems="center" gap={3}>
           <Box sx={{ flexShrink: 0, display: "flex" }}>
@@ -132,9 +121,5 @@ export default function Billing() {
     subtitle: "All your payment information is securely submitted.",
   });
 
-  return (
-    <Box px={6}>
-      <BillingContent inlineHeader={false} />
-    </Box>
-  );
+  return <BillingContent />;
 }

@@ -1,82 +1,46 @@
 import { Stack } from "@sqs/rosetta-elements";
 import { useTheme } from "@sqs/rosetta-styled";
-import { Button, Box, Flex, Text } from "@sqs/rosetta-primitives";
+import { Button, Box } from "@sqs/rosetta-primitives";
 import { Breakpoint } from "@sqs/rosetta-utilities";
 import { usePageHeader } from "../layouts/PageHeaderContext";
+import { Flex } from "@sqs/rosetta-primitives";
 
-const NAMESERVER_HOSTS = [
-  "ns-cloud-b1.googledomains.com",
-  "ns-cloud-b2.googledomains.com",
-  "ns-cloud-b3.googledomains.com",
-  "ns-cloud-b4.googledomains.com",
-];
-
-function UseSquarespaceNameserversButton() {
-  return (
-    <Breakpoint.Provider>
-      <Breakpoint.Renderer
-        render={{
-          default: () => (
-            <Button.Primary>Use Squarespace Nameservers</Button.Primary>
-          ),
-          "mobile-0": () => (
-            <Button.Primary>Use Squarespace Nameservers</Button.Primary>
-          ),
-        }}
-      />
-    </Breakpoint.Provider>
-  );
-}
-
-/**
- * @param {{ inlineHeader?: boolean }} props
- * When `inlineHeader` is true (Domain Settings DNS tab), renders title + primary action inline.
- */
-export function NameserversContent({ inlineHeader = false }) {
+export function NameserversContent() {
   const { borders, colors } = useTheme();
 
   return (
-    <Stack
-      space={6}
-      px={inlineHeader ? 0 : 6}
-      id={
-        inlineHeader
-          ? "domain-settings-nameservers-block"
-          : "nameservers-page-content"
-      }
-    >
-      {inlineHeader ? (
-        <Flex
-          id="domain-settings-nameservers-intro"
-          alignItems="center"
-          justifyContent="space-between"
-          gap={4}
-          flexWrap="wrap"
-        >
-          <Text.Subtitle>Domain Nameservers</Text.Subtitle>
-          <UseSquarespaceNameserversButton />
-        </Flex>
-      ) : null}
-      <Stack id="domain-settings-nameservers-list">
-        {NAMESERVER_HOSTS.map((host) => (
-          <Box
-            key={host}
-            py={4}
-            sx={{ borderBottom: borders[1], borderColor: colors.gray[800] }}
-          >
-            <Text.Body m={0}>{host}</Text.Body>
-          </Box>
-        ))}
+    <Flex flexDirection="column" gap={6} px={6}>
+      <Stack>
+        <Box pb={4} sx={{ borderBottom: borders[1], borderColor: colors.gray[800] }}>ns-cloud-b1.googledomains.com
+        </Box>
+        <Box py={4} sx={{ borderBottom: borders[1], borderColor: colors.gray[800] }}> ns-cloud-b2.googledomains.com </Box>
+        <Box py={4} sx={{ borderBottom: borders[1], borderColor: colors.gray[800] }}> ns-cloud-b3.googledomains.com </Box>
+        <Box py={4} sx={{ borderBottom: borders[1], borderColor: colors.gray[800] }}> ns-cloud-b4.googledomains.com </Box>
+        
       </Stack>
-    </Stack>
+    </Flex>
   );
 }
 
 export default function DomainNameservers() {
   usePageHeader({
     title: "Domain Nameservers",
-    actions: <UseSquarespaceNameserversButton />,
+    actions: (
+      <Breakpoint.Provider>
+        <Breakpoint.Renderer
+          render={{
+            default: () => (
+              <Button.Primary size="large">Use Squarespace Nameservers</Button.Primary>
+            ),
+            "mobile-0": () => (
+              <Button.Primary>Use Squarespace Nameservers</Button.Primary>
+            ),
+          }}
+        />
+      </Breakpoint.Provider>
+    ),
+    subtitle: "Use Squarespace Nameservers to manage your domain's nameservers. Learn more about nameservers",
   });
 
-  return <NameserversContent inlineHeader={false} />;
+  return <NameserversContent />;
 }

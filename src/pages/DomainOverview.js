@@ -7,7 +7,6 @@ import { Text } from "@sqs/rosetta-primitives";
 import { Button } from "@sqs/rosetta-primitives";
 import { InfoCircle } from "@sqs/rosetta-icons";
 import { Flex } from "@sqs/rosetta-primitives";
-import { Divider } from "@sqs/rosetta-elements";
 import { Box } from "@sqs/rosetta-primitives";
 import { Image } from "@sqs/rosetta-elements";
 import { Card } from "@sqs/rosetta-elements";
@@ -16,8 +15,10 @@ import { Tabs } from "@sqs/rosetta-elements";
 import { TextLink } from "@sqs/rosetta-elements";
 import { Grid, Stack } from "@sqs/rosetta-elements";
 import DomainOverviewHeader from "../components/DomainOverviewHeader/DomainOverviewHeader";
+import { useSandboxDomainRedesign2026 } from "../contexts/SandboxDomainRedesign2026Context";
 
 export default function DomainOverview() {
+  const { domainRedesign2026Enabled } = useSandboxDomainRedesign2026();
   const { domainId } = useParams();
   const navigate = useNavigate();
   const [domain, setDomain] = useState(null);
@@ -25,6 +26,7 @@ export default function DomainOverview() {
   const [error, setError] = useState(null);
 
   // Toggle states
+  const [autoRenew, setAutoRenew] = useState(true);
   const [privateRegistration, setPrivateRegistration] = useState(true);
   const [domainLock, setDomainLock] = useState(true);
 
@@ -69,47 +71,83 @@ export default function DomainOverview() {
   return (
     <Flex gap={6} flexDirection="column" id="domainOverview">
       <DomainOverviewHeader />
-      {/* Info section — 2 columns */}
+      {/* Domain Registration Cards — 3 columns */}
       <Grid.Container gridConstraint={12}>
+        {/* Expires On */}
+        <Grid.Item columns={[12, 4]}>
+          <Stack space={2} py={2} px={4}>
+            <Flex alignItems="center" gap={1}>
+              <Text.Label>Expires On</Text.Label>
+              <InfoCircle css={{ color: "gray.400", width: 16, height: 16 }} />
+            </Flex>
+            <Text.Subtitle>
+              {domain.expirationDate || "Aug 23, 2024"}{" "}
+              <Text.Body as="span" color="gray.300">for </Text.Body>
+              <Text.Subtitle as="span">${"12"}</Text.Subtitle>
+            </Text.Subtitle>
+            <Flex alignItems="center" justifyContent="space-between">
+              <Flex alignItems="center" gap={1}>
+                <Toggle
+                  checked={autoRenew}
+                  onChange={(checked) => setAutoRenew(checked)}
+                  aria-label="Auto-renew"
+                />
+                <Text.Caption color="gray.300">Auto-renew</Text.Caption>
+              </Flex>
+              <TextLink href="#">
+                <Text.Caption>Add years</Text.Caption>
+              </TextLink>
+            </Flex>
+          </Stack>
+        </Grid.Item>
+
         {/* WHOIS Privacy */}
         <Grid.Item
           columns={[12, 4]}
-          p={2}
-          divider={<Divider.Vertical my={1} />}
+          sx={{ borderLeft: "1px solid", borderLeftColor: "gray.800" }}
         >
-          <Stack space={2}>
+          <Stack space={2} py={2} px={4}>
             <Flex alignItems="center" gap={1}>
               <Text.Label>WHOIS Privacy</Text.Label>
               <InfoCircle css={{ color: "gray.400", width: 16, height: 16 }} />
             </Flex>
             <Text.Subtitle>On</Text.Subtitle>
-            <Flex alignItems="center" gap={2}>
-              <Toggle
-                checked={privateRegistration}
-                onChange={(checked) => setPrivateRegistration(checked)}
-                aria-label="Private registration"
-              />
-              <Text.Body>Private registration</Text.Body>
+            <Flex alignItems="center" justifyContent="space-between">
+              <Flex alignItems="center" gap={1}>
+                <Toggle
+                  checked={privateRegistration}
+                  onChange={(checked) => setPrivateRegistration(checked)}
+                  aria-label="Private registration"
+                />
+                <Text.Caption color="gray.300">Private registration</Text.Caption>
+              </Flex>
+              <TextLink href="#">
+                <Text.Caption>WHOIS info</Text.Caption>
+              </TextLink>
             </Flex>
-            <TextLink href="#">WHOIS info</TextLink>
           </Stack>
         </Grid.Item>
 
         {/* Domain Lock */}
-        <Grid.Item columns={[12, 4]} p={2}>
-          <Stack space={2}>
+        <Grid.Item
+          columns={[12, 4]}
+          sx={{ borderLeft: "1px solid", borderLeftColor: "gray.800" }}
+        >
+          <Stack space={2} py={2} px={4}>
             <Flex alignItems="center" gap={1}>
               <Text.Label>Domain Lock</Text.Label>
               <InfoCircle css={{ color: "gray.400", width: 16, height: 16 }} />
             </Flex>
             <Text.Subtitle>On</Text.Subtitle>
-            <Flex alignItems="center" gap={2}>
-              <Toggle
-                checked={domainLock}
-                onChange={(checked) => setDomainLock(checked)}
-                aria-label="Lock"
-              />
-              <Text.Body>Lock</Text.Body>
+            <Flex alignItems="center">
+              <Flex alignItems="center" gap={1}>
+                <Toggle
+                  checked={domainLock}
+                  onChange={(checked) => setDomainLock(checked)}
+                  aria-label="Lock"
+                />
+                <Text.Caption color="gray.300">Lock</Text.Caption>
+              </Flex>
             </Flex>
           </Stack>
         </Grid.Item>
@@ -196,32 +234,34 @@ export default function DomainOverview() {
       </Grid.Container>
 
       {/* Security & Health + Email */}
-      <Grid.Container gridConstraint={12}>
-        <Grid.Item columns={[12, 6]}>
-          <Card sx={{ borderRadius: 2 }}>
-            <Card.Body>
-              <Stack space={2}>
-                <Text.Subtitle>Security & health</Text.Subtitle>
-                <Text.Body color="gray.300">
-                  No security or health issues detected.
-                </Text.Body>
-              </Stack>
-            </Card.Body>
-          </Card>
-        </Grid.Item>
-        <Grid.Item columns={[12, 6]}>
-          <Card sx={{ borderRadius: 2 }}>
-            <Card.Body>
-              <Stack space={2}>
-                <Text.Subtitle>Email connections</Text.Subtitle>
-                <Text.Body color="gray.300">
-                  No email connections configured.
-                </Text.Body>
-              </Stack>
-            </Card.Body>
-          </Card>
-        </Grid.Item>
-      </Grid.Container>
+      {domainRedesign2026Enabled && (
+        <Grid.Container gridConstraint={12}>
+          <Grid.Item columns={[12, 6]}>
+            <Card sx={{ borderRadius: 2 }}>
+              <Card.Body>
+                <Stack space={2}>
+                  <Text.Subtitle>Security & health</Text.Subtitle>
+                  <Text.Body color="gray.300">
+                    No security or health issues detected.
+                  </Text.Body>
+                </Stack>
+              </Card.Body>
+            </Card>
+          </Grid.Item>
+          <Grid.Item columns={[12, 6]}>
+            <Card sx={{ borderRadius: 2 }}>
+              <Card.Body>
+                <Stack space={2}>
+                  <Text.Subtitle>Email connections</Text.Subtitle>
+                  <Text.Body color="gray.300">
+                    No email connections configured.
+                  </Text.Body>
+                </Stack>
+              </Card.Body>
+            </Card>
+          </Grid.Item>
+        </Grid.Container>
+      )}
 
       {/* Footer actions */}
       <Box px={6} mt={2} mb={4} id="appBodyFooterActions">

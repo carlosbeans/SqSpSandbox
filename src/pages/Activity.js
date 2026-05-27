@@ -1,6 +1,6 @@
 import { Stack } from "@sqs/rosetta-elements";
-import { Box } from "@sqs/rosetta-primitives";
 import { Table } from "@sqs/rosetta-compositions";
+import { Button } from "@sqs/rosetta-primitives";
 import { usePageHeader } from "../layouts/PageHeaderContext";
 
 const columnHelper = Table.Utils.createColumnHelper();
@@ -21,10 +21,9 @@ const data = [
   { action: "Enabled DNSSEC", name: "Laura Lejano", location: "Richmond, VA", time: "1 year ago" },
 ];
 
-/** Table and layout from the standalone Activity route; omit outer padding when embedding (e.g. Domain Settings tabs). */
 export function ActivityContent() {
   return (
-    <Stack space={6} id="domain-settings-tab-activity-inner">
+    <Stack space={6} mx={6}>
       <Table columns={columns} data={data}>
         <Table.List />
       </Table>
@@ -33,10 +32,10 @@ export function ActivityContent() {
 }
 
 export default function Activity() {
-  usePageHeader({ title: "Activity" });
-  return (
-    <Box px={6} id="activity-page-content">
-      <ActivityContent />
-    </Box>
-  );
+  usePageHeader({
+    title: "Activity",
+    actions: <Button.Primary size="large">Manage Notifications</Button.Primary>,
+    subtitle: "View your domain's activity and notifications. Learn more about activity",
+  });
+  return <ActivityContent />;
 }

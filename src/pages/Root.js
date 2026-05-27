@@ -83,7 +83,7 @@ export default function Root() {
   );
 
   const [domainRedesign2026Enabled, setDomainRedesign2026Enabled] =
-    React.useState(true);
+    React.useState(false);
   const sandboxDomainRedesign2026ContextValue = React.useMemo(
     () => ({
       domainRedesign2026Enabled,

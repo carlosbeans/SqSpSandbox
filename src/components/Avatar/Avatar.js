@@ -176,8 +176,7 @@ export default function Avatar() {
   return (
     <Box>
       <ActionList.PopOver
-        anchorPoint={{ x: "left", y: "bottom" }}
-        position="bottom-right"
+        
         recalculateAnchorOnScroll
         scrollNode={documentScrollRoot}
         zIndex={AVATAR_ACTION_LIST_Z_INDEX}

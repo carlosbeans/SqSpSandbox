@@ -397,34 +397,6 @@ export default function DomainOverviewHeader() {
                 />
               </Box>
             </Flex>
-
-            {/* Expires On */}
-            <Flex
-              id="expiresOn"
-              flexDirection="column"
-              gap={2}
-              minWidth={0}
-            >
-              <Flex alignItems="center" gap={1}>
-                <Text.Label>Expires On</Text.Label>
-                <InfoCircle css={{ color: "gray.400", width: 16, height: 16 }} />
-              </Flex>
-              <Box>
-                <Text.Subtitle>
-                  {domain.expirationDate || "Aug 23, 2024"}{" "}
-                  <Text.Body as="span">for $12</Text.Body>
-                </Text.Subtitle>
-              </Box>
-              <Flex alignItems="center" gap={2}>
-                <Toggle
-                  checked={autoRenew}
-                  onChange={(checked) => setAutoRenew(checked)}
-                  aria-label="Auto-renew"
-                />
-                <Text.Body>Auto-renew</Text.Body>
-              </Flex>
-              <TextLink href="#">Add years</TextLink>
-            </Flex>
           </Flex>
         </Box>
 
