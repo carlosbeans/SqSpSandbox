@@ -1,16 +1,28 @@
 const webpack = require("webpack");
 
-/** AppSpace routes traffic to APPSPACE_PORT (usually 80). CRA defaults to localhost:3000 without this. */
+/**
+ * AppSpace sets APPSPACE_PORT=3000 (CRA default) but routes ingress to container :80.
+ * Runtime evidence: dial tcp …:80 connection refused while devServer bound to 3000.
+ */
 function resolveDevServerPort() {
+  if (process.env.NODE_ENV === "production") {
+    return 80;
+  }
+
   const raw = process.env.APPSPACE_PORT ?? process.env.PORT;
   if (raw == null || String(raw).trim() === "") return undefined;
   const port = Number(raw);
   return Number.isFinite(port) ? port : undefined;
 }
 
-const devServerPort =
-  resolveDevServerPort() ??
-  (process.env.NODE_ENV === "production" ? 80 : undefined);
+const appspaceEnvPort = process.env.APPSPACE_PORT ?? process.env.PORT ?? null;
+const devServerPort = resolveDevServerPort();
+const portResolution =
+  process.env.NODE_ENV === "production"
+    ? "production-ingress-80"
+    : appspaceEnvPort != null
+      ? "env"
+      : "cra-default";
 const devServer = {
   host: "0.0.0.0",
   allowedHosts: "all",
@@ -30,6 +42,8 @@ console.error(
       PORT: process.env.PORT ?? null,
       HOST: process.env.HOST ?? null,
       NODE_ENV: process.env.NODE_ENV ?? null,
+      appspaceEnvPort,
+      portResolution,
       devServerPort: devServerPort ?? null,
       devServerHost: devServer.host,
     },
