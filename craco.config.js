@@ -1,11 +1,42 @@
 const webpack = require("webpack");
 
-/** AppSpace and similar hosts expose the listening port via APPSPACE_PORT. */
-const appspacePort = process.env.APPSPACE_PORT;
-const devServer =
-  appspacePort != null && String(appspacePort).trim() !== ""
-    ? { port: Number(appspacePort) }
-    : {};
+/** AppSpace routes traffic to APPSPACE_PORT (usually 80). CRA defaults to localhost:3000 without this. */
+function resolveDevServerPort() {
+  const raw = process.env.APPSPACE_PORT ?? process.env.PORT;
+  if (raw == null || String(raw).trim() === "") return undefined;
+  const port = Number(raw);
+  return Number.isFinite(port) ? port : undefined;
+}
+
+const devServerPort =
+  resolveDevServerPort() ??
+  (process.env.NODE_ENV === "production" ? 80 : undefined);
+const devServer = {
+  host: "0.0.0.0",
+  allowedHosts: "all",
+  ...(devServerPort != null ? { port: devServerPort } : {}),
+};
+
+// #region agent log
+console.error(
+  "[appspace-debug]",
+  JSON.stringify({
+    sessionId: "c8cbdf",
+    hypothesisId: "H1-H4",
+    location: "craco.config.js:devServer",
+    message: "devServer config resolved",
+    data: {
+      APPSPACE_PORT: process.env.APPSPACE_PORT ?? null,
+      PORT: process.env.PORT ?? null,
+      HOST: process.env.HOST ?? null,
+      NODE_ENV: process.env.NODE_ENV ?? null,
+      devServerPort: devServerPort ?? null,
+      devServerHost: devServer.host,
+    },
+    timestamp: Date.now(),
+  })
+);
+// #endregion
 
 /** Rosetta composition packages expect Metro's global __DEV__. CRA web bundles don't define it. */
 module.exports = {
