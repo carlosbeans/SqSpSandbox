@@ -3,22 +3,34 @@ const http = require("http");
 const path = require("path");
 
 function debugLog(message, data, hypothesisId = "H5-H8") {
+  const payload = {
+    sessionId: "056c63",
+    hypothesisId,
+    location: "scripts/appspace-start.cjs",
+    message,
+    data,
+    timestamp: Date.now(),
+    runId: process.env.DEBUG_RUN_ID ?? "pre-fix",
+  };
   // #region agent log
-  console.error(
-    "[appspace-debug]",
-    JSON.stringify({
-      sessionId: "c8cbdf",
-      hypothesisId,
-      location: "scripts/appspace-start.cjs",
-      message,
-      data,
-      timestamp: Date.now(),
-    })
-  );
+  console.error("[appspace-debug]", JSON.stringify(payload));
+  fetch("http://127.0.0.1:7586/ingest/52d2e7f1-8d19-45b3-8e45-84e69bbf4642", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Debug-Session-Id": "056c63",
+    },
+    body: JSON.stringify(payload),
+  }).catch(() => {});
   // #endregion
 }
 
 function resolveListenPort() {
+  // AppSpace ingress routes to container :80; APPSPACE_PORT is often 3000 (CRA default).
+  if (process.env.NODE_ENV === "production") {
+    return 80;
+  }
+
   const raw = process.env.APPSPACE_PORT ?? process.env.PORT ?? "3000";
   const port = Number(raw);
   return Number.isFinite(port) ? port : 3000;
@@ -45,9 +57,11 @@ debugLog(
   {
     NODE_ENV: process.env.NODE_ENV,
     APPSPACE_PORT: process.env.APPSPACE_PORT ?? null,
+    PORT: process.env.PORT ?? null,
     listenPort,
+    portResolution: "production-ingress-80",
   },
-  "H6"
+  "H1"
 );
 
 debugLog("running production build", {}, "H7");
