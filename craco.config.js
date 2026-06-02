@@ -1,6 +1,14 @@
 const webpack = require("webpack");
 
+/**
+ * AppSpace ingress probes container :80 while APPSPACE_PORT is 3000.
+ * Use :80 in production so health checks pass without a startup build (which OOMs).
+ */
 function resolveDevServerPort() {
+  if (process.env.NODE_ENV === "production") {
+    return 80;
+  }
+
   const raw = process.env.APPSPACE_PORT ?? process.env.PORT;
   if (raw == null || String(raw).trim() === "") return undefined;
   const port = Number(raw);
@@ -9,7 +17,12 @@ function resolveDevServerPort() {
 
 const appspaceEnvPort = process.env.APPSPACE_PORT ?? process.env.PORT ?? null;
 const devServerPort = resolveDevServerPort();
-const portResolution = appspaceEnvPort != null ? "env" : "cra-default";
+const portResolution =
+  process.env.NODE_ENV === "production"
+    ? "production-ingress-80"
+    : appspaceEnvPort != null
+      ? "env"
+      : "cra-default";
 const devServer = {
   host: "0.0.0.0",
   allowedHosts: "all",
@@ -20,8 +33,8 @@ const devServer = {
 console.error(
   "[appspace-debug]",
   JSON.stringify({
-    sessionId: "c8cbdf",
-    hypothesisId: "H1-H4",
+    sessionId: "056c63",
+    hypothesisId: "H9",
     location: "craco.config.js:devServer",
     message: "devServer config resolved",
     data: {
@@ -35,6 +48,7 @@ console.error(
       devServerHost: devServer.host,
     },
     timestamp: Date.now(),
+    runId: process.env.DEBUG_RUN_ID ?? "pre-fix",
   })
 );
 // #endregion
