@@ -7,7 +7,9 @@ const path = require("path");
  * the container memory limit and gets OOM-killed). So we commit the prebuilt
  * `build/` output and serve it statically here — no compile happens at boot.
  *
- * AppSpace routes external ingress to container port 80, so production binds 80.
+ * Port handling: AppSpace injects APPSPACE_PORT (the port its readiness probe
+ * checks) while external ingress dials container :80. We bind BOTH so the pod
+ * stays healthy (probe port) and reachable (ingress port).
  */
 const projectRoot = path.join(__dirname, "..");
 const isProduction = process.env.NODE_ENV === "production";
@@ -27,7 +29,6 @@ if (!isProduction) {
   return;
 }
 
-const listenPort = 80;
 const serveBin = path.join(projectRoot, "node_modules", ".bin", "serve");
 const buildIndex = path.join(projectRoot, "build", "index.html");
 
@@ -39,24 +40,34 @@ if (!fs.existsSync(buildIndex)) {
   process.exit(1);
 }
 
-log("serving prebuilt build", { listenPort, serveBin });
+const envPort = Number(process.env.APPSPACE_PORT ?? process.env.PORT ?? 3000) || 3000;
+// Primary first (its failure exits the process so AppSpace restarts the pod);
+// 80 is bound best-effort for external ingress.
+const ports = [...new Set([envPort, 80])];
 
-const serve = spawn(
-  serveBin,
-  ["-s", "build", "-l", `tcp://0.0.0.0:${listenPort}`, "--no-clipboard"],
-  {
-    stdio: "inherit",
-    env: { ...process.env, HOST: "0.0.0.0" },
-    cwd: projectRoot,
-  }
-);
+function startServe(port, { primary }) {
+  log("serving prebuilt build", { port, primary, serveBin });
+  const child = spawn(
+    serveBin,
+    ["-s", "build", "-l", `tcp://0.0.0.0:${port}`, "--no-clipboard"],
+    {
+      stdio: "inherit",
+      env: { ...process.env, HOST: "0.0.0.0" },
+      cwd: projectRoot,
+    }
+  );
 
-serve.on("error", (err) => {
-  log("serve spawn error", { message: err.message, code: err.code });
-  process.exit(1);
-});
+  child.on("error", (err) => {
+    log("serve spawn error", { port, primary, message: err.message, code: err.code });
+    if (primary) process.exit(1);
+  });
 
-serve.on("exit", (code, signal) => {
-  log("serve exited", { code, signal });
-  process.exit(code ?? 1);
-});
+  child.on("exit", (code, signal) => {
+    log("serve exited", { port, primary, code, signal });
+    if (primary) process.exit(code ?? 1);
+  });
+
+  return child;
+}
+
+ports.forEach((port, index) => startServe(port, { primary: index === 0 }));
