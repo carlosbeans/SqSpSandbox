@@ -1,0 +1,14 @@
+---
+
+#  | source: src/components/ColorPicker/components/Input/Type.tsx
+05d466d42813d0e45e5c68a9e32d09cd: "Kleurformaat"
+#  | source: src/components/Table/components/Pagination/PageCount.tsx
+08881d6eb0dee247ca166f9e53ac8a3e: "{numberOfRows} rijen"
+#  | source: src/components/Table/components/Filter/Save.tsx
+5b8f316caff04de6ee2f27f09126ebdb: "Weergave opslaan"
+#  | source: src/components/ActionBar/ActionBarRoot.tsx (+ 3 other file(s))
+e6a67840fd60a2ed0a769cd18ffc50aa: 
+    one: "{%n} geselecteerd"
+    other: "{%n} geselecteerd"
+#  | source: src/components/ColorPicker/components/Input/Type.tsx
+f97f065a995142dcab2ee24030e65a60: "RGB"
