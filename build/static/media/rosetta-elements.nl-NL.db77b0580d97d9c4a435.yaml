@@ -1,7 +1,0 @@
----
-# smartling.plurals_detection = on
-# smartling.placeholder_format_custom = \{[^\{\}]+?\}|\{\{[^\{\}]+?\}\}|\{\{\{[^\{\}]+?\}\}\}|\\<(?:[a-z]+.*?|\/[a-z]+?)>
-#  | source: src/components/NumberInput/Decrement.tsx
-07d7bcf0b9e7e5714f17c83383ec2f40: "verlagen"
-#  | source: src/components/TimeInput/Root.tsx
-deb8cebcf0e3b9e6b6cf28f728c97f1a: "Tijd invoer"
