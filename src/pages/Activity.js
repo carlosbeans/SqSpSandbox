@@ -33,7 +33,7 @@ export function ActivityContent() {
 
 export default function Activity() {
   usePageHeader({
-    title: "Activity",
+    title: "Test",
     actions: <Button.Primary size="large">Manage Notifications</Button.Primary>,
     subtitle: "View your domain's activity and notifications. Learn more about activity",
   });
