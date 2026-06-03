@@ -1,0 +1,1 @@
+{"sessionId":"056c63","hypothesisId":"H9","location":"scripts/appspace-start.cjs","message":"starting craco server","data":{"NODE_ENV":"production","APPSPACE_PORT":"3000","PORT":null,"HOST":null,"isProduction":true,"strategy":"craco-dev-server-no-startup-build"},"timestamp":1780438206892,"runId":"post-fix-v3"}

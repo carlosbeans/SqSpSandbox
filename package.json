@@ -39,6 +39,7 @@
     "start": "node scripts/appspace-start.cjs",
     "start:dev": "HOST=0.0.0.0 craco start",
     "build": "craco build",
+    "deploy": "node scripts/deploy.cjs",
     "test": "craco test --env=jsdom",
     "eject": "react-scripts eject"
   },
