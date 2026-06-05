@@ -61,7 +61,7 @@ export function BillingContent() {
   const { colors } = useTheme();
 
   return (
-    <Stack space={6} pt={2} pb={8} id="billing-page-content">
+    <Flex flexDirection="column" px={6} space={6} pt={2} pb={8} id="billing-page-content">
       <Banner.Info>
         <Banner.Main>
           <Banner.Row alignItems="flex-start">
@@ -111,7 +111,7 @@ export function BillingContent() {
         </Flex>
         <Divider sx={{ borderColor: colors.gray[800] }} />
       </Stack>
-    </Stack>
+    </Flex>
   );
 }
 
