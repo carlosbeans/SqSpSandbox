@@ -1,0 +1,116 @@
+{
+  "filterTypes": ["Hosting", "Email", "Verification"],
+  "defaultRecords": [
+    { "host": "@", "type": "A", "priority": "N/A", "ttl": "4 hrs", "data": "198.185.159.144" },
+    { "host": "@", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "ext-sq.squarespace.com" }
+  ],
+  "customRecords": [
+    { "host": "www", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "ext-sq.squarespace.com" }
+  ],
+  "presets": [
+    { "title": "Defaults", "description": "Standard Squarespace DNS records", "type": "Hosting" },
+    { "title": "Domain Connect", "description": "Auto-configure supported services", "type": "Hosting" },
+    { "title": "Email Campaigns", "description": "Squarespace email marketing records", "type": "Email" },
+    { "title": "Google Workspace", "description": "Gmail and Google apps for your domain", "type": "Email" },
+    { "title": "Zoho Mail", "description": "Zoho email hosting records", "type": "Email" },
+    { "title": "Fastmail", "description": "Fastmail email service records", "type": "Email" },
+    { "title": "Proton Mail", "description": "Proton Mail encrypted email records", "type": "Email" },
+    { "title": "Titan Mail", "description": "Titan email hosting records", "type": "Email" },
+    { "title": "Neo Mail", "description": "Neo email service records", "type": "Email" },
+    { "title": "iCloud Mail", "description": "Apple iCloud custom domain email", "type": "Email" },
+    { "title": "Microsoft 365", "description": "Outlook and Microsoft apps records", "type": "Email" },
+    { "title": "Webflow", "description": "Connect your domain to Webflow", "type": "Hosting" },
+    { "title": "Vercel", "description": "Connect your domain to Vercel", "type": "Hosting" },
+    { "title": "GitHub Pages", "description": "Host a site with GitHub Pages", "type": "Hosting" },
+    { "title": "Framer", "description": "DNS records set up for Framer", "type": "Hosting" },
+    { "title": "Netlify", "description": "DNS records set up for Netlify", "type": "Hosting" },
+    { "title": "Railway", "description": "Connect your domain to Railway", "type": "Hosting" },
+    { "title": "Lovable", "description": "Connect your domain to Lovable", "type": "Hosting" },
+    { "title": "GitHub Domain Verification", "description": "Verify domain ownership on GitHub", "type": "Verification" },
+    { "title": "Google Workspace Verification", "description": "Verify domain ownership for Google", "type": "Verification" }
+  ],
+  "presetRecords": {
+    "Defaults": [
+      { "host": "@", "type": "A", "priority": "N/A", "ttl": "4 hrs", "data": "198.185.159.144" },
+      { "host": "@", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "ext-sq.squarespace.com" }
+    ],
+    "Domain Connect": [
+      { "host": "_domainconnect", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "connect.squarespace.com" }
+    ],
+    "Email Campaigns": [
+      { "host": "mail", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "campaigns.sqsp.net" },
+      { "host": "@", "type": "TXT", "priority": "N/A", "ttl": "4 hrs", "data": "v=spf1 include:sqsp.net ~all" }
+    ],
+    "Google Workspace": [
+      { "host": "@", "type": "MX", "priority": "1", "ttl": "4 hrs", "data": "aspmx.l.google.com" },
+      { "host": "@", "type": "MX", "priority": "5", "ttl": "4 hrs", "data": "alt1.aspmx.l.google.com" },
+      { "host": "@", "type": "TXT", "priority": "N/A", "ttl": "4 hrs", "data": "v=spf1 include:_spf.google.com ~all" }
+    ],
+    "Zoho Mail": [
+      { "host": "@", "type": "MX", "priority": "10", "ttl": "4 hrs", "data": "mx.zoho.com" },
+      { "host": "@", "type": "MX", "priority": "20", "ttl": "4 hrs", "data": "mx2.zoho.com" },
+      { "host": "@", "type": "TXT", "priority": "N/A", "ttl": "4 hrs", "data": "v=spf1 include:zoho.com ~all" }
+    ],
+    "Fastmail": [
+      { "host": "@", "type": "MX", "priority": "10", "ttl": "4 hrs", "data": "in1-smtp.messagingengine.com" },
+      { "host": "@", "type": "MX", "priority": "20", "ttl": "4 hrs", "data": "in2-smtp.messagingengine.com" }
+    ],
+    "Proton Mail": [
+      { "host": "@", "type": "MX", "priority": "10", "ttl": "4 hrs", "data": "mail.protonmail.ch" },
+      { "host": "@", "type": "MX", "priority": "20", "ttl": "4 hrs", "data": "mailsec.protonmail.ch" },
+      { "host": "@", "type": "TXT", "priority": "N/A", "ttl": "4 hrs", "data": "v=spf1 include:_spf.protonmail.ch ~all" }
+    ],
+    "Titan Mail": [
+      { "host": "@", "type": "MX", "priority": "10", "ttl": "4 hrs", "data": "mx1.titan.email" },
+      { "host": "@", "type": "MX", "priority": "20", "ttl": "4 hrs", "data": "mx2.titan.email" }
+    ],
+    "Neo Mail": [
+      { "host": "@", "type": "MX", "priority": "10", "ttl": "4 hrs", "data": "mx.neo.space" },
+      { "host": "@", "type": "TXT", "priority": "N/A", "ttl": "4 hrs", "data": "v=spf1 include:neo.space ~all" }
+    ],
+    "iCloud Mail": [
+      { "host": "@", "type": "MX", "priority": "10", "ttl": "4 hrs", "data": "mx01.mail.icloud.com" },
+      { "host": "@", "type": "MX", "priority": "20", "ttl": "4 hrs", "data": "mx02.mail.icloud.com" },
+      { "host": "@", "type": "TXT", "priority": "N/A", "ttl": "4 hrs", "data": "v=spf1 include:icloud.com ~all" }
+    ],
+    "Microsoft 365": [
+      { "host": "@", "type": "MX", "priority": "0", "ttl": "4 hrs", "data": "yourdomain-com.mail.protection.outlook.com" },
+      { "host": "autodiscover", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "autodiscover.outlook.com" },
+      { "host": "@", "type": "TXT", "priority": "N/A", "ttl": "4 hrs", "data": "v=spf1 include:spf.protection.outlook.com ~all" }
+    ],
+    "Webflow": [
+      { "host": "@", "type": "A", "priority": "N/A", "ttl": "4 hrs", "data": "75.2.70.75" },
+      { "host": "www", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "proxy-ssl.webflow.com" }
+    ],
+    "Vercel": [
+      { "host": "@", "type": "A", "priority": "N/A", "ttl": "4 hrs", "data": "76.76.21.21" },
+      { "host": "www", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "cname.vercel-dns.com" }
+    ],
+    "GitHub Pages": [
+      { "host": "@", "type": "A", "priority": "N/A", "ttl": "4 hrs", "data": "185.199.108.153" },
+      { "host": "@", "type": "A", "priority": "N/A", "ttl": "4 hrs", "data": "185.199.109.153" },
+      { "host": "www", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "yourusername.github.io" }
+    ],
+    "Framer": [
+      { "host": "@", "type": "A", "priority": "N/A", "ttl": "4 hrs", "data": "75.2.60.5" },
+      { "host": "www", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "proxy-ssl.framer.app" }
+    ],
+    "Netlify": [
+      { "host": "@", "type": "A", "priority": "N/A", "ttl": "4 hrs", "data": "75.2.60.5" },
+      { "host": "www", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "yourdomain.netlify.app" }
+    ],
+    "Railway": [
+      { "host": "@", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "yourdomain.up.railway.app" }
+    ],
+    "Lovable": [
+      { "host": "@", "type": "A", "priority": "N/A", "ttl": "4 hrs", "data": "76.76.21.21" },
+      { "host": "www", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "cname.lovable.app" }
+    ],
+    "GitHub Domain Verification": [
+      { "host": "_github-challenge-yourorg", "type": "TXT", "priority": "N/A", "ttl": "4 hrs", "data": "your-verification-code" }
+    ],
+    "Google Workspace Verification": [
+      { "host": "@", "type": "TXT", "priority": "N/A", "ttl": "4 hrs", "data": "google-site-verification=your-verification-code" }
+    ]
+  }
+}

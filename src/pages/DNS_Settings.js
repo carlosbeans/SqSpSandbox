@@ -1,12 +1,21 @@
-import React, { useState } from "react";
-import { Stack, Card, TextLink, TextField, Chip, Checkbox } from "@sqs/rosetta-elements";
-import { Text, Button, Flex, Box } from "@sqs/rosetta-primitives";
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import { Stack, Card, TextLink, TextField, Chip, Checkbox, Toast } from "@sqs/rosetta-elements";
+import { Text, Button, Flex, Box, Touchable } from "@sqs/rosetta-primitives";
 import { Table, Drawer, ActionList } from "@sqs/rosetta-compositions";
-import { InfoCircle, Trash, Search } from "@sqs/rosetta-icons";
+import { InfoCircle, Trash, Search, CheckmarkCircle } from "@sqs/rosetta-icons";
 import { useTheme } from "@sqs/rosetta-styled";
 import { Breakpoint } from "@sqs/rosetta-utilities";
 import { usePageHeader } from "../layouts/PageHeaderContext";
 import DNSPresetCard from "../components/DNSPresetCard/DNSPresetCard";
+import dnsData from "../data/dns.json";
+
+const {
+  filterTypes: FILTER_TYPES,
+  defaultRecords,
+  customRecords,
+  presets: DNS_PRESETS,
+  presetRecords: PRESET_RECORDS,
+} = dnsData;
 
 const columnHelper = Table.Utils.createColumnHelper();
 
@@ -42,58 +51,6 @@ const columns = [
   }),
 ];
 
-const defaultRecords = [
-  {
-    host: "@",
-    type: "A",
-    priority: "N/A",
-    ttl: "4 hrs",
-    data: "198.185.159.144",
-  },
-  {
-    host: "@",
-    type: "CNAME",
-    priority: "N/A",
-    ttl: "4 hrs",
-    data: "ext-sq.squarespace.com",
-  },
-];
-
-const customRecords = [
-  {
-    host: "www",
-    type: "CNAME",
-    priority: "N/A",
-    ttl: "4 hrs",
-    data: "ext-sq.squarespace.com",
-  },
-];
-
-const FILTER_TYPES = ["Hosting", "Email", "Verification"];
-
-const DNS_PRESETS = [
-  { title: "Defaults", description: "Standard Squarespace DNS records", type: "Hosting" },
-  { title: "Domain Connect", description: "Auto-configure supported services", type: "Hosting" },
-  { title: "Email Campaigns", description: "Squarespace email marketing records", type: "Email" },
-  { title: "Google Workspace", description: "Gmail and Google apps for your domain", type: "Email" },
-  { title: "Zoho Mail", description: "Zoho email hosting records", type: "Email" },
-  { title: "Fastmail", description: "Fastmail email service records", type: "Email" },
-  { title: "Proton Mail", description: "Proton Mail encrypted email records", type: "Email" },
-  { title: "Titan Mail", description: "Titan email hosting records", type: "Email" },
-  { title: "Neo Mail", description: "Neo email service records", type: "Email" },
-  { title: "iCloud Mail", description: "Apple iCloud custom domain email", type: "Email" },
-  { title: "Microsoft 365", description: "Outlook and Microsoft apps records", type: "Email" },
-  { title: "Webflow", description: "Connect your domain to Webflow", type: "Hosting" },
-  { title: "Vercel", description: "Connect your domain to Vercel", type: "Hosting" },
-  { title: "GitHub Pages", description: "Host a site with GitHub Pages", type: "Hosting" },
-  { title: "Framer", description: "Connect your domain to Framer", type: "Hosting" },
-  { title: "Netlify", description: "Connect your domain to Netlify", type: "Hosting" },
-  { title: "Railway", description: "Connect your domain to Railway", type: "Hosting" },
-  { title: "Lovable", description: "Connect your domain to Lovable", type: "Hosting" },
-  { title: "GitHub Domain Verification", description: "Verify domain ownership on GitHub", type: "Verification" },
-  { title: "Google Workspace Verification", description: "Verify domain ownership for Google", type: "Verification" },
-];
-
 function DNSTable({ records }) {
   return (
     <Table columns={columns} data={records}>
@@ -105,13 +62,31 @@ function DNSTable({ records }) {
   );
 }
 
-export function DNSSettingsContent() {
+export function DNSSettingsContent({ toastRef }) {
   const { radii, borders, colors } = useTheme();
+  const [isDrawerMounted, setIsDrawerMounted] = useState(false);
   const [isPresetDrawerOpen, setIsPresetDrawerOpen] = useState(false);
   const [selectedPresets, setSelectedPresets] = useState(new Set());
   const [activeFilters, setActiveFilters] = useState(new Set());
+  const [addedPresets, setAddedPresets] = useState([]);
+
+  const openDrawer = useCallback(() => {
+    setIsDrawerMounted(true);
+    requestAnimationFrame(() => setIsPresetDrawerOpen(true));
+  }, []);
+
+  const closeDrawer = useCallback(() => {
+    setIsPresetDrawerOpen(false);
+  }, []);
+
+  const handleDrawerExited = useCallback(() => {
+    setIsDrawerMounted(false);
+  }, []);
+
+  const addedTitles = new Set(addedPresets.map((p) => p.title));
 
   const togglePreset = (title) => {
+    if (addedTitles.has(title)) return;
     setSelectedPresets((prev) => {
       const next = new Set(prev);
       if (next.has(title)) {
@@ -135,11 +110,31 @@ export function DNSSettingsContent() {
     });
   };
 
+  const handleAddPresets = useCallback(() => {
+    const newTitles = [...selectedPresets].filter((t) => !addedTitles.has(t));
+    const newPresets = newTitles.map((title) => ({
+      title,
+      records: PRESET_RECORDS[title] || [],
+    }));
+    setAddedPresets((prev) => [...prev, ...newPresets]);
+    closeDrawer();
+    setSelectedPresets(new Set());
+    setActiveFilters(new Set());
+    const count = newPresets.length;
+    if (count > 0 && toastRef?.current) {
+      toastRef.current.show({
+        content: count === 1 ? "Preset added" : `${count} presets added`,
+        variant: "success",
+        duration: 4000,
+      });
+    }
+  }, [selectedPresets, addedTitles, toastRef, closeDrawer]);
+
   const filteredPresets = activeFilters.size === 0
     ? DNS_PRESETS
     : DNS_PRESETS.filter((p) => activeFilters.has(p.type));
 
-  const hasSelection = selectedPresets.size > 0;
+  const hasNewSelection = [...selectedPresets].some((t) => !addedTitles.has(t));
   const hasActiveFilters = activeFilters.size > 0;
 
   return (
@@ -153,7 +148,7 @@ export function DNSSettingsContent() {
             <TextLink href="#">Learn more about DNS settings</TextLink>          
           </Text.Body>
         </Stack>
-        <Button.Primary size="medium" onClick={() => setIsPresetDrawerOpen(true)}>
+        <Button.Primary size="medium" onClick={openDrawer}>
           Add Preset
         </Button.Primary>
       </Flex>
@@ -162,7 +157,7 @@ export function DNSSettingsContent() {
           <Stack space={3}>
             <Flex alignItems="center" justifyContent="space-between">
               <Text.Subtitle px={2}>Squarespace Defaults</Text.Subtitle>
-
+              <Touchable.Element.Icon>
               <Box
                 as="button"
                 aria-label="Delete defaults"
@@ -171,19 +166,55 @@ export function DNSSettingsContent() {
                   border: "none",
                   cursor: "pointer",
                   padding: 4,
-                  color: "#900",
                   display: "flex",
                   alignItems: "center",
                   "&:hover": { color: "#c00" },
                 }}
               >
-                <Trash css={{ width: 20, height: 20 }} />
+                <Trash color="red.300" />
               </Box>
+              </Touchable.Element.Icon>
             </Flex>
             <DNSTable records={defaultRecords} />
           </Stack>
         </Card.Body>
       </Card>
+
+      {addedPresets.map((preset) => (
+        <Card key={preset.title} sx={{ borderRadius: radii[1] }}>
+          <Card.Body>
+            <Stack space={3}>
+              <Flex alignItems="center" justifyContent="space-between">
+                <Text.Subtitle px={2}>{preset.title}</Text.Subtitle>
+                <Box
+                  as="button"
+                  aria-label={`Delete ${preset.title}`}
+                  onClick={() =>
+                    setAddedPresets((prev) =>
+                      prev.filter((p) => p.title !== preset.title)
+                    )
+                  }
+                  css={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: 4,
+                    color: "#900",
+                    display: "flex",
+                    alignItems: "center",
+                    "&:hover": { color: "#c00" },
+                  }}
+                >
+                  <Touchable.Element.Icon>
+                    <Trash color="red.300" />
+                  </Touchable.Element.Icon>
+                </Box>
+              </Flex>
+              <DNSTable records={preset.records} />
+            </Stack>
+          </Card.Body>
+        </Card>
+      ))}
 
       {/* Custom Records */}
       <Stack space={4}>
@@ -210,18 +241,23 @@ export function DNSSettingsContent() {
         </Stack>
       </Stack>
 
-      {isPresetDrawerOpen && (
+      {isDrawerMounted && (
         <Drawer.Modal
-          isOpen={isPresetDrawerOpen}
-          onClose={() => setIsPresetDrawerOpen(false)}
+          onRequestClose={closeDrawer}
+          closeOnEsc
+          closeOnOverlayClicked
         >
           <Drawer.Overlay />
-          <Drawer.Transition>
-            <Drawer.Sheet>
+          <Drawer.Transition
+            onTransitionEnd={(phase) => {
+              if (phase === "exiting") handleDrawerExited();
+            }}
+          >
+            {isPresetDrawerOpen ? <Drawer.Sheet>
               <Drawer.Header>
                 <Drawer.Header.TitleRow>
                   <Drawer.Header.Title>Add DNS Preset</Drawer.Header.Title>
-                  <Drawer.CloseButton onClick={() => setIsPresetDrawerOpen(false)} />
+                  <Drawer.CloseButton onClick={closeDrawer} />
                 </Drawer.Header.TitleRow>
                 <Drawer.Header.Description>
                   DNS presets simplify your domain setup by instantly adding the
@@ -236,7 +272,7 @@ export function DNSSettingsContent() {
                   justifyContent="space-between"
                   mb={5}
                 >
-                  <Box css={{ width: 400 }}>
+                  <Box css={{ width: 300 }}>
                     <TextField
                       interiorPre={
                         <Search css={{ width: 16, height: 16, color: "gray.300" }} />
@@ -292,32 +328,39 @@ export function DNSSettingsContent() {
                       key={preset.title}
                       title={preset.title}
                       description={preset.description}
-                      state={selectedPresets.has(preset.title) ? "selected" : "default"}
+                      state={addedTitles.has(preset.title) || selectedPresets.has(preset.title) ? "selected" : "default"}
                       onClick={() => togglePreset(preset.title)}
                     />
                   ))}
                 </Box>
               </Drawer.Body>
               <Drawer.Footer>
-                <Button.Secondary size="small" onClick={() => setIsPresetDrawerOpen(false)}>
+                <Button.Secondary size="small" onClick={closeDrawer}>
                   Cancel
                 </Button.Secondary>
-                <Button.Primary size="small" disabled={!hasSelection}>Add</Button.Primary>
+                <Button.Primary size="small" disabled={!hasNewSelection} onClick={handleAddPresets}>Add</Button.Primary>
               </Drawer.Footer>
-            </Drawer.Sheet>
+            </Drawer.Sheet> : null}
           </Drawer.Transition>
         </Drawer.Modal>
-      )}
+      )}      
     </Flex>
   );
 }
 
 export default function DNS_Settings() {
+  const toastRef = useRef(null);
+
   usePageHeader({
     title: "DNS Settings",
     subtitle:
       "DNS records point to services your domain uses, like forwarding your domain or setting up an email service. Learn more about DNS settings",   
   });
 
-  return <DNSSettingsContent />;
+  return (
+    <>
+      <DNSSettingsContent toastRef={toastRef} />
+      <Toast.Container ref={toastRef} />
+    </>
+  );
 }

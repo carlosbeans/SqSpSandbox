@@ -28,6 +28,7 @@ import Security from "./pages/Security";
 import Website from "./pages/Website";
 import DomainRegistration from "./pages/DomainRegistration";
 import DomainSettings from "./pages/DomainSettings";
+import ComponentTest from "./pages/ComponentTest.tsx";
 
 //layouts
 import AppShell from "./layouts/AppShell";
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
       {
         path: "experiments",
         element: <Experiments />,
+      },
+      {
+        path: "componenttest",
+        element: <ComponentTest />,
       },
       {
         path: "DomainWebsiteConnection",

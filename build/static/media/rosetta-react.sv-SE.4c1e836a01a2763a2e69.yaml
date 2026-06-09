@@ -1,0 +1,225 @@
+---
+# smartling.plurals_detection = on
+# smartling.placeholder_format_custom = \{[^\{\}]+?\}|\{\{[^\{\}]+?\}\}|\{\{\{[^\{\}]+?\}\}\}|\\<(?:[a-z]+.*?|\/[a-z]+?)>
+#  | source: src/components/Breadcrumbs/components/TruncationPopOver.tsx
+0302243500366cd7dc073df1d728e74d: "Fler länkar"
+#  | source: src/components/ColorPicker/components/Input/HEX.tsx (+ 1 other file(s))
+032232b20a3745048d14f6dc1d47429d: "Hex"
+#  | source: src/components/Table/components/LayoutSettings/LayoutSettings.tsx
+0ba9c96d3db7e5023ee6c671be3239ad: "Layoutinställningar"
+#  | source: src/components/PageHeader/components/Menu.tsx
+0d42e2c1f77c16b1c9844f3d3682a5be: "Skapa "
+#  | source: src/internals/ErrorState.tsx
+125925a5e98fe970320075ff30a6f49c: "Försök igen"
+#  | source: src/components/Table/components/Filter/Reset.tsx
+12e8c79304d673f6bdb5ab24b5e33995: "Återställ"
+#  | source: src/components/Table/components/Filter/Bar.tsx
+177e655506114aeacbac96daea700ffd: "{filterLabel} • {filterValue}"
+#  | source: src/components/Wizard/Navigation/Navigation.native.tsx (+ 1 other file(s))
+186b34aa9242e7756631cb0e84dddaa7: "Nästa"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+1a2349533ca5051bd8af045fe3ffc4f7: "Samla in pengar och hantera givare för alla initiativ"
+#  | source: src/components/Table/components/Pagination/PageSize.tsx
+1bc2cb0e98d2683f6ba94dd70392031a: "{perPage} per sida"
+#  | source: src/components/Table/components/Pagination/PageJump.tsx
+210c0b41f4bf9918cc90aabc8f008a58: "CKlicka för att öppna textfältet"
+#  | source: src/components/Combobox/Search/Value.tsx (+ 1 other file(s))
+2643e00f216238967fdf02ea01bfc637: "Välj ett alternativ..."
+#  | source: src/components/AppCard/components/AppStoreButton.tsx
+27e5728621d290b1c3c2dc4701dd4730: "Ladda ned på Google Play"
+#  | source: src/components/PageHeader/components/Menu.tsx
+284132db8d9150247b2f6c9fb157bb12: "Öppna menyn Skapa"
+#  | source: src/components/ColorPicker/components/Input/RGBA.tsx
+288706a543cde25021096489397f69c8: "Grön"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+28f2eb6e270dd22ae510d31ad7526b02: "Entreprenörer"
+#  | source: src/components/Sheet/Sheet.native.tsx
+2a5878edad72090d617ff87ec599a8c3: "Avbryt"
+#  | source: src/components/ColorPicker/components/Input/HSLA.tsx
+2ca2f7dac7f500de6a4cbe676c1fd3fb: "Mättnad"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+2ef2315fadd74b327ec4e174d22c875a: "Populär bland"
+#  | source: src/components/Table/components/Pagination/PageSize.tsx
+2fb4bee213b26d97e12f9d10057a812f: "{numberOfRows} rader"
+#  | source: src/components/dashboard/CreateCard/CreateCard.tsx (+ 1 other file(s))
+31f495f3ea7f2417aae88cd86f660d2f: "pilikon"
+#  | source: src/components/Table/components/RecordCount/index.tsx
+34dac217f114ed45b4bfb9f4159e115e: "Visar {firstNum}–{lastNum} av {itemsAmount} poster"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+36cef1c4da8f646c9b60ec7f095f53d6: "Välgörenhetsorganisationer"
+#  | source: src/components/TextLink/ExternalLink.tsx
+3764673c8d4e110bfaa5eb4a370525c4: "(Öppnar extern webbplats)"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+386eb125610fc932a863063c6c1a3d97: "Bygg upp medlemsbaserade communityn och sälj innehåll med betalväggar"
+#  | source: src/components/Table/components/Sort/Sort.tsx
+38eace6bdf25bd7b75c71a52811ba096: "Sort by"
+#  | source: src/components/ColorPicker/components/Input/RGBA.tsx
+3976db2aa03ef93a3de6a29e562ff419: "Blå"
+#  | source: src/components/ActionBar/ActionBarCheckbox.tsx
+3b5899fba1217ec5b39fe80b5201af53: "Avmarkera alla rader. "
+#  | source: src/components/Table/components/Pagination/PageJump.tsx
+430a7fae3066f37efae4515cdb814069: "Sida"
+#  | source: src/components/PageHeader/components/Menu.tsx
+448a21530ba73e01aa9130da6a0e927d: "pilikon"
+#  | source: src/components/ColorPicker/components/Slider/Slider.tsx
+471998e77b25a4fed7a3b288701b8df6: "Färg"
+# close a modal dialog | source: src/components/Dialog/components/CloseButton.tsx (+ 1 other file(s))
+48f0c250b02294a8a821e5f2f090dddd: "Stäng"
+#  | source: src/components/AddressInput/AddressInput.tsx
+4ab71b42467ce279b07001e894508059: "Inga resultat hittades"
+#  | source: src/internals/ErrorState.tsx
+50539f1a944b5a0dc378d3926b6b519a: "Kunde inte läsa in resultaten"
+#  | source: src/components/Wizard/ProgressIndicator/ProgressIndicator.native.tsx (+ 1 other file(s))
+56661a54823bcb0395206ae9f8fc540a: "{currentStepNumber} av {stepCount}"
+#  | source: src/components/DatePicker/components/MonthNav.tsx
+5d7b9071959e78b3928d38e3d3a6a308: "Föregående månad"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+5e0d2c79c891b8f43839b38f5dc37e9f: "Insamlingar"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+622ec1786abb75fccd2490ee109329a9: "Frilansare"
+#  | source: src/components/ColorPicker/components/Input/HSLA.tsx (+ 1 other file(s))
+649d1dd8de26bbd84f1bac86cea288d2: "Nyans"
+#  | source: src/components/Toast/Toast.tsx
+68217c638930369739326d31a8df48d7: "Stäng meddelande"
+#  | source: src/components/BackButton/BackButton.native.tsx (+ 3 other file(s))
+6a759b1299a565fab7f7180cd6f8fd8f: "Tillbaka"
+#  | source: src/components/Table/components/Search/index.tsx
+6e0b974f9fc7ba9ded097e620622b4f2: "Sök"
+#  | source: src/components/TimeInput/Root.tsx
+6f1b9e779eaa41aa97129e81f5ee4207: "Tidsinmatning"
+#  | source: src/components/ChipInput/ChipInput.tsx
+6fbcae2f415227dbfb974d1bd64ac22a: "Lägg till…"
+# A step in a sequence | source: src/components/StepIndicator/components/Horizontal.tsx (+ 1 other file(s))
+702376e6d39c00867492e01ef42c912c: "Steg {stepNumber}"
+#  | source: src/components/ColorPicker/components/Input/HSLA.tsx
+70a9377479e39d3e4d73e7b2795376b4: "Ljusstyrka"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+70cb375dfc9e28a39a54569dadbfcafe: "Innehållsskapare"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+7574d87aef24130955db20ac2afb638b: "Entreprenörer"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+77242110bbc7b9302ff1bdeb21f802a4: "Evenemangsarrangörer"
+#  | source: src/components/DateInput/Root.tsx
+7760b1ae2c5a48649a7069ce91c55790: "Datuminmatning"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+7c4ec8d1aeb71e481bc49f57530f1292: "Instruktörer"
+#  | source: src/components/AppCard/AppCard.tsx (+ 5 other file(s))
+7caf5d9ad8b2bf5eb6c3fe3c5c01e0a9: "Stäng"
+#  | source: src/components/ColorPicker/components/Input/Type.tsx
+7e2bc6a8f7aaab6d2be094d6b804cc2c: "RGB"
+#  | source: src/components/Search/components/Input.tsx
+81ac9b115577866c394e5571d29c01d4: "rensa sökning"
+#  | source: src/components/Dropdown/components/Dropdown.mobile.tsx
+83c52c1d4f99de3b8a7537fbc96c3fcc: "Klar"
+#  | source: src/components/Search/components/MobileHeader.tsx
+865459edadf5bcdfdec44643eaadedb1: "avbryt"
+#  | source: src/components/Table/components/Sort/Sort.tsx
+90127784f974663da27c4aa71a774572: "Sortera efter {label}"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+90908fe3ce7d54894b73c0cb0b9ba6b7: "Communitybyggare"
+#  | source: src/components/Table/components/Pagination/PageLabel.tsx
+90baaace0de3382f617a58416e5929e0: "Sida {currentPage}"
+# Matching a search term | source: src/components/Table/components/RecordSearch/index.tsx
+92865e94bdb43bff55c481034931ac94: "Matchar ({searchTerm})"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+938125f3697240ed190f5a18480e151f: "Fotografer"
+#  | source: src/components/DatePicker/components/MonthNav.tsx
+979079f3344fd90d14f5d6066f2e9295: "Nästa månad"
+#  | source: src/components/ActionBar/ActionBarMoreActions.tsx
+9804129fadf14b84906acbbfa08ebaf4: "Fler alternativ"
+#  | source: src/components/ColorPicker/components/Slider/Slider.tsx
+9827cd5d29a3e8026f2531c6382044d0: "Skjutreglage för {type}"
+#  | source: src/components/Table/components/LayoutSettings/LayoutSettings.tsx
+9bb72a7d4a49376a5fc56caa182e48c3: "Layout: rutnät"
+#  | source: src/components/ColorPicker/components/ColorMap/ColorMap.tsx
+9ef104e24a6649714623025899894e28: "Färgkarta"
+#  | source: src/components/NumberInput/Decrement.tsx
+9ffee38f1537921d44e503d492db8fba: "minskning"
+#  | source: src/components/Table/components/Pagination/ItemRangeLabel.tsx
+a1763e85d47accf0479b708481ce53ff: "{firstNum}-{lastNum}"
+#  | source: src/components/DatePicker/components/MonthYearDropdown.tsx
+a39a90e6c53b5de35e4027b52663110a: "Välj år"
+#  | source: src/components/Table/components/Filter/Bar.tsx
+a56626a618ecd04d632169ed4d77ca25: "Sparad • {filterGroup}"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+a725d25d4a0f05cc6b32a7f0e7229304: "Allt du behöver för att sälja online, från merchandising till kassa"
+#  | source: src/components/dashboard/Spotlight/Spotlight.tsx
+b03ad2376425d13f2836d64c32e08c46: "Växla till höger"
+#  | source: src/components/ColorPicker/components/Input/Type.tsx
+b247042253fb7b8a4ae8be24165dafc9: "Välj färgformat"
+#  | source: src/components/Table/components/Filter/Save.tsx
+b2980611e11dda3a132069014c3be98f: "Spara vy"
+#  | source: src/components/Table/components/Filter/Bar.tsx
+b601c0050c920126572c2824aeca126e: "stäng {filterGroup}"
+#  | source: src/components/ColorPicker/components/Slider/Slider.tsx
+b78f6ca228046396ab190bb331ae6533: "Opacitet"
+#  | source: src/components/AppCard/components/AppStoreButton.tsx
+b8f2191c897cf450a7255582995f82f2: "Hämta i App Store"
+#  | source: src/components/ColorPicker/components/Input/RGBA.tsx
+b98f10061b228411d4c4b4eec978c858: "Röd"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+bc5bc5ea958c60b4f8975fd10299416f: "Bloggare"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+c082c729f55e41d75c3642e4d70d00e1: "Småföretag"
+#  | source: src/components/Table/components/Filter/Filter.tsx
+c2c0af1aab4d3a857f47379b08e9dc43: "Öppna filter"
+#  | source: src/components/Table/components/LayoutSettings/LayoutSettings.tsx
+c35530013e1f17247896196c9e592382: "Layout: lista"
+#  | source: src/components/Chip/components/CloseButton.native.tsx (+ 1 other file(s))
+c6104c58a93689fb4a884077a251c5d8: "radera"
+#  | source: src/components/Table/components/Filter/Filter.tsx
+c694af7309e23da6fbd038d4a8d6d8a5: "Filter"
+#  | source: src/components/Drawer/components/GuidanceTrigger.tsx
+c6ffde9540af98446cd6a461ceaca6c8: "Visa hjälp och vanliga frågor"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+ca0259733b925f9c7be2c676fd40162d: "Produktskapare"
+#  | source: src/components/Table/components/Filter/Bar.tsx
+cb2b79dbfa1700fd94cfea0dd2edd475: "Ta bort filter"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+d3c0d7c757d9f7f2d7e81adc9b2ea692: "Ideella organisationer"
+#  | source: src/components/AppCard/AppCard.tsx
+d41e3e4eba1cb06fc06dd20ffe3880b9: "Fortsätt"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+d45ca5a1c026a0100f5566c1dc016235: "Verktyg för att registrera leads, bli anställd och samla in betalningar"
+#  | source: src/components/DatePicker/DateUtil/DateUtilProvider.tsx
+d5b1ac7c721f7c2aae676b84027ba802: "Kunde inte läsa in tidszonen \"{timeZone}\". Prova anslutningen igen eller kontrollera att Squarespace webbplats är tillgänglig."
+#  | source: src/components/Drawer/components/GuidanceTitle.tsx
+d6940b37c1ab33c90b96d070b11e4776: "Hjälp och vanliga frågor"
+#  | source: src/components/Table/components/Pagination/ItemRangeLabel.tsx
+d8d1680a8f07b53cdd0eb60a92a990d9: " av {itemsAmount}"
+# A list of links to the parent pages of the current page in hierarchical order. | source: src/components/Breadcrumbs/components/Nav.tsx
+d954208e5419dea929038bc8282e5a2b: "Navigeringssökväg"
+#  | source: src/components/ColorPicker/components/Input/Type.tsx
+dd3fd9b4a87f078bca5beacd6ed159f1: "HSL"
+#  | source: src/components/Table/components/Search/index.tsx
+dd5e20f99a6d5d3fa9b32f12755cf4b1: "Skriv för att söka"
+#  | source: src/components/NumberInput/Increment.tsx
+e36115b85b440cdead55ecd3760b4b00: "ökning"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+e549f9ac43af8db36c08276d30c2d162: "Förespråkargrupper"
+#  | source: src/components/Table/components/Pagination/ItemRangeLabel.tsx
+e586aba4e9aa1f43158d5d1d65a1f112: " av {itemsAmount} artiklar"
+# counts of many units, e.g., items, records, entries | source: src/components/Table/components/Pagination/ItemRangeLabel.tsx
+e7e7eee6818df1674c755a3ae02be033: " av {itemsAmount} {unit}"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+e81dcba8853355e3ec05ca81ed093f74: "Evenemangsplanerare"
+#  | source: src/components/dashboard/Spotlight/Spotlight.tsx
+e94fdf3777736f20f14070f27cd0cc38: "Växla till vänster"
+#  | source: src/components/ActionBar/ActionBarCheckbox.tsx
+ef489c7015b13b051d7cdb0fcf03858a: "Välj alla rader. "
+#  | source: src/components/Table/components/Search/index.tsx
+ef6a9ecebc3e582a389a8f7ba4709acb: "Sökning: visar {matchingRows} av {totalRows} poster som matchar: {searchTerm}."
+#  | source: src/components/ColorPicker/components/Input/Type.tsx
+f4629ecf3b7f4e04ac0cc07172734dd7: "Färgformat"
+#  | source: src/components/Dropdown/components/Dropdown.mobile.tsx
+f5ec7d0e2f383d62abe3ed316e0dd4ad: "Välj"
+#  | source: src/components/ActionBar/ActionBarRoot.tsx (+ 3 other file(s))
+f6b0ab1074de00e47e3f2dabe9625ef5: 
+    one: "{%n} vald"
+    other: "{%n} vald"
+#  | source: src/components/Table/components/Pagination/index.tsx
+f93d5d4e2239c232cb17c4cab8640f50: "Nästa sida"
+#  | source: src/components/Table/components/Pagination/index.tsx
+fb9e513b7002cfd35f58f89aa0d72b48: "Föregående sida"
+#  | source: src/components/ColorPicker/components/Input/Alpha.tsx
+fd008534c549bb37c03d1c60bcf70ea2: "Alpha"

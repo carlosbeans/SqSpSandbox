@@ -76,14 +76,14 @@ export default function Experiments() {
           <Card>
             <Card.Body pb={1}>
               <Stack space={1}>
-                <Text.Subtitle>Connect & Move Redesign</Text.Subtitle>
+                <Text.Subtitle>Component Test</Text.Subtitle>
                 <Text.Body>
-                  Re-imagining the Connect & Move experience.
+                  Component Playground
                 </Text.Body>
                 <Button.Secondary
                   width="100%"
                   size={2}
-                  onClick={() => navigate("/DomainWebsiteConnection")}
+                  onClick={() => navigate("/ComponentTest")}
                 >
                   Demo
                 </Button.Secondary>

@@ -1,0 +1,225 @@
+---
+# smartling.plurals_detection = on
+# smartling.placeholder_format_custom = \{[^\{\}]+?\}|\{\{[^\{\}]+?\}\}|\{\{\{[^\{\}]+?\}\}\}|\\<(?:[a-z]+.*?|\/[a-z]+?)>
+#  | source: src/components/Breadcrumbs/components/TruncationPopOver.tsx
+0302243500366cd7dc073df1d728e74d: "Flere links"
+#  | source: src/components/ColorPicker/components/Input/HEX.tsx (+ 1 other file(s))
+032232b20a3745048d14f6dc1d47429d: "Hex"
+#  | source: src/components/Table/components/LayoutSettings/LayoutSettings.tsx
+0ba9c96d3db7e5023ee6c671be3239ad: "Layoutindstillinger"
+#  | source: src/components/PageHeader/components/Menu.tsx
+0d42e2c1f77c16b1c9844f3d3682a5be: "Opret "
+#  | source: src/internals/ErrorState.tsx
+125925a5e98fe970320075ff30a6f49c: "Prøv igen"
+#  | source: src/components/Table/components/Filter/Reset.tsx
+12e8c79304d673f6bdb5ab24b5e33995: "Nulstil"
+#  | source: src/components/Table/components/Filter/Bar.tsx
+177e655506114aeacbac96daea700ffd: "{filterLabel} • {filterValue}"
+#  | source: src/components/Wizard/Navigation/Navigation.native.tsx (+ 1 other file(s))
+186b34aa9242e7756631cb0e84dddaa7: "Næste"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+1a2349533ca5051bd8af045fe3ffc4f7: "Indsaml midler, og administrer donorer til enhver sag"
+#  | source: src/components/Table/components/Pagination/PageSize.tsx
+1bc2cb0e98d2683f6ba94dd70392031a: "{perPage} pr. side"
+#  | source: src/components/Table/components/Pagination/PageJump.tsx
+210c0b41f4bf9918cc90aabc8f008a58: "Klik for at åbne tekstfeltet"
+#  | source: src/components/Combobox/Search/Value.tsx (+ 1 other file(s))
+2643e00f216238967fdf02ea01bfc637: "Vælg en mulighed ..."
+#  | source: src/components/AppCard/components/AppStoreButton.tsx
+27e5728621d290b1c3c2dc4701dd4730: "Nu på Google Play"
+#  | source: src/components/PageHeader/components/Menu.tsx
+284132db8d9150247b2f6c9fb157bb12: "Åbn menu til oprettelse"
+#  | source: src/components/ColorPicker/components/Input/RGBA.tsx
+288706a543cde25021096489397f69c8: "Grøn"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+28f2eb6e270dd22ae510d31ad7526b02: "Entreprenører"
+#  | source: src/components/Sheet/Sheet.native.tsx
+2a5878edad72090d617ff87ec599a8c3: "Annuller"
+#  | source: src/components/ColorPicker/components/Input/HSLA.tsx
+2ca2f7dac7f500de6a4cbe676c1fd3fb: "Mætning"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+2ef2315fadd74b327ec4e174d22c875a: "Populær blandt"
+#  | source: src/components/Table/components/Pagination/PageSize.tsx
+2fb4bee213b26d97e12f9d10057a812f: "{numberOfRows} rækker"
+#  | source: src/components/dashboard/CreateCard/CreateCard.tsx (+ 1 other file(s))
+31f495f3ea7f2417aae88cd86f660d2f: "pileikon"
+#  | source: src/components/Table/components/RecordCount/index.tsx
+34dac217f114ed45b4bfb9f4159e115e: "Viser {firstNum}-{lastNum} ud af {itemsAmount} registreringer"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+36cef1c4da8f646c9b60ec7f095f53d6: "Velgørenhedsorganisationer"
+#  | source: src/components/TextLink/ExternalLink.tsx
+3764673c8d4e110bfaa5eb4a370525c4: "(Åbner eksternt websted)"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+386eb125610fc932a863063c6c1a3d97: "Byg fællesskaber kun for medlemmer, og sælg indhold med en betalingsmur"
+#  | source: src/components/Table/components/Sort/Sort.tsx
+38eace6bdf25bd7b75c71a52811ba096: "Sorter efter"
+#  | source: src/components/ColorPicker/components/Input/RGBA.tsx
+3976db2aa03ef93a3de6a29e562ff419: "Blå"
+#  | source: src/components/ActionBar/ActionBarCheckbox.tsx
+3b5899fba1217ec5b39fe80b5201af53: "Fravælg alle rækker. "
+#  | source: src/components/Table/components/Pagination/PageJump.tsx
+430a7fae3066f37efae4515cdb814069: "Side"
+#  | source: src/components/PageHeader/components/Menu.tsx
+448a21530ba73e01aa9130da6a0e927d: "chevron-ikon"
+#  | source: src/components/ColorPicker/components/Slider/Slider.tsx
+471998e77b25a4fed7a3b288701b8df6: "Farve"
+# close a modal dialog | source: src/components/Dialog/components/CloseButton.tsx (+ 1 other file(s))
+48f0c250b02294a8a821e5f2f090dddd: "Luk"
+#  | source: src/components/AddressInput/AddressInput.tsx
+4ab71b42467ce279b07001e894508059: "Der fandtes ingen resultater"
+#  | source: src/internals/ErrorState.tsx
+50539f1a944b5a0dc378d3926b6b519a: "Resultater kunne ikke indlæses"
+#  | source: src/components/Wizard/ProgressIndicator/ProgressIndicator.native.tsx (+ 1 other file(s))
+56661a54823bcb0395206ae9f8fc540a: "{currentStepNumber} af {stepCount}"
+#  | source: src/components/DatePicker/components/MonthNav.tsx
+5d7b9071959e78b3928d38e3d3a6a308: "Forrige måned"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+5e0d2c79c891b8f43839b38f5dc37e9f: "Fundraisere"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+622ec1786abb75fccd2490ee109329a9: "Freelancere"
+#  | source: src/components/ColorPicker/components/Input/HSLA.tsx (+ 1 other file(s))
+649d1dd8de26bbd84f1bac86cea288d2: "Nuance"
+#  | source: src/components/Toast/Toast.tsx
+68217c638930369739326d31a8df48d7: "Luk notifikation"
+#  | source: src/components/BackButton/BackButton.native.tsx (+ 3 other file(s))
+6a759b1299a565fab7f7180cd6f8fd8f: "Tilbage"
+#  | source: src/components/Table/components/Search/index.tsx
+6e0b974f9fc7ba9ded097e620622b4f2: "Søg"
+#  | source: src/components/TimeInput/Root.tsx
+6f1b9e779eaa41aa97129e81f5ee4207: "Tidsinput"
+#  | source: src/components/ChipInput/ChipInput.tsx
+6fbcae2f415227dbfb974d1bd64ac22a: "Tilføj..."
+# A step in a sequence | source: src/components/StepIndicator/components/Horizontal.tsx (+ 1 other file(s))
+702376e6d39c00867492e01ef42c912c: "Trin {stepNumber}"
+#  | source: src/components/ColorPicker/components/Input/HSLA.tsx
+70a9377479e39d3e4d73e7b2795376b4: "Lysstyrke"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+70cb375dfc9e28a39a54569dadbfcafe: "Indholdsskabere"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+7574d87aef24130955db20ac2afb638b: "Iværksættere"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+77242110bbc7b9302ff1bdeb21f802a4: "Begivenhedsarrangør"
+#  | source: src/components/DateInput/Root.tsx
+7760b1ae2c5a48649a7069ce91c55790: "Datoinput"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+7c4ec8d1aeb71e481bc49f57530f1292: "Instruktører/undervisere"
+#  | source: src/components/AppCard/AppCard.tsx (+ 5 other file(s))
+7caf5d9ad8b2bf5eb6c3fe3c5c01e0a9: "Luk"
+#  | source: src/components/ColorPicker/components/Input/Type.tsx
+7e2bc6a8f7aaab6d2be094d6b804cc2c: "RGB"
+#  | source: src/components/Search/components/Input.tsx
+81ac9b115577866c394e5571d29c01d4: "ryd søgning"
+#  | source: src/components/Dropdown/components/Dropdown.mobile.tsx
+83c52c1d4f99de3b8a7537fbc96c3fcc: "Udført"
+#  | source: src/components/Search/components/MobileHeader.tsx
+865459edadf5bcdfdec44643eaadedb1: "annuller"
+#  | source: src/components/Table/components/Sort/Sort.tsx
+90127784f974663da27c4aa71a774572: "Sorter efter {label}"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+90908fe3ce7d54894b73c0cb0b9ba6b7: "Fællesskabsbyggere"
+#  | source: src/components/Table/components/Pagination/PageLabel.tsx
+90baaace0de3382f617a58416e5929e0: "Side {currentPage}"
+# Matching a search term | source: src/components/Table/components/RecordSearch/index.tsx
+92865e94bdb43bff55c481034931ac94: "Matcher ({searchTerm})"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+938125f3697240ed190f5a18480e151f: "Fotografer"
+#  | source: src/components/DatePicker/components/MonthNav.tsx
+979079f3344fd90d14f5d6066f2e9295: "Næste måned"
+#  | source: src/components/ActionBar/ActionBarMoreActions.tsx
+9804129fadf14b84906acbbfa08ebaf4: "Flere muligheder"
+#  | source: src/components/ColorPicker/components/Slider/Slider.tsx
+9827cd5d29a3e8026f2531c6382044d0: "{type} skyder"
+#  | source: src/components/Table/components/LayoutSettings/LayoutSettings.tsx
+9bb72a7d4a49376a5fc56caa182e48c3: "Layout: gitter"
+#  | source: src/components/ColorPicker/components/ColorMap/ColorMap.tsx
+9ef104e24a6649714623025899894e28: "Farvekort"
+#  | source: src/components/NumberInput/Decrement.tsx
+9ffee38f1537921d44e503d492db8fba: "reduktion"
+#  | source: src/components/Table/components/Pagination/ItemRangeLabel.tsx
+a1763e85d47accf0479b708481ce53ff: "{firstNum}-{lastNum}"
+#  | source: src/components/DatePicker/components/MonthYearDropdown.tsx
+a39a90e6c53b5de35e4027b52663110a: "Vælg år"
+#  | source: src/components/Table/components/Filter/Bar.tsx
+a56626a618ecd04d632169ed4d77ca25: "Gemt • {filterGroup}"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+a725d25d4a0f05cc6b32a7f0e7229304: "Alt hvad du har brug for til at sælge online, fra promovering til betaling"
+#  | source: src/components/dashboard/Spotlight/Spotlight.tsx
+b03ad2376425d13f2836d64c32e08c46: "Roter til højre"
+#  | source: src/components/ColorPicker/components/Input/Type.tsx
+b247042253fb7b8a4ae8be24165dafc9: "Vælg farveformat"
+#  | source: src/components/Table/components/Filter/Save.tsx
+b2980611e11dda3a132069014c3be98f: "Gem visning"
+#  | source: src/components/Table/components/Filter/Bar.tsx
+b601c0050c920126572c2824aeca126e: "luk {filterGroup}"
+#  | source: src/components/ColorPicker/components/Slider/Slider.tsx
+b78f6ca228046396ab190bb331ae6533: "Gennemsigtighed"
+#  | source: src/components/AppCard/components/AppStoreButton.tsx
+b8f2191c897cf450a7255582995f82f2: "Hent i App Store"
+#  | source: src/components/ColorPicker/components/Input/RGBA.tsx
+b98f10061b228411d4c4b4eec978c858: "Rød"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+bc5bc5ea958c60b4f8975fd10299416f: "Bloggere"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+c082c729f55e41d75c3642e4d70d00e1: "Små virksomheder"
+#  | source: src/components/Table/components/Filter/Filter.tsx
+c2c0af1aab4d3a857f47379b08e9dc43: "Åbn filter"
+#  | source: src/components/Table/components/LayoutSettings/LayoutSettings.tsx
+c35530013e1f17247896196c9e592382: "Layout: liste"
+#  | source: src/components/Chip/components/CloseButton.native.tsx (+ 1 other file(s))
+c6104c58a93689fb4a884077a251c5d8: "Slet"
+#  | source: src/components/Table/components/Filter/Filter.tsx
+c694af7309e23da6fbd038d4a8d6d8a5: "Filtrer"
+#  | source: src/components/Drawer/components/GuidanceTrigger.tsx
+c6ffde9540af98446cd6a461ceaca6c8: "Vis hjælp og ofte stillede spørgsmål"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+ca0259733b925f9c7be2c676fd40162d: "Produktskabere"
+#  | source: src/components/Table/components/Filter/Bar.tsx
+cb2b79dbfa1700fd94cfea0dd2edd475: "Fjern filter"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+d3c0d7c757d9f7f2d7e81adc9b2ea692: "Velgørenhedsorganisationer"
+#  | source: src/components/AppCard/AppCard.tsx
+d41e3e4eba1cb06fc06dd20ffe3880b9: "Fortsæt"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+d45ca5a1c026a0100f5566c1dc016235: "Værktøjer til at opsamle kundeemner, få jobtilbud og opkræve betalinger"
+#  | source: src/components/DatePicker/DateUtil/DateUtilProvider.tsx
+d5b1ac7c721f7c2aae676b84027ba802: "Kunne ikke indlæse tidszonen \"{timeZone}\". Prøv at oprette forbindelse igen, eller kontroller tilgængelighed til Squarespace-webstedet."
+#  | source: src/components/Drawer/components/GuidanceTitle.tsx
+d6940b37c1ab33c90b96d070b11e4776: "Hjælp og ofte stillede spørgsmål"
+#  | source: src/components/Table/components/Pagination/ItemRangeLabel.tsx
+d8d1680a8f07b53cdd0eb60a92a990d9: " af {itemsAmount}"
+# A list of links to the parent pages of the current page in hierarchical order. | source: src/components/Breadcrumbs/components/Nav.tsx
+d954208e5419dea929038bc8282e5a2b: "Brødkrummer"
+#  | source: src/components/ColorPicker/components/Input/Type.tsx
+dd3fd9b4a87f078bca5beacd6ed159f1: "HSL"
+#  | source: src/components/Table/components/Search/index.tsx
+dd5e20f99a6d5d3fa9b32f12755cf4b1: "Indtast for at søge"
+#  | source: src/components/NumberInput/Increment.tsx
+e36115b85b440cdead55ecd3760b4b00: "forøgelse"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+e549f9ac43af8db36c08276d30c2d162: "Interesseorganisation"
+#  | source: src/components/Table/components/Pagination/ItemRangeLabel.tsx
+e586aba4e9aa1f43158d5d1d65a1f112: " af {itemsAmount} elementer"
+# counts of many units, e.g., items, records, entries | source: src/components/Table/components/Pagination/ItemRangeLabel.tsx
+e7e7eee6818df1674c755a3ae02be033: " af {itemsAmount} {unit}"
+#  | source: src/components/dashboard/HeroBanner/HeroBanner.tsx
+e81dcba8853355e3ec05ca81ed093f74: "Event-planlæggere"
+#  | source: src/components/dashboard/Spotlight/Spotlight.tsx
+e94fdf3777736f20f14070f27cd0cc38: "Roter til venstre"
+#  | source: src/components/ActionBar/ActionBarCheckbox.tsx
+ef489c7015b13b051d7cdb0fcf03858a: "Vælg alle rækker. "
+#  | source: src/components/Table/components/Search/index.tsx
+ef6a9ecebc3e582a389a8f7ba4709acb: "Søgning: viser {matchingRows} af {totalRows} poster, der matcher: {searchTerm}."
+#  | source: src/components/ColorPicker/components/Input/Type.tsx
+f4629ecf3b7f4e04ac0cc07172734dd7: "Farveformat"
+#  | source: src/components/Dropdown/components/Dropdown.mobile.tsx
+f5ec7d0e2f383d62abe3ed316e0dd4ad: "Vælg"
+#  | source: src/components/ActionBar/ActionBarRoot.tsx (+ 3 other file(s))
+f6b0ab1074de00e47e3f2dabe9625ef5: 
+    one: "{%n} valgt"
+    other: "{%n} valgt"
+#  | source: src/components/Table/components/Pagination/index.tsx
+f93d5d4e2239c232cb17c4cab8640f50: "Næste side"
+#  | source: src/components/Table/components/Pagination/index.tsx
+fb9e513b7002cfd35f58f89aa0d72b48: "Forrige side"
+#  | source: src/components/ColorPicker/components/Input/Alpha.tsx
+fd008534c549bb37c03d1c60bcf70ea2: "Alfa"

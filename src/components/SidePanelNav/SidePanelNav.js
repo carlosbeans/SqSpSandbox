@@ -13,7 +13,6 @@ import { useTopChromeInset } from "../../contexts/TopChromeInsetContext";
 
 /** Main nav stripe + banner offset (<MainNavigation /> tabs + chrome). */
 const SIDE_PANEL_STICKY_TOP_BASE_PX = 78;
-import { radii } from "@sqs/rosetta-tokens";
 
 const NAV_ITEMS = [
   { value: "overview", label: "Overview", path: "." },
@@ -86,7 +85,7 @@ function domainSectionPath(domainId, segment) {
 
 export default function SidePanelNav() {
   const topChromeInsetPx = useTopChromeInset();
-  const { borders, colors } = useTheme();
+  const { borders, colors, radii } = useTheme();
   const { NavItem, NavText, NavGroup } = NavMenu;
   const navigate = useNavigate();
   const { pathname } = useLocation();
