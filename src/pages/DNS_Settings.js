@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { Stack, Card, TextLink, TextField, Chip, Checkbox, Toast } from "@sqs/rosetta-elements";
+import { Stack, Card, TextLink, Chip, Checkbox, Toast } from "@sqs/rosetta-elements";
+import { TextInput } from "@sqs/rosetta-elements/textinput/next";
 import { Text, Button, Flex, Box, Touchable } from "@sqs/rosetta-primitives";
-import { Table, Drawer, ActionList } from "@sqs/rosetta-compositions";
+import { Table, Drawer, ActionList, BasicDialog } from "@sqs/rosetta-compositions";
 import { InfoCircle, Trash, Search, CheckmarkCircle } from "@sqs/rosetta-icons";
 import { useTheme } from "@sqs/rosetta-styled";
 import { Breakpoint } from "@sqs/rosetta-utilities";
@@ -53,12 +54,14 @@ const columns = [
 
 function DNSTable({ records }) {
   return (
-    <Table columns={columns} data={records}>
-      <Table.List>
-        <Table.List.Head />
-        <Table.List.Body />
-      </Table.List>
-    </Table>
+    <Box css={{ "& tr:last-child": { borderBottom: "none" } }}>
+      <Table columns={columns} data={records}>
+        <Table.List>
+          <Table.List.Head />
+          <Table.List.Body />
+        </Table.List>
+      </Table>
+    </Box>
   );
 }
 
@@ -69,6 +72,20 @@ export function DNSSettingsContent({ toastRef }) {
   const [selectedPresets, setSelectedPresets] = useState(new Set());
   const [activeFilters, setActiveFilters] = useState(new Set());
   const [addedPresets, setAddedPresets] = useState([]);
+  const [presetToDelete, setPresetToDelete] = useState(null);
+
+  const confirmDeletePreset = useCallback(() => {
+    if (!presetToDelete) return;
+    setAddedPresets((prev) => prev.filter((p) => p.title !== presetToDelete));
+    setPresetToDelete(null);
+    if (toastRef?.current) {
+      toastRef.current.show({
+        content: "DNS Preset has been removed",
+        variant: "success",
+        duration: 4000,
+      });
+    }
+  }, [presetToDelete, toastRef]);
 
   const openDrawer = useCallback(() => {
     setIsDrawerMounted(true);
@@ -189,11 +206,7 @@ export function DNSSettingsContent({ toastRef }) {
                 <Box
                   as="button"
                   aria-label={`Delete ${preset.title}`}
-                  onClick={() =>
-                    setAddedPresets((prev) =>
-                      prev.filter((p) => p.title !== preset.title)
-                    )
-                  }
+                  onClick={() => setPresetToDelete(preset.title)}
                   css={{
                     background: "none",
                     border: "none",
@@ -241,6 +254,38 @@ export function DNSSettingsContent({ toastRef }) {
         </Stack>
       </Stack>
 
+      {presetToDelete && (
+        <BasicDialog.Modal
+          onRequestClose={() => setPresetToDelete(null)}
+          closeOnEsc
+          closeOnOverlayClicked
+        >
+          <BasicDialog.Overlay />
+          <BasicDialog.Transition>
+            <BasicDialog.Position position="center">
+              <BasicDialog>
+                <BasicDialog.Content>
+                  <BasicDialog.Title>Remove {presetToDelete}?</BasicDialog.Title>
+                  <BasicDialog.Description>
+                    Removing this DNS preset will delete all associated records.
+                    This could disrupt your website connection or linked services
+                    if they depend on these settings.
+                  </BasicDialog.Description>
+                </BasicDialog.Content>
+                <BasicDialog.Actions>
+                  <BasicDialog.Button onClick={() => setPresetToDelete(null)}>
+                    Cancel
+                  </BasicDialog.Button>
+                  <BasicDialog.Button.Danger onClick={confirmDeletePreset}>
+                    Remove Preset
+                  </BasicDialog.Button.Danger>
+                </BasicDialog.Actions>
+              </BasicDialog>
+            </BasicDialog.Position>
+          </BasicDialog.Transition>
+        </BasicDialog.Modal>
+      )}
+
       {isDrawerMounted && (
         <Drawer.Modal
           onRequestClose={closeDrawer}
@@ -272,15 +317,10 @@ export function DNSSettingsContent({ toastRef }) {
                   justifyContent="space-between"
                   mb={5}
                 >
-                  <Box css={{ width: 300 }}>
-                    <TextField
-                      interiorPre={
-                        <Search css={{ width: 16, height: 16, color: "gray.300" }} />
-                      }
-                      inputProps={{ placeholder: "Search for a preset" }}
-                      appearance="cell"
-                    />
-                  </Box>
+                  <TextInput.Root variant="base" sx={{ width: 300 }}>
+                    <Search css={{ width: 16, height: 16, color: "gray.300" }} />
+                    <TextInput.Control placeholder="Search for a preset" />
+                  </TextInput.Root>
                   <Flex alignItems="center" gap={2}>
                     <Text.Label color="gray.300">FILTER BY</Text.Label>
                     <ActionList.PopOver
@@ -334,7 +374,7 @@ export function DNSSettingsContent({ toastRef }) {
                   ))}
                 </Box>
               </Drawer.Body>
-              <Drawer.Footer>
+              <Drawer.Footer justifyContent="end">
                 <Button.Secondary size="small" onClick={closeDrawer}>
                   Cancel
                 </Button.Secondary>
