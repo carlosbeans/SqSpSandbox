@@ -29,7 +29,7 @@ if (!isProduction) {
   return;
 }
 
-const serveBin = path.join(projectRoot, "node_modules", ".bin", "serve");
+const serveCli = path.join(projectRoot, "node_modules", "serve", "build", "main.js");
 const buildIndex = path.join(projectRoot, "build", "index.html");
 
 if (!fs.existsSync(buildIndex)) {
@@ -46,10 +46,10 @@ const envPort = Number(process.env.APPSPACE_PORT ?? process.env.PORT ?? 3000) ||
 const ports = [...new Set([envPort, 80])];
 
 function startServe(port, { primary }) {
-  log("serving prebuilt build", { port, primary, serveBin });
+  log("serving prebuilt build", { port, primary, serveCli });
   const child = spawn(
-    serveBin,
-    ["-s", "build", "-l", `tcp://0.0.0.0:${port}`, "--no-clipboard"],
+    process.execPath,
+    [serveCli, "-s", "build", "-l", `tcp://0.0.0.0:${port}`, "--no-clipboard"],
     {
       stdio: "inherit",
       env: { ...process.env, HOST: "0.0.0.0" },

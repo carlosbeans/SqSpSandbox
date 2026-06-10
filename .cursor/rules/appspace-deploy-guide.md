@@ -161,6 +161,15 @@ In the terminal, type `ls` and press Enter. You should see files like `package.j
 **Changes aren't showing up after Promote**
 You may have forgotten to commit before pushing. Run `git status` to check, commit any missing changes, then push and promote again.
 
+**"no running pod found for site-…" (repeating in the AppSpace UI)**
+This comes from AppSpace's gateway, not your terminal. It means there is no healthy container to serve traffic right now. Common causes:
+
+1. **Build still running or not Promoted yet** — wait for the deployment to finish in Deployments, then click **Promote**. The live URL and log stream will show this until a pod is running.
+2. **Pod crashed on startup** — open **Deployments → your build → Server logs**. You should see `[appspace] serving prebuilt build`. If you see `missing prebuilt build/` or `serve spawn error`, redeploy with `npm run deploy "message"` (that rebuilds and commits `build/` before pushing).
+3. **Checked the live URL too early** — after Promote, wait 30–60 seconds for the new pod to pass its health check.
+
+For this project, always deploy with `npm run deploy "your message"` instead of `git push appspace main` alone, so the committed `build/` folder is included.
+
 ---
 
 ## Bonus — Let your Cursor agent handle this for you
