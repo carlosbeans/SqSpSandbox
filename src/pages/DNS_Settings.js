@@ -12,6 +12,7 @@ import dnsData from "../data/dns.json";
 
 const {
   filterTypes: FILTER_TYPES,
+  categoryOrder: CATEGORY_ORDER,
   defaultRecords,
   customRecords,
   presets: DNS_PRESETS,
@@ -73,6 +74,8 @@ export function DNSSettingsContent({ toastRef }) {
   const [activeFilters, setActiveFilters] = useState(new Set());
   const [addedPresets, setAddedPresets] = useState([]);
   const [presetToDelete, setPresetToDelete] = useState(null);
+  const [deselectedAddedPresets, setDeselectedAddedPresets] = useState(new Set());
+  const [pendingConfirm, setPendingConfirm] = useState(false);
 
   const confirmDeletePreset = useCallback(() => {
     if (!presetToDelete) return;
@@ -98,22 +101,87 @@ export function DNSSettingsContent({ toastRef }) {
 
   const handleDrawerExited = useCallback(() => {
     setIsDrawerMounted(false);
+    setDeselectedAddedPresets(new Set());
   }, []);
 
   const addedTitles = new Set(addedPresets.map((p) => p.title));
 
+  const presetByTitle = Object.fromEntries(
+    DNS_PRESETS.map((p) => [p.title, p])
+  );
+
   const togglePreset = (title) => {
-    if (addedTitles.has(title)) return;
+    if (addedTitles.has(title)) {
+      setDeselectedAddedPresets((prev) => {
+        const next = new Set(prev);
+        if (next.has(title)) {
+          next.delete(title);
+        } else {
+          next.add(title);
+        }
+        return next;
+      });
+      return;
+    }
+    const category = presetByTitle[title]?.type;
     setSelectedPresets((prev) => {
       const next = new Set(prev);
       if (next.has(title)) {
         next.delete(title);
       } else {
+        if (category) {
+          DNS_PRESETS
+            .filter((p) => p.type === category && p.title !== title)
+            .forEach((p) => next.delete(p.title));
+        }
         next.add(title);
       }
       return next;
     });
   };
+
+  const confirmRemoveAndAdd = useCallback(() => {
+    setPendingConfirm(false);
+    const removedTitles = deselectedAddedPresets;
+    setAddedPresets((prev) =>
+      prev.filter((p) => !removedTitles.has(p.title))
+    );
+
+    const newTitles = [...selectedPresets].filter((t) => !addedTitles.has(t));
+    const newPresets = newTitles.map((title) => ({
+      title,
+      records: PRESET_RECORDS[title] || [],
+    }));
+    setAddedPresets((prev) => [...prev, ...newPresets]);
+
+    closeDrawer();
+    setSelectedPresets(new Set());
+    setDeselectedAddedPresets(new Set());
+    setActiveFilters(new Set());
+
+    const messages = [];
+    if (removedTitles.size > 0) {
+      messages.push(
+        removedTitles.size === 1
+          ? "1 preset removed"
+          : `${removedTitles.size} presets removed`
+      );
+    }
+    if (newPresets.length > 0) {
+      messages.push(
+        newPresets.length === 1
+          ? "1 preset added"
+          : `${newPresets.length} presets added`
+      );
+    }
+    if (messages.length > 0 && toastRef?.current) {
+      toastRef.current.show({
+        content: messages.join(", "),
+        variant: "success",
+        duration: 4000,
+      });
+    }
+  }, [deselectedAddedPresets, selectedPresets, addedTitles, toastRef, closeDrawer]);
 
   const toggleFilter = (type) => {
     setActiveFilters((prev) => {
@@ -127,7 +195,11 @@ export function DNSSettingsContent({ toastRef }) {
     });
   };
 
-  const handleAddPresets = useCallback(() => {
+  const handleConfirm = useCallback(() => {
+    if (deselectedAddedPresets.size > 0) {
+      setPendingConfirm(true);
+      return;
+    }
     const newTitles = [...selectedPresets].filter((t) => !addedTitles.has(t));
     const newPresets = newTitles.map((title) => ({
       title,
@@ -136,6 +208,7 @@ export function DNSSettingsContent({ toastRef }) {
     setAddedPresets((prev) => [...prev, ...newPresets]);
     closeDrawer();
     setSelectedPresets(new Set());
+    setDeselectedAddedPresets(new Set());
     setActiveFilters(new Set());
     const count = newPresets.length;
     if (count > 0 && toastRef?.current) {
@@ -145,13 +218,49 @@ export function DNSSettingsContent({ toastRef }) {
         duration: 4000,
       });
     }
-  }, [selectedPresets, addedTitles, toastRef, closeDrawer]);
+  }, [deselectedAddedPresets, selectedPresets, addedTitles, toastRef, closeDrawer]);
 
   const filteredPresets = activeFilters.size === 0
     ? DNS_PRESETS
     : DNS_PRESETS.filter((p) => activeFilters.has(p.type));
 
-  const hasNewSelection = [...selectedPresets].some((t) => !addedTitles.has(t));
+  const selectedByCategory = {};
+  for (const title of selectedPresets) {
+    const cat = presetByTitle[title]?.type;
+    if (cat) selectedByCategory[cat] = title;
+  }
+  const effectiveAddedTitles = new Set(
+    [...addedTitles].filter((t) => !deselectedAddedPresets.has(t))
+  );
+  const addedByCategory = {};
+  for (const t of effectiveAddedTitles) {
+    const cat = presetByTitle[t]?.type;
+    if (cat) addedByCategory[cat] = t;
+  }
+
+  const getCardState = (preset) => {
+    const isDeselected = deselectedAddedPresets.has(preset.title);
+    if (isDeselected) return "default";
+    if (effectiveAddedTitles.has(preset.title) || selectedPresets.has(preset.title)) {
+      return "selected";
+    }
+    const cat = preset.type;
+    if (selectedByCategory[cat] || addedByCategory[cat]) {
+      return "disabled";
+    }
+    return "default";
+  };
+
+  const groupedPresets = CATEGORY_ORDER
+    .map((category) => ({
+      category,
+      presets: filteredPresets.filter((p) => p.type === category),
+    }))
+    .filter((group) => group.presets.length > 0);
+
+  const hasChanges =
+    [...selectedPresets].some((t) => !addedTitles.has(t)) ||
+    deselectedAddedPresets.size > 0;
   const hasActiveFilters = activeFilters.size > 0;
 
   return (
@@ -286,6 +395,38 @@ export function DNSSettingsContent({ toastRef }) {
         </BasicDialog.Modal>
       )}
 
+      {pendingConfirm && (
+        <BasicDialog.Modal
+          onRequestClose={() => setPendingConfirm(false)}
+          closeOnEsc
+          closeOnOverlayClicked
+        >
+          <BasicDialog.Overlay />
+          <BasicDialog.Transition>
+            <BasicDialog.Position position="center">
+              <BasicDialog>
+                <BasicDialog.Content>
+                  <BasicDialog.Title>Remove selected presets?</BasicDialog.Title>
+                  <BasicDialog.Description>
+                    You've deselected one or more active DNS presets. Removing
+                    them will delete their records and could disrupt your domain
+                    connection or linked services. Do you want to continue?
+                  </BasicDialog.Description>
+                </BasicDialog.Content>
+                <BasicDialog.Actions>
+                  <BasicDialog.Button onClick={() => setPendingConfirm(false)}>
+                    Cancel
+                  </BasicDialog.Button>
+                  <BasicDialog.Button.Danger onClick={confirmRemoveAndAdd}>
+                    Confirm
+                  </BasicDialog.Button.Danger>
+                </BasicDialog.Actions>
+              </BasicDialog>
+            </BasicDialog.Position>
+          </BasicDialog.Transition>
+        </BasicDialog.Modal>
+      )}
+
       {isDrawerMounted && (
         <Drawer.Modal
           onRequestClose={closeDrawer}
@@ -315,7 +456,7 @@ export function DNSSettingsContent({ toastRef }) {
                   id="dns-preset-search-filter"
                   alignItems="center"
                   justifyContent="space-between"
-                  mb={5}
+                  mb={5}                  
                 >
                   <TextInput.Root variant="base" sx={{ width: 300 }}>
                     <Search css={{ width: 16, height: 16, color: "gray.300" }} />
@@ -324,8 +465,9 @@ export function DNSSettingsContent({ toastRef }) {
                   <Flex alignItems="center" gap={2}>
                     <Text.Label color="gray.300">FILTER BY</Text.Label>
                     <ActionList.PopOver
-                      position="bottom-right"
-                      anchorPoint={{ x: "right", y: "bottom" }}
+                      position="bottom"
+                      anchorPoint={{ x: "right", y: "top" }}
+                      offset={{ y: 4 }}
                       closeOnClickOutside
                       closeOnEsc
                       renderTrigger={({ toggleActionListOpen, isOpen }) => (
@@ -355,30 +497,36 @@ export function DNSSettingsContent({ toastRef }) {
                     </ActionList.PopOver>
                   </Flex>
                 </Flex>
-                <Box
-                  id="dns-preset-grid"
-                  css={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(4, 1fr)",
-                    gap: 11,
-                  }}
-                >
-                  {filteredPresets.map((preset) => (
-                    <DNSPresetCard
-                      key={preset.title}
-                      title={preset.title}
-                      description={preset.description}
-                      state={addedTitles.has(preset.title) || selectedPresets.has(preset.title) ? "selected" : "default"}
-                      onClick={() => togglePreset(preset.title)}
-                    />
+                <Stack space={5}>
+                  {groupedPresets.map(({ category, presets }) => (
+                    <Box key={category}>
+                      <Text.SectionTitle mb={3}>{category}</Text.SectionTitle>
+                      <Box
+                        css={{
+                          display: "grid",
+                          gridTemplateColumns: "repeat(4, 1fr)",
+                          gap: 11,
+                        }}
+                      >
+                        {presets.map((preset) => (
+                          <DNSPresetCard
+                            key={preset.title}
+                            title={preset.title}
+                            description={preset.description}
+                            state={getCardState(preset)}
+                            onClick={() => togglePreset(preset.title)}
+                          />
+                        ))}
+                      </Box>
+                    </Box>
                   ))}
-                </Box>
+                </Stack>
               </Drawer.Body>
               <Drawer.Footer justifyContent="end">
                 <Button.Secondary size="small" onClick={closeDrawer}>
                   Cancel
                 </Button.Secondary>
-                <Button.Primary size="small" disabled={!hasNewSelection} onClick={handleAddPresets}>Add</Button.Primary>
+                <Button.Primary size="small" disabled={!hasChanges} onClick={handleConfirm}>Confirm</Button.Primary>
               </Drawer.Footer>
             </Drawer.Sheet> : null}
           </Drawer.Transition>

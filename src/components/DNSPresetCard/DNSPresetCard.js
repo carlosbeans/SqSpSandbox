@@ -10,7 +10,6 @@ const stateStyles = (theme) => ({
     cursor: "pointer",
     "&:hover": {
       borderColor: theme.colors.gray[600],
-      background: theme.colors.gray[900],
     },
   },
   selected: {

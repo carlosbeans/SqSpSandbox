@@ -1,5 +1,6 @@
 {
-  "filterTypes": ["Hosting", "Email", "Verification"],
+  "filterTypes": ["Squarespace", "Hosting", "Email", "Verification"],
+  "categoryOrder": ["Squarespace", "Email", "Verification", "Hosting"],
   "defaultRecords": [
     { "host": "@", "type": "A", "priority": "N/A", "ttl": "4 hrs", "data": "198.185.159.144" },
     { "host": "@", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "ext-sq.squarespace.com" }
@@ -8,26 +9,27 @@
     { "host": "www", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "ext-sq.squarespace.com" }
   ],
   "presets": [
-    { "title": "Defaults", "description": "Standard Squarespace DNS records", "type": "Hosting" },
-    { "title": "Domain Connect", "description": "Auto-configure supported services", "type": "Hosting" },
+    { "title": "Squarespace Defaults", "description": "Standard Squarespace DNS records", "type": "Squarespace" },
+    { "title": "Squarespace Domain Connect", "description": "This preset is for connecting this domain to other website or email service providers", "type": "Squarespace" },
+    { "title": "PayPal Pay Links", "description": "Enables your domain to be used for processing online payments securely with PayPal.", "type": "Squarespace" },
     { "title": "Email Campaigns", "description": "Squarespace email marketing records", "type": "Email" },
-    { "title": "Google Workspace", "description": "Gmail and Google apps for your domain", "type": "Email" },
-    { "title": "Zoho Mail", "description": "Zoho email hosting records", "type": "Email" },
-    { "title": "Fastmail", "description": "Fastmail email service records", "type": "Email" },
+    { "title": "Google Workspace", "description": "Connect your domain to professional email, cloud storage, and collaboration tools by Google.", "type": "Email" },
+    { "title": "Zoho Mail", "description": "Route your domain’s incoming and outgoing messages through Zoho Mail.", "type": "Email" },
+    { "title": "Fastmail", "description": "Route your domain’s incoming and outgoing messages through Fastmail.", "type": "Email" },
     { "title": "Proton Mail", "description": "Proton Mail encrypted email records", "type": "Email" },
-    { "title": "Titan Mail", "description": "Titan email hosting records", "type": "Email" },
-    { "title": "Neo Mail", "description": "Neo email service records", "type": "Email" },
-    { "title": "iCloud Mail", "description": "Apple iCloud custom domain email", "type": "Email" },
-    { "title": "Microsoft 365", "description": "Outlook and Microsoft apps records", "type": "Email" },
-    { "title": "Webflow", "description": "Connect your domain to Webflow", "type": "Hosting" },
-    { "title": "Vercel", "description": "Connect your domain to Vercel", "type": "Hosting" },
-    { "title": "GitHub Pages", "description": "Host a site with GitHub Pages", "type": "Hosting" },
-    { "title": "Framer", "description": "DNS records set up for Framer", "type": "Hosting" },
-    { "title": "Netlify", "description": "DNS records set up for Netlify", "type": "Hosting" },
-    { "title": "Railway", "description": "Connect your domain to Railway", "type": "Hosting" },
-    { "title": "Lovable", "description": "Connect your domain to Lovable", "type": "Hosting" },
-    { "title": "GitHub Domain Verification", "description": "Verify domain ownership on GitHub", "type": "Verification" },
-    { "title": "Google Workspace Verification", "description": "Verify domain ownership for Google", "type": "Verification" }
+    { "title": "Titan Mail", "description": "Route your domain’s incoming and outgoing messages through Titan Mail.", "type": "Email" },
+    { "title": "Neo Mail", "description": "Route your domain’s incoming and outgoing messages through Proton Mail.", "type": "Email" },
+    { "title": "iCloud Mail", "description": "Use your personal domain to send and receive messages via iCloud Mail.", "type": "Email" },
+    { "title": "Microsoft 365", "description": "Run your business with professional email and cloud applications by Microsoft.", "type": "Email" },
+    { "title": "Webflow", "description": "Publish your custom domain to point to your Webflow project.", "type": "Hosting" },
+    { "title": "Vercel", "description": "Route your domain traffic directly to a production deployment on Vercel.", "type": "Hosting" },
+    { "title": "GitHub Pages", "description": "Share your code projects with the world using a custom domain for GitHub Pages.", "type": "Hosting" },
+    { "title": "Framer", "description": "Publish your custom domain to point to your Framer project.", "type": "Hosting" },
+    { "title": "Netlify", "description": "Link your custom domain to web applications managed on Netlify.", "type": "Hosting" },
+    { "title": "Railway", "description": "Link your custom domain to web applications managed on Railway.", "type": "Hosting" },
+    { "title": "Lovable", "description": "Link your custom domain to web applications managed on Lovable.", "type": "Hosting" },
+    { "title": "GitHub Domain Verification", "description": "Complete secure ownership validation to finish connecting your Github account.", "type": "Verification" },
+    { "title": "Google Workspace Verification", "description": "Complete secure ownership validation to unlock your Google Workspace account.", "type": "Verification" }
   ],
   "presetRecords": {
     "Defaults": [

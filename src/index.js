@@ -7,15 +7,15 @@ import "./global.scss";
 //pages
 import Root from "./pages/Root";
 
-import SelectAndDrag from "./pages/SelectAndDrag";
-import CodePreview from "./pages/CodePreview";
+import SelectAndDrag from "./pages/experiments/SelectAndDrag";
+import CodePreview from "./pages/experiments/CodePreview";
 import Domains from "./pages/Domains.tsx";
 import RouteErrorState from "./components/ErrorState/ErrorState";
 import Dashboard from "./pages/Dashboard";
-import DomainWebsiteConnection from "./pages/DomainWebsiteConnection";
+import DomainWebsiteConnection from "./pages/experiments/DomainWebsiteConnection";
 import DomainOverview from "./pages/DomainOverview";
 import DNS_Settings from "./pages/DNS_Settings.js";
-import Experiments from "./pages/Experiments.js";
+import Experiments from "./pages/experiments/index.js";
 import Activity from "./pages/Activity";
 import Billing from "./pages/Billing";
 import DNSSEC from "./pages/DNSSEC";
@@ -28,7 +28,8 @@ import Security from "./pages/Security";
 import Website from "./pages/Website";
 import DomainRegistration from "./pages/DomainRegistration";
 import DomainSettings from "./pages/DomainSettings";
-import ComponentTest from "./pages/ComponentTest.tsx";
+import ComponentTest from "./pages/experiments/ComponentTest.tsx";
+import DomainOverviewRedesignQ22026 from "./pages/experiments/DomainOverviewRedesignQ22026.js";
 
 //layouts
 import AppShell from "./layouts/AppShell";
@@ -48,32 +49,26 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: "selectanddrag",
-        element: <SelectAndDrag />,
-      },
-      {
-        path: "codepreview",
-        element: <CodePreview />,
-      },
-      {
         path: "domains",
         element: <Domains />,
       },
       {
         path: "experiments",
-        element: <Experiments />,
-      },
-      {
-        path: "componenttest",
-        element: <ComponentTest />,
-      },
-      {
-        path: "DomainWebsiteConnection",
-        element: <DomainWebsiteConnection />,
+        children: [
+          { index: true, element: <Experiments /> },
+          { path: "selectanddrag", element: <SelectAndDrag /> },
+          { path: "codepreview", element: <CodePreview /> },
+          { path: "domainwebsiteconnection", element: <DomainWebsiteConnection /> },
+          { path: "componenttest", element: <ComponentTest /> },
+        ],
       },
       {
         element: <AppShell />,
         children: [
+          {
+            path: "experiments/domain-overview-redesign-q2-2026",
+            element: <DomainOverviewRedesignQ22026 />,
+          },
           {
             path: "pay-links",
             element: <PayLinks />,
