@@ -1,8 +1,21 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { Stack, Card, TextLink, Chip, Checkbox, Toast } from "@sqs/rosetta-elements";
+import {
+  Stack,
+  Card,
+  TextLink,
+  Tabs,
+  Chip,
+  Checkbox,
+  Toast,
+} from "@sqs/rosetta-elements";
 import { TextInput } from "@sqs/rosetta-elements/textinput/next";
 import { Text, Button, Flex, Box, Touchable } from "@sqs/rosetta-primitives";
-import { Table, Drawer, ActionList, BasicDialog } from "@sqs/rosetta-compositions";
+import {
+  Table,
+  Drawer,
+  ActionList,
+  BasicDialog,
+} from "@sqs/rosetta-compositions";
 import { InfoCircle, Trash, Search, CheckmarkCircle } from "@sqs/rosetta-icons";
 import { useTheme } from "@sqs/rosetta-styled";
 import { Breakpoint } from "@sqs/rosetta-utilities";
@@ -74,8 +87,17 @@ export function DNSSettingsContent({ toastRef }) {
   const [activeFilters, setActiveFilters] = useState(new Set());
   const [addedPresets, setAddedPresets] = useState([]);
   const [presetToDelete, setPresetToDelete] = useState(null);
-  const [deselectedAddedPresets, setDeselectedAddedPresets] = useState(new Set());
+  const [deselectedAddedPresets, setDeselectedAddedPresets] = useState(
+    new Set(),
+  );
   const [pendingConfirm, setPendingConfirm] = useState(false);
+  const [activeTab, setActiveTab] = useState("presets");
+
+  const tabOptions = [
+    { label: "DNS Presets", value: "presets" },
+    { label: "Custom DNS Records", value: "custom" },
+    { label: "Nameservers", value: "nameservers" },
+  ];
 
   const confirmDeletePreset = useCallback(() => {
     if (!presetToDelete) return;
@@ -107,7 +129,7 @@ export function DNSSettingsContent({ toastRef }) {
   const addedTitles = new Set(addedPresets.map((p) => p.title));
 
   const presetByTitle = Object.fromEntries(
-    DNS_PRESETS.map((p) => [p.title, p])
+    DNS_PRESETS.map((p) => [p.title, p]),
   );
 
   const togglePreset = (title) => {
@@ -130,9 +152,9 @@ export function DNSSettingsContent({ toastRef }) {
         next.delete(title);
       } else {
         if (category) {
-          DNS_PRESETS
-            .filter((p) => p.type === category && p.title !== title)
-            .forEach((p) => next.delete(p.title));
+          DNS_PRESETS.filter(
+            (p) => p.type === category && p.title !== title,
+          ).forEach((p) => next.delete(p.title));
         }
         next.add(title);
       }
@@ -143,9 +165,7 @@ export function DNSSettingsContent({ toastRef }) {
   const confirmRemoveAndAdd = useCallback(() => {
     setPendingConfirm(false);
     const removedTitles = deselectedAddedPresets;
-    setAddedPresets((prev) =>
-      prev.filter((p) => !removedTitles.has(p.title))
-    );
+    setAddedPresets((prev) => prev.filter((p) => !removedTitles.has(p.title)));
 
     const newTitles = [...selectedPresets].filter((t) => !addedTitles.has(t));
     const newPresets = newTitles.map((title) => ({
@@ -164,14 +184,14 @@ export function DNSSettingsContent({ toastRef }) {
       messages.push(
         removedTitles.size === 1
           ? "1 preset removed"
-          : `${removedTitles.size} presets removed`
+          : `${removedTitles.size} presets removed`,
       );
     }
     if (newPresets.length > 0) {
       messages.push(
         newPresets.length === 1
           ? "1 preset added"
-          : `${newPresets.length} presets added`
+          : `${newPresets.length} presets added`,
       );
     }
     if (messages.length > 0 && toastRef?.current) {
@@ -181,7 +201,13 @@ export function DNSSettingsContent({ toastRef }) {
         duration: 4000,
       });
     }
-  }, [deselectedAddedPresets, selectedPresets, addedTitles, toastRef, closeDrawer]);
+  }, [
+    deselectedAddedPresets,
+    selectedPresets,
+    addedTitles,
+    toastRef,
+    closeDrawer,
+  ]);
 
   const toggleFilter = (type) => {
     setActiveFilters((prev) => {
@@ -218,11 +244,18 @@ export function DNSSettingsContent({ toastRef }) {
         duration: 4000,
       });
     }
-  }, [deselectedAddedPresets, selectedPresets, addedTitles, toastRef, closeDrawer]);
+  }, [
+    deselectedAddedPresets,
+    selectedPresets,
+    addedTitles,
+    toastRef,
+    closeDrawer,
+  ]);
 
-  const filteredPresets = activeFilters.size === 0
-    ? DNS_PRESETS
-    : DNS_PRESETS.filter((p) => activeFilters.has(p.type));
+  const filteredPresets =
+    activeFilters.size === 0
+      ? DNS_PRESETS
+      : DNS_PRESETS.filter((p) => activeFilters.has(p.type));
 
   const selectedByCategory = {};
   for (const title of selectedPresets) {
@@ -230,7 +263,7 @@ export function DNSSettingsContent({ toastRef }) {
     if (cat) selectedByCategory[cat] = title;
   }
   const effectiveAddedTitles = new Set(
-    [...addedTitles].filter((t) => !deselectedAddedPresets.has(t))
+    [...addedTitles].filter((t) => !deselectedAddedPresets.has(t)),
   );
   const addedByCategory = {};
   for (const t of effectiveAddedTitles) {
@@ -241,7 +274,10 @@ export function DNSSettingsContent({ toastRef }) {
   const getCardState = (preset) => {
     const isDeselected = deselectedAddedPresets.has(preset.title);
     if (isDeselected) return "default";
-    if (effectiveAddedTitles.has(preset.title) || selectedPresets.has(preset.title)) {
+    if (
+      effectiveAddedTitles.has(preset.title) ||
+      selectedPresets.has(preset.title)
+    ) {
       return "selected";
     }
     const cat = preset.type;
@@ -251,12 +287,10 @@ export function DNSSettingsContent({ toastRef }) {
     return "default";
   };
 
-  const groupedPresets = CATEGORY_ORDER
-    .map((category) => ({
-      category,
-      presets: filteredPresets.filter((p) => p.type === category),
-    }))
-    .filter((group) => group.presets.length > 0);
+  const groupedPresets = CATEGORY_ORDER.map((category) => ({
+    category,
+    presets: filteredPresets.filter((p) => p.type === category),
+  })).filter((group) => group.presets.length > 0);
 
   const hasChanges =
     [...selectedPresets].some((t) => !addedTitles.has(t)) ||
@@ -265,103 +299,186 @@ export function DNSSettingsContent({ toastRef }) {
 
   return (
     <Flex id="dnsSettingsPage" flexDirection="column" gap={6} px={6}>
-      <Flex alignItems="center" justifyContent="space-between">
-        <Stack>
-          <Text.Subtitle>DNS Presets</Text.Subtitle>
-          <Text.Body>
-            DNS records point to services your domain uses, like forwarding your
-            domain or setting up an email service. <br />
-            <TextLink href="#">Learn more about DNS settings</TextLink>          
-          </Text.Body>
-        </Stack>
-        <Button.Primary size="medium" onClick={openDrawer}>
-          Add Preset
-        </Button.Primary>
-      </Flex>
-      <Card sx={{ borderRadius: radii[1] }}>
-        <Card.Body>
-          <Stack space={3}>
-            <Flex alignItems="center" justifyContent="space-between">
-              <Text.Subtitle px={2}>Squarespace Defaults</Text.Subtitle>
-              <Touchable.Element.Icon>
-              <Box
-                as="button"
-                aria-label="Delete defaults"
-                css={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  padding: 4,
-                  display: "flex",
-                  alignItems: "center",
-                  "&:hover": { color: "#c00" },
-                }}
-              >
-                <Trash color="red.300" />
-              </Box>
-              </Touchable.Element.Icon>
-            </Flex>
-            <DNSTable records={defaultRecords} />
-          </Stack>
-        </Card.Body>
-      </Card>
+      <Tabs
+        options={tabOptions}
+        value={activeTab}
+        onChange={setActiveTab}
+        showIndicator
+      />
 
-      {addedPresets.map((preset) => (
-        <Card key={preset.title} sx={{ borderRadius: radii[1] }}>
-          <Card.Body>
-            <Stack space={3}>
-              <Flex alignItems="center" justifyContent="space-between">
-                <Text.Subtitle px={2}>{preset.title}</Text.Subtitle>
-                <Box
-                  as="button"
-                  aria-label={`Delete ${preset.title}`}
-                  onClick={() => setPresetToDelete(preset.title)}
-                  css={{
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    padding: 4,
-                    color: "#900",
-                    display: "flex",
-                    alignItems: "center",
-                    "&:hover": { color: "#c00" },
-                  }}
-                >
-                  <Touchable.Element.Icon>
-                    <Trash color="red.300" />
-                  </Touchable.Element.Icon>
-                </Box>
-              </Flex>
-              <DNSTable records={preset.records} />
+      {activeTab === "presets" && (
+        <>
+          <Flex alignItems="center" justifyContent="space-between">
+            <Stack>
+              <Text.Subtitle>DNS Presets</Text.Subtitle>
+              <Text.Body>
+                DNS presets in Squarespace simplify common connections for your
+                website and email services.
+                <br />
+                <TextLink href="#">Learn more about DNS presets</TextLink>
+              </Text.Body>
             </Stack>
-          </Card.Body>
-        </Card>
-      ))}
+            <Button.Primary size="medium" onClick={openDrawer}>
+              Add Preset
+            </Button.Primary>
+          </Flex>
+          <Card sx={{ borderRadius: radii[1] }}>
+            <Card.Body>
+              <Stack space={3}>
+                <Flex alignItems="center" justifyContent="space-between">
+                  <Text.Subtitle px={2}>Squarespace Defaults</Text.Subtitle>
+                  <Touchable.Element.Icon>
+                    <Box
+                      as="button"
+                      aria-label="Delete defaults"
+                      css={{
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        padding: 4,
+                        display: "flex",
+                        alignItems: "center",
+                        "&:hover": { color: "#c00" },
+                      }}
+                    >
+                      <Trash color="red.300" />
+                    </Box>
+                  </Touchable.Element.Icon>
+                </Flex>
+                <DNSTable records={defaultRecords} />
+              </Stack>
+            </Card.Body>
+          </Card>
 
-      {/* Custom Records */}
-      <Stack space={4}>
-        <Flex alignItems="center" justifyContent="space-between">
-          <Stack>
-            <Text.Subtitle>Custom records</Text.Subtitle>
-            <Text.Body>
-              DNS records point to services your domain uses, like forwarding
-              your domain or setting up an email service. <br />
-              <TextLink href="#">Learn more about DNS settings</TextLink>
-            </Text.Body>
+          {addedPresets.map((preset) => (
+            <Card key={preset.title} sx={{ borderRadius: radii[1] }}>
+              <Card.Body>
+                <Stack space={3}>
+                  <Flex alignItems="center" justifyContent="space-between">
+                    <Text.Subtitle px={2}>{preset.title}</Text.Subtitle>
+                    <Box
+                      as="button"
+                      aria-label={`Delete ${preset.title}`}
+                      onClick={() => setPresetToDelete(preset.title)}
+                      css={{
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        padding: 4,
+                        color: "#900",
+                        display: "flex",
+                        alignItems: "center",
+                        "&:hover": { color: "#c00" },
+                      }}
+                    >
+                      <Touchable.Element.Icon>
+                        <Trash color="red.300" />
+                      </Touchable.Element.Icon>
+                    </Box>
+                  </Flex>
+                  <DNSTable records={preset.records} />
+                </Stack>
+              </Card.Body>
+            </Card>
+          ))}
+        </>
+      )}
+
+      {activeTab === "custom" && (
+        <Stack space={4}>
+          <Flex alignItems="center" justifyContent="space-between">
+            <Stack>
+              <Text.Subtitle>Custom records</Text.Subtitle>
+              <Text.Body>
+                DNS records point to services your domain uses, like forwarding
+                your domain or setting up an email service. <br />
+                <TextLink href="#">Learn more about DNS settings</TextLink>
+              </Text.Body>
+            </Stack>
+            <Button.Primary size="medium">Add Record</Button.Primary>
+          </Flex>
+          <Stack
+            p={3}
+            sx={{
+              borderRadius: radii[1],
+              border: borders[1],
+              borderColor: colors.gray[800],
+            }}
+          >
+            <DNSTable records={customRecords} />
           </Stack>
-          <Button.Primary size="medium">Add Record</Button.Primary>
-        </Flex>
-        <Stack
-          p={3}
-          sx={{
-            borderRadius: radii[1],
-            border: borders[1],
-            borderColor: colors.gray[800],
-          }}
-        >
-          <DNSTable records={customRecords} />
         </Stack>
-      </Stack>
+      )}
+
+      {activeTab === "nameservers" && (
+        <>
+          <Stack>
+            <Flex alignItems="center" justifyContent="space-between">
+              <Text.SectionTitle mb={3}>Nameservers</Text.SectionTitle>
+              <Button.Primary size="medium">
+                Use Custom Nameservers
+              </Button.Primary>
+            </Flex>
+            <Text.Body>
+              Use Squarespace Nameservers to manage your domain's nameservers.
+              Learn more about nameservers
+            </Text.Body>
+            <Stack my={6} border={borders[1]} borderColor={colors.gray[800]} borderRadius={radii[1]} p={4}>
+              <Box
+                pb={4}
+                sx={{ borderBottom: borders[1], borderColor: colors.gray[800] }}
+              >
+                ns-cloud-b1.googledomains.com
+              </Box>
+              <Box
+                py={4}
+                sx={{ borderBottom: borders[1], borderColor: colors.gray[800] }}
+              >
+                ns-cloud-b2.googledomains.com
+              </Box>
+              <Box
+                py={4}
+                sx={{ borderBottom: borders[1], borderColor: colors.gray[800] }}
+              >
+                ns-cloud-b3.googledomains.com
+              </Box>
+              <Box
+                pt={4}                
+              >
+                ns-cloud-b4.googledomains.com
+              </Box>
+            </Stack>
+            <Flex flexDirection="column" gap={3}>
+              <Flex alignItems="center" justifyContent="space-between">
+                <Text.SectionTitle mb={0}>
+                  Nameserver Registration
+                </Text.SectionTitle>
+                <Button.Primary size="medium">Add host record</Button.Primary>
+              </Flex>
+              <Text.Body>
+                Create a host record to associate a nameserver with an IP
+                address. Learn more
+              </Text.Body>
+              <Flex
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+                py={10}
+                gap={2}
+                border={borders[1]}
+                borderColor={colors.gray[800]}
+                borderRadius={radii[1]}
+                
+              >
+                <Text.Subtitle>No host records</Text.Subtitle>
+                <Text.Body color="gray.300">
+                  When you add host records, they will show up here.
+                </Text.Body>
+              </Flex>
+            </Flex>
+          </Stack>
+        </>
+      )}
 
       {presetToDelete && (
         <BasicDialog.Modal
@@ -374,11 +491,13 @@ export function DNSSettingsContent({ toastRef }) {
             <BasicDialog.Position position="center">
               <BasicDialog>
                 <BasicDialog.Content>
-                  <BasicDialog.Title>Remove {presetToDelete}?</BasicDialog.Title>
+                  <BasicDialog.Title>
+                    Remove {presetToDelete}?
+                  </BasicDialog.Title>
                   <BasicDialog.Description>
                     Removing this DNS preset will delete all associated records.
-                    This could disrupt your website connection or linked services
-                    if they depend on these settings.
+                    This could disrupt your website connection or linked
+                    services if they depend on these settings.
                   </BasicDialog.Description>
                 </BasicDialog.Content>
                 <BasicDialog.Actions>
@@ -406,7 +525,9 @@ export function DNSSettingsContent({ toastRef }) {
             <BasicDialog.Position position="center">
               <BasicDialog>
                 <BasicDialog.Content>
-                  <BasicDialog.Title>Remove selected presets?</BasicDialog.Title>
+                  <BasicDialog.Title>
+                    Remove selected presets?
+                  </BasicDialog.Title>
                   <BasicDialog.Description>
                     You've deselected one or more active DNS presets. Removing
                     them will delete their records and could disrupt your domain
@@ -439,99 +560,114 @@ export function DNSSettingsContent({ toastRef }) {
               if (phase === "exiting") handleDrawerExited();
             }}
           >
-            {isPresetDrawerOpen ? <Drawer.Sheet>
-              <Drawer.Header>
-                <Drawer.Header.TitleRow>
-                  <Drawer.Header.Title>Add DNS Preset</Drawer.Header.Title>
-                  <Drawer.CloseButton onClick={closeDrawer} />
-                </Drawer.Header.TitleRow>
-                <Drawer.Header.Description>
-                  DNS presets simplify your domain setup by instantly adding the
-                  right settings for your services and showing you which
-                  connections are currently active.
-                </Drawer.Header.Description>
-              </Drawer.Header>
-              <Drawer.Body px={6} py={5}>
-                <Flex
-                  id="dns-preset-search-filter"
-                  alignItems="center"
-                  justifyContent="space-between"
-                  mb={5}                  
-                >
-                  <TextInput.Root variant="base" sx={{ width: 300 }}>
-                    <Search css={{ width: 16, height: 16, color: "gray.300" }} />
-                    <TextInput.Control placeholder="Search for a preset" />
-                  </TextInput.Root>
-                  <Flex alignItems="center" gap={2}>
-                    <Text.Label color="gray.300">FILTER BY</Text.Label>
-                    <ActionList.PopOver
-                      position="bottom"
-                      anchorPoint={{ x: "right", y: "top" }}
-                      offset={{ y: 4 }}
-                      closeOnClickOutside
-                      closeOnEsc
-                      renderTrigger={({ toggleActionListOpen, isOpen }) => (
-                        <Chip
-                          label="Type"
-                          accessory={<Chip.ChevronDown />}
-                          onClick={toggleActionListOpen}
-                          isSelected={hasActiveFilters}
-                        />
-                      )}
-                    >
-                      {() => (
-                        <Box css={{ padding: 16, minWidth: 180 }}>
-                          <Stack space={0}>
-                            {FILTER_TYPES.map((type) => (
-                              <Flex key={type} alignItems="center" gap={2} py={2}>
-                                <Checkbox
-                                  checked={activeFilters.has(type)}
-                                  onChange={() => toggleFilter(type)}
-                                />
-                                <Text.Body>{type}</Text.Body>
-                              </Flex>
-                            ))}
-                          </Stack>
-                        </Box>
-                      )}
-                    </ActionList.PopOver>
-                  </Flex>
-                </Flex>
-                <Stack space={5}>
-                  {groupedPresets.map(({ category, presets }) => (
-                    <Box key={category}>
-                      <Text.SectionTitle mb={3}>{category}</Text.SectionTitle>
-                      <Box
-                        css={{
-                          display: "grid",
-                          gridTemplateColumns: "repeat(4, 1fr)",
-                          gap: 11,
-                        }}
-                      >
-                        {presets.map((preset) => (
-                          <DNSPresetCard
-                            key={preset.title}
-                            title={preset.title}
-                            description={preset.description}
-                            state={getCardState(preset)}
-                            onClick={() => togglePreset(preset.title)}
+            {isPresetDrawerOpen ? (
+              <Drawer.Sheet>
+                <Drawer.Header>
+                  <Drawer.Header.TitleRow>
+                    <Drawer.Header.Title>Add DNS Preset</Drawer.Header.Title>
+                    <Drawer.CloseButton onClick={closeDrawer} />
+                  </Drawer.Header.TitleRow>
+                  <Drawer.Header.Description>
+                    DNS presets simplify your domain setup by instantly adding
+                    the right settings for your services and showing you which
+                    connections are currently active.
+                  </Drawer.Header.Description>
+                </Drawer.Header>
+                <Drawer.Body px={6} py={5}>
+                  <Flex
+                    id="dns-preset-search-filter"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    mb={5}
+                  >
+                    <TextInput.Root variant="base" sx={{ width: 300 }}>
+                      <Search
+                        css={{ width: 16, height: 16, color: "gray.300" }}
+                      />
+                      <TextInput.Control placeholder="Search for a preset" />
+                    </TextInput.Root>
+                    <Flex alignItems="center" gap={2}>
+                      <Text.Label color="gray.300">FILTER BY</Text.Label>
+                      <ActionList.PopOver
+                        position="bottom"
+                        anchorPoint={{ x: "right", y: "top" }}
+                        offset={{ y: 4 }}
+                        closeOnClickOutside
+                        closeOnEsc
+                        renderTrigger={({ toggleActionListOpen, isOpen }) => (
+                          <Chip
+                            label="Type"
+                            accessory={<Chip.ChevronDown />}
+                            onClick={toggleActionListOpen}
+                            isSelected={hasActiveFilters}
                           />
-                        ))}
+                        )}
+                      >
+                        {() => (
+                          <Box css={{ padding: 16, minWidth: 180 }}>
+                            <Stack space={0}>
+                              {FILTER_TYPES.map((type) => (
+                                <Flex
+                                  key={type}
+                                  alignItems="center"
+                                  gap={2}
+                                  py={2}
+                                >
+                                  <Checkbox
+                                    checked={activeFilters.has(type)}
+                                    onChange={() => toggleFilter(type)}
+                                  />
+                                  <Text.Body>{type}</Text.Body>
+                                </Flex>
+                              ))}
+                            </Stack>
+                          </Box>
+                        )}
+                      </ActionList.PopOver>
+                    </Flex>
+                  </Flex>
+                  <Stack space={5}>
+                    {groupedPresets.map(({ category, presets }) => (
+                      <Box key={category}>
+                        <Text.SectionTitle mb={3}>{category}</Text.SectionTitle>
+                        <Box
+                          css={{
+                            display: "grid",
+                            gridTemplateColumns: "repeat(4, 1fr)",
+                            gap: 11,
+                          }}
+                        >
+                          {presets.map((preset) => (
+                            <DNSPresetCard
+                              key={preset.title}
+                              title={preset.title}
+                              description={preset.description}
+                              state={getCardState(preset)}
+                              onClick={() => togglePreset(preset.title)}
+                            />
+                          ))}
+                        </Box>
                       </Box>
-                    </Box>
-                  ))}
-                </Stack>
-              </Drawer.Body>
-              <Drawer.Footer justifyContent="end">
-                <Button.Secondary size="small" onClick={closeDrawer}>
-                  Cancel
-                </Button.Secondary>
-                <Button.Primary size="small" disabled={!hasChanges} onClick={handleConfirm}>Confirm</Button.Primary>
-              </Drawer.Footer>
-            </Drawer.Sheet> : null}
+                    ))}
+                  </Stack>
+                </Drawer.Body>
+                <Drawer.Footer justifyContent="end">
+                  <Button.Secondary size="small" onClick={closeDrawer}>
+                    Cancel
+                  </Button.Secondary>
+                  <Button.Primary
+                    size="small"
+                    disabled={!hasChanges}
+                    onClick={handleConfirm}
+                  >
+                    Confirm
+                  </Button.Primary>
+                </Drawer.Footer>
+              </Drawer.Sheet>
+            ) : null}
           </Drawer.Transition>
         </Drawer.Modal>
-      )}      
+      )}
     </Flex>
   );
 }
@@ -542,7 +678,7 @@ export default function DNS_Settings() {
   usePageHeader({
     title: "DNS Settings",
     subtitle:
-      "DNS records point to services your domain uses, like forwarding your domain or setting up an email service. Learn more about DNS settings",   
+      "DNS records point to services your domain uses, like forwarding your domain or setting up an email service. Learn more about DNS settings",
   });
 
   return (
