@@ -1,5 +1,5 @@
 import { Stack, Divider, TextLink } from "@sqs/rosetta-elements";
-import { Text, Flex, Box } from "@sqs/rosetta-primitives";
+import { Text, Flex, Box, Button } from "@sqs/rosetta-primitives";
 import { Banner } from "@sqs/rosetta-compositions";
 import { useTheme } from "@sqs/rosetta-styled";
 import { usePageHeader } from "../layouts/PageHeaderContext";
@@ -27,73 +27,59 @@ function MastercardLogo({ size = 32 }) {
   );
 }
 
-function EditControl({ label }) {
-  const { colors } = useTheme();
-  return (
-    <Box
-      as="button"
-      type="button"
-      sx={{
-        background: "none",
-        border: "none",
-        cursor: "pointer",
-        paddingY: 2,
-        paddingX: 2,
-        marginRight: -2,
-        minHeight: 44,
-        display: "inline-flex",
-        alignItems: "center",
-        fontWeight: 600,
-        fontSize: 2,
-        lineHeight: "22px",
-        textTransform: "uppercase",
-        letterSpacing: "0.06em",
-        color: colors.gray?.[100] ?? "inherit",
-        fontFamily: "inherit",
-      }}
-    >
-      {label}
-    </Box>
-  );
-}
-
 export function BillingContent() {
   const { colors } = useTheme();
 
   return (
     <Flex flexDirection="column" px={6} space={6} pt={2} pb={8} id="billing-page-content">
-      <Banner.Info>
-        <Banner.Main>
-          <Banner.Row alignItems="flex-start">
-            <Banner.Glyph />
-            <Banner.Column>
-              <Banner.Body>
-                Changing payment here will impact all subscriptions associated.{" "}
-                <TextLink href="#">View subscriptions.</TextLink>
-              </Banner.Body>
-            </Banner.Column>
-          </Banner.Row>
-        </Banner.Main>
-      </Banner.Info>
-
-      <Stack space={4}>
-        <Flex alignItems="center" justifyContent="space-between" gap={4}>
+      <Flex
+        mb={8}
+        gap={4}
+        id="billing-subscriptions-banner-container"
+        width="100%"
+      >
+        <Banner.Info
+          layout="wide"
+          id="billing-subscriptions-banner"
+          sx={{ width: "100%" }}
+        >
+          <Banner.Info.Main>
+            <Banner.Info.Row alignItems="flex-start">
+              <Banner.Info.Glyph />
+              <Banner.Info.Column>
+                <Banner.Info.Title>Important</Banner.Info.Title>
+                <Banner.Info.Body>
+                  Changing payment here will impact all subscriptions associated.{" "}
+                  <TextLink
+                    href="#"
+                    onClick={(e) => e.preventDefault()}
+                  >
+                    View subscriptions.
+                  </TextLink>
+                </Banner.Info.Body>
+              </Banner.Info.Column>
+            </Banner.Info.Row>
+          </Banner.Info.Main>
+        </Banner.Info>
+      </Flex>      
+      <Flex flexDirection="column" mb={4}>
+        <Flex alignItems="center" justifyContent="space-between">
           <Text.Subtitle>Billing Address</Text.Subtitle>
-          <EditControl label="EDIT" />
+          <Button.Tertiary size="small">Edit</Button.Tertiary>
         </Flex>
-        <Stack space={1}>
+        <Flex flexDirection="column" space={1} pb={4}>
           <Text.Body m={0}>{BILLING_ADDRESS.name}</Text.Body>
           <Text.Body m={0}>{BILLING_ADDRESS.line1}</Text.Body>
           <Text.Body m={0}>{BILLING_ADDRESS.line2}</Text.Body>
           <Text.Body m={0}>{BILLING_ADDRESS.country}</Text.Body>
-        </Stack>
+        </Flex>
         <Divider sx={{ borderColor: colors.gray[800] }} />
-      </Stack>
+      </Flex>
 
       <Stack space={4}>
         <Flex alignItems="center" justifyContent="space-between" gap={4}>
           <Text.Subtitle>Payment Method</Text.Subtitle>
-          <EditControl label="EDIT" />
+          <Button.Tertiary size="small">Edit</Button.Tertiary>
         </Flex>
         <Flex alignItems="center" gap={3}>
           <Box sx={{ flexShrink: 0, display: "flex" }}>

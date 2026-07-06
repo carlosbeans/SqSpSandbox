@@ -310,7 +310,7 @@ export function DNSSettingsContent({ toastRef }) {
         <>
           <Flex alignItems="center" justifyContent="space-between">
             <Stack>
-              <Text.Subtitle>DNS Presets</Text.Subtitle>
+              <Text.SectionTitle mb={3}>DNS Presets</Text.SectionTitle>
               <Text.Body>
                 DNS presets in Squarespace simplify common connections for your
                 website and email services.
@@ -388,7 +388,7 @@ export function DNSSettingsContent({ toastRef }) {
         <Stack space={4}>
           <Flex alignItems="center" justifyContent="space-between">
             <Stack>
-              <Text.Subtitle>Custom records</Text.Subtitle>
+              <Text.SectionTitle mb={3}>Custom records</Text.SectionTitle>
               <Text.Body>
                 DNS records point to services your domain uses, like forwarding
                 your domain or setting up an email service. <br />

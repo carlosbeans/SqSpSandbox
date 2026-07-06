@@ -77,7 +77,7 @@ export default function AppShell() {
       <PageHeaderProvider>
         <Flex direction="row">
           <SidePanelNav />
-          <Box sx={{ width: "100%" }} id="contentPanel">
+          <Box sx={{ width: "100%" }} id="contentPanel" pb={6}>
             <ShellPageHeader />
             <AnimatePresence mode="wait" initial={false}>
               <motion.div

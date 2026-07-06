@@ -110,6 +110,25 @@ export default function Experiments() {
             </Card.Body>
           </Card>
         </Grid.Item>
+        <Grid.Item columns={[4, 3, 4]}>
+          <Card>
+            <Card.Body pb={1}>
+              <Stack space={1}>
+                <Text.Subtitle>Domain Activity - V2</Text.Subtitle>
+                <Text.Body>
+                  Reimagining the domain activity experience.
+                </Text.Body>
+                <Button.Secondary
+                  width="100%"
+                  size={2}
+                  onClick={() => navigate("/experiments/domain-activity-v2")}
+                >
+                  Demo
+                </Button.Secondary>
+              </Stack>
+            </Card.Body>
+          </Card>
+        </Grid.Item>
       </Grid.Container>
     </Stack>
   );

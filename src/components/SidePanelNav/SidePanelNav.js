@@ -10,6 +10,7 @@ import { Button } from "@sqs/rosetta-primitives";
 import { Badge } from "@sqs/rosetta-elements";
 import { SidePanelDomainContext } from "../../layouts/SidePanelDomainContext";
 import { useTopChromeInset } from "../../contexts/TopChromeInsetContext";
+import { loadJsonData } from "../../utils/dataUtils.ts";
 
 /** Main nav stripe + banner offset (<MainNavigation /> tabs + chrome). */
 const SIDE_PANEL_STICKY_TOP_BASE_PX = 78;
@@ -19,7 +20,7 @@ const NAV_ITEMS = [
   { value: "dns", label: "DNS", path: "dns" },
   { value: "website", label: "Website", path: "website" },
   { value: "email", label: "Email", path: "email" },
-  { value: "pay-links", label: "Pay Links", path: "/pay-links" },
+  { value: "pay-links", label: "Pay Links", path: "pay-links" },
   { value: "permissions", label: "Permissions", path: "permissions" },
 ];
 
@@ -43,21 +44,12 @@ const DNS_SUB_ITEMS = [
 
 const DNS_PATHS = DNS_SUB_ITEMS.map((item) => item.path);
 
-const PAY_LINKS_PREFIX = "/pay-links";
-
-function isPayLinksPath(pathname) {
-  return (
-    pathname === PAY_LINKS_PREFIX || pathname.startsWith(`${PAY_LINKS_PREFIX}/`)
-  );
-}
-
 function domainIdFromPathname(pathname) {
   const m = pathname.match(/^\/domains\/([^/]+)/);
   return m ? m[1] : undefined;
 }
 
 function getActiveNav(pathname, domainId) {
-  if (isPayLinksPath(pathname)) return "pay-links";
   if (!domainId) return "overview";
   const base = `/domains/${domainId}`;
   const sub = pathname.startsWith(base)
@@ -69,7 +61,7 @@ function getActiveNav(pathname, domainId) {
 }
 
 function getActiveDnsSub(pathname, domainId) {
-  if (!domainId || isPayLinksPath(pathname)) return "dns-settings";
+  if (!domainId) return "dns-settings";
   const base = `/domains/${domainId}`;
   const sub = pathname.startsWith(base)
     ? pathname.slice(base.length).replace(/^\//, "")
@@ -99,13 +91,35 @@ export default function SidePanelNav() {
   const activeDnsSub = getActiveDnsSub(pathname, domainIdForActive);
   const isDnsActive = activeNav === "dns";
 
+  const [currentDomain, setCurrentDomain] = React.useState(null);
+
+  React.useEffect(() => {
+    let cancelled = false;
+    async function fetchDomain() {
+      if (!domainIdForActive) {
+        setCurrentDomain(null);
+        return;
+      }
+      const response = await loadJsonData("domains");
+      if (cancelled) return;
+      const all = response.data?.domains || [];
+      const decodedId = decodeURIComponent(domainIdForActive);
+      setCurrentDomain(all.find((d) => d.domainName === decodedId) || null);
+    }
+    fetchDomain();
+    return () => {
+      cancelled = true;
+    };
+  }, [domainIdForActive]);
+
+  const isPayLinksHidden = currentDomain?.eligibility === "ineligible";
+  const visibleNavItems = isPayLinksHidden
+    ? NAV_ITEMS.filter((item) => item.value !== "pay-links")
+    : NAV_ITEMS;
+
   const onNavChange = (value) => {
     const item = ALL_NAV_ITEMS.find((i) => i.value === value);
     if (!item) return;
-    if (item.path.startsWith("/")) {
-      navigate(item.path);
-      return;
-    }
     if (!domainIdForNav) {
       navigate("/domains");
       return;
@@ -145,7 +159,7 @@ export default function SidePanelNav() {
         </Box>
         
         <NavMenu value={activeNav} onChange={onNavChange}>
-          {NAV_ITEMS.flatMap(({ value, label }) => {
+          {visibleNavItems.flatMap(({ value, label }) => {
             const items = [
               <NavItem
                 key={value}

@@ -30,6 +30,7 @@ import DomainRegistration from "./pages/DomainRegistration";
 import DomainSettings from "./pages/DomainSettings";
 import ComponentTest from "./pages/experiments/ComponentTest.tsx";
 import DomainOverviewRedesignQ22026 from "./pages/experiments/DomainOverviewRedesignQ22026.js";
+import DomainActivityV2 from "./pages/experiments/DomainActivityV2.js";
 
 //layouts
 import AppShell from "./layouts/AppShell";
@@ -70,8 +71,8 @@ const router = createBrowserRouter([
             element: <DomainOverviewRedesignQ22026 />,
           },
           {
-            path: "pay-links",
-            element: <PayLinks />,
+            path: "experiments/domain-activity-v2",
+            element: <DomainActivityV2 />,
           },
           {
             path: "domains/:domainId",
@@ -83,6 +84,7 @@ const router = createBrowserRouter([
               { path: "website", element: <Website /> },
               { path: "email", element: <Email /> },
               { path: "activity", element: <Activity /> },
+              { path: "pay-links", element: <PayLinks /> },
               { path: "permissions", element: <Permissions /> },
               { path: "security", element: <Security /> },
               { path: "billing", element: <Billing /> },

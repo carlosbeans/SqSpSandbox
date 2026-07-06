@@ -9,9 +9,6 @@ import { Ellipses, Refresh } from "@sqs/rosetta-icons";
 import type { TableColumnDef } from "@sqs/rosetta-compositions";
 import { Stack } from "@sqs/rosetta-elements";
 
-import "./Domains.scss";
-
-
 interface Domain {
   thumbnailImage: string;
   domainName: string;
@@ -66,14 +63,14 @@ function DomainCell({
   thumbnailImage: string;
 }) {
   return (
-    <div className="domainCell">
-      <div className="domainThumbnail">
-        {thumbnailImage && <img src={thumbnailImage} alt={domainName} />}
-      </div>
+    <Flex className="domainCell" justifyContent="left" alignItems="center" gap={3}>
+      <Flex className="domainThumbnail" justifyContent="center" alignItems="center" width={110} height={62} flexShrink={0}>
+        {thumbnailImage && <img src={thumbnailImage} alt={domainName} width="110" height="62" />}
+      </Flex>
       <Text.Body m={0} color="gray.100">
         {domainName}
       </Text.Body>
-    </div>
+    </Flex>
   );
 }
 
@@ -89,14 +86,14 @@ function StatusCell({ status }: { status: string }) {
 
 function ExpirationCell({ date }: { date: string }) {
   return (
-    <div className="expirationCell">
-      <span className="refreshIcon">
+    <Flex className="expirationCell" justifyContent="left" alignItems="center" gap={2}>
+      <Flex className="refreshIcon" justifyContent="center" alignItems="center" width={22} height={22} flexShrink={0}>
         <Refresh />
-      </span>
+      </Flex>
       <Text.Body m={0} color="gray.300">
         {formatExpiration(date)}
       </Text.Body>
-    </div>
+    </Flex>
   );
 }
 
