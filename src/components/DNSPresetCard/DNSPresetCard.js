@@ -1,5 +1,6 @@
 import React from "react";
-import { Text, Flex, Box } from "@sqs/rosetta-primitives";
+import { Flex, Box } from "@sqs/rosetta-primitives";
+import { Text } from "@sqs/rosetta-react/text/next";
 import { Plus, Checkmark } from "@sqs/rosetta-icons";
 import { useTheme } from "@sqs/rosetta-styled";
 

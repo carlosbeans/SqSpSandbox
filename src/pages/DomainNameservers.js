@@ -1,6 +1,7 @@
 import { Stack } from "@sqs/rosetta-elements";
 import { useTheme } from "@sqs/rosetta-styled";
-import { Button, Box } from "@sqs/rosetta-primitives";
+import { Box } from "@sqs/rosetta-primitives";
+import { Button } from "@sqs/rosetta-react/button/next";
 import { Breakpoint } from "@sqs/rosetta-utilities";
 import { usePageHeader } from "../layouts/PageHeaderContext";
 import { Flex } from "@sqs/rosetta-primitives";
@@ -30,10 +31,10 @@ export default function DomainNameservers() {
         <Breakpoint.Renderer
           render={{
             default: () => (
-              <Button.Primary size="large">Use Squarespace Nameservers</Button.Primary>
+              <Button.Strong size="large">Use Squarespace Nameservers</Button.Strong>
             ),
             "mobile-0": () => (
-              <Button.Primary>Use Squarespace Nameservers</Button.Primary>
+              <Button.Strong>Use Squarespace Nameservers</Button.Strong>
             ),
           }}
         />

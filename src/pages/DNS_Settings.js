@@ -7,14 +7,19 @@ import {
   Chip,
   Checkbox,
   Toast,
+  StepIndicator,
 } from "@sqs/rosetta-elements";
 import { TextInput } from "@sqs/rosetta-elements/textinput/next";
-import { Text, Button, Flex, Box, Touchable } from "@sqs/rosetta-primitives";
+import { Flex, Box } from "@sqs/rosetta-primitives";
+import { Text } from "@sqs/rosetta-react/text/next";
+import { Button } from "@sqs/rosetta-react/button/next";
+import { IconButton } from "@sqs/rosetta-react";
 import {
   Table,
   Drawer,
   ActionList,
   BasicDialog,
+  Dialog,
 } from "@sqs/rosetta-compositions";
 import { InfoCircle, Trash, Search, CheckmarkCircle } from "@sqs/rosetta-icons";
 import { useTheme } from "@sqs/rosetta-styled";
@@ -31,6 +36,18 @@ const {
   presets: DNS_PRESETS,
   presetRecords: PRESET_RECORDS,
 } = dnsData;
+
+const VERIFICATION_REQUIRED_PRESETS = new Set([
+  "Microsoft 365",
+  "Webflow",
+  "GitHub Pages",
+  "Framer",
+  "Netlify",
+  "Railway",
+  "Lovable",
+  "GitHub Domain Verification",
+  "Google Workspace Verification",
+]);
 
 const columnHelper = Table.Utils.createColumnHelper();
 
@@ -92,6 +109,10 @@ export function DNSSettingsContent({ toastRef }) {
   );
   const [pendingConfirm, setPendingConfirm] = useState(false);
   const [activeTab, setActiveTab] = useState("presets");
+  const [verificationQueue, setVerificationQueue] = useState([]);
+  const [verificationStepIndex, setVerificationStepIndex] = useState(0);
+  const [verificationCodes, setVerificationCodes] = useState({});
+  const [pendingAddition, setPendingAddition] = useState(null);
 
   const tabOptions = [
     { label: "DNS Presets", value: "presets" },
@@ -162,52 +183,82 @@ export function DNSSettingsContent({ toastRef }) {
     });
   };
 
+  const finalizeAddition = useCallback(
+    (newPresets, removedTitles) => {
+      if (removedTitles.size > 0) {
+        setAddedPresets((prev) =>
+          prev.filter((p) => !removedTitles.has(p.title)),
+        );
+      }
+      if (newPresets.length > 0) {
+        setAddedPresets((prev) => [...prev, ...newPresets]);
+      }
+
+      closeDrawer();
+      setSelectedPresets(new Set());
+      setDeselectedAddedPresets(new Set());
+      setActiveFilters(new Set());
+      setVerificationQueue([]);
+      setVerificationStepIndex(0);
+      setVerificationCodes({});
+      setPendingAddition(null);
+
+      const messages = [];
+      if (removedTitles.size > 0) {
+        messages.push(
+          removedTitles.size === 1
+            ? "1 preset removed"
+            : `${removedTitles.size} presets removed`,
+        );
+      }
+      if (newPresets.length > 0) {
+        messages.push(
+          newPresets.length === 1
+            ? "1 preset added"
+            : `${newPresets.length} presets added`,
+        );
+      }
+      if (messages.length > 0 && toastRef?.current) {
+        toastRef.current.show({
+          content: messages.join(", "),
+          variant: "success",
+          duration: 4000,
+        });
+      }
+    },
+    [closeDrawer, toastRef],
+  );
+
+  const beginAddition = useCallback(
+    (removedTitles) => {
+      const newTitles = [...selectedPresets].filter(
+        (t) => !addedTitles.has(t),
+      );
+      const newPresets = newTitles.map((title) => ({
+        title,
+        records: PRESET_RECORDS[title] || [],
+      }));
+      const needsVerification = newTitles.filter((t) =>
+        VERIFICATION_REQUIRED_PRESETS.has(t),
+      );
+
+      if (needsVerification.length > 0) {
+        setPendingAddition({ newPresets, removedTitles });
+        setVerificationCodes({});
+        setVerificationStepIndex(0);
+        setVerificationQueue(needsVerification);
+        return;
+      }
+
+      finalizeAddition(newPresets, removedTitles);
+    },
+    [selectedPresets, addedTitles, finalizeAddition],
+  );
+
   const confirmRemoveAndAdd = useCallback(() => {
     setPendingConfirm(false);
-    const removedTitles = deselectedAddedPresets;
-    setAddedPresets((prev) => prev.filter((p) => !removedTitles.has(p.title)));
-
-    const newTitles = [...selectedPresets].filter((t) => !addedTitles.has(t));
-    const newPresets = newTitles.map((title) => ({
-      title,
-      records: PRESET_RECORDS[title] || [],
-    }));
-    setAddedPresets((prev) => [...prev, ...newPresets]);
-
-    closeDrawer();
-    setSelectedPresets(new Set());
-    setDeselectedAddedPresets(new Set());
-    setActiveFilters(new Set());
-
-    const messages = [];
-    if (removedTitles.size > 0) {
-      messages.push(
-        removedTitles.size === 1
-          ? "1 preset removed"
-          : `${removedTitles.size} presets removed`,
-      );
-    }
-    if (newPresets.length > 0) {
-      messages.push(
-        newPresets.length === 1
-          ? "1 preset added"
-          : `${newPresets.length} presets added`,
-      );
-    }
-    if (messages.length > 0 && toastRef?.current) {
-      toastRef.current.show({
-        content: messages.join(", "),
-        variant: "success",
-        duration: 4000,
-      });
-    }
-  }, [
-    deselectedAddedPresets,
-    selectedPresets,
-    addedTitles,
-    toastRef,
-    closeDrawer,
-  ]);
+    beginAddition(deselectedAddedPresets);
+  }, [deselectedAddedPresets, beginAddition]);
 
   const toggleFilter = (type) => {
     setActiveFilters((prev) => {
@@ -226,31 +277,50 @@ export function DNSSettingsContent({ toastRef }) {
       setPendingConfirm(true);
       return;
     }
-    const newTitles = [...selectedPresets].filter((t) => !addedTitles.has(t));
-    const newPresets = newTitles.map((title) => ({
-      title,
-      records: PRESET_RECORDS[title] || [],
-    }));
-    setAddedPresets((prev) => [...prev, ...newPresets]);
-    closeDrawer();
-    setSelectedPresets(new Set());
-    setDeselectedAddedPresets(new Set());
-    setActiveFilters(new Set());
-    const count = newPresets.length;
-    if (count > 0 && toastRef?.current) {
-      toastRef.current.show({
-        content: count === 1 ? "Preset added" : `${count} presets added`,
-        variant: "success",
-        duration: 4000,
-      });
+    beginAddition(new Set());
+  }, [deselectedAddedPresets, beginAddition]);
+
+  const currentVerificationTitle = verificationQueue[verificationStepIndex];
+  const currentVerificationCode =
+    verificationCodes[currentVerificationTitle] ?? "";
+  const isLastVerificationStep =
+    verificationStepIndex === verificationQueue.length - 1;
+  const isFirstVerificationStep = verificationStepIndex === 0;
+
+  const handleCancelVerification = useCallback(() => {
+    setVerificationQueue([]);
+    setVerificationStepIndex(0);
+    setVerificationCodes({});
+    setPendingAddition(null);
+  }, []);
+
+  const handleVerificationBack = useCallback(() => {
+    setVerificationStepIndex((i) => Math.max(0, i - 1));
+  }, []);
+
+  const handleVerificationCodeChange = useCallback(
+    (event) => {
+      const value = event.target.value;
+      setVerificationCodes((prev) => ({
+        ...prev,
+        [currentVerificationTitle]: value,
+      }));
+    },
+    [currentVerificationTitle],
+  );
+
+  const handleVerificationContinue = useCallback(() => {
+    if (isLastVerificationStep) {
+      if (pendingAddition) {
+        finalizeAddition(
+          pendingAddition.newPresets,
+          pendingAddition.removedTitles,
+        );
+      }
+      return;
     }
-  }, [
-    deselectedAddedPresets,
-    selectedPresets,
-    addedTitles,
-    toastRef,
-    closeDrawer,
-  ]);
+    setVerificationStepIndex((i) => i + 1);
+  }, [isLastVerificationStep, pendingAddition, finalizeAddition]);
 
   const filteredPresets =
     activeFilters.size === 0
@@ -310,7 +380,7 @@ export function DNSSettingsContent({ toastRef }) {
         <>
           <Flex alignItems="center" justifyContent="space-between">
             <Stack>
-              <Text.SectionTitle mb={3}>DNS Presets</Text.SectionTitle>
+              <Text.Heading.Large as="h2" mb={3}>DNS Presets</Text.Heading.Large>
               <Text.Body>
                 DNS presets in Squarespace simplify common connections for your
                 website and email services.
@@ -318,32 +388,23 @@ export function DNSSettingsContent({ toastRef }) {
                 <TextLink href="#">Learn more about DNS presets</TextLink>
               </Text.Body>
             </Stack>
-            <Button.Primary size="medium" onClick={openDrawer}>
+            <Button.Strong size="medium" onClick={openDrawer}>
               Add Preset
-            </Button.Primary>
+            </Button.Strong>
           </Flex>
           <Card sx={{ borderRadius: radii[1] }}>
             <Card.Body>
               <Stack space={3}>
                 <Flex alignItems="center" justifyContent="space-between">
-                  <Text.Subtitle px={2}>Squarespace Defaults</Text.Subtitle>
-                  <Touchable.Element.Icon>
-                    <Box
-                      as="button"
-                      aria-label="Delete defaults"
-                      css={{
-                        background: "none",
-                        border: "none",
-                        cursor: "pointer",
-                        padding: 4,
-                        display: "flex",
-                        alignItems: "center",
-                        "&:hover": { color: "#c00" },
-                      }}
-                    >
-                      <Trash color="red.300" />
-                    </Box>
-                  </Touchable.Element.Icon>
+                  <Text.Heading.Small as="h3" px={2}>
+                    Squarespace Defaults
+                  </Text.Heading.Small>
+                  <IconButton.Subtle
+                    icon={Trash}
+                    label="Delete defaults"
+                    sx={{ color: "fg.danger" }}
+                    css={{ margin: "-7px" }}
+                  />
                 </Flex>
                 <DNSTable records={defaultRecords} />
               </Stack>
@@ -355,26 +416,16 @@ export function DNSSettingsContent({ toastRef }) {
               <Card.Body>
                 <Stack space={3}>
                   <Flex alignItems="center" justifyContent="space-between">
-                    <Text.Subtitle px={2}>{preset.title}</Text.Subtitle>
-                    <Box
-                      as="button"
-                      aria-label={`Delete ${preset.title}`}
+                    <Text.Heading.Small as="h3" px={2}>
+                      {preset.title}
+                    </Text.Heading.Small>
+                    <IconButton.Subtle
+                      icon={Trash}
+                      label={`Delete ${preset.title}`}
                       onClick={() => setPresetToDelete(preset.title)}
-                      css={{
-                        background: "none",
-                        border: "none",
-                        cursor: "pointer",
-                        padding: 4,
-                        color: "#900",
-                        display: "flex",
-                        alignItems: "center",
-                        "&:hover": { color: "#c00" },
-                      }}
-                    >
-                      <Touchable.Element.Icon>
-                        <Trash color="red.300" />
-                      </Touchable.Element.Icon>
-                    </Box>
+                      sx={{ color: "fg.danger" }}
+                      css={{ margin: "-7px" }}
+                    />
                   </Flex>
                   <DNSTable records={preset.records} />
                 </Stack>
@@ -388,14 +439,14 @@ export function DNSSettingsContent({ toastRef }) {
         <Stack space={4}>
           <Flex alignItems="center" justifyContent="space-between">
             <Stack>
-              <Text.SectionTitle mb={3}>Custom records</Text.SectionTitle>
+              <Text.Heading.Large as="h2" mb={3}>Custom records</Text.Heading.Large>
               <Text.Body>
                 DNS records point to services your domain uses, like forwarding
                 your domain or setting up an email service. <br />
                 <TextLink href="#">Learn more about DNS settings</TextLink>
               </Text.Body>
             </Stack>
-            <Button.Primary size="medium">Add Record</Button.Primary>
+            <Button size="medium">Add Record</Button>
           </Flex>
           <Stack
             p={3}
@@ -414,10 +465,10 @@ export function DNSSettingsContent({ toastRef }) {
         <>
           <Stack>
             <Flex alignItems="center" justifyContent="space-between">
-              <Text.SectionTitle mb={3}>Nameservers</Text.SectionTitle>
-              <Button.Primary size="medium">
+              <Text.Heading.Large as="h2" mb={3}>Nameservers</Text.Heading.Large>
+              <Button size="medium">
                 Use Custom Nameservers
-              </Button.Primary>
+              </Button>
             </Flex>
             <Text.Body>
               Use Squarespace Nameservers to manage your domain's nameservers.
@@ -450,10 +501,10 @@ export function DNSSettingsContent({ toastRef }) {
             </Stack>
             <Flex flexDirection="column" gap={3}>
               <Flex alignItems="center" justifyContent="space-between">
-                <Text.SectionTitle mb={0}>
+                <Text.Heading.Large as="h3" mb={0}>
                   Nameserver Registration
-                </Text.SectionTitle>
-                <Button.Primary size="medium">Add host record</Button.Primary>
+                </Text.Heading.Large>
+                <Button size="medium">Add host record</Button>
               </Flex>
               <Text.Body>
                 Create a host record to associate a nameserver with an IP
@@ -470,7 +521,7 @@ export function DNSSettingsContent({ toastRef }) {
                 borderRadius={radii[1]}
                 
               >
-                <Text.Subtitle>No host records</Text.Subtitle>
+                <Text.Heading.Small as="h3">No host records</Text.Heading.Small>
                 <Text.Body color="gray.300">
                   When you add host records, they will show up here.
                 </Text.Body>
@@ -548,6 +599,92 @@ export function DNSSettingsContent({ toastRef }) {
         </BasicDialog.Modal>
       )}
 
+      {verificationQueue.length > 0 && (
+        <Dialog.Modal
+          onRequestClose={handleCancelVerification}
+          closeOnEsc
+          closeOnOverlayClicked
+        >
+          <Dialog.Overlay />
+          <Dialog.Transition>
+            <Dialog id="dns-preset-verification-dialog" size="small">
+              <Dialog.Header>
+                <Dialog.Header.Title>Verification required</Dialog.Header.Title>
+                <Dialog.CloseButton onClick={handleCancelVerification} />
+              </Dialog.Header>
+              <Dialog.Content>
+                <Stack space={5} css={{ width: "100%" }}>
+                  <Stack space={2}>
+                    <Text.Body fontWeight="medium">
+                      {currentVerificationTitle}
+                    </Text.Body>
+                    <Text.Body color="gray.300">
+                      Before adding this preset, enter the verification code
+                      that {currentVerificationTitle} emailed to you.
+                    </Text.Body>
+                  </Stack>
+                  <TextInput.Root>
+                    <TextInput.Control
+                      placeholder="Enter verification code"
+                      value={currentVerificationCode}
+                      onChange={handleVerificationCodeChange}
+                    />
+                  </TextInput.Root>
+                </Stack>
+              </Dialog.Content>
+              {verificationQueue.length > 1 ? (
+                <Dialog.Footer.Grid>
+                  {isFirstVerificationStep ? (
+                    <Button.Alt
+                      size="small"
+                      onClick={handleVerificationBack}
+                      css={{ justifySelf: "start", visibility: "hidden" }}
+                    >
+                      Back
+                    </Button.Alt>
+                  ) : (
+                    <Button.Alt
+                      size="small"
+                      onClick={handleVerificationBack}
+                      css={{ justifySelf: "start" }}
+                    >
+                      Back
+                    </Button.Alt>
+                  )}
+                  <StepIndicator.Horizontal
+                    stepIndex={verificationStepIndex}
+                    steps={verificationQueue.map((title) => ({
+                      key: title,
+                    }))}
+                  />
+                  <Button.Strong
+                    size="small"
+                    disabled={currentVerificationCode.trim().length === 0}
+                    onClick={handleVerificationContinue}
+                    css={{ justifySelf: "end" }}
+                  >
+                    {isLastVerificationStep ? "Done" : "Continue"}
+                  </Button.Strong>
+                </Dialog.Footer.Grid>
+              ) : (
+                <Dialog.Footer justifyContent="end">
+                  <Button.Alt size="small" onClick={handleCancelVerification}>
+                    Cancel
+                  </Button.Alt>
+                  <Button.Strong
+                    size="small"
+                    disabled={currentVerificationCode.trim().length === 0}
+                    onClick={handleVerificationContinue}
+                  >
+                    {isLastVerificationStep ? "Done" : "Continue"}
+                  </Button.Strong>
+                </Dialog.Footer>
+              )}
+            </Dialog>
+          </Dialog.Transition>
+        </Dialog.Modal>
+      )}
+
       {isDrawerMounted && (
         <Drawer.Modal
           onRequestClose={closeDrawer}
@@ -580,14 +717,14 @@ export function DNSSettingsContent({ toastRef }) {
                     justifyContent="space-between"
                     mb={5}
                   >
-                    <TextInput.Root variant="base" sx={{ width: 300 }}>
+                    <TextInput.Root sx={{ width: 300 }}>
                       <Search
                         css={{ width: 16, height: 16, color: "gray.300" }}
                       />
                       <TextInput.Control placeholder="Search for a preset" />
                     </TextInput.Root>
                     <Flex alignItems="center" gap={2}>
-                      <Text.Label color="gray.300">FILTER BY</Text.Label>
+                      <Text.Eyebrow color="gray.300">FILTER BY</Text.Eyebrow>
                       <ActionList.PopOver
                         position="bottom"
                         anchorPoint={{ x: "right", y: "top" }}
@@ -629,7 +766,7 @@ export function DNSSettingsContent({ toastRef }) {
                   <Stack space={5}>
                     {groupedPresets.map(({ category, presets }) => (
                       <Box key={category}>
-                        <Text.SectionTitle mb={3}>{category}</Text.SectionTitle>
+                        <Text.Heading.Large as="h3" mb={3}>{category}</Text.Heading.Large>
                         <Box
                           css={{
                             display: "grid",
@@ -652,16 +789,16 @@ export function DNSSettingsContent({ toastRef }) {
                   </Stack>
                 </Drawer.Body>
                 <Drawer.Footer justifyContent="end">
-                  <Button.Secondary size="small" onClick={closeDrawer}>
+                  <Button.Alt size="small" onClick={closeDrawer}>
                     Cancel
-                  </Button.Secondary>
-                  <Button.Primary
+                  </Button.Alt>
+                  <Button.Strong
                     size="small"
                     disabled={!hasChanges}
                     onClick={handleConfirm}
                   >
                     Confirm
-                  </Button.Primary>
+                  </Button.Strong>
                 </Drawer.Footer>
               </Drawer.Sheet>
             ) : null}

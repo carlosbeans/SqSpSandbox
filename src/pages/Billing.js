@@ -1,5 +1,7 @@
 import { Stack, Divider, TextLink } from "@sqs/rosetta-elements";
-import { Text, Flex, Box, Button } from "@sqs/rosetta-primitives";
+import { Flex, Box } from "@sqs/rosetta-primitives";
+import { Text } from "@sqs/rosetta-react/text/next";
+import { Button } from "@sqs/rosetta-react/button/next";
 import { Banner } from "@sqs/rosetta-compositions";
 import { useTheme } from "@sqs/rosetta-styled";
 import { usePageHeader } from "../layouts/PageHeaderContext";
@@ -64,8 +66,8 @@ export function BillingContent() {
       </Flex>      
       <Flex flexDirection="column" mb={4}>
         <Flex alignItems="center" justifyContent="space-between">
-          <Text.Subtitle>Billing Address</Text.Subtitle>
-          <Button.Tertiary size="small">Edit</Button.Tertiary>
+          <Text.Heading.Small as="h2">Billing Address</Text.Heading.Small>
+          <Button.Subtle size="small">Edit</Button.Subtle>
         </Flex>
         <Flex flexDirection="column" space={1} pb={4}>
           <Text.Body m={0}>{BILLING_ADDRESS.name}</Text.Body>
@@ -78,8 +80,8 @@ export function BillingContent() {
 
       <Stack space={4}>
         <Flex alignItems="center" justifyContent="space-between" gap={4}>
-          <Text.Subtitle>Payment Method</Text.Subtitle>
-          <Button.Tertiary size="small">Edit</Button.Tertiary>
+          <Text.Heading.Small as="h2">Payment Method</Text.Heading.Small>
+          <Button.Subtle size="small">Edit</Button.Subtle>
         </Flex>
         <Flex alignItems="center" gap={3}>
           <Box sx={{ flexShrink: 0, display: "flex" }}>
