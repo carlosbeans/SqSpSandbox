@@ -7,7 +7,7 @@
   "dependencies": {
     "@craco/craco": "^7.1.0",
     "@sqs/i18n-react": "^1.14.0",
-    "@sqs/network": "^10.0.1",
+    "@sqs/network": "10.0.1",
     "@sqs/rosetta-compositions": "^13.8.5",
     "@sqs/rosetta-dashboard": "^13.8.5",
     "@sqs/rosetta-elements": "^13.8.5",
@@ -36,6 +36,10 @@
     "ajv-keywords": "^5.1.0",
     "loader-utils": "3.2.1",
     "typescript": "4.4.4"
+  },
+  "overrides": {
+    "react-native": "0.75.5",
+    "react-refresh": "0.11.0"
   },
   "scripts": {
     "start": "node scripts/appspace-start.cjs",

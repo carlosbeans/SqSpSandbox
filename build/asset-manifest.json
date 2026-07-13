@@ -1,9 +1,9 @@
 {
   "files": {
-    "main.css": "/static/css/main.d5a21bcd.css",
-    "main.js": "/static/js/main.2f3fc24e.js",
-    "static/js/871.4227671d.chunk.js": "/static/js/871.4227671d.chunk.js",
-    "static/js/130.1c9a9b05.chunk.js": "/static/js/130.1c9a9b05.chunk.js",
+    "main.css": "/static/css/main.4aa98a97.css",
+    "main.js": "/static/js/main.56335cb8.js",
+    "static/js/871.ca5851ce.chunk.js": "/static/js/871.ca5851ce.chunk.js",
+    "static/js/130.b9825f4c.chunk.js": "/static/js/130.b9825f4c.chunk.js",
     "static/media/websitePreviewThumb.png": "/static/media/websitePreviewThumb.a8a4d4de6c6d18864ddd.png",
     "static/media/Clarkson-Medium.woff2": "/static/media/Clarkson-Medium.66610c5920a62c9a32b4.woff2",
     "static/media/Clarkson-BookProduct.woff2": "/static/media/Clarkson-BookProduct.8115cad917f4dc751e29.woff2",
@@ -26,12 +26,12 @@
     "static/media/download-play-store.svg": "/static/media/download-play-store.eeefcfd8ad880f20f087098e21965202.svg",
     "static/media/rosetta-react.ja-JP.yaml": "/static/media/rosetta-react.ja-JP.7f9f8c76cacbfc51099d.yaml",
     "index.html": "/index.html",
-    "main.d5a21bcd.css.map": "/static/css/main.d5a21bcd.css.map",
-    "main.2f3fc24e.js.map": "/static/js/main.2f3fc24e.js.map",
-    "130.1c9a9b05.chunk.js.map": "/static/js/130.1c9a9b05.chunk.js.map"
+    "main.4aa98a97.css.map": "/static/css/main.4aa98a97.css.map",
+    "main.56335cb8.js.map": "/static/js/main.56335cb8.js.map",
+    "130.b9825f4c.chunk.js.map": "/static/js/130.b9825f4c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d5a21bcd.css",
-    "static/js/main.2f3fc24e.js"
+    "static/css/main.4aa98a97.css",
+    "static/js/main.56335cb8.js"
   ]
 }
