@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.4aa98a97.css",
-    "main.js": "/static/js/main.56335cb8.js",
+    "main.js": "/static/js/main.762a6841.js",
     "static/js/871.ca5851ce.chunk.js": "/static/js/871.ca5851ce.chunk.js",
     "static/js/130.b9825f4c.chunk.js": "/static/js/130.b9825f4c.chunk.js",
     "static/media/websitePreviewThumb.png": "/static/media/websitePreviewThumb.a8a4d4de6c6d18864ddd.png",
@@ -27,11 +27,11 @@
     "static/media/rosetta-react.ja-JP.yaml": "/static/media/rosetta-react.ja-JP.7f9f8c76cacbfc51099d.yaml",
     "index.html": "/index.html",
     "main.4aa98a97.css.map": "/static/css/main.4aa98a97.css.map",
-    "main.56335cb8.js.map": "/static/js/main.56335cb8.js.map",
+    "main.762a6841.js.map": "/static/js/main.762a6841.js.map",
     "130.b9825f4c.chunk.js.map": "/static/js/130.b9825f4c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.4aa98a97.css",
-    "static/js/main.56335cb8.js"
+    "static/js/main.762a6841.js"
   ]
 }

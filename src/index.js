@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet, Navigate, useParams } from "react-router-dom";
 import "./global.scss";
 
 
@@ -14,17 +14,9 @@ import RouteErrorState from "./components/ErrorState/ErrorState";
 import Dashboard from "./pages/Dashboard";
 import DomainWebsiteConnection from "./pages/experiments/DomainWebsiteConnection";
 import DomainOverview from "./pages/DomainOverview";
-import DNS_Settings from "./pages/DNS_Settings.js";
 import Experiments from "./pages/experiments/index.js";
-import Activity from "./pages/Activity";
-import Billing from "./pages/Billing";
-import DNSSEC from "./pages/DNSSEC";
-import DomainNameservers from "./pages/DomainNameservers";
 import Email from "./pages/Email";
-import NameserverRegistration from "./pages/NameserverRegistration";
 import PayLinks from "./pages/PayLinks";
-import Permissions from "./pages/Permissions";
-import Security from "./pages/Security";
 import Website from "./pages/Website";
 import DomainRegistration from "./pages/DomainRegistration";
 import DomainSettings from "./pages/DomainSettings";
@@ -34,6 +26,12 @@ import DomainActivityV2 from "./pages/experiments/DomainActivityV2.js";
 
 //layouts
 import AppShell from "./layouts/AppShell";
+
+/** Old standalone domain sub-pages now live as tabs on Domain Settings. */
+function RedirectToSettingsTab({ tab }) {
+  const { domainId } = useParams();
+  return <Navigate to={`/domains/${domainId}/settings?tab=${tab}`} replace />;
+}
 
 const router = createBrowserRouter([
   {
@@ -80,17 +78,17 @@ const router = createBrowserRouter([
             children: [
               { index: true, element: <DomainOverview /> },
               { path: "registration", element: <DomainRegistration /> },
-              { path: "dns", element: <DNS_Settings /> },
+              { path: "dns", element: <RedirectToSettingsTab tab="dns" /> },
               { path: "website", element: <Website /> },
               { path: "email", element: <Email /> },
-              { path: "activity", element: <Activity /> },
+              { path: "activity", element: <RedirectToSettingsTab tab="activity" /> },
               { path: "pay-links", element: <PayLinks /> },
-              { path: "permissions", element: <Permissions /> },
-              { path: "security", element: <Security /> },
-              { path: "billing", element: <Billing /> },
-              { path: "dnssec", element: <DNSSEC /> },
-              { path: "nameservers", element: <DomainNameservers /> },
-              { path: "nameserver-registration", element: <NameserverRegistration /> },
+              { path: "permissions", element: <RedirectToSettingsTab tab="permissions" /> },
+              { path: "security", element: <RedirectToSettingsTab tab="security" /> },
+              { path: "billing", element: <RedirectToSettingsTab tab="billing" /> },
+              { path: "dnssec", element: <RedirectToSettingsTab tab="dns" /> },
+              { path: "nameservers", element: <RedirectToSettingsTab tab="dns" /> },
+              { path: "nameserver-registration", element: <RedirectToSettingsTab tab="dns" /> },
               { path: "connection", element: <DomainWebsiteConnection /> },
               { path: "settings", element: <DomainSettings /> },
             ],

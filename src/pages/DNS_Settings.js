@@ -96,7 +96,7 @@ function DNSTable({ records }) {
   );
 }
 
-export function DNSSettingsContent({ toastRef }) {
+export function DNSSettingsContent({ toastRef, inlineHeader }) {
   const { radii, borders, colors } = useTheme();
   const [isDrawerMounted, setIsDrawerMounted] = useState(false);
   const [isPresetDrawerOpen, setIsPresetDrawerOpen] = useState(false);
@@ -368,7 +368,7 @@ export function DNSSettingsContent({ toastRef }) {
   const hasActiveFilters = activeFilters.size > 0;
 
   return (
-    <Flex id="dnsSettingsPage" flexDirection="column" gap={6} px={6}>
+    <Flex id="dnsSettingsPage" flexDirection="column" gap={6} px={inlineHeader ? 0 : 6}>
       <Tabs
         options={tabOptions}
         value={activeTab}

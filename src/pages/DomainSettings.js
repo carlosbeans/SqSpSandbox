@@ -1,21 +1,20 @@
 import * as React from "react";
+import { useSearchParams } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Tabs } from "@sqs/rosetta-elements";
 import { Flex, Box } from "@sqs/rosetta-primitives";
-import { Stack } from "@sqs/rosetta-elements";
 import { usePageHeader } from "../layouts/PageHeaderContext";
 import { ActivityContent } from "./Activity";
 import { BillingContent } from "./Billing";
-import { NameserversContent } from "./DomainNameservers";
-import { NameserverRegistrationContent } from "./NameserverRegistration";
-import { DNSSECContent } from "./DNSSEC";
 import { DNSSettingsContent } from "./DNS_Settings";
 import { PermissionsContent } from "./Permissions";
+import { SecurityContent } from "./Security";
 
-const TAB_KEYS = ["dns", "activity", "permissions", "billing"];
+const TAB_KEYS = ["dns", "security", "activity", "permissions", "billing"];
 
 const TAB_LABELS = {
   dns: "DNS",
+  security: "Security",
   activity: "Activity",
   permissions: "Permissions",
   billing: "Billing",
@@ -30,16 +29,11 @@ const panelVariants = {
 function DomainSettingsTabPanel({ tab }) {
   switch (tab) {
     case "dns":
-      return (
-        <Stack space={6} sx={{ width: "100%" }} id="domain-settings-dns-tab-stack">
-          <DNSSettingsContent inlineHeader />
-          <DNSSECContent inlineHeader />
-          <NameserversContent inlineHeader />
-          <NameserverRegistrationContent inlineHeader />
-        </Stack>
-      );
+      return <DNSSettingsContent inlineHeader />;
+    case "security":
+      return <SecurityContent inlineHeader />;
     case "activity":
-      return <ActivityContent />;
+      return <ActivityContent inlineHeader />;
     case "permissions":
       return <PermissionsContent inlineHeader />;
     case "billing":
@@ -50,13 +44,26 @@ function DomainSettingsTabPanel({ tab }) {
 }
 
 export default function DomainSettings() {
-  usePageHeader({
-    title: "Domain Settings",
-    subtitle: "DNS, activity, permissions, and billing for this domain.",
-  });
+  usePageHeader({ title: "Domain Settings" });
 
-  const [activeTab, setActiveTab] = React.useState("dns");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tabParam = searchParams.get("tab");
+  const activeTab = TAB_KEYS.includes(tabParam) ? tabParam : "dns";
   const reduceMotion = useReducedMotion();
+
+  const handleTabChange = React.useCallback(
+    (value) => {
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          next.set("tab", value);
+          return next;
+        },
+        { replace: true },
+      );
+    },
+    [setSearchParams],
+  );
 
   const panelTransition = React.useMemo(
     () =>
@@ -68,10 +75,10 @@ export default function DomainSettings() {
 
   return (
     <Box as="main" id="domain-settings-page-main" px={6} pb={8} sx={{ width: "100%" }}>
-      <Stack space={4}>
+      <Flex flexDirection="column" gap={4}>
         <Tabs
           value={activeTab}
-          onChange={(val) => setActiveTab(val)}
+          onChange={handleTabChange}
           options={TAB_KEYS.map((value) => ({
             value,
             label: TAB_LABELS[value],
@@ -92,7 +99,7 @@ export default function DomainSettings() {
             </Flex>
           </motion.div>
         </AnimatePresence>
-      </Stack>
+      </Flex>
     </Box>
   );
 }

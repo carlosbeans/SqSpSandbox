@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Stack, TextLink, ActivityIndicator } from "@sqs/rosetta-elements";
 import { Text, Button, Flex, Box } from "@sqs/rosetta-primitives";
+import { Text as TextNext } from "@sqs/rosetta-react/text/next";
 import { ActionList } from "@sqs/rosetta-compositions";
 import { useTheme } from "@sqs/rosetta-styled";
 import { Ellipses } from "@sqs/rosetta-icons";
@@ -147,7 +148,7 @@ function PersonRow({ name, subtitle, avatar, showMenu }) {
   );
 }
 
-export function PermissionsContent() {
+export function PermissionsContent({ inlineHeader } = {}) {
   const { domainId } = useParams();
   const [domain, setDomain] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -200,7 +201,22 @@ export function PermissionsContent() {
   }
 
   return (
-    <Box flexDirection="column" px={6} id="permissions-page-content">
+    <Box flexDirection="column" px={inlineHeader ? 0 : 6} id="permissions-page-content">
+      {inlineHeader && (
+        <Flex alignItems="flex-start" justifyContent="space-between" mb={4} gap={4}>
+          <Stack space={1}>
+            <TextNext.Heading.Large as="h2" mb={0}>
+              Domain Permissions
+            </TextNext.Heading.Large>
+            <Text.Body sx={{ color: "gray.500" }}>
+              Add people to help manage your domain or transfer domain
+              ownership. Please note: Domain ownership can only be transferred
+              to an existing manager. <TextLink href="#">Learn more</TextLink>
+            </Text.Body>
+          </Stack>
+          <Button.Primary size="large">Add Domain Manager</Button.Primary>
+        </Flex>
+      )}
       <Stack space={1}>
         <SectionLabel>Domain Owner</SectionLabel>
         <PersonRow

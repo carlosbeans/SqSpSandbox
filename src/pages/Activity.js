@@ -1,6 +1,7 @@
 import { Stack } from "@sqs/rosetta-elements";
 import { Table } from "@sqs/rosetta-compositions";
-import { Button } from "@sqs/rosetta-primitives";
+import { Button, Flex } from "@sqs/rosetta-primitives";
+import { Text } from "@sqs/rosetta-react/text/next";
 import { usePageHeader } from "../layouts/PageHeaderContext";
 
 const columnHelper = Table.Utils.createColumnHelper();
@@ -21,9 +22,17 @@ const data = [
   { action: "Enabled DNSSEC", name: "Laura Lejano", location: "Richmond, VA", time: "1 year ago" },
 ];
 
-export function ActivityContent() {
+export function ActivityContent({ inlineHeader } = {}) {
   return (
-    <Stack space={6} mx={6}>
+    <Stack space={6} mx={inlineHeader ? 0 : 6} id="activity-page-content">
+      {inlineHeader && (
+        <Flex alignItems="center" justifyContent="space-between">
+          <Text.Heading.Large as="h2" mb={0}>
+            Activity
+          </Text.Heading.Large>
+          <Button.Primary size="medium">Manage Notifications</Button.Primary>
+        </Flex>
+      )}
       <Table columns={columns} data={data}>
         <Table.List />
       </Table>

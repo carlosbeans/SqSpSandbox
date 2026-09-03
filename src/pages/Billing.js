@@ -1,4 +1,4 @@
-import { Stack, Divider, TextLink } from "@sqs/rosetta-elements";
+import { Card, TextLink } from "@sqs/rosetta-elements";
 import { Flex, Box } from "@sqs/rosetta-primitives";
 import { Text } from "@sqs/rosetta-react/text/next";
 import { Button } from "@sqs/rosetta-react/button/next";
@@ -9,7 +9,8 @@ import { usePageHeader } from "../layouts/PageHeaderContext";
 const BILLING_ADDRESS = {
   name: "Carlos R Andujar",
   line1: "1173 North Carter Road",
-  line2: "Decatur, GA 30030",
+  cityState: "Decatur, GA",
+  zip: "30030",
   country: "United States",
 };
 
@@ -29,11 +30,26 @@ function MastercardLogo({ size = 32 }) {
   );
 }
 
-export function BillingContent() {
-  const { colors } = useTheme();
+export function BillingContent({ inlineHeader } = {}) {
+  const { borders, colors, radii } = useTheme();
+
+  const cardSx = {
+    flex: "1 0 0",
+    minWidth: 0,
+    borderRadius: radii[1],
+    border: borders[1],
+    borderColor: colors.gray[800],
+  };
 
   return (
-    <Flex flexDirection="column" px={6} space={6} pt={2} pb={8} id="billing-page-content">
+    <Flex
+      flexDirection="column"
+      px={inlineHeader ? 0 : 6}
+      space={6}
+      pt={inlineHeader ? 0 : 2}
+      pb={inlineHeader ? 0 : 8}
+      id="billing-page-content"
+    >
       <Flex
         mb={8}
         gap={4}
@@ -63,42 +79,85 @@ export function BillingContent() {
             </Banner.Info.Row>
           </Banner.Info.Main>
         </Banner.Info>
-      </Flex>      
-      <Flex flexDirection="column" mb={4}>
-        <Flex alignItems="center" justifyContent="space-between">
-          <Text.Heading.Small as="h2">Billing Address</Text.Heading.Small>
-          <Button.Subtle size="small">Edit</Button.Subtle>
-        </Flex>
-        <Flex flexDirection="column" space={1} pb={4}>
-          <Text.Body m={0}>{BILLING_ADDRESS.name}</Text.Body>
-          <Text.Body m={0}>{BILLING_ADDRESS.line1}</Text.Body>
-          <Text.Body m={0}>{BILLING_ADDRESS.line2}</Text.Body>
-          <Text.Body m={0}>{BILLING_ADDRESS.country}</Text.Body>
-        </Flex>
-        <Divider sx={{ borderColor: colors.gray[800] }} />
       </Flex>
+      <Flex
+        flexDirection={{ "mobile-*": "column", _: "row" }}
+        gap={6}
+        width="100%"
+        alignItems="stretch"
+        id="billing-details-container"
+      >
+        <Card sx={cardSx} id="billing-address-card">
+          <Card.Body p={6}>
+            <Flex
+              flexDirection="column"
+              gap={2}
+              height="100%"
+              justifyContent="space-between"
+              alignItems="flex-start"
+            >
+              <Flex flexDirection="column" gap={2} width="100%">
+                <Text.Heading.Small as="h2" m={0}>
+                  Billing address
+                </Text.Heading.Small>
+                <Flex flexDirection="column" width="100%">
+                  <Text.Body m={0}>{BILLING_ADDRESS.name}</Text.Body>
+                  <Text.Body m={0}>{BILLING_ADDRESS.line1}</Text.Body>
+                  <Flex alignItems="flex-start">
+                    <Text.Body m={0}>{BILLING_ADDRESS.cityState}</Text.Body>
+                    <Text.Body m={0}>{BILLING_ADDRESS.zip}</Text.Body>
+                  </Flex>
+                  <Text.Body m={0}>{BILLING_ADDRESS.country}</Text.Body>
+                </Flex>
+              </Flex>
+              <Button.Subtle size="small">Edit</Button.Subtle>
+            </Flex>
+          </Card.Body>
+        </Card>
 
-      <Stack space={4}>
-        <Flex alignItems="center" justifyContent="space-between" gap={4}>
-          <Text.Heading.Small as="h2">Payment Method</Text.Heading.Small>
-          <Button.Subtle size="small">Edit</Button.Subtle>
-        </Flex>
-        <Flex alignItems="center" gap={3}>
-          <Box sx={{ flexShrink: 0, display: "flex" }}>
-            <MastercardLogo size={40} />
-          </Box>
-          <Text.Body
-            m={0}
-            sx={{
-              fontVariantNumeric: "tabular-nums",
-              letterSpacing: "0.02em",
-            }}
-          >
-            •••• •••• •••• 7424
-          </Text.Body>
-        </Flex>
-        <Divider sx={{ borderColor: colors.gray[800] }} />
-      </Stack>
+        <Card sx={cardSx} id="billing-payment-method-card">
+          <Card.Body p={6}>
+            <Flex
+              flexDirection="column"
+              height="100%"
+              justifyContent="space-between"
+              alignItems="flex-start"
+            >
+              <Flex flexDirection="column" gap={2} width="100%">
+                <Text.Heading.Small as="h2" m={0}>
+                  Payment Method
+                </Text.Heading.Small>
+                <Flex alignItems="flex-start" gap={2}>
+                  <Box sx={{ flexShrink: 0, display: "flex" }}>
+                    <MastercardLogo size={22} />
+                  </Box>
+                  <Flex alignItems="center" gap={1}>
+                    <Text.Body
+                      m={0}
+                      sx={{
+                        fontVariantNumeric: "tabular-nums",
+                        letterSpacing: "0.02em",
+                      }}
+                    >
+                      •••• •••• ••••
+                    </Text.Body>
+                    <Text.Body
+                      m={0}
+                      sx={{
+                        fontVariantNumeric: "tabular-nums",
+                        letterSpacing: "0.02em",
+                      }}
+                    >
+                      7424
+                    </Text.Body>
+                  </Flex>
+                </Flex>
+              </Flex>
+              <Button.Subtle size="small">Edit</Button.Subtle>
+            </Flex>
+          </Card.Body>
+        </Card>
+      </Flex>
     </Flex>
   );
 }

@@ -81,7 +81,7 @@ export default function AppShell() {
             <ShellPageHeader />
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
-                key={`${location.pathname}${location.search}`}
+                key={location.pathname}
                 variants={contentVariants}
                 initial="initial"
                 animate="animate"
