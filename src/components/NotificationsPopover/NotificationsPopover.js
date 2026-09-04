@@ -168,8 +168,9 @@ export default function NotificationsPopover() {
             </Text.Subtitle>
           </Box>
 
-          <Box sx={{ borderBottom: borders[1], borderColor: colors.gray[800] }}>
+          <Box px={4} sx={{ borderBottom: borders[1], borderColor: colors.gray[800] }}>
             <Tabs
+              sx={{ "&:before": { display: "none" } }}
               options={[
                 { label: "Unread (6)", value: "unread" },
                 { label: "All", value: "all" },

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Stack, TextLink, ActivityIndicator } from "@sqs/rosetta-elements";
-import { Text, Button, Flex, Box } from "@sqs/rosetta-primitives";
+import { Text, Flex, Box } from "@sqs/rosetta-primitives";
 import { Text as TextNext } from "@sqs/rosetta-react/text/next";
+import { Button } from "@sqs/rosetta-react/button/next";
 import { ActionList } from "@sqs/rosetta-compositions";
 import { useTheme } from "@sqs/rosetta-styled";
 import { Ellipses } from "@sqs/rosetta-icons";
@@ -214,7 +215,7 @@ export function PermissionsContent({ inlineHeader } = {}) {
               to an existing manager. <TextLink href="#">Learn more</TextLink>
             </Text.Body>
           </Stack>
-          <Button.Primary size="large">Add Domain Manager</Button.Primary>
+          <Button.Strong size="large">Add Domain Manager</Button.Strong>
         </Flex>
       )}
       <Stack space={1}>
@@ -266,7 +267,7 @@ export default function Permissions() {
         existing manager. <TextLink href="#">Learn more</TextLink>
       </>
     ),
-    actions: <Button.Primary size="large">Add Domain Manager</Button.Primary>,
+    actions: <Button.Strong size="large">Add Domain Manager</Button.Strong>,
   });
 
   return <PermissionsContent />;

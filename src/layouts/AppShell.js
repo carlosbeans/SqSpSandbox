@@ -6,6 +6,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import SidePanelNav from "../components/SidePanelNav/SidePanelNav";
 import { SidePanelDomainContext } from "./SidePanelDomainContext";
 import { PageHeaderProvider, usePageHeaderConfig } from "./PageHeaderContext";
+import { shellVariants } from "../constants/motion";
 
 const STORAGE_KEY = "sqspSandbox:lastDomainId";
 
@@ -53,23 +54,18 @@ function ShellPageHeader() {
   );
 }
 
-const contentVariants = {
-  initial: { opacity: 0, y: 12 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -8 },
-};
-
 export default function AppShell() {
   const { effectiveDomainId } = useStoredDomainId();
   const location = useLocation();
   const outlet = useOutlet();
   const reduceMotion = useReducedMotion();
-  const contentTransition = React.useMemo(
-    () =>
-      reduceMotion
-        ? { duration: 0 }
-        : { duration: 0.35, ease: [0.25, 0.1, 0.25, 1] },
-    [reduceMotion],
+  // Opt-in per-navigation: pass `state: { slideDirection: SLIDE_FORWARD }`
+  // to `navigate()` for a Rosetta-style horizontal slide instead of the
+  // default fade. `custom` is forwarded to the exiting page too, so both
+  // sides of the transition agree on direction and motion preference.
+  const motionCustom = React.useMemo(
+    () => ({ direction: location.state?.slideDirection, reduceMotion }),
+    [location.state, reduceMotion],
   );
 
   return (
@@ -79,14 +75,14 @@ export default function AppShell() {
           <SidePanelNav />
           <Box sx={{ width: "100%" }} id="contentPanel" pb={6}>
             <ShellPageHeader />
-            <AnimatePresence mode="wait" initial={false}>
+            <AnimatePresence mode="wait" initial={false} custom={motionCustom}>
               <motion.div
                 key={location.pathname}
-                variants={contentVariants}
+                custom={motionCustom}
+                variants={shellVariants}
                 initial="initial"
                 animate="animate"
                 exit="exit"
-                transition={contentTransition}
                 style={{ width: "100%" }}
               >
                 {outlet}

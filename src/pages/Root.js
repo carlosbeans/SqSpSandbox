@@ -34,11 +34,14 @@ const pageVariants = {
  * One stable key for all routes that share <AppShell />. Currently that is
  * /domains/:id/* (which includes pay-links, dns, etc.). Sharing a single key
  * across these paths prevents the shell from remounting on intra-shell nav.
+ * Search params are deliberately excluded here (e.g. Domain Settings'
+ * ?tab= param) so tab switches don't re-animate the whole shell; AppShell
+ * and its descendants handle their own, narrower transitions.
  */
 function rootLayoutMotionKey(pathname, search) {
   const p = pathname.endsWith("/") && pathname.length > 1 ? pathname.slice(0, -1) : pathname;
   if (/^\/domains\/[^/]+(\/|$)/.test(p)) {
-    return `app-shell${search}`;
+    return "app-shell";
   }
   return `${pathname}${search}`;
 }

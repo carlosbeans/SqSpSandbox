@@ -13,9 +13,7 @@ import { Settings } from "@sqs/rosetta-glyphs";
 import { SidePanelDomainContext } from "../../layouts/SidePanelDomainContext";
 import { useTopChromeInset } from "../../contexts/TopChromeInsetContext";
 import { loadJsonData } from "../../utils/dataUtils.ts";
-
-/** Main nav stripe + banner offset (<MainNavigation /> tabs + chrome). */
-const SIDE_PANEL_STICKY_TOP_BASE_PX = 78;
+import { TOP_CHROME_STICKY_BASE_PX } from "../../constants/layout";
 
 const NAV_ITEMS = [
   { value: "overview", label: "Overview", path: "." },
@@ -116,7 +114,7 @@ export default function SidePanelNav() {
     >
       <Flex
         flexDirection="column"
-        sx={{ position: "sticky", top: SIDE_PANEL_STICKY_TOP_BASE_PX + topChromeInsetPx }}
+        sx={{ position: "sticky", top: TOP_CHROME_STICKY_BASE_PX + topChromeInsetPx }}
       >
         <Box px={6}>
           <BackButton
@@ -162,10 +160,12 @@ export default function SidePanelNav() {
                 letterSpacing: "0",
               }}
             >
-              Form an LLC{" "}
-              <Badge appearance="blue" mx={2}>
-                New
-              </Badge>
+              <Flex alignItems="center" justifyContent="flex-start" gap={1}>
+                <Text>Form an LLC</Text>
+                <Badge appearance="blue" sx={{ alignSelf: "center" }}>
+                  New
+                </Badge>
+              </Flex>
             </Button>
           </Stack>
         </Box>

@@ -1,0 +1,38 @@
+---
+description: Preserve the user's manual code edits; ask before changing them
+alwaysApply: true
+---
+
+# Preserve Manual Edits
+
+Treat code the user edited by hand as intentional. Never revert, rewrite, or "clean up" those edits as a side effect of another request.
+
+## Required behavior
+
+- Before editing a region, check whether the user changed it manually (recent edit history, uncommitted diffs, or values that differ from what you previously wrote). If so, leave it alone.
+- If a request cannot be completed without touching a manually edited region, stop and ask for explicit approval first, naming the file, the lines, and what would change.
+- Only change a manual edit when the user explicitly asks for that specific change.
+- When a manual edit conflicts with another rule or with your own earlier implementation, surface the conflict and let the user decide instead of silently resolving it.
+- Scope edits tightly to what was requested; do not reformat, rename, or re-order surrounding manually written code.
+
+## Examples
+
+```jsx
+// User manually changed gap={3} → gap={2} and the title copy.
+<Flex gap={2}>
+  <Title>Domain overview</Title>
+</Flex>
+
+// ❌ Avoid: restoring your original values while implementing an unrelated request
+<Flex gap={3}>
+  <Title>Domain Overview Header</Title>
+</Flex>
+
+// ✅ Preferred: add what was asked for, leave manual edits untouched
+<Flex gap={2}>
+  <Title>Domain overview</Title>
+  <Badge>Connected</Badge>
+</Flex>
+```
+
+If unsure whether an edit was manual, ask rather than overwrite.

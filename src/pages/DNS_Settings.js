@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import {
   Stack,
-  Card,
-  TextLink,
-  Tabs,
   Chip,
   Checkbox,
   Toast,
@@ -13,19 +11,25 @@ import { TextInput } from "@sqs/rosetta-elements/textinput/next";
 import { Flex, Box } from "@sqs/rosetta-primitives";
 import { Text } from "@sqs/rosetta-react/text/next";
 import { Button } from "@sqs/rosetta-react/button/next";
-import { IconButton } from "@sqs/rosetta-react";
 import {
-  Table,
   Drawer,
   ActionList,
   BasicDialog,
   Dialog,
 } from "@sqs/rosetta-compositions";
-import { InfoCircle, Trash, Search, CheckmarkCircle } from "@sqs/rosetta-icons";
-import { useTheme } from "@sqs/rosetta-styled";
-import { Breakpoint } from "@sqs/rosetta-utilities";
+import { Search } from "@sqs/rosetta-icons";
 import { usePageHeader } from "../layouts/PageHeaderContext";
+import { useTopChromeInset } from "../contexts/TopChromeInsetContext";
+import {
+  TOP_CHROME_STICKY_BASE_PX,
+  SECTION_RAIL_STICKY_GAP_PX,
+} from "../constants/layout";
 import DNSPresetCard from "../components/DNSPresetCard/DNSPresetCard";
+import SectionRail from "../components/SectionRail/SectionRail";
+import DNSPresetsSection from "./dns/DNSPresetsSection";
+import DNSCustomRecordsSection from "./dns/DNSCustomRecordsSection";
+import DNSNameserversSection from "./dns/DNSNameserversSection";
+import { DNS_SECTIONS } from "./dns/sections";
 import dnsData from "../data/dns.json";
 
 const {
@@ -49,55 +53,12 @@ const VERIFICATION_REQUIRED_PRESETS = new Set([
   "Google Workspace Verification",
 ]);
 
-const columnHelper = Table.Utils.createColumnHelper();
-
-function headerWithInfo(label) {
-  return () => (
-    <Flex alignItems="center" gap={1}>
-      {label}
-      <InfoCircle css={{ color: "gray.400", width: 14, height: 14 }} />
-    </Flex>
-  );
-}
-
-const columns = [
-  columnHelper.accessor("host", {
-    header: "HOST",
-    cell: (info) => <Text.Body>{info.getValue()}</Text.Body>,
-  }),
-  columnHelper.accessor("type", {
-    header: "TYPE",
-    cell: (info) => <Text.Body>{info.getValue()}</Text.Body>,
-  }),
-  columnHelper.accessor("priority", {
-    header: "PRIORITY",
-    cell: (info) => <Text.Body>{info.getValue()}</Text.Body>,
-  }),
-  columnHelper.accessor("ttl", {
-    header: "TTL",
-    cell: (info) => <Text.Body>{info.getValue()}</Text.Body>,
-  }),
-  columnHelper.accessor("data", {
-    header: "DATA",
-    cell: (info) => <Text.Body>{info.getValue()}</Text.Body>,
-  }),
-];
-
-function DNSTable({ records }) {
-  return (
-    <Box css={{ "& tr:last-child": { borderBottom: "none" } }}>
-      <Table columns={columns} data={records}>
-        <Table.List>
-          <Table.List.Head />
-          <Table.List.Body />
-        </Table.List>
-      </Table>
-    </Box>
-  );
-}
-
 export function DNSSettingsContent({ toastRef, inlineHeader }) {
-  const { radii, borders, colors } = useTheme();
+  const location = useLocation();
+  const topChromeInsetPx = useTopChromeInset();
+  const sectionTopOffsetPx =
+    TOP_CHROME_STICKY_BASE_PX + SECTION_RAIL_STICKY_GAP_PX + topChromeInsetPx;
+  const scrollMarginTop = sectionTopOffsetPx;
   const [isDrawerMounted, setIsDrawerMounted] = useState(false);
   const [isPresetDrawerOpen, setIsPresetDrawerOpen] = useState(false);
   const [selectedPresets, setSelectedPresets] = useState(new Set());
@@ -108,17 +69,34 @@ export function DNSSettingsContent({ toastRef, inlineHeader }) {
     new Set(),
   );
   const [pendingConfirm, setPendingConfirm] = useState(false);
-  const [activeTab, setActiveTab] = useState("presets");
   const [verificationQueue, setVerificationQueue] = useState([]);
   const [verificationStepIndex, setVerificationStepIndex] = useState(0);
   const [verificationCodes, setVerificationCodes] = useState({});
   const [pendingAddition, setPendingAddition] = useState(null);
 
-  const tabOptions = [
-    { label: "DNS Presets", value: "presets" },
-    { label: "Custom DNS Records", value: "custom" },
-    { label: "Nameservers", value: "nameservers" },
-  ];
+  const initialHashSectionId = location.hash ? location.hash.slice(1) : undefined;
+
+  // Deep links (e.g. from the old standalone Nameservers page) land with a
+  // section hash; scroll to it once on mount rather than always opening at
+  // the top of the page.
+  useEffect(() => {
+    if (!initialHashSectionId) return;
+    const element = document.getElementById(initialHashSectionId);
+    if (!element) return;
+    requestAnimationFrame(() => {
+      element.scrollIntoView({ block: "start", behavior: "auto" });
+    });
+    // Intentionally only runs on mount for the initial deep link.
+  }, []);
+
+  const handleActiveSectionChange = useCallback(
+    (sectionId) => {
+      if (!sectionId || typeof window === "undefined") return;
+      const nextUrl = `${location.pathname}${location.search}#${sectionId}`;
+      window.history.replaceState(null, "", nextUrl);
+    },
+    [location.pathname, location.search],
+  );
 
   const confirmDeletePreset = useCallback(() => {
     if (!presetToDelete) return;
@@ -368,168 +346,61 @@ export function DNSSettingsContent({ toastRef, inlineHeader }) {
   const hasActiveFilters = activeFilters.size > 0;
 
   return (
-    <Flex id="dnsSettingsPage" flexDirection="column" gap={6} px={inlineHeader ? 0 : 6}>
-      <Tabs
-        options={tabOptions}
-        value={activeTab}
-        onChange={setActiveTab}
-        showIndicator
-      />
+    <Flex
+      id="dnsSettingsPage"
+      px={inlineHeader ? 0 : 6}
+      gap={10}
+      sx={{
+        flexDirection: "column",
+        alignItems: "stretch",
+        "@media (min-width: 1024px)": {
+          flexDirection: "row",
+          alignItems: "stretch",
+        },
+      }}
+    >
+      <Flex
+        flexDirection="column"
+        gap={8}
+        sx={{ minWidth: 0, width: "100%", flex: "1 1 auto" }}
+      >
+        <DNSPresetsSection
+          sectionId="dns-presets-section"
+          scrollMarginTop={scrollMarginTop}
+          defaultRecords={defaultRecords}
+          addedPresets={addedPresets}
+          onAddPreset={openDrawer}
+          onDeletePreset={setPresetToDelete}
+        />
 
-      {activeTab === "presets" && (
-        <>
-          <Flex alignItems="center" justifyContent="space-between">
-            <Stack>
-              <Text.Heading.Large as="h2" mb={3}>DNS Presets</Text.Heading.Large>
-              <Text.Body>
-                DNS presets in Squarespace simplify common connections for your
-                website and email services.
-                <br />
-                <TextLink href="#">Learn more about DNS presets</TextLink>
-              </Text.Body>
-            </Stack>
-            <Button.Strong size="medium" onClick={openDrawer}>
-              Add Preset
-            </Button.Strong>
-          </Flex>
-          <Card sx={{ borderRadius: radii[1] }}>
-            <Card.Body>
-              <Stack space={3}>
-                <Flex alignItems="center" justifyContent="space-between">
-                  <Text.Heading.Small as="h3" px={2}>
-                    Squarespace Defaults
-                  </Text.Heading.Small>
-                  <IconButton.Subtle
-                    icon={Trash}
-                    label="Delete defaults"
-                    sx={{ color: "fg.danger" }}
-                    css={{ margin: "-7px" }}
-                  />
-                </Flex>
-                <DNSTable records={defaultRecords} />
-              </Stack>
-            </Card.Body>
-          </Card>
+        <DNSCustomRecordsSection
+          sectionId="dns-custom-records-section"
+          scrollMarginTop={scrollMarginTop}
+          customRecords={customRecords}
+        />
 
-          {addedPresets.map((preset) => (
-            <Card key={preset.title} sx={{ borderRadius: radii[1] }}>
-              <Card.Body>
-                <Stack space={3}>
-                  <Flex alignItems="center" justifyContent="space-between">
-                    <Text.Heading.Small as="h3" px={2}>
-                      {preset.title}
-                    </Text.Heading.Small>
-                    <IconButton.Subtle
-                      icon={Trash}
-                      label={`Delete ${preset.title}`}
-                      onClick={() => setPresetToDelete(preset.title)}
-                      sx={{ color: "fg.danger" }}
-                      css={{ margin: "-7px" }}
-                    />
-                  </Flex>
-                  <DNSTable records={preset.records} />
-                </Stack>
-              </Card.Body>
-            </Card>
-          ))}
-        </>
-      )}
+        <DNSNameserversSection
+          sectionId="dns-nameservers-section"
+          scrollMarginTop={scrollMarginTop}
+        />
+      </Flex>
 
-      {activeTab === "custom" && (
-        <Stack space={4}>
-          <Flex alignItems="center" justifyContent="space-between">
-            <Stack>
-              <Text.Heading.Large as="h2" mb={3}>Custom records</Text.Heading.Large>
-              <Text.Body>
-                DNS records point to services your domain uses, like forwarding
-                your domain or setting up an email service. <br />
-                <TextLink href="#">Learn more about DNS settings</TextLink>
-              </Text.Body>
-            </Stack>
-            <Button size="medium">Add Record</Button>
-          </Flex>
-          <Stack
-            p={3}
-            sx={{
-              borderRadius: radii[1],
-              border: borders[1],
-              borderColor: colors.gray[800],
-            }}
-          >
-            <DNSTable records={customRecords} />
-          </Stack>
-        </Stack>
-      )}
-
-      {activeTab === "nameservers" && (
-        <>
-          <Stack>
-            <Flex alignItems="center" justifyContent="space-between">
-              <Text.Heading.Large as="h2" mb={3}>Nameservers</Text.Heading.Large>
-              <Button size="medium">
-                Use Custom Nameservers
-              </Button>
-            </Flex>
-            <Text.Body>
-              Use Squarespace Nameservers to manage your domain's nameservers.
-              Learn more about nameservers
-            </Text.Body>
-            <Stack my={6} border={borders[1]} borderColor={colors.gray[800]} borderRadius={radii[1]} p={4}>
-              <Box
-                pb={4}
-                sx={{ borderBottom: borders[1], borderColor: colors.gray[800] }}
-              >
-                ns-cloud-b1.googledomains.com
-              </Box>
-              <Box
-                py={4}
-                sx={{ borderBottom: borders[1], borderColor: colors.gray[800] }}
-              >
-                ns-cloud-b2.googledomains.com
-              </Box>
-              <Box
-                py={4}
-                sx={{ borderBottom: borders[1], borderColor: colors.gray[800] }}
-              >
-                ns-cloud-b3.googledomains.com
-              </Box>
-              <Box
-                pt={4}                
-              >
-                ns-cloud-b4.googledomains.com
-              </Box>
-            </Stack>
-            <Flex flexDirection="column" gap={3}>
-              <Flex alignItems="center" justifyContent="space-between">
-                <Text.Heading.Large as="h3" mb={0}>
-                  Nameserver Registration
-                </Text.Heading.Large>
-                <Button size="medium">Add host record</Button>
-              </Flex>
-              <Text.Body>
-                Create a host record to associate a nameserver with an IP
-                address. Learn more
-              </Text.Body>
-              <Flex
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
-                py={10}
-                gap={2}
-                border={borders[1]}
-                borderColor={colors.gray[800]}
-                borderRadius={radii[1]}
-                
-              >
-                <Text.Heading.Small as="h3">No host records</Text.Heading.Small>
-                <Text.Body color="gray.300">
-                  When you add host records, they will show up here.
-                </Text.Body>
-              </Flex>
-            </Flex>
-          </Stack>
-        </>
-      )}
+      <Box
+        sx={{
+          display: "none",
+          "@media (min-width: 1024px)": {
+            display: "block",
+            flex: "0 0 200px",
+          },
+        }}
+      >
+        <SectionRail
+          sections={DNS_SECTIONS}
+          initialActiveId={initialHashSectionId}
+          onActiveChange={handleActiveSectionChange}
+          topOffsetPx={sectionTopOffsetPx}
+        />
+      </Box>
 
       {presetToDelete && (
         <BasicDialog.Modal

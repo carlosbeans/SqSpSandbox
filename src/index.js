@@ -28,9 +28,10 @@ import DomainActivityV2 from "./pages/experiments/DomainActivityV2.js";
 import AppShell from "./layouts/AppShell";
 
 /** Old standalone domain sub-pages now live as tabs on Domain Settings. */
-function RedirectToSettingsTab({ tab }) {
+function RedirectToSettingsTab({ tab, hash }) {
   const { domainId } = useParams();
-  return <Navigate to={`/domains/${domainId}/settings?tab=${tab}`} replace />;
+  const target = `/domains/${domainId}/settings?tab=${tab}${hash ? `#${hash}` : ""}`;
+  return <Navigate to={target} replace />;
 }
 
 const router = createBrowserRouter([
@@ -87,8 +88,18 @@ const router = createBrowserRouter([
               { path: "security", element: <RedirectToSettingsTab tab="security" /> },
               { path: "billing", element: <RedirectToSettingsTab tab="billing" /> },
               { path: "dnssec", element: <RedirectToSettingsTab tab="dns" /> },
-              { path: "nameservers", element: <RedirectToSettingsTab tab="dns" /> },
-              { path: "nameserver-registration", element: <RedirectToSettingsTab tab="dns" /> },
+              {
+                path: "nameservers",
+                element: (
+                  <RedirectToSettingsTab tab="dns" hash="dns-nameservers-section" />
+                ),
+              },
+              {
+                path: "nameserver-registration",
+                element: (
+                  <RedirectToSettingsTab tab="dns" hash="dns-nameservers-section" />
+                ),
+              },
               { path: "connection", element: <DomainWebsiteConnection /> },
               { path: "settings", element: <DomainSettings /> },
             ],

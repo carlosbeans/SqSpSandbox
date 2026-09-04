@@ -70,89 +70,7 @@ export default function DomainOverview() {
 
   return (
     <Flex gap={6} flexDirection="column" id="domainOverview">
-      <DomainOverviewHeader />
-      {/* Domain Registration Cards — 3 columns */}
-      <Grid.Container gridConstraint={12}>
-        {/* Expires On */}
-        <Grid.Item columns={[12, 4]}>
-          <Stack space={2} py={2} px={4}>
-            <Flex alignItems="center" gap={1}>
-              <Text.Label>Expires On</Text.Label>
-              <InfoCircle css={{ color: "gray.400", width: 16, height: 16 }} />
-            </Flex>
-            <Text.Subtitle>
-              {domain.expirationDate || "Aug 23, 2024"}{" "}
-              <Text.Body as="span" color="gray.300">for </Text.Body>
-              <Text.Subtitle as="span">${"12"}</Text.Subtitle>
-            </Text.Subtitle>
-            <Flex alignItems="center" justifyContent="space-between">
-              <Flex alignItems="center" gap={1}>
-                <Toggle
-                  checked={autoRenew}
-                  onChange={(checked) => setAutoRenew(checked)}
-                  aria-label="Auto-renew"
-                />
-                <Text.Caption color="gray.300">Auto-renew</Text.Caption>
-              </Flex>
-              <TextLink href="#">
-                <Text.Caption>Add years</Text.Caption>
-              </TextLink>
-            </Flex>
-          </Stack>
-        </Grid.Item>
-
-        {/* WHOIS Privacy */}
-        <Grid.Item
-          columns={[12, 4]}
-          sx={{ borderLeft: "1px solid", borderLeftColor: "gray.800" }}
-        >
-          <Stack space={2} py={2} px={4}>
-            <Flex alignItems="center" gap={1}>
-              <Text.Label>WHOIS Privacy</Text.Label>
-              <InfoCircle css={{ color: "gray.400", width: 16, height: 16 }} />
-            </Flex>
-            <Text.Subtitle>On</Text.Subtitle>
-            <Flex alignItems="center" justifyContent="space-between">
-              <Flex alignItems="center" gap={1}>
-                <Toggle
-                  checked={privateRegistration}
-                  onChange={(checked) => setPrivateRegistration(checked)}
-                  aria-label="Private registration"
-                />
-                <Text.Caption color="gray.300">Private registration</Text.Caption>
-              </Flex>
-              <TextLink href="#">
-                <Text.Caption>WHOIS info</Text.Caption>
-              </TextLink>
-            </Flex>
-          </Stack>
-        </Grid.Item>
-
-        {/* Domain Lock */}
-        <Grid.Item
-          columns={[12, 4]}
-          sx={{ borderLeft: "1px solid", borderLeftColor: "gray.800" }}
-        >
-          <Stack space={2} py={2} px={4}>
-            <Flex alignItems="center" gap={1}>
-              <Text.Label>Domain Lock</Text.Label>
-              <InfoCircle css={{ color: "gray.400", width: 16, height: 16 }} />
-            </Flex>
-            <Text.Subtitle>On</Text.Subtitle>
-            <Flex alignItems="center">
-              <Flex alignItems="center" gap={1}>
-                <Toggle
-                  checked={domainLock}
-                  onChange={(checked) => setDomainLock(checked)}
-                  aria-label="Lock"
-                />
-                <Text.Caption color="gray.300">Lock</Text.Caption>
-              </Flex>
-            </Flex>
-          </Stack>
-        </Grid.Item>
-      </Grid.Container>
-
+      <DomainOverviewHeader />    
       {/* Bottom section — Registration Info + Upsell */}
       <Grid.Container gridConstraint={12}>
         {/* Registration Information */}
@@ -230,7 +148,6 @@ export default function DomainOverview() {
             </Flex>
           </Card>
         </Grid.Item>
-
       </Grid.Container>
 
       {/* Security & Health + Email */}
