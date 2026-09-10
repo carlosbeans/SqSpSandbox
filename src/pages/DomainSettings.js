@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useSearchParams } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Tabs } from "@sqs/rosetta-elements";
+import { Tabs, Toast } from "@sqs/rosetta-elements";
 import { Flex, Box } from "@sqs/rosetta-primitives";
 import { usePageHeader } from "../layouts/PageHeaderContext";
 import { ActivityContent } from "./Activity";
@@ -26,10 +26,10 @@ const panelVariants = {
   exit: { opacity: 0, y: -8 },
 };
 
-function DomainSettingsTabPanel({ tab }) {
+function DomainSettingsTabPanel({ tab, toastRef }) {
   switch (tab) {
     case "dns":
-      return <DNSSettingsContent inlineHeader />;
+      return <DNSSettingsContent inlineHeader toastRef={toastRef} />;
     case "security":
       return <SecurityContent inlineHeader />;
     case "activity":
@@ -46,6 +46,7 @@ function DomainSettingsTabPanel({ tab }) {
 export default function DomainSettings() {
   usePageHeader({ title: "Domain Settings" });
 
+  const toastRef = React.useRef(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const tabParam = searchParams.get("tab");
   const activeTab = TAB_KEYS.includes(tabParam) ? tabParam : "dns";
@@ -75,7 +76,7 @@ export default function DomainSettings() {
 
   return (
     <Box as="main" id="domain-settings-page-main" px={6} pb={8} sx={{ width: "100%" }}>
-      <Flex flexDirection="column" gap={4}>
+      <Flex flexDirection="column" gap={8}>
         <Tabs
           value={activeTab}
           onChange={handleTabChange}
@@ -92,14 +93,15 @@ export default function DomainSettings() {
             animate="animate"
             exit="exit"
             transition={panelTransition}
-            style={{ width: "100%" }}
+            style={{ width: "100%" }}            
           >
             <Flex flexDirection="column" gap={4} id={`domain-settings-panel-${activeTab}`}>
-              <DomainSettingsTabPanel tab={activeTab} />
+              <DomainSettingsTabPanel tab={activeTab} toastRef={toastRef} />
             </Flex>
           </motion.div>
         </AnimatePresence>
       </Flex>
+      <Toast.Container ref={toastRef} />
     </Box>
   );
 }

@@ -51,7 +51,7 @@ export default function DNSNameserversSection({ sectionId, scrollMarginTop }) {
         <Flex flexDirection="column" gap={4}>
           <Flex alignItems="flex-start" justifyContent="space-between" gap={4}>
             <Stack space={1}>
-              <Text.Heading.Large as="h3" mb={0}>
+              <Text.Heading.Large as="h3" mb={0} mt={2}>
                 Nameserver Registration
               </Text.Heading.Large>
               <Text.Body>

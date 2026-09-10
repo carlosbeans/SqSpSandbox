@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.4aa98a97.css",
-    "main.js": "/static/js/main.eddbf1fb.js",
+    "main.css": "/static/css/main.6d000038.css",
+    "main.js": "/static/js/main.c73de2b4.js",
     "static/js/871.ca5851ce.chunk.js": "/static/js/871.ca5851ce.chunk.js",
     "static/js/130.b9825f4c.chunk.js": "/static/js/130.b9825f4c.chunk.js",
     "static/media/websitePreviewThumb.png": "/static/media/websitePreviewThumb.a8a4d4de6c6d18864ddd.png",
@@ -26,12 +26,12 @@
     "static/media/download-play-store.svg": "/static/media/download-play-store.eeefcfd8ad880f20f087098e21965202.svg",
     "static/media/rosetta-react.ja-JP.yaml": "/static/media/rosetta-react.ja-JP.7f9f8c76cacbfc51099d.yaml",
     "index.html": "/index.html",
-    "main.4aa98a97.css.map": "/static/css/main.4aa98a97.css.map",
-    "main.eddbf1fb.js.map": "/static/js/main.eddbf1fb.js.map",
+    "main.6d000038.css.map": "/static/css/main.6d000038.css.map",
+    "main.c73de2b4.js.map": "/static/js/main.c73de2b4.js.map",
     "130.b9825f4c.chunk.js.map": "/static/js/130.b9825f4c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.4aa98a97.css",
-    "static/js/main.eddbf1fb.js"
+    "static/css/main.6d000038.css",
+    "static/js/main.c73de2b4.js"
   ]
 }

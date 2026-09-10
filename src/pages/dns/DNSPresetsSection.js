@@ -31,9 +31,9 @@ export default function DNSPresetsSection({
               <TextLink href="#">Learn more about DNS presets</TextLink>
             </Text.Body>
           </Stack>
-          <Button.Strong size="medium" onClick={onAddPreset}>
+          <Button size="medium" onClick={onAddPreset}>
             Add Preset
-          </Button.Strong>
+          </Button>
         </Flex>
         <Card sx={{ borderRadius: radii[1] }}>
           <Card.Body>
