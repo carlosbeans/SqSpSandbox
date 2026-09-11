@@ -1,3 +1,5 @@
+@use "../../styles/breakpoints" as bp;
+
 .siteThumbnail {
     background-color: #e7e7e7;
     border-radius: 4px;
@@ -15,8 +17,16 @@
     }
 
     &--grid {
-        width: 272px;
-        height: 184px;
+        // Smaller below `m` so the thumbnail doesn't crowd out the name/
+        // domain stack in the Dashboard grid row at narrow viewports;
+        // full size from `m` and up matches the original design intent.
+        width: 140px;
+        height: 95px;
+
+        @include bp.from(m) {
+            width: 272px;
+            height: 184px;
+        }
     }
 
     &--small {

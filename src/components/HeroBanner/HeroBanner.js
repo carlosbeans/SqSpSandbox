@@ -179,7 +179,7 @@ function AbstractUiCluster() {
         top: 22,
         width: 396,
         height: 236,
-        display: { _: "none", "tablet-100": "block" },
+        display: { _: "none", "from-l": "block" },
       }}
     >
       <PaymentSuccessPill />
@@ -208,10 +208,10 @@ export default function HeroBanner() {
         alt=""
         sx={{
           position: "absolute",
-          right: { _: "-60%", "tablet-50": "-431px" },
-          bottom: { _: "-200px", "tablet-50": "-488px" },
-          width: { _: "200%", "tablet-50": "1807px" },
-          height: { _: "auto", "tablet-50": "1351px" },
+          right: { _: "-60%", "from-l": "-431px" },
+          bottom: { _: "-200px", "from-l": "-488px" },
+          width: { _: "200%", "from-l": "1807px" },
+          height: { _: "auto", "from-l": "1351px" },
           maxWidth: "none",
           objectFit: "cover",
           pointerEvents: "none",

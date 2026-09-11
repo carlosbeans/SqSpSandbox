@@ -1,6 +1,5 @@
 import React from "react";
 
-import { rosetta } from "@sqs/rosetta-themes";
 import { ThemeContext } from "@sqs/rosetta-styled";
 import { Text, Flex } from "@sqs/rosetta-primitives";
 import { Button } from "@sqs/rosetta-react/button/next";
@@ -12,6 +11,7 @@ import { Stack, SegmentedControl } from "@sqs/rosetta-elements";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { EASE_ENTRANCE, EASE_EXIT } from "../constants/motion";
 import SiteThumbnail from "../components/SiteThumbnail/SiteThumbnail";
+import { appLightTheme } from "../theme";
 
 const columnHelper = Table.Utils.createColumnHelper();
 
@@ -185,8 +185,17 @@ export default function Dashboard() {
   const [layout, setLayout] = React.useState("list");
   const reduceMotion = useReducedMotion();
 
+  const compactHeaderActions = () => (
+    <>
+      <Button.Strong>Create Website</Button.Strong>
+      <Touchable.Element.Icon aria-label="Extra Options" onClick={() => {}}>
+        <Ellipses />
+      </Touchable.Element.Icon>
+    </>
+  );
+
   return (
-    <ThemeContext.Provider theme={rosetta.light}>
+    <ThemeContext.Provider theme={appLightTheme}>
       <Table
         columns={websiteColumns}
         data={websiteData}
@@ -199,45 +208,34 @@ export default function Dashboard() {
           <PageHeader.Body>
             <PageHeader.Title title="Dashboard" />
             <PageHeader.Actions flexWrap="wrap" justifyContent="flex-end">
-              <Breakpoint.Provider>
-                <Breakpoint.Renderer
-                  render={{
-                    default: () => (
-                      <>
-                        <SegmentedControl
-                          aria-label="Layout"
-                          onChange={setLayout}
-                          value={layout}
-                          variant="compact"
-                        >
-                          <SegmentedControl.Option label="Grid view" value="grid">
-                            <Portfolio />
-                          </SegmentedControl.Option>
-                          <SegmentedControl.Option label="List view" value="list">
-                            <TextAlignJustify />
-                          </SegmentedControl.Option>
-                        </SegmentedControl>
-                        <Table.Search
-                          placeholder="Search"
-                          sx={{ width: "auto", minWidth: 160, maxWidth: 240 }}
-                        />
-                        <Button.Strong>Create Website</Button.Strong>
-                      </>
-                    ),
-                    "mobile-0": () => (
-                      <>
-                        <Button.Strong>Create Website</Button.Strong>
-                        <Touchable.Element.Icon
-                          aria-label="Extra Options"
-                          onClick={() => {}}
-                        >
-                          <Ellipses />
-                        </Touchable.Element.Icon>
-                      </>
-                    ),
-                  }}
-                />
-              </Breakpoint.Provider>
+              <Breakpoint.Renderer
+                render={{
+                  default: () => (
+                    <>
+                      <SegmentedControl
+                        aria-label="Layout"
+                        onChange={setLayout}
+                        value={layout}
+                        variant="compact"
+                      >
+                        <SegmentedControl.Option label="Grid view" value="grid">
+                          <Portfolio />
+                        </SegmentedControl.Option>
+                        <SegmentedControl.Option label="List view" value="list">
+                          <TextAlignJustify />
+                        </SegmentedControl.Option>
+                      </SegmentedControl>
+                      <Table.Search
+                        placeholder="Search"
+                        sx={{ width: "auto", minWidth: 160, maxWidth: 240 }}
+                      />
+                      <Button.Strong>Create Website</Button.Strong>
+                    </>
+                  ),
+                  "viewport-xs": compactHeaderActions,
+                  "viewport-s": compactHeaderActions,
+                }}
+              />
             </PageHeader.Actions>
           </PageHeader.Body>
         </PageHeader>

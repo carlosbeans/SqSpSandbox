@@ -1,14 +1,9 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import {
-  Stack,
-  Chip,
-  Checkbox,
-  Toast,
-  StepIndicator,
-} from "@sqs/rosetta-elements";
+import { Stack, Chip, Toast, StepIndicator } from "@sqs/rosetta-elements";
 import { TextInput } from "@sqs/rosetta-elements/textinput/next";
 import { Flex, Box } from "@sqs/rosetta-primitives";
+import { Checkbox } from "@sqs/rosetta-react/checkbox/next";
 import { Text } from "@sqs/rosetta-react/text/next";
 import { Button } from "@sqs/rosetta-react/button/next";
 import {
@@ -24,6 +19,7 @@ import {
   TOP_CHROME_STICKY_BASE_PX,
   SECTION_RAIL_STICKY_GAP_PX,
 } from "../constants/layout";
+import { BREAKPOINT_MIN } from "../constants/breakpoints";
 import DNSPresetCard from "../components/DNSPresetCard/DNSPresetCard";
 import SectionRail from "../components/SectionRail/SectionRail";
 import DNSPresetsSection from "./dns/DNSPresetsSection";
@@ -351,12 +347,8 @@ export function DNSSettingsContent({ toastRef, inlineHeader }) {
       px={inlineHeader ? 0 : 6}
       gap={10}
       sx={{
-        flexDirection: "column",
+        flexDirection: { _: "column", "from-l": "row" },
         alignItems: "stretch",
-        "@media (min-width: 1024px)": {
-          flexDirection: "row",
-          alignItems: "stretch",
-        },
       }}
     >
       <Flex
@@ -387,11 +379,8 @@ export function DNSSettingsContent({ toastRef, inlineHeader }) {
 
       <Box
         sx={{
-          display: "none",
-          "@media (min-width: 1024px)": {
-            display: "block",
-            flex: "0 0 200px",
-          },
+          display: { _: "none", "from-l": "block" },
+          flex: "0 0 200px",
         }}
       >
         <SectionRail
@@ -615,18 +604,13 @@ export function DNSSettingsContent({ toastRef, inlineHeader }) {
                           <Box css={{ padding: 16, minWidth: 180 }}>
                             <Stack space={0}>
                               {FILTER_TYPES.map((type) => (
-                                <Flex
-                                  key={type}
-                                  alignItems="center"
-                                  gap={2}
-                                  py={2}
-                                >
-                                  <Checkbox
+                                <Checkbox.Root key={type} py={2}>
+                                  <Checkbox.Control
                                     checked={activeFilters.has(type)}
                                     onChange={() => toggleFilter(type)}
                                   />
-                                  <Text.Body>{type}</Text.Body>
-                                </Flex>
+                                  <Checkbox.Label>{type}</Checkbox.Label>
+                                </Checkbox.Root>
                               ))}
                             </Stack>
                           </Box>
@@ -637,12 +621,18 @@ export function DNSSettingsContent({ toastRef, inlineHeader }) {
                   <Stack space={5}>
                     {groupedPresets.map(({ category, presets }) => (
                       <Box key={category}>
-                        <Text.Heading.Large as="h3" mb={3}>{category}</Text.Heading.Large>
+                        <Text.Heading.Medium as="h3" mb={3}>{category}</Text.Heading.Medium>
                         <Box
                           css={{
                             display: "grid",
-                            gridTemplateColumns: "repeat(4, 1fr)",
+                            gridTemplateColumns: "repeat(2, 1fr)",
                             gap: 11,
+                            [`@media (min-width: ${BREAKPOINT_MIN.m}px)`]: {
+                              gridTemplateColumns: "repeat(3, 1fr)",
+                            },
+                            [`@media (min-width: ${BREAKPOINT_MIN.l}px)`]: {
+                              gridTemplateColumns: "repeat(4, 1fr)",
+                            },
                           }}
                         >
                           {presets.map((preset) => (

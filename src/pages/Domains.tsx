@@ -284,7 +284,10 @@ function FilterSideSheet({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
               <Drawer.CloseButton onClick={onClose} />
             </Drawer.Header.TitleRow>
           </Drawer.Header>
-          <Drawer.Body px={{ _: 6, "mobile-*": 4 }} py={4}>
+          <Drawer.Body
+            px={{ _: 6, "viewport-xs": 4, "viewport-s": 4 }}
+            py={4}
+          >
             <Accordion allowMultipleItemsOpen>
               <Accordion.Item>
                 <Accordion.Header
@@ -430,35 +433,41 @@ export default function Domains() {
         <PageHeader.Body>
           <PageHeader.Title title="Domains" />
           <PageHeader.Actions>
-            <Breakpoint.Provider>
-              <Breakpoint.Renderer
-                render={{
-                  default: () => (
-                    <>
-                      <Button.Tertiary>Transfer Domain</Button.Tertiary>
-                      <Button.Primary
-                        onClick={() =>
-                          window.open(
-                            "https://domains.squarespace.com/",
-                            "_blank",
-                          )
-                        }
-                      >
-                        Get a Domain
-                      </Button.Primary>
-                    </>
-                  ),
-                  "mobile-0": () => (
-                    <Touchable.Element.Icon
-                      aria-label="Extra Options"
-                      onClick={() => {}}
+            <Breakpoint.Renderer
+              render={{
+                default: () => (
+                  <>
+                    <Button.Tertiary>Transfer Domain</Button.Tertiary>
+                    <Button.Primary
+                      onClick={() =>
+                        window.open(
+                          "https://domains.squarespace.com/",
+                          "_blank",
+                        )
+                      }
                     >
-                      <Ellipses />
-                    </Touchable.Element.Icon>
-                  ),
-                }}
-              />
-            </Breakpoint.Provider>
+                      Get a Domain
+                    </Button.Primary>
+                  </>
+                ),
+                "viewport-xs": () => (
+                  <Touchable.Element.Icon
+                    aria-label="Extra Options"
+                    onClick={() => {}}
+                  >
+                    <Ellipses />
+                  </Touchable.Element.Icon>
+                ),
+                "viewport-s": () => (
+                  <Touchable.Element.Icon
+                    aria-label="Extra Options"
+                    onClick={() => {}}
+                  >
+                    <Ellipses />
+                  </Touchable.Element.Icon>
+                ),
+              }}
+            />
           </PageHeader.Actions>
         </PageHeader.Body>
       </PageHeader>

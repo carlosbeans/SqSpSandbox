@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, useOutlet } from "react-router-dom";
-import { rosetta } from "@sqs/rosetta-themes";
 import { ThemeContext } from "@sqs/rosetta-styled";
+import { Breakpoint } from "@sqs/rosetta-utilities";
 import { I18nContext } from "@sqs/i18n-react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
@@ -13,6 +13,8 @@ import TwoFactorAuthBanner, {
 import { SandboxTwoFaBannerContext } from "../contexts/SandboxTwoFaBannerContext";
 import { SandboxDomainRedesign2026Context } from "../contexts/SandboxDomainRedesign2026Context";
 import { TopChromeInsetContext } from "../contexts/TopChromeInsetContext";
+import { appTheme } from "../theme";
+import { viewportBreakpoints } from "../constants/breakpoints";
 
 const TWO_FA_BANNER_DISMISSED_KEY = "sqspSandbox:dismissTwoFactorBanner";
 
@@ -118,53 +120,55 @@ export default function Root() {
   );
 
   return (
-    <ThemeContext.Provider theme={rosetta.default}>
-      <I18nContext.Provider
-        value={{
-          translationLocale: "en-US",
-          formattingLocale: "en-US",
-        }}
-      >
-        <SandboxTwoFaBannerContext.Provider value={sandboxTwoFaBannerContextValue}>
-          <SandboxDomainRedesign2026Context.Provider
-            value={sandboxDomainRedesign2026ContextValue}
-          >
-            <TopChromeInsetContext.Provider value={topChromeInsetPx}>
-              <AnimatePresence
-                initial={false}
-                onExitComplete={onTwoFactorBannerExitComplete}
-              >
-                {twoFactorBannerVisible ? (
-                  <TwoFactorAuthBanner
-                    key="two-factor-auth-banner"
-                    onDismiss={dismissTwoFactorBanner}
-                  />
-                ) : null}
-              </AnimatePresence>
-              <div
-                className="appContainer"
-                style={{ paddingTop: topChromeInsetPx }}
-              >
-                <MainNavigation />
-                <div className="appBody">
-                  <AnimatePresence mode="wait" initial={false}>
-                    <motion.div
-                      key={rootRouteKey}
-                      variants={pageVariants}
-                      initial="initial"
-                      animate="animate"
-                      exit="exit"
-                      transition={pageTransition}
-                    >
-                      {outlet}
-                    </motion.div>
-                  </AnimatePresence>
+    <ThemeContext.Provider theme={appTheme}>
+      <Breakpoint.Provider breakpoints={viewportBreakpoints}>
+        <I18nContext.Provider
+          value={{
+            translationLocale: "en-US",
+            formattingLocale: "en-US",
+          }}
+        >
+          <SandboxTwoFaBannerContext.Provider value={sandboxTwoFaBannerContextValue}>
+            <SandboxDomainRedesign2026Context.Provider
+              value={sandboxDomainRedesign2026ContextValue}
+            >
+              <TopChromeInsetContext.Provider value={topChromeInsetPx}>
+                <AnimatePresence
+                  initial={false}
+                  onExitComplete={onTwoFactorBannerExitComplete}
+                >
+                  {twoFactorBannerVisible ? (
+                    <TwoFactorAuthBanner
+                      key="two-factor-auth-banner"
+                      onDismiss={dismissTwoFactorBanner}
+                    />
+                  ) : null}
+                </AnimatePresence>
+                <div
+                  className="appContainer"
+                  style={{ paddingTop: topChromeInsetPx }}
+                >
+                  <MainNavigation />
+                  <div className="appBody">
+                    <AnimatePresence mode="wait" initial={false}>
+                      <motion.div
+                        key={rootRouteKey}
+                        variants={pageVariants}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        transition={pageTransition}
+                      >
+                        {outlet}
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
                 </div>
-              </div>
-            </TopChromeInsetContext.Provider>
-          </SandboxDomainRedesign2026Context.Provider>
-        </SandboxTwoFaBannerContext.Provider>
-      </I18nContext.Provider>
+              </TopChromeInsetContext.Provider>
+            </SandboxDomainRedesign2026Context.Provider>
+          </SandboxTwoFaBannerContext.Provider>
+        </I18nContext.Provider>
+      </Breakpoint.Provider>
     </ThemeContext.Provider>
   );
 }

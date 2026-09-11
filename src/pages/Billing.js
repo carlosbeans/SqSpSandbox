@@ -81,7 +81,7 @@ export function BillingContent({ inlineHeader } = {}) {
         </Banner.Info>
       </Flex>
       <Flex
-        flexDirection={{ "mobile-*": "column", _: "row" }}
+        flexDirection={{ _: "column", "from-m": "row" }}
         gap={6}
         width="100%"
         alignItems="stretch"

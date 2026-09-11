@@ -1,0 +1,62 @@
+@use "sass:map";
+
+// Width-based viewport breakpoints for SCSS media queries.
+//
+// Mirrors src/constants/breakpoints.js (BREAKPOINT_MIN) — keep both in sync
+// if the scale ever changes. Distinct from Rosetta's device-based theme
+// breakpoints (mobile-0, tablet-0, desktop-50, etc.), which key off pointer
+// type + device size, not browser window width.
+//
+// xs   <=559px
+// s    560-679px
+// m    680-879px
+// l    880-1199px
+// xl   1200-1679px
+// xxl  >=1680px
+
+$bp-min: (
+  "xs": 0,
+  "s": 560,
+  "m": 680,
+  "l": 880,
+  "xl": 1200,
+  "xxl": 1680,
+);
+
+$bp-max: (
+  "xs": 559,
+  "s": 679,
+  "m": 879,
+  "l": 1199,
+  "xl": 1679,
+);
+
+/// Cumulative, mobile-first: applies from the given band's min-width upward.
+/// Usage: @include from(m) { flex-direction: row; }
+@mixin from($name) {
+  @if not map.has-key($bp-min, $name) {
+    @error "Unknown breakpoint `#{$name}`. Expected one of #{map.keys($bp-min)}.";
+  }
+
+  @media only screen and (min-width: map.get($bp-min, $name) + px) {
+    @content;
+  }
+}
+
+/// Exclusive: applies only within the given band.
+/// Usage: @include only(xs) { padding: 16px; }
+@mixin only($name) {
+  @if not map.has-key($bp-min, $name) {
+    @error "Unknown breakpoint `#{$name}`. Expected one of #{map.keys($bp-min)}.";
+  }
+
+  @if $name == "xxl" {
+    @media only screen and (min-width: map.get($bp-min, $name) + px) {
+      @content;
+    }
+  } @else {
+    @media only screen and (min-width: map.get($bp-min, $name) + px) and (max-width: map.get($bp-max, $name) + px) {
+      @content;
+    }
+  }
+}
