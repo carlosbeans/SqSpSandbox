@@ -1,30 +1,22 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Flex, Text } from "@sqs/rosetta-primitives";
-import { Chip, Image, TextLink } from "@sqs/rosetta-elements";
+import { Image, TextLink } from "@sqs/rosetta-elements";
 import { IconButton } from "@sqs/rosetta-react";
 import { useTheme } from "@sqs/rosetta-styled";
-import { InfoCircle, Edit, ExternalLink } from "@sqs/rosetta-icons";
+import { Edit, ExternalLink } from "@sqs/rosetta-icons";
 import { loadJsonData } from "../../utils/dataUtils.ts";
 import { SidePanelDomainContext } from "../../layouts/SidePanelDomainContext";
 import { SLIDE_FORWARD } from "../../constants/motion";
 import BackgroundImageDialog from "../BackgroundImageDialog/BackgroundImageDialog";
+import ConnectedProducts from "../ConnectedProducts/ConnectedProducts";
 
 /**
  * Domain Overview header — Redesign 2026.
- * @see https://www.figma.com/design/sLKjrT1verCjfxjCrOmny8/Domain-Settings?node-id=181-2100
+ * @see https://www.figma.com/design/7SPZm4hGkNBvVaMmSOhd9s/Security-on-Domains?node-id=1670-82994
  */
 const THUMBNAIL_W_PX = 375;
-const THUMBNAIL_H_PX = 218;
-
-function getChipStatus(status) {
-  const s = (status || "").toLowerCase();
-  if (s === "active") return "success";
-  if (s === "transfer-in-progress" || s === "transfer in progress")
-    return "warning";
-  if (s === "transfer-canceled" || s === "transfer canceled") return "error";
-  return "default";
-}
+const THUMBNAIL_H_PX = 260;
 
 function getStatusLabel(status) {
   const s = (status || "").toLowerCase();
@@ -34,6 +26,15 @@ function getStatusLabel(status) {
   if (s === "pending-renewal") return "Pending renewal";
   if (s === "pending") return "Pending";
   return status || "Unknown";
+}
+
+function getStatusDotColor(status, colors) {
+  const s = (status || "").toLowerCase();
+  if (s === "active") return colors.fg.success;
+  if (s === "transfer-in-progress" || s === "pending-renewal")
+    return colors.fg.warning;
+  if (s === "transfer-canceled") return colors.fg.danger;
+  return colors.gray[400];
 }
 
 function formatExpirationDate(dateStr) {
@@ -53,29 +54,8 @@ function emptyRecord(decodedName) {
     domainStatus: "pending",
     domainProvider: "",
     thumbnailImage: "",
+    connectedPayments: [],
   };
-}
-
-function MetaColumn({ label, children, width }) {
-  return (
-    <Flex flexDirection="column" gap={1} sx={{ width, flex: width ? "0 0 auto" : "1 1 0" }}>
-      <Flex alignItems="center" gap={1}>
-        <Text.Label
-          m={0}
-          color="gray.300"
-          css={{
-            fontSize: "11px",
-            letterSpacing: "0.55px",
-            textTransform: "uppercase",
-          }}
-        >
-          {label}
-        </Text.Label>
-        <InfoCircle css={{ color: "gray.400", width: 16, height: 16 }} />
-      </Flex>
-      {children}
-    </Flex>
-  );
 }
 
 export default function DomainOverviewHeader() {
@@ -119,7 +99,7 @@ export default function DomainOverviewHeader() {
   const formattedExpiration = formatExpirationDate(domain.expirationDate);
 
   return (
-    <Flex >
+    <Flex>
       <Box
         as="header"
         id="domain-overview-header"
@@ -141,6 +121,25 @@ export default function DomainOverviewHeader() {
           minWidth={0}
           gap={4}
         >
+          <Flex alignItems="center" gap={1}>
+            <Box
+              flexShrink={0}
+              sx={{
+                width: 8,
+                height: 8,
+                borderRadius: "50%",
+                backgroundColor: getStatusDotColor(domain.domainStatus, colors),
+              }}
+            />
+            <Text.Body
+              m={0}
+              css={{ fontSize: "14px", lineHeight: "22px" }}
+              color="gray.300"
+            >
+              {getStatusLabel(domain.domainStatus)}
+            </Text.Body>
+          </Flex>
+
           <Box>
             <Text.Subtitle
               as="h1"
@@ -157,14 +156,7 @@ export default function DomainOverviewHeader() {
             </Text.Subtitle>
           </Box>
 
-          <Flex alignItems="center" gap={2} width="100%" flexWrap="nowrap">
-            <Box flexShrink={0}>
-              <Chip
-                label={getStatusLabel(domain.domainStatus)}
-                status={getChipStatus(domain.domainStatus)}
-                usage="badge"
-              />
-            </Box>
+          <Flex alignItems="center" gap={1} flexWrap="wrap" width="100%">
             <Text.Body
               m={0}
               color="gray.300"
@@ -172,58 +164,43 @@ export default function DomainOverviewHeader() {
             >
               Provider: {domain.domainProvider || "—"}
             </Text.Body>
+            {formattedExpiration && (
+              <>
+                <Text.Body m={0} color="gray.300" css={{ fontSize: "14px", lineHeight: "22px" }}>
+                  {" | "}Auto-renews on {formattedExpiration}
+                </Text.Body>
+                <TextLink
+                  href="#"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    navigate(
+                      `/domains/${encodeURIComponent(effectiveDomainId)}/registration`,
+                      { state: { slideDirection: SLIDE_FORWARD } },
+                    );
+                  }}
+                >
+                  <Text.Caption>Manage</Text.Caption>
+                </TextLink>
+                <Text.Body m={0} color="gray.300" css={{ fontSize: "14px", lineHeight: "22px" }}>
+                  {" | "}
+                </Text.Body>
+                <TextLink
+                  href="#"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    navigate(
+                      `/domains/${encodeURIComponent(effectiveDomainId)}/registration`,
+                      { state: { slideDirection: SLIDE_FORWARD } },
+                    );
+                  }}
+                >
+                  <Text.Caption>Add years</Text.Caption>
+                </TextLink>
+              </>
+            )}
           </Flex>
 
-          <Flex gap={8} flexWrap="wrap" width="100%">
-            <MetaColumn label="Expires On" width="172px">
-              <Text.Body
-                m={0}
-                css={{ fontSize: "14px", lineHeight: "22px" }}
-                color={colors?.gray?.[100] ?? "#0e0e0e"}
-              >
-                {formattedExpiration || "—"}
-                {formattedExpiration && (
-                  <Text.Body as="span" color="gray.300">
-                    {" for "}
-                  </Text.Body>
-                )}
-                {formattedExpiration && "$12"}
-              </Text.Body>
-              <TextLink
-                href="#"
-                onClick={(event) => {
-                  event.preventDefault();
-                  navigate(
-                    `/domains/${encodeURIComponent(effectiveDomainId)}/registration`,
-                    { state: { slideDirection: SLIDE_FORWARD } },
-                  );
-                }}
-              >
-                <Text.Caption>Manage</Text.Caption>
-              </TextLink>
-            </MetaColumn>
-
-            <MetaColumn label="Domain Security">
-              <Text.Body
-                m={0}
-                css={{ fontSize: "14px", lineHeight: "22px" }}
-                color={colors?.gray?.[100] ?? "#0e0e0e"}
-              >
-                Active
-              </Text.Body>
-              <TextLink
-                href="#"
-                onClick={(event) => {
-                  event.preventDefault();
-                  navigate(
-                    `/domains/${encodeURIComponent(effectiveDomainId)}/settings?tab=security`,
-                  );
-                }}
-              >
-                <Text.Caption>Manage</Text.Caption>
-              </TextLink>
-            </MetaColumn>
-          </Flex>
+          <ConnectedProducts connectedPayments={domain.connectedPayments} />
         </Flex>
 
         <Box

@@ -6,13 +6,22 @@ import { viewportBreakpoints, fromBreakpoints } from "../constants/breakpoints";
  * breakpoints. Device keys must stay first: `getBreakpoint()` (and therefore
  * `useIsMobile()`, used by PageHeader/Table/Breadcrumbs/KeyFigures) returns
  * the *first* matching entry, so appending here preserves existing behavior.
+ *
+ * Theme breakpoint values must start with `@media `; otherwise
+ * rosetta-styled-system wraps them as `@media screen and (min-width: <value>)`,
+ * producing an invalid query for both style props and `sx`.
  */
+const asThemeMediaQueries = (breakpoints) =>
+  Object.fromEntries(
+    Object.entries(breakpoints).map(([key, query]) => [key, `@media ${query}`])
+  );
+
 const withViewportBreakpoints = (theme) => ({
   ...theme,
   breakpoints: {
     ...theme.breakpoints,
-    ...viewportBreakpoints,
-    ...fromBreakpoints,
+    ...asThemeMediaQueries(viewportBreakpoints),
+    ...asThemeMediaQueries(fromBreakpoints),
   },
 });
 

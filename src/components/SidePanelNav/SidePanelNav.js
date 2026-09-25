@@ -103,7 +103,7 @@ export default function SidePanelNav() {
 
   return (
     <Box
-    id="sidePanelNav"
+      id="sidePanelNav"
       sx={{
         borderRight: borders[1],
         borderColor: colors.gray[800],
@@ -114,7 +114,10 @@ export default function SidePanelNav() {
     >
       <Flex
         flexDirection="column"
-        sx={{ position: "sticky", top: TOP_CHROME_STICKY_BASE_PX + topChromeInsetPx }}
+        sx={{
+          position: "sticky",
+          top: TOP_CHROME_STICKY_BASE_PX + topChromeInsetPx,
+        }}
       >
         <Box px={6}>
           <BackButton
@@ -140,14 +143,6 @@ export default function SidePanelNav() {
       <Box id="sidenav-footerLinks" sx={{ position: "fixed", bottom: 0 }}>
         <Box px={6} pb={6} pt={3}>
           <Stack space={2}>
-            <ButtonNext.Subtle
-              width="100%"
-              icon={Settings}
-              onClick={navigateToSettings}
-              sx={{ justifyContent: "flex-start" }}
-            >
-              Domain Settings
-            </ButtonNext.Subtle>
             <Button
               size="medium"
               variant="secondary"
@@ -167,6 +162,14 @@ export default function SidePanelNav() {
                 </Badge>
               </Flex>
             </Button>
+            <ButtonNext.Subtle
+              width="100%"
+              icon={Settings}
+              onClick={navigateToSettings}
+              sx={{ justifyContent: "flex-start" }}
+            >
+              Domain Settings
+            </ButtonNext.Subtle>
           </Stack>
         </Box>
       </Box>

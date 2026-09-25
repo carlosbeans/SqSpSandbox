@@ -24,10 +24,9 @@ export const GRID_BREAKPOINTS = [559, 679, 879, 1199, 1679, Infinity];
  * / Breakpoint.Renderer for swapping whole components (e.g. compact vs.
  * full header actions), or with the `viewport-*` wildcard in style props.
  *
- * Values omit the `@media ` prefix to match Rosetta's own token format;
- * `getBreakpointsAsMediaQueries` (rosetta-themes) adds it back for the
- * theme, and `normalizeMediaQuery` (rosetta-utilities) strips it again
- * before calling `window.matchMedia`.
+ * Values omit the `@media ` prefix so they can go straight to
+ * `window.matchMedia`; `src/theme/index.js` adds the prefix when merging
+ * them into the theme, which styled-system requires.
  */
 export const viewportBreakpoints = {
   "viewport-xs": `only screen and (max-width: ${BREAKPOINT_MIN.s - 1}px)`,

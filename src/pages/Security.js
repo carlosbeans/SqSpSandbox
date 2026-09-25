@@ -1,63 +1,88 @@
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Box, Flex } from "@sqs/rosetta-primitives";
-import { Card, Grid, Stack, TextLink, Toggle } from "@sqs/rosetta-elements";
+import { Card, Chip, Grid, Stack, TextLink, Toggle } from "@sqs/rosetta-elements";
 import { Text } from "@sqs/rosetta-react/text/next";
 import { useTheme } from "@sqs/rosetta-styled";
+import { CheckmarkShield } from "@sqs/rosetta-icons";
 import { usePageHeader } from "../layouts/PageHeaderContext";
+import { loadJsonData } from "../utils/dataUtils.ts";
 import { SLIDE_FORWARD } from "../constants/motion";
+import {
+  BASE_PROTECTIONS,
+  ADDON_PROTECTIONS,
+  COMING_SOON_PROTECTIONS,
+} from "../constants/securityProtections";
 
 /**
- * Domain Settings — Security tab content.
+ * Domain Settings — Security tab content. Every domain gets the four base
+ * protection cards below; domains with the Security Add-on additionally get
+ * the "Advanced protections" grid.
  * @see https://www.figma.com/design/sLKjrT1verCjfxjCrOmny8/Domain-Settings?node-id=101-7491
+ * @see https://www.figma.com/design/7SPZm4hGkNBvVaMmSOhd9s/Security-on-Domains?node-id=1673-87804
  */
-const SECURITY_FEATURES = [
-  {
-    key: "whoisPrivacy",
-    title: "WHOIS privacy",
-    description:
-      "Hides your name and contact details from the public WHOIS directory, so your personal information stays private.",
-    hasToggle: true,
-    linkLabel: "Manage",
-    linkTo: "registration",
-  },
-  {
-    key: "dnssec",
-    title: "DNSSEC",
-    description:
-      "Adds cryptographic signatures to DNS records, using a chain of trust to prevent cache poisoning and spoofing.",
-    hasToggle: true,
-  },
-  {
-    key: "domainLock",
-    title: "Domain lock",
-    description:
-      "Prevents unauthorized transfers by restricting changes to your domain's registrar settings without explicit approval.",
-    hasToggle: true,
-  },
-  {
-    key: "sslCertificate",
-    title: "SSL certificate",
-    description:
-      "Replaces your contact info with registrar details, keeping your name hidden from spammers.",
-    hasToggle: false,
-    linkLabel: "View certificate",
-  },
-];
+const SECURITY_FEATURES = BASE_PROTECTIONS.map((feature) => ({
+  ...feature,
+  hasToggle: feature.key !== "sslCertificate",
+}));
 
 export function SecurityContent({ inlineHeader } = {}) {
   const { radii } = useTheme();
   const { domainId } = useParams();
   const navigate = useNavigate();
+  const [domain, setDomain] = React.useState(null);
   const [toggles, setToggles] = React.useState({
     whoisPrivacy: true,
     dnssec: true,
     domainLock: true,
   });
+  const [addOnToggles, setAddOnToggles] = React.useState({});
+
+  React.useEffect(() => {
+    let cancelled = false;
+    async function fetchDomain() {
+      const response = await loadJsonData("domains");
+      if (cancelled) return;
+      const all = response.data?.domains || [];
+      const decodedId = domainId ? decodeURIComponent(domainId) : "";
+      const found = all.find((d) => d.domainName === decodedId) || null;
+      setDomain(found);
+      if (found?.securityProtections) {
+        setAddOnToggles({
+          protectedActionAlerts: Boolean(
+            found.securityProtections.protectedActionAlerts,
+          ),
+          secureEmailForwarder: Boolean(
+            found.securityProtections.secureEmailForwarder,
+          ),
+          extendedExpiryProtection: Boolean(
+            found.securityProtections.extendedExpiryProtection,
+          ),
+          improvedDdosPrevention: Boolean(
+            found.securityProtections.improvedDdosPrevention,
+          ),
+          secondaryDns: Boolean(found.securityProtections.secondaryDns),
+        });
+      }
+    }
+    fetchDomain();
+    return () => {
+      cancelled = true;
+    };
+  }, [domainId]);
+
+  const hasAddOn = Boolean(domain?.securityAddOn);
 
   const handleToggleChange = React.useCallback(
     (key) => (checked) => {
       setToggles((prev) => ({ ...prev, [key]: checked }));
+    },
+    [],
+  );
+
+  const handleAddOnToggleChange = React.useCallback(
+    (key) => (checked) => {
+      setAddOnToggles((prev) => ({ ...prev, [key]: checked }));
     },
     [],
   );
@@ -123,6 +148,86 @@ export function SecurityContent({ inlineHeader } = {}) {
             </Grid.Item>
           ))}
         </Grid.Container>
+
+        {hasAddOn && (
+          <Stack space={4} id="advanced-protections">
+            <Stack space={1}>
+              <Flex alignItems="center" gap={2}>
+                <Text.Heading.Medium as="h2" m={0}>
+                  Advanced protections
+                </Text.Heading.Medium>
+                <Chip
+                  label="Included with Add-on"
+                  glyph={<CheckmarkShield />}
+                  usage="badge"
+                />
+              </Flex>
+              <Text.Body sx={{ color: "gray.500" }}>
+                Extra protections included with your subscription.{" "}
+                <TextLink href="#">Manage subscription</TextLink>
+              </Text.Body>
+            </Stack>
+            <Grid.Container gridConstraint={12} margin={0}>
+              {ADDON_PROTECTIONS.map((feature) => (
+                <Grid.Item key={feature.key} columns={[12, 6, 4]} mb={4}>
+                  <Card sx={{ borderRadius: radii[1], height: "100%" }}>
+                    <Card.Body>
+                      <Flex flexDirection="column" gap={3} height="100%">
+                        <Flex
+                          alignItems="flex-start"
+                          justifyContent="space-between"
+                          gap={2}
+                        >
+                          <Text.Heading.Small as="h3" m={0}>
+                            {feature.title}
+                          </Text.Heading.Small>
+                          <Toggle
+                            checked={addOnToggles[feature.key]}
+                            onChange={handleAddOnToggleChange(feature.key)}
+                            aria-label={feature.title}
+                          />
+                        </Flex>
+                        <Text.Body color="gray.300">
+                          {feature.description}
+                        </Text.Body>
+                        {feature.linkLabel && (
+                          <TextLink href="#">
+                            <Text.Body.Small>
+                              {feature.linkLabel}
+                            </Text.Body.Small>
+                          </TextLink>
+                        )}
+                      </Flex>
+                    </Card.Body>
+                  </Card>
+                </Grid.Item>
+              ))}
+              {COMING_SOON_PROTECTIONS.map((feature) => (
+                <Grid.Item key={feature.key} columns={[12, 6, 4]} mb={4}>
+                  <Card sx={{ borderRadius: radii[1], height: "100%" }}>
+                    <Card.Body>
+                      <Stack space={3}>
+                        <Flex
+                          alignItems="flex-start"
+                          justifyContent="space-between"
+                          gap={2}
+                        >
+                          <Text.Heading.Small as="h3" m={0} sx={{ color: "gray.400" }}>
+                            {feature.title}
+                          </Text.Heading.Small>
+                          <Chip label="Coming soon" usage="badge" />
+                        </Flex>
+                        <Text.Body color="gray.400">
+                          {feature.description}
+                        </Text.Body>
+                      </Stack>
+                    </Card.Body>
+                  </Card>
+                </Grid.Item>
+              ))}
+            </Grid.Container>
+          </Stack>
+        )}
       </Flex>
     </Box>
   );

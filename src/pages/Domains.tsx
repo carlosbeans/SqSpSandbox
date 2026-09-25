@@ -5,7 +5,8 @@ import { PageHeader, Table, Drawer, Accordion } from "@sqs/rosetta-compositions"
 import { Button, Text, Touchable, Flex } from "@sqs/rosetta-primitives";
 import { Chip } from "@sqs/rosetta-elements";
 import { Breakpoint } from "@sqs/rosetta-utilities";
-import { Ellipses, Refresh } from "@sqs/rosetta-icons";
+import { CheckmarkShield, Ellipses, Refresh } from "@sqs/rosetta-icons";
+import { IconButton } from "@sqs/rosetta-react";
 import type { TableColumnDef } from "@sqs/rosetta-compositions";
 import { Stack } from "@sqs/rosetta-elements";
 
@@ -15,6 +16,7 @@ interface Domain {
   domainStatus: string;
   domainProvider: string;
   expirationDate: string;
+  securityAddOn: boolean;
 }
 
 interface DomainsData {
@@ -71,6 +73,22 @@ function DomainCell({
         {domainName}
       </Text.Body>
     </Flex>
+  );
+}
+
+function SecurityAddOnCell({ domainName }: { domainName: string }) {
+  const navigate = useNavigate();
+  return (
+    <IconButton.Subtle
+      icon={CheckmarkShield}
+      label="Manage domain security settings"
+      onClick={(e) => {
+        e.stopPropagation();
+        navigate(
+          `/domains/${encodeURIComponent(domainName)}/settings?tab=security`,
+        );
+      }}
+    />
   );
 }
 
@@ -389,7 +407,19 @@ export default function Domains() {
           />
         ),
         meta: {
-          headCellProps: { sx: { width: "49%" } },
+          headCellProps: { sx: { width: "44%" } },
+        },
+      },
+      {
+        id: "securityAddOn",
+        header: "",
+        cell: (info) =>
+          info.row.original.securityAddOn ? (
+            <SecurityAddOnCell domainName={info.row.original.domainName} />
+          ) : null,
+        enableSorting: false,
+        meta: {
+          headCellProps: { sx: { width: "5%" } },
         },
       },
       {
