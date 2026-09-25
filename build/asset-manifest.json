@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/static/css/main.874aedac.css",
-    "main.js": "/static/js/main.7590e674.js",
-    "static/js/871.ca5851ce.chunk.js": "/static/js/871.ca5851ce.chunk.js",
+    "main.js": "/static/js/main.78c52dd2.js",
+    "static/js/871.9e15053a.chunk.js": "/static/js/871.9e15053a.chunk.js",
     "static/js/130.b9825f4c.chunk.js": "/static/js/130.b9825f4c.chunk.js",
     "static/media/websitePreviewThumb.png": "/static/media/websitePreviewThumb.a8a4d4de6c6d18864ddd.png",
     "static/media/Clarkson-Medium.woff2": "/static/media/Clarkson-Medium.66610c5920a62c9a32b4.woff2",
@@ -27,11 +27,11 @@
     "static/media/rosetta-react.ja-JP.yaml": "/static/media/rosetta-react.ja-JP.7f9f8c76cacbfc51099d.yaml",
     "index.html": "/index.html",
     "main.874aedac.css.map": "/static/css/main.874aedac.css.map",
-    "main.7590e674.js.map": "/static/js/main.7590e674.js.map",
+    "main.78c52dd2.js.map": "/static/js/main.78c52dd2.js.map",
     "130.b9825f4c.chunk.js.map": "/static/js/130.b9825f4c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.874aedac.css",
-    "static/js/main.7590e674.js"
+    "static/js/main.78c52dd2.js"
   ]
 }
