@@ -1,10 +1,10 @@
 import React from "react";
 import { createPortal } from "react-dom";
+import { useNavigate } from "react-router-dom";
 import { ActionList } from "@sqs/rosetta-compositions";
 import { Box, Button, Flex, Text } from "@sqs/rosetta-primitives";
 import { Stack, Toggle } from "@sqs/rosetta-elements";
 import { useSandboxTwoFaBanner } from "../../contexts/SandboxTwoFaBannerContext";
-import { useSandboxDomainRedesign2026 } from "../../contexts/SandboxDomainRedesign2026Context";
 
 const avatarStyle = {
   width: "40px",
@@ -34,12 +34,8 @@ function SandboxSettingsModal({
   setIsReturningUser,
   singleDomainUser,
   setSingleDomainUser,
-  securityEnabled,
-  setSecurityEnabled,
   sandboxTwoFaBannerEnabled,
   setSandboxTwoFaBannerEnabled,
-  domainRedesign2026Enabled,
-  setDomainRedesign2026Enabled,
 }) {
   if (!open || typeof document === "undefined") {
     return null;
@@ -115,29 +111,11 @@ function SandboxSettingsModal({
           </Flex>
 
           <Flex alignItems="center" justifyContent="space-between">
-            <Text.Body>Security</Text.Body>
-            <Toggle
-              checked={securityEnabled}
-              onChange={(checked) => setSecurityEnabled(checked)}
-              aria-label="Security"
-            />
-          </Flex>
-
-          <Flex alignItems="center" justifyContent="space-between">
             <Text.Body>2FA Banner</Text.Body>
             <Toggle
               checked={sandboxTwoFaBannerEnabled}
               onChange={(checked) => setSandboxTwoFaBannerEnabled(checked)}
               aria-label="Show two-factor authentication banner"
-            />
-          </Flex>
-
-          <Flex alignItems="center" justifyContent="space-between">
-            <Text.Body>Domain Redesign 2026</Text.Body>
-            <Toggle
-              checked={domainRedesign2026Enabled}
-              onChange={(checked) => setDomainRedesign2026Enabled(checked)}
-              aria-label="Domain Redesign 2026"
             />
           </Flex>
         </Stack>
@@ -157,15 +135,13 @@ function SandboxSettingsModal({
 }
 
 export default function Avatar() {
+  const navigate = useNavigate();
   const { sandboxTwoFaBannerEnabled, setSandboxTwoFaBannerEnabled } =
     useSandboxTwoFaBanner();
-  const { domainRedesign2026Enabled, setDomainRedesign2026Enabled } =
-    useSandboxDomainRedesign2026();
   const [isSandboxSettingsOpen, setIsSandboxSettingsOpen] = React.useState(false);
   const [isNewUser, setIsNewUser] = React.useState(false);
   const [isReturningUser, setIsReturningUser] = React.useState(false);
   const [singleDomainUser, setSingleDomainUser] = React.useState(false);
-  const [securityEnabled, setSecurityEnabled] = React.useState(false);
 
   const documentScrollRoot = React.useMemo(
     () =>
@@ -224,6 +200,14 @@ export default function Avatar() {
               >
                 Sandbox Settings
               </ActionList.Item>
+              <ActionList.Item
+                onClick={() => {
+                  onRequestClose();
+                  navigate("/experiments");
+                }}
+              >
+                Experiments
+              </ActionList.Item>
             </Flex>
           </Flex>
         )}
@@ -238,12 +222,8 @@ export default function Avatar() {
         setIsReturningUser={setIsReturningUser}
         singleDomainUser={singleDomainUser}
         setSingleDomainUser={setSingleDomainUser}
-        securityEnabled={securityEnabled}
-        setSecurityEnabled={setSecurityEnabled}
         sandboxTwoFaBannerEnabled={sandboxTwoFaBannerEnabled}
         setSandboxTwoFaBannerEnabled={setSandboxTwoFaBannerEnabled}
-        domainRedesign2026Enabled={domainRedesign2026Enabled}
-        setDomainRedesign2026Enabled={setDomainRedesign2026Enabled}
       />
     </Box>
   );

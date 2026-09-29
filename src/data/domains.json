@@ -21,6 +21,10 @@
       },
       "payLinksEnabled": true,
       "connectedPayments": ["PayPal", "Squarespace Payments"],
+      "connections": {
+        "website": "connected",
+        "payLinks": "connected"
+      },
       "firstName": "James",
       "lastName": "Carter",
       "streetAddress": "482 Elm Street",
@@ -29,6 +33,14 @@
       "zip": "73301",
       "phone": "+1 (512) 555-0147",
       "email": "james.carter@example.com",
+      "whoisRecord": {
+        "registrant": "James Carter",
+        "email": "james.carter@example.com",
+        "register": "Squarespace Domains II LLC",
+        "expires": "2026-05-16",
+        "status": "clientTransferProhibited",
+        "nameServers": ["ns1.squarespace.com", "ns2.squarespace.com"]
+      },
       "billing": {
         "firstName": "James",
         "lastName": "Carter",
@@ -64,6 +76,9 @@
       },
       "payLinksEnabled": false,
       "connectedPayments": [],
+      "connections": {
+        "website": "needsReview"
+      },
       "firstName": "Priya",
       "lastName": "Menon",
       "streetAddress": "1200 Market Street, Suite 300",
@@ -72,6 +87,14 @@
       "zip": "94103",
       "phone": "+1 (415) 555-0293",
       "email": "priya.menon@mysite.net",
+      "whoisRecord": {
+        "registrant": "Priya Menon",
+        "email": "priya.menon@mysite.net",
+        "register": "Squarespace Domains II LLC",
+        "expires": "2025-08-23",
+        "status": "clientTransferProhibited",
+        "nameServers": ["ns1.squarespace.com", "ns2.squarespace.com"]
+      },
       "billing": {
         "firstName": "Priya",
         "lastName": "Menon",
@@ -104,6 +127,10 @@
       },
       "payLinksEnabled": true,
       "connectedPayments": ["Squarespace Payments"],
+      "connections": {
+        "website": "connected",
+        "payLinks": "connected"
+      },
       "firstName": "Elena",
       "lastName": "Rossi",
       "streetAddress": "37 Magnolia Avenue",
@@ -112,6 +139,14 @@
       "zip": "97201",
       "phone": "+1 (503) 555-0182",
       "email": "elena.rossi@pixelperfect.design",
+      "whoisRecord": {
+        "registrant": "Elena Rossi",
+        "email": "elena.rossi@pixelperfect.design",
+        "register": "Squarespace Domains II LLC",
+        "expires": "2027-02-26",
+        "status": "clientTransferProhibited",
+        "nameServers": ["ns1.squarespace.com", "ns2.squarespace.com"]
+      },
       "billing": {
         "firstName": "Elena",
         "lastName": "Rossi",
@@ -146,6 +181,10 @@
       },
       "payLinksEnabled": true,
       "connectedPayments": ["PayPal", "Squarespace Payments"],
+      "connections": {
+        "website": "connected",
+        "payLinks": "connected"
+      },
       "firstName": "Marcus",
       "lastName": "Chen",
       "streetAddress": "901 Innovation Drive",
@@ -154,6 +193,14 @@
       "zip": "98101",
       "phone": "+1 (206) 555-0364",
       "email": "marcus.chen@acmewidgets.io",
+      "whoisRecord": {
+        "registrant": "Marcus Chen",
+        "email": "marcus.chen@acmewidgets.io",
+        "register": "Squarespace Domains II LLC",
+        "expires": "2026-11-05",
+        "status": "clientTransferProhibited",
+        "nameServers": ["ns1.squarespace.com", "ns2.squarespace.com"]
+      },
       "billing": {
         "firstName": "Marcus",
         "lastName": "Chen",
@@ -190,6 +237,10 @@
       },
       "payLinksEnabled": true,
       "connectedPayments": ["PayPal"],
+      "connections": {
+        "website": "needsReview",
+        "payLinks": "connected"
+      },
       "firstName": "Sofia",
       "lastName": "Ramirez",
       "streetAddress": "225 Ocean Boulevard",
@@ -198,6 +249,14 @@
       "zip": "90401",
       "phone": "+1 (310) 555-0418",
       "email": "sofia.ramirez@coastalbakery.com",
+      "whoisRecord": {
+        "registrant": "Sofia Ramirez",
+        "email": "sofia.ramirez@coastalbakery.com",
+        "register": "Squarespace Domains II LLC",
+        "expires": "2025-12-14",
+        "status": "clientTransferProhibited",
+        "nameServers": ["ns1.squarespace.com", "ns2.squarespace.com"]
+      },
       "billing": {
         "firstName": "Sofia",
         "lastName": "Ramirez",
@@ -225,6 +284,9 @@
       },
       "payLinksEnabled": false,
       "connectedPayments": [],
+      "connections": {
+        "website": "connected"
+      },
       "firstName": "Owen",
       "lastName": "Fitzgerald",
       "streetAddress": "58 Pine Ridge Road",
@@ -233,6 +295,14 @@
       "zip": "80202",
       "phone": "+1 (720) 555-0531",
       "email": "owen.fitzgerald@northstar.studio",
+      "whoisRecord": {
+        "registrant": "Owen Fitzgerald",
+        "email": "owen.fitzgerald@northstar.studio",
+        "register": "Squarespace Domains II LLC",
+        "expires": "2026-04-09",
+        "status": "clientTransferProhibited",
+        "nameServers": ["ns1.squarespace.com", "ns2.squarespace.com"]
+      },
       "billing": {
         "firstName": "Owen",
         "lastName": "Fitzgerald",
@@ -265,6 +335,10 @@
       },
       "payLinksEnabled": true,
       "connectedPayments": ["Squarespace Payments"],
+      "connections": {
+        "website": "connected",
+        "payLinks": "connected"
+      },
       "firstName": "Amara",
       "lastName": "Okafor",
       "streetAddress": "3400 Peachtree Lane NE",
@@ -273,6 +347,14 @@
       "zip": "30305",
       "phone": "+1 (404) 555-0672",
       "email": "amara.okafor@wanderlust.travel",
+      "whoisRecord": {
+        "registrant": "Amara Okafor",
+        "email": "amara.okafor@wanderlust.travel",
+        "register": "Squarespace Domains II LLC",
+        "expires": "2027-01-30",
+        "status": "clientTransferProhibited",
+        "nameServers": ["ns1.squarespace.com", "ns2.squarespace.com"]
+      },
       "billing": {
         "firstName": "Amara",
         "lastName": "Okafor",
@@ -308,6 +390,10 @@
       },
       "payLinksEnabled": true,
       "connectedPayments": [],
+      "connections": {
+        "website": "connected",
+        "payLinks": "needsReview"
+      },
       "firstName": "Liam",
       "lastName": "Nakamura",
       "streetAddress": "712 Birchwood Terrace",
@@ -316,6 +402,14 @@
       "zip": "55401",
       "phone": "+1 (612) 555-0789",
       "email": "liam.nakamura@greensprout.org",
+      "whoisRecord": {
+        "registrant": "Liam Nakamura",
+        "email": "liam.nakamura@greensprout.org",
+        "register": "Squarespace Domains II LLC",
+        "expires": "2026-08-01",
+        "status": "clientTransferProhibited",
+        "nameServers": ["ns1.squarespace.com", "ns2.squarespace.com"]
+      },
       "billing": {
         "firstName": "Liam",
         "lastName": "Nakamura",
@@ -343,6 +437,10 @@
       },
       "payLinksEnabled": true,
       "connectedPayments": ["PayPal"],
+      "connections": {
+        "website": "needsReview",
+        "payLinks": "connected"
+      },
       "firstName": "Hannah",
       "lastName": "Whitfield",
       "streetAddress": "1045 County Road 12",
@@ -351,6 +449,14 @@
       "zip": "22901",
       "phone": "+1 (434) 555-0856",
       "email": "hannah.whitfield@rivervalleyfarm.co",
+      "whoisRecord": {
+        "registrant": "Hannah Whitfield",
+        "email": "hannah.whitfield@rivervalleyfarm.co",
+        "register": "Squarespace Domains II LLC",
+        "expires": "2025-09-18",
+        "status": "clientTransferProhibited",
+        "nameServers": ["ns1.squarespace.com", "ns2.squarespace.com"]
+      },
       "billing": {
         "firstName": "Hannah",
         "lastName": "Whitfield",
@@ -383,6 +489,10 @@
       },
       "payLinksEnabled": true,
       "connectedPayments": ["PayPal", "Squarespace Payments"],
+      "connections": {
+        "website": "connected",
+        "payLinks": "connected"
+      },
       "firstName": "Daniel",
       "lastName": "Park",
       "streetAddress": "289 Congress Avenue, Unit 4B",
@@ -391,6 +501,14 @@
       "zip": "02210",
       "phone": "+1 (617) 555-0943",
       "email": "daniel.park@blueoak.dev",
+      "whoisRecord": {
+        "registrant": "Daniel Park",
+        "email": "daniel.park@blueoak.dev",
+        "register": "Squarespace Domains II LLC",
+        "expires": "2026-03-22",
+        "status": "clientTransferProhibited",
+        "nameServers": ["ns1.squarespace.com", "ns2.squarespace.com"]
+      },
       "billing": {
         "firstName": "Daniel",
         "lastName": "Park",
@@ -425,6 +543,10 @@
       },
       "payLinksEnabled": true,
       "connectedPayments": ["Squarespace Payments"],
+      "connections": {
+        "website": "connected",
+        "payLinks": "connected"
+      },
       "firstName": "Isla",
       "lastName": "Brennan",
       "streetAddress": "560 Main Street",
@@ -433,6 +555,14 @@
       "zip": "37201",
       "phone": "+1 (615) 555-0117",
       "email": "isla.brennan@artisanmart.shop",
+      "whoisRecord": {
+        "registrant": "Isla Brennan",
+        "email": "isla.brennan@artisanmart.shop",
+        "register": "Squarespace Domains II LLC",
+        "expires": "2026-10-07",
+        "status": "clientTransferProhibited",
+        "nameServers": ["ns1.squarespace.com", "ns2.squarespace.com"]
+      },
       "billing": {
         "firstName": "Isla",
         "lastName": "Brennan",
@@ -460,6 +590,10 @@
       },
       "payLinksEnabled": true,
       "connectedPayments": ["PayPal"],
+      "connections": {
+        "website": "connected",
+        "payLinks": "connected"
+      },
       "firstName": "Victor",
       "lastName": "Johansson",
       "streetAddress": "1833 Lakeview Drive",
@@ -468,6 +602,14 @@
       "zip": "60614",
       "phone": "+1 (312) 555-0258",
       "email": "victor.johansson@evergreenphotography.us",
+      "whoisRecord": {
+        "registrant": "Victor Johansson",
+        "email": "victor.johansson@evergreenphotography.us",
+        "register": "Squarespace Domains II LLC",
+        "expires": "2027-06-12",
+        "status": "clientTransferProhibited",
+        "nameServers": ["ns1.squarespace.com", "ns2.squarespace.com"]
+      },
       "billing": {
         "firstName": "Victor",
         "lastName": "Johansson",
@@ -509,6 +651,10 @@
       },
       "payLinksEnabled": true,
       "connectedPayments": ["PayPal", "Squarespace Payments"],
+      "connections": {
+        "website": "connected",
+        "payLinks": "connected"
+      },
       "avatar": "/assets/avatars/amyPoehler.png",
       "firstName": "Amy",
       "lastName": "Poehler",
@@ -519,6 +665,14 @@
       "zip": "60614",
       "phone": "+1 (312) 555-0331",
       "email": "amy.poehler@secondcityimprov.com",
+      "whoisRecord": {
+        "registrant": "Amy Poehler",
+        "email": "amy.poehler@secondcityimprov.com",
+        "register": "Squarespace Domains II LLC",
+        "expires": "2027-03-15",
+        "status": "clientTransferProhibited",
+        "nameServers": ["ns1.squarespace.com", "ns2.squarespace.com"]
+      },
       "billing": {
         "firstName": "Amy",
         "lastName": "Poehler",
@@ -553,6 +707,9 @@
       },
       "payLinksEnabled": false,
       "connectedPayments": [],
+      "connections": {
+        "website": "connected"
+      },
       "avatar": "/assets/avatars/keanuReeves.png",
       "firstName": "Keanu",
       "lastName": "Reeves",
@@ -563,6 +720,14 @@
       "zip": "90212",
       "phone": "+1 (310) 555-0874",
       "email": "keanu.reeves@keanuinc.io",
+      "whoisRecord": {
+        "registrant": "Keanu Reeves",
+        "email": "keanu.reeves@keanuinc.io",
+        "register": "Squarespace Domains II LLC",
+        "expires": "2027-09-22",
+        "status": "clientTransferProhibited",
+        "nameServers": ["ns1.squarespace.com", "ns2.squarespace.com"]
+      },
       "billing": {
         "firstName": "Keanu",
         "lastName": "Reeves",
@@ -595,6 +760,10 @@
       },
       "payLinksEnabled": true,
       "connectedPayments": ["Squarespace Payments"],
+      "connections": {
+        "website": "connected",
+        "payLinks": "connected"
+      },
       "avatar": "/assets/avatars/nobuoUematsu.png",
       "firstName": "Nobuo",
       "lastName": "Uematsu",
@@ -605,6 +774,14 @@
       "zip": "160-0023",
       "phone": "+81 3-5555-0192",
       "email": "nobuo.uematsu@blackmages.jp",
+      "whoisRecord": {
+        "registrant": "Nobuo Uematsu",
+        "email": "nobuo.uematsu@blackmages.jp",
+        "register": "Squarespace Domains II LLC",
+        "expires": "2026-12-01",
+        "status": "clientTransferProhibited",
+        "nameServers": ["ns1.squarespace.com", "ns2.squarespace.com"]
+      },
       "billing": {
         "firstName": "Nobuo",
         "lastName": "Uematsu",

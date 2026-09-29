@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Flex, Text } from "@sqs/rosetta-primitives";
+import { Box, Flex } from "@sqs/rosetta-primitives";
+import { Text } from "@sqs/rosetta-react/text/next";
 import { Image, TextLink } from "@sqs/rosetta-elements";
 import { IconButton } from "@sqs/rosetta-react";
 import { useTheme } from "@sqs/rosetta-styled";
@@ -55,6 +56,7 @@ function emptyRecord(decodedName) {
     domainProvider: "",
     thumbnailImage: "",
     connectedPayments: [],
+    connections: {},
   };
 }
 
@@ -103,7 +105,10 @@ export default function DomainOverviewHeader() {
       <Box
         as="header"
         id="domain-overview-header"
-        p={6}
+        pl={6}
+        pr={6}
+        pt={6}
+        pb={0}
         sx={{
           display: "flex",
           flexDirection: "row",
@@ -119,7 +124,7 @@ export default function DomainOverviewHeader() {
           flexDirection="column"
           alignItems="flex-start"
           minWidth={0}
-          gap={4}
+          gap={1}
         >
           <Flex alignItems="center" gap={1}>
             <Box
@@ -141,7 +146,7 @@ export default function DomainOverviewHeader() {
           </Flex>
 
           <Box>
-            <Text.Subtitle
+            <Text.Heading.ExtraLarge
               as="h1"
               m={0}
               css={{
@@ -153,7 +158,7 @@ export default function DomainOverviewHeader() {
               }}
             >
               {domain.domainName}
-            </Text.Subtitle>
+            </Text.Heading.ExtraLarge>
           </Box>
 
           <Flex alignItems="center" gap={1} flexWrap="wrap" width="100%">
@@ -179,7 +184,7 @@ export default function DomainOverviewHeader() {
                     );
                   }}
                 >
-                  <Text.Caption>Manage</Text.Caption>
+                  <Text.Body.Small as="span">Manage</Text.Body.Small>
                 </TextLink>
                 <Text.Body m={0} color="gray.300" css={{ fontSize: "14px", lineHeight: "22px" }}>
                   {" | "}
@@ -194,13 +199,13 @@ export default function DomainOverviewHeader() {
                     );
                   }}
                 >
-                  <Text.Caption>Add years</Text.Caption>
+                  <Text.Body.Small as="span">Add years</Text.Body.Small>
                 </TextLink>
               </>
             )}
           </Flex>
 
-          <ConnectedProducts connectedPayments={domain.connectedPayments} />
+          <ConnectedProducts connections={domain.connections} />
         </Flex>
 
         <Box

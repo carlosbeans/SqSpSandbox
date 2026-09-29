@@ -6,6 +6,7 @@ import { Text } from "@sqs/rosetta-react/text/next";
 import { useTheme } from "@sqs/rosetta-styled";
 import { CheckmarkShield } from "@sqs/rosetta-icons";
 import { usePageHeader } from "../layouts/PageHeaderContext";
+import SecurityScoreBanner from "../components/SecurityScoreBanner/SecurityScoreBanner";
 import { loadJsonData } from "../utils/dataUtils.ts";
 import { SLIDE_FORWARD } from "../constants/motion";
 import {
@@ -89,9 +90,9 @@ export function SecurityContent({ inlineHeader } = {}) {
 
   const handleManageClick = React.useCallback(
     (feature) => (event) => {
-      if (feature.linkTo !== "registration" || !domainId) return;
+      if (!feature.linkTo || !domainId) return;
       event.preventDefault();
-      navigate(`/domains/${encodeURIComponent(domainId)}/registration`, {
+      navigate(`/domains/${encodeURIComponent(domainId)}/${feature.linkTo}`, {
         state: { slideDirection: SLIDE_FORWARD },
       });
     },
@@ -100,7 +101,7 @@ export function SecurityContent({ inlineHeader } = {}) {
 
   return (
     <Box px={inlineHeader ? 0 : 6} id="security-page-content">
-      <Flex flexDirection="column" gap={4}>
+      <Flex flexDirection="column" gap={8}>
         {inlineHeader && (
           <Stack space={1}>
             <Text.Heading.Large as="h2" mb={0}>
@@ -112,42 +113,63 @@ export function SecurityContent({ inlineHeader } = {}) {
             </Text.Body>
           </Stack>
         )}
-        <Grid.Container gridConstraint={12} margin={0}>
-          {SECURITY_FEATURES.map((feature) => (
-            <Grid.Item key={feature.key} columns={[12, 6, 3]} mb={4}>
-              <Card sx={{ borderRadius: radii[1], height: "100%" }}>
-                <Card.Body>
-                  <Flex flexDirection="column" gap={3} height="100%">
-                    <Flex
-                      alignItems="flex-start"
-                      justifyContent="space-between"
-                      gap={2}
-                    >
-                      <Text.Heading.Small as="h3" m={0}>
-                        {feature.title}
-                      </Text.Heading.Small>
-                      {feature.hasToggle && (
-                        <Toggle
-                          checked={toggles[feature.key]}
-                          onChange={handleToggleChange(feature.key)}
-                          aria-label={feature.title}
-                        />
-                      )}
+        {domain && <SecurityScoreBanner domain={domain} />}
+        <Flex
+          flexDirection="column"
+          gap={6}
+          id="security-standard-protections"
+        >
+          <Stack space={1}>
+            <Text.Heading.Small as="h2" m={0}>
+              Standard protections
+            </Text.Heading.Small>
+            <Text.Body sx={{ color: "gray.300" }}>
+              Privacy and security features standard with every domain.
+            </Text.Body>
+          </Stack>
+          <Grid.Container gridConstraint={12} margin={0}>
+            {SECURITY_FEATURES.map((feature) => (
+              <Grid.Item key={feature.key} columns={[12, 6, 4]} mb={4}>
+                <Card sx={{ borderRadius: radii[1], height: "100%" }}>
+                  <Card.Body>
+                    <Flex flexDirection="column" gap={3} height="100%">
+                      <Flex
+                        alignItems="flex-start"
+                        justifyContent="space-between"
+                        gap={2}
+                      >
+                        <Text.Heading.Small as="h3" m={0}>
+                          {feature.title}
+                        </Text.Heading.Small>
+                        {feature.hasToggle && (
+                          <Toggle
+                            checked={toggles[feature.key]}
+                            onChange={handleToggleChange(feature.key)}
+                            aria-label={feature.title}
+                          />
+                        )}
+                      </Flex>
+                      <Text.Body color="gray.300">
+                        {feature.description}
+                      </Text.Body>
+                      {feature.linkLabel &&
+                        (feature.key !== "whoisPrivacy" || hasAddOn) && (
+                          <TextLink
+                            href="#"
+                            onClick={handleManageClick(feature)}
+                          >
+                            <Text.Body.Small>
+                              {feature.linkLabel}
+                            </Text.Body.Small>
+                          </TextLink>
+                        )}
                     </Flex>
-                    <Text.Body color="gray.300">
-                      {feature.description}
-                    </Text.Body>
-                    {feature.linkLabel && (
-                      <TextLink href="#" onClick={handleManageClick(feature)}>
-                        <Text.Body.Small>{feature.linkLabel}</Text.Body.Small>
-                      </TextLink>
-                    )}
-                  </Flex>
-                </Card.Body>
-              </Card>
-            </Grid.Item>
-          ))}
-        </Grid.Container>
+                  </Card.Body>
+                </Card>
+              </Grid.Item>
+            ))}
+          </Grid.Container>
+        </Flex>
 
         {hasAddOn && (
           <Stack space={4} id="advanced-protections">
@@ -215,7 +237,11 @@ export function SecurityContent({ inlineHeader } = {}) {
                           <Text.Heading.Small as="h3" m={0} sx={{ color: "gray.400" }}>
                             {feature.title}
                           </Text.Heading.Small>
-                          <Chip label="Coming soon" usage="badge" />
+                          <Chip
+                            label="Coming soon"
+                            usage="badge"
+                            sx={{ flexShrink: 0, whiteSpace: "nowrap" }}
+                          />
                         </Flex>
                         <Text.Body color="gray.400">
                           {feature.description}

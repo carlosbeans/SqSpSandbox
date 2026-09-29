@@ -12,7 +12,6 @@ import { useTopChromeInset } from "../../contexts/TopChromeInsetContext";
 const TAB_OPTIONS = [
   { label: "Dashboard", value: "dashboard" },
   { label: "Domains", value: "domains" },
-  { label: "Experiments", value: "experiments" },
 ];
 
 const VALID_TABS = new Set(TAB_OPTIONS.map((o) => o.value));

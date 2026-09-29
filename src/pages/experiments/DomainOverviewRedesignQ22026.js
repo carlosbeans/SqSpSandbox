@@ -179,15 +179,6 @@ export default function DomainOverviewRedesignQ22026() {
           </Card>
         </Grid.Item>
       </Grid.Container>
-
-      {/* Footer actions */}
-      <Box px={6} mt={2} mb={4} id="domain-overview-redesign-q2-2026-footer-actions">
-        <Flex direction="row" gap={4}>
-          <Button.Tertiary>Request Transfer Code</Button.Tertiary>
-          <Button.Danger>Delete Domain</Button.Danger>
-          <Button.Tertiary>Move Domain</Button.Tertiary>
-        </Flex>
-      </Box>
     </Flex>
   );
 }

@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { BackButton } from "@sqs/rosetta-elements";
 import { ActivityIndicator } from "@sqs/rosetta-elements";
 import { Text } from "@sqs/rosetta-primitives";
-import { Button } from "@sqs/rosetta-primitives";
 import { Button as ButtonNext } from "@sqs/rosetta-react/button/next";
 import { Flex } from "@sqs/rosetta-primitives";
 import { Box } from "@sqs/rosetta-primitives";
@@ -125,15 +124,6 @@ export default function DomainOverview() {
 
       <Box px={6}>
         <SuggestedForYou />
-      </Box>
-
-      {/* Footer actions */}
-      <Box px={6} mt={2} mb={4} id="appBodyFooterActions">
-        <Flex direction="row" gap={4}>
-          <Button.Tertiary>Request Transfer Code</Button.Tertiary>
-          <Button.Danger>Delete Domain</Button.Danger>
-          <Button.Tertiary>Move Domain</Button.Tertiary>
-        </Flex>
       </Box>
     </Flex>
   );

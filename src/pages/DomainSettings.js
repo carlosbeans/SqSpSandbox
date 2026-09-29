@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Tabs, Toast } from "@sqs/rosetta-elements";
 import { Flex, Box } from "@sqs/rosetta-primitives";
 import { usePageHeader } from "../layouts/PageHeaderContext";
+import DomainActionsMenu from "../components/DomainActionsMenu/DomainActionsMenu";
 import { ActivityContent } from "./Activity";
 import { BillingContent } from "./Billing";
 import { DNSSettingsContent } from "./DNS_Settings";
@@ -44,7 +45,10 @@ function DomainSettingsTabPanel({ tab, toastRef }) {
 }
 
 export default function DomainSettings() {
-  usePageHeader({ title: "Domain Settings" });
+  usePageHeader({
+    title: "Domain Settings",
+    actions: <DomainActionsMenu />,
+  });
 
   const toastRef = React.useRef(null);
   const [searchParams, setSearchParams] = useSearchParams();

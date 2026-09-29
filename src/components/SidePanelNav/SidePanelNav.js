@@ -5,7 +5,8 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { NavMenu } from "@sqs/rosetta-compositions";
 import { BackButton } from "@sqs/rosetta-elements";
 import { Stack } from "@sqs/rosetta-elements";
-import { Flex, Text } from "@sqs/rosetta-primitives";
+import { Flex } from "@sqs/rosetta-primitives";
+import { Text } from "@sqs/rosetta-react/text/next";
 import { Button } from "@sqs/rosetta-primitives";
 import { Button as ButtonNext } from "@sqs/rosetta-react/button/next";
 import { Badge } from "@sqs/rosetta-elements";
@@ -14,6 +15,7 @@ import { SidePanelDomainContext } from "../../layouts/SidePanelDomainContext";
 import { useTopChromeInset } from "../../contexts/TopChromeInsetContext";
 import { loadJsonData } from "../../utils/dataUtils.ts";
 import { TOP_CHROME_STICKY_BASE_PX } from "../../constants/layout";
+import DomainSwitcher from "../DomainSwitcher/DomainSwitcher";
 
 const NAV_ITEMS = [
   { value: "overview", label: "Overview", path: "." },
@@ -48,7 +50,7 @@ export default function SidePanelNav() {
   const { borders, colors, radii } = useTheme();
   const { NavItem, NavText } = NavMenu;
   const navigate = useNavigate();
-  const { pathname } = useLocation();
+  const { pathname, search, hash } = useLocation();
   const { domainId: paramDomainId } = useParams();
   const { effectiveDomainId } = React.useContext(SidePanelDomainContext);
 
@@ -57,26 +59,40 @@ export default function SidePanelNav() {
 
   const activeNav = getActiveNav(pathname, domainIdForActive);
 
+  const [allDomains, setAllDomains] = React.useState([]);
   const [currentDomain, setCurrentDomain] = React.useState(null);
 
   React.useEffect(() => {
     let cancelled = false;
-    async function fetchDomain() {
+    async function fetchDomains() {
+      const response = await loadJsonData("domains");
+      if (cancelled) return;
+      const all = response.data?.domains || [];
+      setAllDomains(all);
       if (!domainIdForActive) {
         setCurrentDomain(null);
         return;
       }
-      const response = await loadJsonData("domains");
-      if (cancelled) return;
-      const all = response.data?.domains || [];
       const decodedId = decodeURIComponent(domainIdForActive);
       setCurrentDomain(all.find((d) => d.domainName === decodedId) || null);
     }
-    fetchDomain();
+    fetchDomains();
     return () => {
       cancelled = true;
     };
   }, [domainIdForActive]);
+
+  const onDomainSwitch = (nextDomainName) => {
+    if (!nextDomainName || nextDomainName === domainIdForNav) return;
+    const target = allDomains.find((d) => d.domainName === nextDomainName);
+    const rawSuffix = pathname.replace(/^\/domains\/[^/]+/, "");
+    const isPayLinksRoute = /(^|\/)pay-links(\/|$)/.test(rawSuffix);
+    const suffix =
+      isPayLinksRoute && target?.eligibility === "ineligible" ? "" : rawSuffix;
+    navigate(
+      `/domains/${encodeURIComponent(nextDomainName)}${suffix}${search}${hash}`,
+    );
+  };
 
   const isPayLinksHidden = currentDomain?.eligibility === "ineligible";
   const visibleNavItems = isPayLinksHidden
@@ -127,6 +143,12 @@ export default function SidePanelNav() {
           />
         </Box>
 
+        <DomainSwitcher
+          domains={allDomains}
+          currentDomainName={currentDomain?.domainName || domainIdForNav}
+          onChange={onDomainSwitch}
+        />
+
         <NavMenu value={activeNav} onChange={onNavChange}>
           {visibleNavItems.map(({ value, label }) => (
             <NavItem
@@ -156,7 +178,7 @@ export default function SidePanelNav() {
               }}
             >
               <Flex alignItems="center" justifyContent="flex-start" gap={1}>
-                <Text>Form an LLC</Text>
+                <Text.Bold m={0}>Form an LLC</Text.Bold>
                 <Badge appearance="blue" sx={{ alignSelf: "center" }}>
                   New
                 </Badge>

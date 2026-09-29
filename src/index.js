@@ -19,6 +19,7 @@ import Email from "./pages/Email";
 import PayLinks from "./pages/PayLinks";
 import Website from "./pages/Website";
 import DomainRegistration from "./pages/DomainRegistration";
+import WhoisPrivacy from "./pages/WhoisPrivacy";
 import DomainSettings from "./pages/DomainSettings";
 import ComponentTest from "./pages/experiments/ComponentTest.tsx";
 import DomainOverviewRedesignQ22026 from "./pages/experiments/DomainOverviewRedesignQ22026.js";
@@ -79,6 +80,7 @@ const router = createBrowserRouter([
             children: [
               { index: true, element: <DomainOverview /> },
               { path: "registration", element: <DomainRegistration /> },
+              { path: "whois-privacy", element: <WhoisPrivacy /> },
               { path: "dns", element: <RedirectToSettingsTab tab="dns" /> },
               { path: "website", element: <Website /> },
               { path: "email", element: <Email /> },

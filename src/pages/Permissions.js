@@ -53,8 +53,8 @@ function Avatar({ src, name }) {
   return (
     <Box
       sx={{
-        width: 32,
-        height: 32,
+        width: 22,
+        height: 22,
         borderRadius: "50%",
         overflow: "hidden",
         flexShrink: 0,
@@ -71,7 +71,7 @@ function Avatar({ src, name }) {
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
         />
       ) : (
-        <span style={{ color: "#999", fontSize: "10px", fontWeight: 600 }}>
+        <span style={{ color: "#999", fontSize: "8px", fontWeight: 600 }}>
           {initials}
         </span>
       )}
@@ -79,7 +79,7 @@ function Avatar({ src, name }) {
   );
 }
 
-function OverflowMenu() {
+function OverflowMenu({ showTransferOwnership = false }) {
   return (
     <ActionList.PopOver
       renderTrigger={({ toggleActionListOpen }) => (
@@ -93,7 +93,7 @@ function OverflowMenu() {
             padding: "4px",
           }}
         >
-          <Ellipses css={{ width: 20, height: 20 }} />
+          <Ellipses css={{ width: 22, height: 22 }} />
         </button>
       )}
       position="bottom-center"
@@ -101,6 +101,11 @@ function OverflowMenu() {
       {({ onRequestClose }) => (
         <Flex as="ul" bg="white" flexDirection="column" py={1}>
           <ActionList.Item onClick={onRequestClose}>Edit</ActionList.Item>
+          {showTransferOwnership && (
+            <ActionList.Item onClick={onRequestClose}>
+              Transfer Ownership
+            </ActionList.Item>
+          )}
           <ActionList.Item onClick={onRequestClose}>Remove</ActionList.Item>
         </Flex>
       )}
@@ -110,40 +115,36 @@ function OverflowMenu() {
 
 function SectionLabel({ children }) {
   return (
-    <Text.Body
-      sx={{
-        color: "gray.500",
-        fontSize: "11px",
-        letterSpacing: "0.08em",
-        textTransform: "uppercase",
-        fontWeight: 500,
-      }}
-    >
+    <TextNext.Eyebrow m={0} sx={{ color: "gray.300" }}>
       {children}
-    </Text.Body>
+    </TextNext.Eyebrow>
   );
 }
 
-function PersonRow({ name, subtitle, avatar, showMenu }) {
+function PersonRow({ name, subtitle, avatar, showMenu, showTransferOwnership }) {
   const { borders, colors } = useTheme();
   return (
     <Box
       sx={{ borderBottom: borders[1], borderColor: colors.gray[800] }}
-      py={3}
+      py={2}
     >
       <Flex alignItems="center" justifyContent="space-between" className="person-row-content">
-        <Flex alignItems="center" gap={2}>
+        <Flex alignItems="center" gap={1}>
           <Avatar src={avatar} name={name} />
           <Stack space={0}>
             <Text.Body>{name}</Text.Body>
             {subtitle && (
-              <Text.Body sx={{ color: "gray.500", fontSize: "13px" }}>
+              <Text.Body
+                sx={{ color: "gray.300", fontSize: "12px", lineHeight: "16px" }}
+              >
                 {subtitle}
               </Text.Body>
             )}
           </Stack>
         </Flex>
-        {showMenu && <OverflowMenu />}
+        {showMenu && (
+          <OverflowMenu showTransferOwnership={showTransferOwnership} />
+        )}
       </Flex>
     </Box>
   );
@@ -215,44 +216,52 @@ export function PermissionsContent({ inlineHeader } = {}) {
               to an existing manager. <TextLink href="#">Learn more</TextLink>
             </Text.Body>
           </Stack>
-          <Button.Strong size="large">Add Domain Manager</Button.Strong>
+          <Button.Strong
+            size="large"
+            sx={{ whiteSpace: "nowrap", flexShrink: 0 }}
+          >
+            Add Domain Manager
+          </Button.Strong>
         </Flex>
       )}
-      <Stack space={1}>
-        <SectionLabel>Domain Owner</SectionLabel>
-        <PersonRow
-          name={domainOwner.name}
-          subtitle={domainOwner.email || undefined}
-          avatar={null}
-          showMenu={false}
-        />
-      </Stack>
-
-      <Stack space={1}>
-        <SectionLabel>Contributor Invites</SectionLabel>
-        {CONTRIBUTOR_INVITES.map((p) => (
+      <Flex flexDirection="column" gap={6} id="permissions-groups">
+        <Stack space={1} id="permissions-domain-owner">
+          <SectionLabel>Domain Owner</SectionLabel>
           <PersonRow
-            key={p.email}
-            name={p.name}
-            subtitle={`${p.role} | ${p.email}`}
-            avatar={p.avatar}
-            showMenu
+            name={domainOwner.name}
+            subtitle={domainOwner.email || undefined}
+            avatar={null}
+            showMenu={false}
           />
-        ))}
-      </Stack>
+        </Stack>
 
-      <Stack space={1}>
-        <SectionLabel>Domain Managers</SectionLabel>
-        {DOMAIN_MANAGERS.map((p) => (
-          <PersonRow
-            key={p.email}
-            name={p.name}
-            subtitle={p.email}
-            avatar={p.avatar}
-            showMenu
-          />
-        ))}
-      </Stack>
+        <Stack space={0} id="permissions-contributor-invites">
+          <SectionLabel>Contributor Invites</SectionLabel>
+          {CONTRIBUTOR_INVITES.map((p) => (
+            <PersonRow
+              key={p.email}
+              name={p.name}
+              subtitle={`${p.role} | ${p.email}`}
+              avatar={p.avatar}
+              showMenu
+            />
+          ))}
+        </Stack>
+
+        <Stack space={0} id="permissions-domain-managers">
+          <SectionLabel>Domain Managers</SectionLabel>
+          {DOMAIN_MANAGERS.map((p) => (
+            <PersonRow
+              key={p.email}
+              name={p.name}
+              subtitle={p.email}
+              avatar={p.avatar}
+              showMenu
+              showTransferOwnership
+            />
+          ))}
+        </Stack>
+      </Flex>
     </Box>
   );
 }
@@ -267,7 +276,11 @@ export default function Permissions() {
         existing manager. <TextLink href="#">Learn more</TextLink>
       </>
     ),
-    actions: <Button.Strong size="large">Add Domain Manager</Button.Strong>,
+    actions: (
+      <Button.Strong size="large" sx={{ whiteSpace: "nowrap", flexShrink: 0 }}>
+        Add Domain Manager
+      </Button.Strong>
+    ),
   });
 
   return <PermissionsContent />;

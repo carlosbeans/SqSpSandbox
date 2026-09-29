@@ -1,15 +1,15 @@
 import * as React from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Box, Flex } from "@sqs/rosetta-primitives";
-import { Card, Stack, TextLink } from "@sqs/rosetta-elements";
+import { Stack, TextLink, ProgressIndicator } from "@sqs/rosetta-elements";
 import { IconButton } from "@sqs/rosetta-react";
 import { Text } from "@sqs/rosetta-react/text/next";
 import { useTheme } from "@sqs/rosetta-styled";
 import {
   CheckmarkCircle,
   Circle,
-  ChevronLargeDown,
-  ChevronLargeUp,
+  ChevronSmallDown,
+  ChevronSmallUp,
 } from "@sqs/rosetta-icons";
 import { EASE_ENTRANCE, EASE_EXIT } from "../../constants/motion";
 
@@ -17,166 +17,270 @@ import { EASE_ENTRANCE, EASE_EXIT } from "../../constants/motion";
  * Domain Overview — setup guide module. Rosetta's `SetupGuide` is a vertical
  * task list and doesn't match the Figma's horizontal image-card layout, so
  * this is a purpose-built component instead.
- * @see https://www.figma.com/design/7SPZm4hGkNBvVaMmSOhd9s/Security-on-Domains?node-id=1670-82994
+ * @see https://www.figma.com/design/fQCQuaAESVa9K4JXL3O7dB/Domain-Overview-%E2%80%94-Redesign-2026?node-id=4324-78776
  */
 const TASKS = [
   {
     key: "twoFactorAuth",
-    title: "Enable two-factor authentication",
+    title: "Set up 2FA",
+    description: "Protect your account with an extra layer of security",
     completed: true,
-    image: "/assets/screenshots/Img1_Landscape.jpeg",
   },
   {
     key: "website",
     title: "Create or connect a website",
-    completed: false,
-    ctaLabel: "Get started",
-    image: "/assets/screenshots/Img2_Landscape.jpeg",
+    description:
+      "Build a new website for your domain or connect it to an existing site.",
+    completed: true,
   },
   {
     key: "email",
     title: "Set up professional email",
+    description:
+      "Get a custom email address for your domain with Google Workspace",
     completed: false,
     ctaLabel: "Get started",
-    image: "/assets/screenshots/Img3_Landscape.jpeg",
   },
   {
     key: "payLinks",
     title: "Start selling with Pay Links",
-    completed: false,
-    ctaLabel: "Get started",
-    image: "/assets/screenshots/Img4_Landscape.jpeg",
+    description:
+      "Create custom payment links with your domain, and get paid on the go.",
+    completed: true,
   },
 ];
 
-function ProgressBar({ completed, total, colors }) {
-  return (
-    <Flex gap={1} width={72} height={4} flexShrink={0}>
-      {Array.from({ length: total }).map((_, index) => (
+function TaskAsset({ taskKey }) {
+  if (taskKey === "twoFactorAuth") {
+    return (
+      <Box
+        sx={{
+          position: "relative",
+          height: "100%",
+          width: "100%",
+          overflow: "hidden",
+          backgroundColor: "#4c4240",
+        }}
+      >
         <Box
-          key={`segment-${index}`}
-          flex="1"
           sx={{
-            height: "100%",
-            borderRadius: "2px",
-            backgroundColor:
-              index < completed ? colors.fg.accent : colors.gray[800],
+            position: "absolute",
+            inset: 0,
+            opacity: 0.95,
+            backgroundImage: "url(/assets/setup-guide/setup-2fa-background.jpeg)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
         />
-      ))}
-    </Flex>
+        <Box
+          sx={{
+            position: "absolute",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "43%",
+            aspectRatio: "119 / 101",
+            borderRadius: "4px",
+            overflow: "hidden",
+            boxShadow:
+              "0px 0px 1px 0px rgba(0,0,0,0.08), 0px 4px 16px 0px rgba(0,0,0,0.12)",
+          }}
+        >
+          <img
+            src="/assets/setup-guide/setup-2fa-card.png"
+            alt=""
+            style={{
+              display: "block",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        </Box>
+      </Box>
+    );
+  }
+
+  if (taskKey === "website") {
+    return (
+      <Box
+        sx={{
+          position: "relative",
+          height: "100%",
+          width: "100%",
+          backgroundImage: "linear-gradient(to right, #292522, #43413c)",
+        }}
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            left: "5%",
+            top: "2%",
+            width: "66%",
+            height: "94%",
+            overflow: "hidden",
+            backgroundColor: "#202020",
+          }}
+        >
+          <img
+            src="/assets/setup-guide/setup-website.jpeg"
+            alt=""
+            style={{
+              display: "block",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        </Box>
+      </Box>
+    );
+  }
+
+  const image =
+    taskKey === "email"
+      ? "/assets/setup-guide/setup-email.jpeg"
+      : "/assets/setup-guide/setup-paylinks.jpeg";
+
+  return (
+    <Box
+      sx={{
+        height: "100%",
+        width: "100%",
+        backgroundImage: `url(${image})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    />
   );
 }
 
 function TaskCard({ task }) {
-  const { colors, radii } = useTheme();
+  const { colors } = useTheme();
   return (
-    <Box
+    <Flex
+      flexDirection="column"
+      justifyContent="center"
+      gap={3}
+      pt={4}
+      px={4}
+      height="100%"
       sx={{
-        borderRadius: radii[1],
-        border: `1px solid ${colors.border.default}`,
-        overflow: "hidden",
-        height: "100%",
+        backgroundColor: "bg.base",
+        borderTopLeftRadius: "6px",
+        borderTopRightRadius: "6px",
+        border: task.completed
+          ? "none"
+          : `1px solid ${colors.border.default}`,
+        borderBottom: "none",
       }}
     >
-      <Box
-        sx={{
-          height: 96,
-          backgroundImage: `url(${task.image})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
-      <Stack space={2} p={3}>
-        <Flex alignItems="flex-start" gap={2}>
+      <Flex flexDirection="column" gap={1} sx={{ minHeight: 87 }}>
+        <Flex alignItems="center" gap={1}>
           {task.completed ? (
             <CheckmarkCircle
-              css={{ width: 18, height: 18, color: "fg.success", flexShrink: 0, marginTop: 2 }}
+              css={{ width: 16, height: 16, color: "fg.success", flexShrink: 0 }}
             />
           ) : (
-            <Circle
-              css={{ width: 18, height: 18, color: "gray.400", flexShrink: 0, marginTop: 2 }}
-            />
+            <Circle css={{ width: 16, height: 16, color: "fg.default", flexShrink: 0 }} />
           )}
-          <Text.Body m={0} sx={{ fontWeight: 500 }}>
+          <Text.Body m={0} sx={{ fontWeight: 500, color: task.completed ? "gray.300" : "gray.100" }}>
             {task.title}
           </Text.Body>
         </Flex>
-        {!task.completed && task.ctaLabel && (
-          <TextLink href="#">
-            <Text.Body.Small>{task.ctaLabel} →</Text.Body.Small>
-          </TextLink>
-        )}
-      </Stack>
-    </Box>
+        <Flex flexDirection="column" gap={2} flex="1">
+          <Text.Body.Small m={0} sx={{ color: "gray.300" }}>
+            {task.description}
+          </Text.Body.Small>
+          {!task.completed && task.ctaLabel && (
+            <TextLink href="#">
+              <Text.Bold.Small>{task.ctaLabel} →</Text.Bold.Small>
+            </TextLink>
+          )}
+        </Flex>
+      </Flex>
+      <Box flex="1" sx={{ minHeight: 0, borderTopLeftRadius: "6px", borderTopRightRadius: "6px", overflow: "hidden" }}>
+        <TaskAsset taskKey={task.key} />
+      </Box>
+    </Flex>
   );
 }
 
 export default function DomainSetupGuide({ domainName }) {
-  const { colors, radii } = useTheme();
   const reduceMotion = useReducedMotion();
   const [isCollapsed, setIsCollapsed] = React.useState(false);
 
   const completedCount = TASKS.filter((task) => task.completed).length;
 
   return (
-    <Card sx={{ borderRadius: radii[1] }} id="domainSetupGuide">
-      <Card.Body>
-        <Stack space={4}>
-          <Flex alignItems="center" justifyContent="space-between" gap={2}>
+    <Box
+      id="domainSetupGuide"
+      pt={4}
+      sx={{ backgroundColor: "bg.inset", borderRadius: "6px", overflow: "hidden" }}
+    >
+      <Stack space={4}>
+        <Flex alignItems="center" gap={4} px={4}>
+          <Flex flex="1" alignItems="center" justifyContent="space-between" gap={2}>
             <Text.Heading.Small as="h3" m={0}>
               Finish setting up {domainName}
             </Text.Heading.Small>
-            <Flex alignItems="center" gap={2}>
-              <ProgressBar
-                completed={completedCount}
-                total={TASKS.length}
-                colors={colors}
-              />
-              <Text.Body.Small m={0} sx={{ color: "gray.400" }}>
+            <Flex alignItems="center" gap={1}>
+              <Text.Eyebrow m={0}>
                 {completedCount} / {TASKS.length}
-              </Text.Body.Small>
-              <IconButton.Subtle
-                icon={isCollapsed ? ChevronLargeDown : ChevronLargeUp}
-                label={isCollapsed ? "Expand setup guide" : "Collapse setup guide"}
-                onClick={() => setIsCollapsed((prev) => !prev)}
-              />
+              </Text.Eyebrow>
+              <ProgressIndicator.Container
+                width={72}
+                height={9}
+                css={{ borderRadius: "10px" }}
+              >
+                <ProgressIndicator.Track
+                  value={completedCount}
+                  max={TASKS.length}
+                  backgroundColor="blue.300"
+                  css={{ borderRadius: "10px" }}
+                />
+              </ProgressIndicator.Container>
             </Flex>
           </Flex>
+          <IconButton.Subtle
+            icon={isCollapsed ? ChevronSmallDown : ChevronSmallUp}
+            label={isCollapsed ? "Expand setup guide" : "Collapse setup guide"}
+            onClick={() => setIsCollapsed((prev) => !prev)}
+          />
+        </Flex>
 
-          <AnimatePresence initial={false}>
-            {!isCollapsed && (
-              <motion.div
-                key="setup-guide-tasks"
-                initial={reduceMotion ? false : { height: 0, opacity: 0 }}
-                animate={{
-                  height: "auto",
-                  opacity: 1,
-                  transition: reduceMotion
-                    ? { duration: 0 }
-                    : { duration: 0.3, ease: EASE_ENTRANCE },
-                }}
-                exit={{
-                  height: 0,
-                  opacity: 0,
-                  transition: reduceMotion
-                    ? { duration: 0 }
-                    : { duration: 0.2, ease: EASE_EXIT },
-                }}
-                style={{ overflow: "hidden" }}
-              >
-                <Flex gap={4} flexWrap="wrap">
-                  {TASKS.map((task) => (
-                    <Box key={task.key} sx={{ flex: "1 1 220px", minWidth: 200 }}>
-                      <TaskCard task={task} />
-                    </Box>
-                  ))}
-                </Flex>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </Stack>
-      </Card.Body>
-    </Card>
+        <AnimatePresence initial={false}>
+          {!isCollapsed && (
+            <motion.div
+              key="setup-guide-tasks"
+              initial={reduceMotion ? false : { height: 0, opacity: 0 }}
+              animate={{
+                height: "auto",
+                opacity: 1,
+                transition: reduceMotion
+                  ? { duration: 0 }
+                  : { duration: 0.3, ease: EASE_ENTRANCE },
+              }}
+              exit={{
+                height: 0,
+                opacity: 0,
+                transition: reduceMotion
+                  ? { duration: 0 }
+                  : { duration: 0.2, ease: EASE_EXIT },
+              }}
+              style={{ overflow: "hidden" }}
+            >
+              <Flex gap={2} px={4} alignItems="stretch">
+                {TASKS.map((task) => (
+                  <Box key={task.key} sx={{ flex: "1 1 220px", minWidth: 200, height: 251 }}>
+                    <TaskCard task={task} />
+                  </Box>
+                ))}
+              </Flex>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </Stack>
+    </Box>
   );
 }

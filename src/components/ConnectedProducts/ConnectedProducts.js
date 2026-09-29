@@ -1,70 +1,108 @@
 import * as React from "react";
-import { Box, Flex, Text } from "@sqs/rosetta-primitives";
-import { useTheme } from "@sqs/rosetta-styled";
-import { CreditCard, Plus } from "@sqs/rosetta-icons";
+import { Box, Flex } from "@sqs/rosetta-primitives";
+import { Text } from "@sqs/rosetta-react/text/next";
+import { Plus, Website, Link } from "@sqs/rosetta-icons";
 
 /**
  * Domain Overview — "Connected products" module beneath the header meta
- * line. Shows each product connected to this domain plus an affordance to
- * add another connection.
- * @see https://www.figma.com/design/7SPZm4hGkNBvVaMmSOhd9s/Security-on-Domains?node-id=1670-82994
+ * line. Shows each product connection's status plus an affordance to add
+ * another connection.
+ * @see https://www.figma.com/design/fQCQuaAESVa9K4JXL3O7dB/Domain-Overview-%E2%80%94-Redesign-2026?node-id=4324-78768
  */
 const ICON_CONTAINER_PX = 28;
 
-function ConnectionTile({ icon: Icon, label, onClick, isAction }) {
-  const { colors } = useTheme();
+const STATUS_META = {
+  connected: { label: "Connected", color: "fg.success" },
+  needsReview: { label: "Needs Review", color: "fg.warning" },
+};
+
+function ConnectionTile({ icon: Icon, label, status, onClick, isAction }) {
+  const statusMeta = status && STATUS_META[status];
   return (
     <Flex
       as={onClick ? "button" : "div"}
       onClick={onClick}
-      alignItems="center"
+      flexDirection="column"
+      justifyContent="center"
       gap={2}
       p={2}
+      flex="1"
       sx={{
-        border: `1px solid ${colors.border.default}`,
-        borderRadius: 1,
-        backgroundColor: "transparent",
+        maxWidth: 180,
+        border: "1px solid",
+        borderColor: "border.default",
+        borderRadius: "6px",
+        backgroundColor: isAction ? "bg.inset" : "bg.base",
         cursor: onClick ? "pointer" : "default",
         appearance: "none",
         font: "inherit",
+        textAlign: "left",
       }}
     >
-      <Flex
-        alignItems="center"
-        justifyContent="center"
-        flexShrink={0}
-        sx={{
-          width: ICON_CONTAINER_PX,
-          height: ICON_CONTAINER_PX,
-          borderRadius: 1,
-          border: isAction ? `1px dashed ${colors.border.default}` : "none",
-          backgroundColor: isAction ? "transparent" : "gray.900",
-        }}
-      >
-        <Icon css={{ width: 16, height: 16, color: "gray.400" }} />
+      <Flex alignItems="center" justifyContent="space-between" width="100%">
+        <Flex
+          alignItems="center"
+          justifyContent="center"
+          flexShrink={0}
+          sx={{
+            width: ICON_CONTAINER_PX,
+            height: ICON_CONTAINER_PX,
+            borderRadius: "2px",
+            border: "1px solid",
+            borderColor: "border.default",
+            backgroundColor: isAction ? "bg.default" : "bg.inset",
+          }}
+        >
+          <Icon css={{ width: 22, height: 22, color: "gray.400" }} />
+        </Flex>
+        {statusMeta && (
+          <Flex alignItems="center" gap={1}>
+            <Box
+              sx={{
+                width: 6,
+                height: 6,
+                borderRadius: "3px",
+                backgroundColor: statusMeta.color,
+              }}
+            />
+            <Text.Body.Small m={0} sx={{ color: statusMeta.color }}>
+              {statusMeta.label}
+            </Text.Body.Small>
+          </Flex>
+        )}
       </Flex>
-      <Text.Body m={0} sx={{ fontSize: "14px", color: isAction ? "gray.400" : "gray.100" }}>
-        {label}
-      </Text.Body>
+      <Text.Bold m={0}>{label}</Text.Bold>
     </Flex>
   );
 }
 
-export default function ConnectedProducts({ connectedPayments = [], onAddConnection }) {
+export default function ConnectedProducts({ connections = {}, onAddConnection }) {
   return (
     <Flex flexDirection="column" gap={2} width="100%">
-      <Text.Label
-        m={0}
-        color="gray.300"
-        css={{ fontSize: "11px", letterSpacing: "0.55px", textTransform: "uppercase" }}
-      >
+      <Text.Heading.Small as="h3" m={0}>
         Connected products
-      </Text.Label>
-      <Flex gap={2} flexWrap="wrap" alignItems="center">
-        {connectedPayments.map((name) => (
-          <ConnectionTile key={name} icon={CreditCard} label={name} />
-        ))}
-        <ConnectionTile icon={Plus} label="Add connection" onClick={onAddConnection} isAction />
+      </Text.Heading.Small>
+      <Flex gap={3} flexWrap="wrap" alignItems="stretch">
+        <ConnectionTile
+          icon={Plus}
+          label="Add connection"
+          onClick={onAddConnection}
+          isAction
+        />
+        {connections.website && (
+          <ConnectionTile
+            icon={Website}
+            label="Website"
+            status={connections.website}
+          />
+        )}
+        {connections.payLinks && (
+          <ConnectionTile
+            icon={Link}
+            label="Pay Links"
+            status={connections.payLinks}
+          />
+        )}
       </Flex>
     </Flex>
   );

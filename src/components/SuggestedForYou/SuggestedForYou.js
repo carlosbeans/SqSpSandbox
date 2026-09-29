@@ -87,7 +87,10 @@ export default function SuggestedForYou() {
       </Flex>
       <Flex gap={4} flexWrap="wrap">
         {orderedOffers.map((offer) => (
-          <Box key={offer.key} sx={{ flex: "1 1 360px", minWidth: 280 }}>
+          <Box
+            key={offer.key}
+            sx={{ flex: "1 1 360px", minWidth: 280, display: "flex" }}
+          >
             <OfferCard offer={offer} />
           </Box>
         ))}

@@ -20,7 +20,7 @@ export const BASE_PROTECTIONS = [
     description:
       "Hides your name and contact details from the public WHOIS directory, so your personal information stays private.",
     linkLabel: "Manage",
-    linkTo: "registration",
+    linkTo: "whois-privacy",
   },
   {
     key: "dnssec",
