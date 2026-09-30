@@ -60,7 +60,8 @@ export default function AppShell() {
   const outlet = useOutlet();
   const reduceMotion = useReducedMotion();
   // Opt-in per-navigation: pass `state: { slideDirection: SLIDE_FORWARD }`
-  // to `navigate()` for a Rosetta-style horizontal slide instead of the
+  // (or `SLIDE_BACK` from Back links, for the mirrored slide) to
+  // `navigate()` for a Rosetta-style horizontal slide instead of the
   // default fade. `custom` is forwarded to the exiting page too, so both
   // sides of the transition agree on direction and motion preference.
   const motionCustom = React.useMemo(

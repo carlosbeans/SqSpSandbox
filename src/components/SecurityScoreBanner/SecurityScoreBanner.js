@@ -21,7 +21,7 @@ const bannerVariants = {
 export default function SecurityScoreBanner({ domain }) {
   const { radii } = useTheme();
   const reduceMotion = useReducedMotion();
-  const { score, hasAddOn } = React.useMemo(
+  const { score, tier, hasAddOn } = React.useMemo(
     () => getSecuritySummary(domain),
     [domain],
   );
@@ -61,7 +61,8 @@ export default function SecurityScoreBanner({ domain }) {
             Strengthen protection and unlock advanced monitoring
           </Text.Heading.Small>
           <Text.Body m={0} sx={{ maxWidth: 650 }}>
-            Your domain currently has a medium rating. Turn on your remaining
+            Your domain currently has {/^[aeiou]/i.test(tier.label) ? "an" : "a"}{" "}
+            {tier.label.toLowerCase()} rating. Turn on your remaining
             standard settings and add Add-on for automated threat coverage.
           </Text.Body>
         </Flex>

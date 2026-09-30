@@ -18,8 +18,9 @@ export const EASE_EXIT = [0.4, 0, 0.68, 0.06];
 /** Rosetta `time['400']`, in seconds for Framer Motion. */
 export const SLIDE_DURATION = 0.4;
 
-/** Direction flag passed via router `state.slideDirection`. */
+/** Direction flags passed via router `state.slideDirection`. */
 export const SLIDE_FORWARD = "forward";
+export const SLIDE_BACK = "back";
 
 /** Today's default AppShell fade (unchanged) for navigations with no direction. */
 const FADE_EASE = [0.25, 0.1, 0.25, 1];
@@ -34,11 +35,21 @@ const SLIDE_OFFSET_PX = 32;
  * animated `motion.*` element so the exiting page resolves the same
  * direction and motion preference as the entering one.
  */
+function isSlide(direction) {
+  return direction === SLIDE_FORWARD || direction === SLIDE_BACK;
+}
+
+/** +1 when the incoming page enters from the right (forward), -1 from the left (back). */
+function slideSign(direction) {
+  return direction === SLIDE_BACK ? -1 : 1;
+}
+
 export const shellVariants = {
   initial: (custom) => {
     const { direction, reduceMotion } = custom || {};
-    if (direction === SLIDE_FORWARD) {
-      return { opacity: 0, x: reduceMotion ? 0 : SLIDE_OFFSET_PX, y: 0 };
+    if (isSlide(direction)) {
+      const x = reduceMotion ? 0 : slideSign(direction) * SLIDE_OFFSET_PX;
+      return { opacity: 0, x, y: 0 };
     }
     return { opacity: 0, x: 0, y: reduceMotion ? 0 : 12 };
   },
@@ -46,7 +57,7 @@ export const shellVariants = {
     const { direction, reduceMotion } = custom || {};
     const transition = reduceMotion
       ? { duration: 0 }
-      : direction === SLIDE_FORWARD
+      : isSlide(direction)
         ? { duration: SLIDE_DURATION, ease: EASE_ENTRANCE }
         : { duration: FADE_DURATION, ease: FADE_EASE };
     return { opacity: 1, x: 0, y: 0, transition };
@@ -55,11 +66,12 @@ export const shellVariants = {
     const { direction, reduceMotion } = custom || {};
     const transition = reduceMotion
       ? { duration: 0 }
-      : direction === SLIDE_FORWARD
+      : isSlide(direction)
         ? { duration: SLIDE_DURATION, ease: EASE_EXIT }
         : { duration: FADE_DURATION, ease: FADE_EASE };
-    if (direction === SLIDE_FORWARD) {
-      return { opacity: 0, x: reduceMotion ? 0 : -SLIDE_OFFSET_PX, y: 0, transition };
+    if (isSlide(direction)) {
+      const x = reduceMotion ? 0 : -slideSign(direction) * SLIDE_OFFSET_PX;
+      return { opacity: 0, x, y: 0, transition };
     }
     return { opacity: 0, x: 0, y: reduceMotion ? 0 : -8, transition };
   },

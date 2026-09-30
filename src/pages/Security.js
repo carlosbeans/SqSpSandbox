@@ -7,7 +7,7 @@ import { useTheme } from "@sqs/rosetta-styled";
 import { CheckmarkShield } from "@sqs/rosetta-icons";
 import { usePageHeader } from "../layouts/PageHeaderContext";
 import SecurityScoreBanner from "../components/SecurityScoreBanner/SecurityScoreBanner";
-import { loadJsonData } from "../utils/dataUtils.ts";
+import { useDomainProtections } from "../contexts/DomainProtectionsContext";
 import { SLIDE_FORWARD } from "../constants/motion";
 import {
   BASE_PROTECTIONS,
@@ -31,61 +31,15 @@ export function SecurityContent({ inlineHeader } = {}) {
   const { radii } = useTheme();
   const { domainId } = useParams();
   const navigate = useNavigate();
-  const [domain, setDomain] = React.useState(null);
-  const [toggles, setToggles] = React.useState({
-    whoisPrivacy: true,
-    dnssec: true,
-    domainLock: true,
-  });
-  const [addOnToggles, setAddOnToggles] = React.useState({});
-
-  React.useEffect(() => {
-    let cancelled = false;
-    async function fetchDomain() {
-      const response = await loadJsonData("domains");
-      if (cancelled) return;
-      const all = response.data?.domains || [];
-      const decodedId = domainId ? decodeURIComponent(domainId) : "";
-      const found = all.find((d) => d.domainName === decodedId) || null;
-      setDomain(found);
-      if (found?.securityProtections) {
-        setAddOnToggles({
-          protectedActionAlerts: Boolean(
-            found.securityProtections.protectedActionAlerts,
-          ),
-          secureEmailForwarder: Boolean(
-            found.securityProtections.secureEmailForwarder,
-          ),
-          extendedExpiryProtection: Boolean(
-            found.securityProtections.extendedExpiryProtection,
-          ),
-          improvedDdosPrevention: Boolean(
-            found.securityProtections.improvedDdosPrevention,
-          ),
-          secondaryDns: Boolean(found.securityProtections.secondaryDns),
-        });
-      }
-    }
-    fetchDomain();
-    return () => {
-      cancelled = true;
-    };
-  }, [domainId]);
+  const { domain, protections, setProtection } = useDomainProtections();
 
   const hasAddOn = Boolean(domain?.securityAddOn);
 
   const handleToggleChange = React.useCallback(
     (key) => (checked) => {
-      setToggles((prev) => ({ ...prev, [key]: checked }));
+      setProtection(key, checked);
     },
-    [],
-  );
-
-  const handleAddOnToggleChange = React.useCallback(
-    (key) => (checked) => {
-      setAddOnToggles((prev) => ({ ...prev, [key]: checked }));
-    },
-    [],
+    [setProtection],
   );
 
   const handleManageClick = React.useCallback(
@@ -143,7 +97,7 @@ export function SecurityContent({ inlineHeader } = {}) {
                         </Text.Heading.Small>
                         {feature.hasToggle && (
                           <Toggle
-                            checked={toggles[feature.key]}
+                            checked={Boolean(protections[feature.key])}
                             onChange={handleToggleChange(feature.key)}
                             aria-label={feature.title}
                           />
@@ -191,7 +145,7 @@ export function SecurityContent({ inlineHeader } = {}) {
             </Stack>
             <Grid.Container gridConstraint={12} margin={0}>
               {ADDON_PROTECTIONS.map((feature) => (
-                <Grid.Item key={feature.key} columns={[12, 6, 4]} mb={4}>
+                <Grid.Item key={feature.key} columns={[12, 6, 4]} mb={6}>
                   <Card sx={{ borderRadius: radii[1], height: "100%" }}>
                     <Card.Body>
                       <Flex flexDirection="column" gap={3} height="100%">
@@ -204,8 +158,8 @@ export function SecurityContent({ inlineHeader } = {}) {
                             {feature.title}
                           </Text.Heading.Small>
                           <Toggle
-                            checked={addOnToggles[feature.key]}
-                            onChange={handleAddOnToggleChange(feature.key)}
+                            checked={Boolean(protections[feature.key])}
+                            onChange={handleToggleChange(feature.key)}
                             aria-label={feature.title}
                           />
                         </Flex>
@@ -213,7 +167,10 @@ export function SecurityContent({ inlineHeader } = {}) {
                           {feature.description}
                         </Text.Body>
                         {feature.linkLabel && (
-                          <TextLink href="#">
+                          <TextLink
+                            href="#"
+                            onClick={handleManageClick(feature)}
+                          >
                             <Text.Body.Small>
                               {feature.linkLabel}
                             </Text.Body.Small>

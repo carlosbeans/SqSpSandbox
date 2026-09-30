@@ -11,7 +11,9 @@ import { ChevronSmallDown } from "@sqs/rosetta-icons";
 export default function DomainActionsMenu() {
   return (
     <ActionList.PopOver
-      position="bottom-right"
+      position="bottom-left"
+      anchorPoint={{ x: "right", y: "bottom" }}
+      offset={{ x: 0, y: 6 }}
       renderTrigger={({ toggleActionListOpen }) => (
         <Button.Alt
           size="large"

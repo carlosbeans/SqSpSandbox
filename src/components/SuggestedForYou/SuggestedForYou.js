@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Box, Flex } from "@sqs/rosetta-primitives";
-import { Image, Stack } from "@sqs/rosetta-elements";
+import { Stack } from "@sqs/rosetta-elements";
 import { Spotlight } from "@sqs/rosetta-dashboard";
 import { Text } from "@sqs/rosetta-react/text/next";
 import { Business, Website } from "@sqs/rosetta-icons";
@@ -49,9 +49,11 @@ function OfferCard({ offer }) {
         </Spotlight.Actions>
       </Spotlight.Body>
       <Spotlight.ImageContainer>
-        <Image
+        <Box
+          as="img"
           src={offer.image}
           alt=""
+          loading="lazy"
           sx={{ width: "100%", height: "100%", objectFit: "cover" }}
         />
       </Spotlight.ImageContainer>

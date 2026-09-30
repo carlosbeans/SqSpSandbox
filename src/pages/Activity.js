@@ -1,9 +1,12 @@
+import { useNavigate, useParams } from "react-router-dom";
 import { Stack, TextLink } from "@sqs/rosetta-elements";
 import { Table } from "@sqs/rosetta-compositions";
 import { Flex } from "@sqs/rosetta-primitives";
 import { Text } from "@sqs/rosetta-react/text/next";
 import { Button } from "@sqs/rosetta-react/button/next";
 import { usePageHeader } from "../layouts/PageHeaderContext";
+import { DOMAIN_ACTIVITY } from "../constants/domainActivity";
+import { SLIDE_FORWARD } from "../constants/motion";
 
 const columnHelper = Table.Utils.createColumnHelper();
 
@@ -14,16 +17,34 @@ const columns = [
   columnHelper.accessor("time", { header: "Time" }),
 ];
 
-const data = [
-  { action: "Registered domain", name: "Carlos Andujar", location: "Atlanta, GA", time: "3 days ago" },
-  { action: "Transferred domain", name: "Laura Lejano", location: "Richmond, VA", time: "5 hrs ago" },
-  { action: "Renewed domain", name: "Carlos Andujar", location: "Atlanta, GA", time: "2 weeks ago" },
-  { action: "Updated DNS records", name: "Laura Lejano", location: "Richmond, VA", time: "1 mon ago" },
-  { action: "Connected website", name: "Carlos Andujar", location: "Atlanta, GA", time: "6 mon ago" },
-  { action: "Enabled DNSSEC", name: "Laura Lejano", location: "Richmond, VA", time: "1 year ago" },
-];
-
 export function ActivityContent({ inlineHeader } = {}) {
+  const navigate = useNavigate();
+  const { domainId } = useParams();
+
+  const renderBodyRow = (props) => {
+    const openDetail = () => {
+      if (!domainId) return;
+      navigate(
+        `/domains/${encodeURIComponent(domainId)}/activity/${props.row.original.id}`,
+        { state: { slideDirection: SLIDE_FORWARD } },
+      );
+    };
+    return (
+      <Table.List.Body.Row
+        {...props}
+        tabIndex={0}
+        onClick={openDetail}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            openDetail();
+          }
+        }}
+        sx={{ cursor: "pointer" }}
+      />
+    );
+  };
+
   return (
     <Stack space={6} mx={inlineHeader ? 0 : 6} id="activity-page-content">
       {inlineHeader && (
@@ -40,8 +61,11 @@ export function ActivityContent({ inlineHeader } = {}) {
           <Button.Strong size="medium">Manage Notifications</Button.Strong>
         </Flex>
       )}
-      <Table columns={columns} data={data}>
-        <Table.List />
+      <Table columns={columns} data={DOMAIN_ACTIVITY}>
+        <Table.List>
+          <Table.List.Head />
+          <Table.List.Body renderBodyRow={renderBodyRow} />
+        </Table.List>
       </Table>
     </Stack>
   );

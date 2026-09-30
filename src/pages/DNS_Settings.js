@@ -25,6 +25,8 @@ import SectionRail from "../components/SectionRail/SectionRail";
 import DNSPresetsSection from "./dns/DNSPresetsSection";
 import DNSCustomRecordsSection from "./dns/DNSCustomRecordsSection";
 import DNSNameserversSection from "./dns/DNSNameserversSection";
+import PremiumDnsSection from "./dns/PremiumDnsSection";
+import { useDomainProtections } from "../contexts/DomainProtectionsContext";
 import { DNS_SECTIONS } from "./dns/sections";
 import dnsData from "../data/dns.json";
 
@@ -51,6 +53,7 @@ const VERIFICATION_REQUIRED_PRESETS = new Set([
 
 export function DNSSettingsContent({ toastRef, inlineHeader }) {
   const location = useLocation();
+  const { domain, protections } = useDomainProtections();
   const topChromeInsetPx = useTopChromeInset();
   const sectionTopOffsetPx =
     TOP_CHROME_STICKY_BASE_PX + SECTION_RAIL_STICKY_GAP_PX + topChromeInsetPx;
@@ -356,6 +359,14 @@ export function DNSSettingsContent({ toastRef, inlineHeader }) {
         gap={8}
         sx={{ minWidth: 0, width: "100%", flex: "1 1 auto" }}
       >
+        {domain?.securityAddOn && (
+          <PremiumDnsSection
+            sectionId="dns-premium-dns-summary"
+            domain={domain}
+            protections={protections}
+          />
+        )}
+
         <DNSPresetsSection
           sectionId="dns-presets-section"
           scrollMarginTop={scrollMarginTop}

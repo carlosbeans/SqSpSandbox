@@ -1,15 +1,71 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { BackButton } from "@sqs/rosetta-elements";
-import { Text } from "@sqs/rosetta-primitives";
+import { Text } from "@sqs/rosetta-react/text/next";
 import { Button } from "@sqs/rosetta-primitives";
 import { Flex } from "@sqs/rosetta-primitives";
 import { Box } from "@sqs/rosetta-primitives";
 import { TextField } from "@sqs/rosetta-elements";
 import { TextLink } from "@sqs/rosetta-elements";
 import { Tabs } from "@sqs/rosetta-elements";
-import { Dropdown } from "@sqs/rosetta-compositions";
+import { Field } from "@sqs/rosetta-react";
+import { Dropdown } from "@sqs/rosetta-react/dropdown/next";
 import { Grid, Stack } from "@sqs/rosetta-elements";
+import { SLIDE_BACK } from "../constants/motion";
+
+const STATE_OPTIONS = [
+  { label: "California", value: "CA" },
+  { label: "New York", value: "NY" },
+  { label: "Texas", value: "TX" },
+  { label: "Florida", value: "FL" },
+  { label: "Oregon", value: "OR" },
+  { label: "Washington", value: "WA" },
+  { label: "Colorado", value: "CO" },
+  { label: "Georgia", value: "GA" },
+  { label: "Illinois", value: "IL" },
+  { label: "Massachusetts", value: "MA" },
+  { label: "Minnesota", value: "MN" },
+  { label: "Tennessee", value: "TN" },
+  { label: "Virginia", value: "VA" },
+];
+
+const COUNTRY_OPTIONS = [
+  { label: "United States of America", value: "US" },
+  { label: "Canada", value: "CA" },
+  { label: "United Kingdom", value: "UK" },
+  { label: "Australia", value: "AU" },
+];
+
+function SelectField({ label, value, onValueChange, options, placeholder }) {
+  return (
+    <Field.Root>
+      <Field.Label>{label}</Field.Label>
+      <Dropdown.Root
+        value={value}
+        onValueChange={onValueChange}
+        options={options}
+      >
+        <Dropdown.Trigger my={1} sx={{ width: "100%" }}>
+          <Dropdown.Trigger.Value placeholder={placeholder} />
+          <Dropdown.Trigger.Icon />
+        </Dropdown.Trigger>
+        <Dropdown.Portal>
+          <Dropdown.Overlay />
+          <Dropdown.Positioner>
+            <Dropdown.List>
+              {options.map((option) => (
+                <Dropdown.Option key={option.value} option={option}>
+                  <Dropdown.Option.Label>{option.label}</Dropdown.Option.Label>
+                  <Dropdown.Option.Icon />
+                </Dropdown.Option>
+              ))}
+            </Dropdown.List>
+          </Dropdown.Positioner>
+        </Dropdown.Portal>
+      </Dropdown.Root>
+    </Field.Root>
+  );
+}
 
 export default function DomainRegistration() {
   const { domainId } = useParams();
@@ -29,14 +85,20 @@ export default function DomainRegistration() {
   const [country, setCountry] = useState("US");
 
   return (
-    <Stack space={6} px={6} pb={6}>
+    <Stack space={6} px={6} pt={4} pb={6}>
       <BackButton
         label="Back"
-        onClick={() => navigate(`/domains/${domainId}`)}
+        onClick={() =>
+          navigate(`/domains/${domainId}`, {
+            state: { slideDirection: SLIDE_BACK },
+          })
+        }
       />
 
       <Stack space={2}>
-        <Text.Title>Registrant information</Text.Title>
+        <Text.Heading.Large as="h1" m={0}>
+          Registrant information
+        </Text.Heading.Large>
         <Text.Body color="gray.300">
           Enter information for the designated domain registrant. If the
           registrant is an organization, enter its name under the Organization
@@ -58,7 +120,9 @@ export default function DomainRegistration() {
 
       {/* Contact section */}
       <Stack space={4}>
-        <Text.Subtitle>Contact</Text.Subtitle>
+        <Text.Heading.Medium as="h2" m={0}>
+          Contact
+        </Text.Heading.Medium>
 
         <Grid.Container gridConstraint={12} margin={0}>
           <Grid.Item columns={[12, 6]}>
@@ -107,7 +171,9 @@ export default function DomainRegistration() {
 
       {/* Address section */}
       <Stack space={4}>
-        <Text.Subtitle>Address</Text.Subtitle>
+        <Text.Heading.Medium as="h2" m={0}>
+          Address
+        </Text.Heading.Medium>
 
         <TextField
           label="Street Address"
@@ -131,25 +197,12 @@ export default function DomainRegistration() {
             />
           </Grid.Item>
           <Grid.Item columns={[12, 6]}>
-            <Dropdown
+            <SelectField
               label="State"
               value={state}
-              onChange={(val) => setState(val)}
-              options={[
-                { label: "California", value: "CA" },
-                { label: "New York", value: "NY" },
-                { label: "Texas", value: "TX" },
-                { label: "Florida", value: "FL" },
-                { label: "Oregon", value: "OR" },
-                { label: "Washington", value: "WA" },
-                { label: "Colorado", value: "CO" },
-                { label: "Georgia", value: "GA" },
-                { label: "Illinois", value: "IL" },
-                { label: "Massachusetts", value: "MA" },
-                { label: "Minnesota", value: "MN" },
-                { label: "Tennessee", value: "TN" },
-                { label: "Virginia", value: "VA" },
-              ]}
+              onValueChange={setState}
+              options={STATE_OPTIONS}
+              placeholder="Select a state"
             />
           </Grid.Item>
         </Grid.Container>
@@ -163,16 +216,12 @@ export default function DomainRegistration() {
             />
           </Grid.Item>
           <Grid.Item columns={[12, 8]}>
-            <Dropdown
+            <SelectField
               label="Country"
               value={country}
-              onChange={(val) => setCountry(val)}
-              options={[
-                { label: "United States of America", value: "US" },
-                { label: "Canada", value: "CA" },
-                { label: "United Kingdom", value: "UK" },
-                { label: "Australia", value: "AU" },
-              ]}
+              onValueChange={setCountry}
+              options={COUNTRY_OPTIONS}
+              placeholder="Select a country"
             />
           </Grid.Item>
         </Grid.Container>

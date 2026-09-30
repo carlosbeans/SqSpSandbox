@@ -14,6 +14,7 @@ import DomainOverviewHeader from "../components/DomainOverviewHeader/DomainOverv
 import DomainSetupGuide from "../components/DomainSetupGuide/DomainSetupGuide";
 import SecurityScoreCard from "../components/SecurityScoreCard/SecurityScoreCard";
 import SuggestedForYou from "../components/SuggestedForYou/SuggestedForYou";
+import { useDomainProtections } from "../contexts/DomainProtectionsContext";
 
 /**
  * Domain Overview — Redesign 2026.
@@ -25,6 +26,8 @@ export default function DomainOverview() {
   const [domain, setDomain] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const { domain: liveDomain } = useDomainProtections();
 
   // Tabs state
   const [activeTab, setActiveTab] = useState("admin");
@@ -76,7 +79,7 @@ export default function DomainOverview() {
       <Box px={6}>
         <Grid.Container gridConstraint={12} margin={0}>
           <Grid.Item columns={[12, 6]}>
-            <SecurityScoreCard domain={domain} />
+            <SecurityScoreCard domain={liveDomain || domain} />
           </Grid.Item>
 
           <Grid.Item columns={[12, 6]}>

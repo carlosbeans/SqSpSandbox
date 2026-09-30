@@ -8,13 +8,14 @@
       "expirationDate": "2026-05-16",
       "eligibility": "eligible",
       "securityAddOn": true,
+      "twoFactorAuth": false,
       "securityProtections": {
         "whoisPrivacy": true,
         "dnssec": true,
         "domainLock": true,
         "sslCertificate": true,
         "protectedActionAlerts": true,
-        "secureEmailForwarder": false,
+        "secureEmailForwarder": true,
         "extendedExpiryProtection": true,
         "improvedDdosPrevention": true,
         "secondaryDns": true
@@ -33,6 +34,7 @@
       "zip": "73301",
       "phone": "+1 (512) 555-0147",
       "email": "james.carter@example.com",
+      "secureEmailForwarder": { "address": "contact-a3f9x2@domains.squarespace.com" },
       "whoisRecord": {
         "registrant": "James Carter",
         "email": "james.carter@example.com",
@@ -68,6 +70,7 @@
       "expirationDate": "2025-08-23",
       "eligibility": "ineligible",
       "securityAddOn": false,
+      "twoFactorAuth": false,
       "securityProtections": {
         "whoisPrivacy": true,
         "dnssec": false,
@@ -114,6 +117,7 @@
       "expirationDate": "2027-02-26",
       "eligibility": "eligible",
       "securityAddOn": true,
+      "twoFactorAuth": true,
       "securityProtections": {
         "whoisPrivacy": true,
         "dnssec": true,
@@ -139,6 +143,7 @@
       "zip": "97201",
       "phone": "+1 (503) 555-0182",
       "email": "elena.rossi@pixelperfect.design",
+      "secureEmailForwarder": { "address": "contact-k7m2q8@domains.squarespace.com" },
       "whoisRecord": {
         "registrant": "Elena Rossi",
         "email": "elena.rossi@pixelperfect.design",
@@ -173,6 +178,7 @@
       "expirationDate": "2026-11-05",
       "eligibility": "eligible",
       "securityAddOn": false,
+      "twoFactorAuth": true,
       "securityProtections": {
         "whoisPrivacy": true,
         "dnssec": true,
@@ -229,6 +235,7 @@
       "expirationDate": "2025-12-14",
       "eligibility": "eligible",
       "securityAddOn": false,
+      "twoFactorAuth": false,
       "securityProtections": {
         "whoisPrivacy": true,
         "dnssec": true,
@@ -276,6 +283,7 @@
       "expirationDate": "2026-04-09",
       "eligibility": "ineligible",
       "securityAddOn": false,
+      "twoFactorAuth": false,
       "securityProtections": {
         "whoisPrivacy": true,
         "dnssec": true,
@@ -322,6 +330,7 @@
       "expirationDate": "2027-01-30",
       "eligibility": "eligible",
       "securityAddOn": true,
+      "twoFactorAuth": true,
       "securityProtections": {
         "whoisPrivacy": true,
         "dnssec": true,
@@ -347,6 +356,7 @@
       "zip": "30305",
       "phone": "+1 (404) 555-0672",
       "email": "amara.okafor@wanderlust.travel",
+      "secureEmailForwarder": { "address": "contact-w4t6n1@domains.squarespace.com" },
       "whoisRecord": {
         "registrant": "Amara Okafor",
         "email": "amara.okafor@wanderlust.travel",
@@ -382,6 +392,7 @@
       "expirationDate": "2026-08-01",
       "eligibility": "eligible",
       "securityAddOn": false,
+      "twoFactorAuth": true,
       "securityProtections": {
         "whoisPrivacy": true,
         "dnssec": true,
@@ -429,6 +440,7 @@
       "expirationDate": "2025-09-18",
       "eligibility": "eligible",
       "securityAddOn": false,
+      "twoFactorAuth": false,
       "securityProtections": {
         "whoisPrivacy": false,
         "dnssec": true,
@@ -476,6 +488,7 @@
       "expirationDate": "2026-03-22",
       "eligibility": "eligible",
       "securityAddOn": true,
+      "twoFactorAuth": false,
       "securityProtections": {
         "whoisPrivacy": true,
         "dnssec": true,
@@ -484,7 +497,7 @@
         "protectedActionAlerts": true,
         "secureEmailForwarder": true,
         "extendedExpiryProtection": true,
-        "improvedDdosPrevention": false,
+        "improvedDdosPrevention": true,
         "secondaryDns": true
       },
       "payLinksEnabled": true,
@@ -501,6 +514,7 @@
       "zip": "02210",
       "phone": "+1 (617) 555-0943",
       "email": "daniel.park@blueoak.dev",
+      "secureEmailForwarder": { "address": "contact-b9d3r5@domains.squarespace.com" },
       "whoisRecord": {
         "registrant": "Daniel Park",
         "email": "daniel.park@blueoak.dev",
@@ -535,6 +549,7 @@
       "expirationDate": "2026-10-07",
       "eligibility": "eligible",
       "securityAddOn": false,
+      "twoFactorAuth": true,
       "securityProtections": {
         "whoisPrivacy": true,
         "dnssec": true,
@@ -582,6 +597,7 @@
       "expirationDate": "2027-06-12",
       "eligibility": "eligible",
       "securityAddOn": false,
+      "twoFactorAuth": true,
       "securityProtections": {
         "whoisPrivacy": true,
         "dnssec": true,
@@ -638,6 +654,7 @@
       "expirationDate": "2027-03-15",
       "eligibility": "eligible",
       "securityAddOn": true,
+      "twoFactorAuth": true,
       "securityProtections": {
         "whoisPrivacy": true,
         "dnssec": true,
@@ -665,6 +682,7 @@
       "zip": "60614",
       "phone": "+1 (312) 555-0331",
       "email": "amy.poehler@secondcityimprov.com",
+      "secureEmailForwarder": { "address": "contact-s2c8i4@domains.squarespace.com" },
       "whoisRecord": {
         "registrant": "Amy Poehler",
         "email": "amy.poehler@secondcityimprov.com",
@@ -699,6 +717,7 @@
       "expirationDate": "2027-09-22",
       "eligibility": "ineligible",
       "securityAddOn": false,
+      "twoFactorAuth": false,
       "securityProtections": {
         "whoisPrivacy": true,
         "dnssec": true,
@@ -747,6 +766,7 @@
       "expirationDate": "2026-12-01",
       "eligibility": "eligible",
       "securityAddOn": true,
+      "twoFactorAuth": true,
       "securityProtections": {
         "whoisPrivacy": true,
         "dnssec": true,
@@ -756,7 +776,7 @@
         "secureEmailForwarder": true,
         "extendedExpiryProtection": true,
         "improvedDdosPrevention": true,
-        "secondaryDns": false
+        "secondaryDns": true
       },
       "payLinksEnabled": true,
       "connectedPayments": ["Squarespace Payments"],
@@ -774,6 +794,7 @@
       "zip": "160-0023",
       "phone": "+81 3-5555-0192",
       "email": "nobuo.uematsu@blackmages.jp",
+      "secureEmailForwarder": { "address": "contact-m5j1z7@domains.squarespace.com" },
       "whoisRecord": {
         "registrant": "Nobuo Uematsu",
         "email": "nobuo.uematsu@blackmages.jp",

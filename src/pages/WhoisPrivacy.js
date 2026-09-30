@@ -8,6 +8,7 @@ import { Text } from "@sqs/rosetta-react/text/next";
 import { useTheme } from "@sqs/rosetta-styled";
 import { ExclamationMarkCircle } from "@sqs/rosetta-icons";
 import { loadJsonData } from "../utils/dataUtils.ts";
+import { SLIDE_BACK } from "../constants/motion";
 
 /**
  * WHOIS Privacy Management — standalone page for domains with the Security
@@ -59,13 +60,15 @@ export default function WhoisPrivacy() {
   }, [domainId]);
 
   const handleBack = React.useCallback(() => {
-    navigate(`/domains/${encodeURIComponent(domainId)}/settings?tab=security`);
+    navigate(`/domains/${encodeURIComponent(domainId)}/settings?tab=security`, {
+      state: { slideDirection: SLIDE_BACK },
+    });
   }, [domainId, navigate]);
 
   const whoisRecord = domain?.whoisRecord;
 
   return (
-    <Stack space={6} px={6} pb={6} id="whois-privacy-page">
+    <Stack space={6} px={6} pt={6} pb={6} id="whois-privacy-page">
       <BackButton label="Back" onClick={handleBack} />
 
       <Stack space={2}>

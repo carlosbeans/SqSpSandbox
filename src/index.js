@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider, Outlet, Navigate, useParams } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate, useParams } from "react-router-dom";
 import "./global.scss";
 
 
@@ -20,6 +20,9 @@ import PayLinks from "./pages/PayLinks";
 import Website from "./pages/Website";
 import DomainRegistration from "./pages/DomainRegistration";
 import WhoisPrivacy from "./pages/WhoisPrivacy";
+import SecureEmailForwarder from "./pages/SecureEmailForwarder";
+import ActivityDetail from "./pages/ActivityDetail";
+import { DomainProtectionsProvider } from "./contexts/DomainProtectionsContext";
 import DomainSettings from "./pages/DomainSettings";
 import ComponentTest from "./pages/experiments/ComponentTest.tsx";
 import DomainOverviewRedesignQ22026 from "./pages/experiments/DomainOverviewRedesignQ22026.js";
@@ -76,15 +79,17 @@ const router = createBrowserRouter([
           },
           {
             path: "domains/:domainId",
-            element: <Outlet />,
+            element: <DomainProtectionsProvider />,
             children: [
               { index: true, element: <DomainOverview /> },
               { path: "registration", element: <DomainRegistration /> },
               { path: "whois-privacy", element: <WhoisPrivacy /> },
+              { path: "secure-email-forwarder", element: <SecureEmailForwarder /> },
               { path: "dns", element: <RedirectToSettingsTab tab="dns" /> },
               { path: "website", element: <Website /> },
               { path: "email", element: <Email /> },
               { path: "activity", element: <RedirectToSettingsTab tab="activity" /> },
+              { path: "activity/:activityId", element: <ActivityDetail /> },
               { path: "pay-links", element: <PayLinks /> },
               { path: "permissions", element: <RedirectToSettingsTab tab="permissions" /> },
               { path: "security", element: <RedirectToSettingsTab tab="security" /> },
