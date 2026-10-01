@@ -78,7 +78,6 @@ export function ActivityContent({ inlineHeader } = {}) {
               <TextLink href="#">Learn more about activity</TextLink>
             </Text.Body>
           </Stack>
-          <Button.Strong size="medium">Manage Notifications</Button.Strong>
         </Flex>
       )}
       <Table columns={columns} data={DOMAIN_ACTIVITY}>

@@ -18,6 +18,7 @@ import {
   SLIDE_FORWARD,
 } from "../../constants/motion";
 import SecurityRatingMeter from "../SecurityRatingMeter/SecurityRatingMeter";
+import SecurityRatingDialog from "../SecurityRatingDialog/SecurityRatingDialog";
 
 const CARD_STAGGER = 0.08;
 
@@ -119,6 +120,13 @@ export default function SecurityScoreCard({ domain }) {
     });
   }, [domainId, navigate]);
 
+  const [isRatingDialogOpen, setIsRatingDialogOpen] = React.useState(false);
+
+  const handleRatingLearnMoreClick = React.useCallback((event) => {
+    event.preventDefault();
+    setIsRatingDialogOpen(true);
+  }, []);
+
   const handleLinkClick = React.useCallback(
     (event) => {
       event.preventDefault();
@@ -145,7 +153,7 @@ export default function SecurityScoreCard({ domain }) {
           <Flex flexDirection="column" gap={4}>
             <motion.div variants={variants.item}>
               <Flex alignItems="center" justifyContent="space-between" gap={2}>
-                <Flex alignItems="center" gap={1} flexWrap="wrap">
+                <Flex alignItems="center" gap={2} flexWrap="wrap">
                   <Text.Heading.Medium as="h3" m={0}>
                     Security
                   </Text.Heading.Medium>
@@ -161,45 +169,43 @@ export default function SecurityScoreCard({ domain }) {
                   Manage
                 </Button.Subtle>
               </Flex>
-            </motion.div>
-
-            <Flex flexDirection="column" gap={6}>
-              <motion.div variants={variants.item}>
-                <Text.Body m={0}>
+              <Text.Body mt={1}>
                   {getLede(tier.key)}{" "}
-                  <TextLink href="#" onClick={handleLinkClick}>
+                  <TextLink href="#" onClick={handleRatingLearnMoreClick}>
                     Learn more
                   </TextLink>
                 </Text.Body>
-              </motion.div>
+            </motion.div>
+
+            <Flex flexDirection="column" gap={6}>
+              {/* <motion.div variants={variants.item}>
+                <Text.Body m={0}>
+                  {getLede(tier.key)}{" "}
+                  <TextLink href="#" onClick={handleRatingLearnMoreClick}>
+                    Learn more
+                  </TextLink>
+                </Text.Body>
+              </motion.div> */}
 
               <Flex flexDirection="column" gap={4}>
                 <motion.div variants={variants.item}>
-                  <Flex flexDirection="column" gap={4}>
-                    <Text.Eyebrow
-                      as="span"
-                      sx={{ color: "gray.300", textTransform: "uppercase" }}
+                  <AnimatePresence mode="wait" initial={false}>
+                    <motion.div
+                      key={tier.key}
+                      variants={ratingWordVariants}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
                     >
-                      Rating
-                    </Text.Eyebrow>
-                    <AnimatePresence mode="wait" initial={false}>
-                      <motion.div
-                        key={tier.key}
-                        variants={ratingWordVariants}
-                        initial="initial"
-                        animate="animate"
-                        exit="exit"
+                      <Text.Display.Medium
+                        as="span"
+                        m={0}
+                        id="domain-overview-security-rating-word"
                       >
-                        <Text.Display.Medium
-                          as="span"
-                          m={0}
-                          id="domain-overview-security-rating-word"
-                        >
-                          {tier.label}
-                        </Text.Display.Medium>
-                      </motion.div>
-                    </AnimatePresence>
-                  </Flex>
+                        {tier.label}
+                      </Text.Display.Medium>
+                    </motion.div>
+                  </AnimatePresence>
                 </motion.div>
 
                 <SecurityRatingMeter
@@ -289,6 +295,11 @@ export default function SecurityScoreCard({ domain }) {
           </Flex>
         </Card.Body>
       </Card>
+      <SecurityRatingDialog
+        isOpen={isRatingDialogOpen}
+        domain={domain}
+        onRequestClose={() => setIsRatingDialogOpen(false)}
+      />
     </motion.div>
   );
 }

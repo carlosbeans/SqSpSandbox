@@ -8,6 +8,7 @@ const DomainProtectionsContext = React.createContext({
   domain: null,
   protections: {},
   setProtection: noop,
+  setTwoFactorAuth: noop,
 });
 
 /**
@@ -20,6 +21,7 @@ export function DomainProtectionsProvider() {
   const { domainId } = useParams();
   const [baseDomain, setBaseDomain] = React.useState(null);
   const [protections, setProtections] = React.useState({});
+  const [twoFactorAuth, setTwoFactorAuthState] = React.useState(false);
 
   React.useEffect(() => {
     let cancelled = false;
@@ -31,9 +33,11 @@ export function DomainProtectionsProvider() {
       const found = all.find((d) => d.domainName === decodedId) || null;
       setBaseDomain(found);
       setProtections({ ...(found?.securityProtections || {}) });
+      setTwoFactorAuthState(Boolean(found?.twoFactorAuth));
     }
     setBaseDomain(null);
     setProtections({});
+    setTwoFactorAuthState(false);
     fetchDomain();
     return () => {
       cancelled = true;
@@ -44,12 +48,16 @@ export function DomainProtectionsProvider() {
     setProtections((prev) => ({ ...prev, [key]: Boolean(value) }));
   }, []);
 
+  const setTwoFactorAuth = React.useCallback((value) => {
+    setTwoFactorAuthState(Boolean(value));
+  }, []);
+
   const value = React.useMemo(() => {
     const domain = baseDomain
-      ? { ...baseDomain, securityProtections: protections }
+      ? { ...baseDomain, securityProtections: protections, twoFactorAuth }
       : null;
-    return { domain, protections, setProtection };
-  }, [baseDomain, protections, setProtection]);
+    return { domain, protections, setProtection, setTwoFactorAuth };
+  }, [baseDomain, protections, twoFactorAuth, setProtection, setTwoFactorAuth]);
 
   return (
     <DomainProtectionsContext.Provider value={value}>

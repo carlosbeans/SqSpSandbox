@@ -36,7 +36,7 @@
       "zip": "73301",
       "phone": "+1 (512) 555-0147",
       "email": "james.carter@example.com",
-      "secureEmailForwarder": { "address": "contact-a3f9x2@domains.squarespace.com" },
+      "secureEmailForwarder": { "address": "contact-a3f9x2@sqsp-secure.com" },
       "whoisRecord": {
         "registrant": "James Carter",
         "email": "james.carter@example.com",
@@ -147,7 +147,7 @@
       "zip": "97201",
       "phone": "+1 (503) 555-0182",
       "email": "elena.rossi@pixelperfect.design",
-      "secureEmailForwarder": { "address": "contact-k7m2q8@domains.squarespace.com" },
+      "secureEmailForwarder": { "address": "contact-k7m2q8@sqsp-secure.com" },
       "whoisRecord": {
         "registrant": "Elena Rossi",
         "email": "elena.rossi@pixelperfect.design",
@@ -362,7 +362,7 @@
       "zip": "30305",
       "phone": "+1 (404) 555-0672",
       "email": "amara.okafor@wanderlust.travel",
-      "secureEmailForwarder": { "address": "contact-w4t6n1@domains.squarespace.com" },
+      "secureEmailForwarder": { "address": "contact-w4t6n1@sqsp-secure.com" },
       "whoisRecord": {
         "registrant": "Amara Okafor",
         "email": "amara.okafor@wanderlust.travel",
@@ -522,7 +522,7 @@
       "zip": "02210",
       "phone": "+1 (617) 555-0943",
       "email": "daniel.park@blueoak.dev",
-      "secureEmailForwarder": { "address": "contact-b9d3r5@domains.squarespace.com" },
+      "secureEmailForwarder": { "address": "contact-b9d3r5@sqsp-secure.com" },
       "whoisRecord": {
         "registrant": "Daniel Park",
         "email": "daniel.park@blueoak.dev",
@@ -692,7 +692,7 @@
       "zip": "60614",
       "phone": "+1 (312) 555-0331",
       "email": "amy.poehler@secondcityimprov.com",
-      "secureEmailForwarder": { "address": "contact-s2c8i4@domains.squarespace.com" },
+      "secureEmailForwarder": { "address": "contact-s2c8i4@sqsp-secure.com" },
       "whoisRecord": {
         "registrant": "Amy Poehler",
         "email": "amy.poehler@secondcityimprov.com",
@@ -806,7 +806,7 @@
       "zip": "160-0023",
       "phone": "+81 3-5555-0192",
       "email": "nobuo.uematsu@blackmages.jp",
-      "secureEmailForwarder": { "address": "contact-m5j1z7@domains.squarespace.com" },
+      "secureEmailForwarder": { "address": "contact-m5j1z7@sqsp-secure.com" },
       "whoisRecord": {
         "registrant": "Nobuo Uematsu",
         "email": "nobuo.uematsu@blackmages.jp",

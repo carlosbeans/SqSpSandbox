@@ -12,6 +12,7 @@ import { useDomainProtections } from "../contexts/DomainProtectionsContext";
 import { SLIDE_FORWARD } from "../constants/motion";
 import {
   BASE_PROTECTIONS,
+  ACCOUNT_PROTECTIONS,
   ADDON_PROTECTIONS,
   COMING_SOON_PROTECTIONS,
 } from "../constants/securityProtections";
@@ -23,24 +24,41 @@ import {
  * @see https://www.figma.com/design/sLKjrT1verCjfxjCrOmny8/Domain-Settings?node-id=101-7491
  * @see https://www.figma.com/design/7SPZm4hGkNBvVaMmSOhd9s/Security-on-Domains?node-id=1673-87804
  */
-const SECURITY_FEATURES = BASE_PROTECTIONS.map((feature) => ({
-  ...feature,
-  hasToggle: feature.key !== "sslCertificate",
-}));
+const SECURITY_FEATURES = [
+  ...BASE_PROTECTIONS.map((feature) => ({
+    ...feature,
+    hasToggle: feature.key !== "sslCertificate",
+  })),
+  ...ACCOUNT_PROTECTIONS.map((feature) => ({
+    ...feature,
+    title: feature.cardTitle || feature.title,
+    hasToggle: true,
+  })),
+];
 
 export function SecurityContent({ inlineHeader } = {}) {
   const { radii } = useTheme();
   const { domainId } = useParams();
   const navigate = useNavigate();
-  const { domain, protections, setProtection } = useDomainProtections();
+  const { domain, protections, setProtection, setTwoFactorAuth } =
+    useDomainProtections();
 
   const hasAddOn = Boolean(domain?.securityAddOn);
 
+  const isProtectionOn = (key) =>
+    key === "twoFactorAuth"
+      ? Boolean(domain?.twoFactorAuth)
+      : Boolean(protections[key]);
+
   const handleToggleChange = React.useCallback(
     (key) => (event) => {
+      if (key === "twoFactorAuth") {
+        setTwoFactorAuth(event.target.checked);
+        return;
+      }
       setProtection(key, event.target.checked);
     },
-    [setProtection],
+    [setProtection, setTwoFactorAuth],
   );
 
   const handleManageClick = React.useCallback(
@@ -86,6 +104,7 @@ export function SecurityContent({ inlineHeader } = {}) {
             {SECURITY_FEATURES.map((feature) => (
               <Grid.Item
                 key={feature.key}
+                id={`security-standard-protection-${feature.key}`}
                 columns={[12, 6, 4]}
                 mb={4}
                 display="flex"
@@ -104,7 +123,7 @@ export function SecurityContent({ inlineHeader } = {}) {
                         {feature.hasToggle && (
                           <Toggle.Root>
                             <Toggle.Control
-                              checked={Boolean(protections[feature.key])}
+                              checked={isProtectionOn(feature.key)}
                               onChange={handleToggleChange(feature.key)}
                               aria-label={feature.title}
                             />

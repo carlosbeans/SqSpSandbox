@@ -123,87 +123,94 @@ export default function DomainOverviewHeader() {
           flex="1"
           flexDirection="column"
           alignItems="flex-start"
+          justifyContent="space-between"
           minWidth={0}
-          gap={1}
+          gap={3}
         >
-          <Flex alignItems="center" gap={1}>
-            <Box
-              flexShrink={0}
-              sx={{
-                width: 8,
-                height: 8,
-                borderRadius: "50%",
-                backgroundColor: getStatusDotColor(domain.domainStatus, colors),
-              }}
-            />
-            <Text.Body
-              m={0}
-              css={{ fontSize: "14px", lineHeight: "22px" }}
-              color="gray.300"
-            >
-              {getStatusLabel(domain.domainStatus)}
-            </Text.Body>
-          </Flex>
+          <Box
+            id="domain-overview-identity"
+            width="100%"
+            sx={{ display: "flex", flexDirection: "column", gap: 1 }}
+          >
+            <Flex alignItems="center" gap={1}>
+              <Box
+                flexShrink={0}
+                sx={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: "50%",
+                  backgroundColor: getStatusDotColor(domain.domainStatus, colors),
+                }}
+              />
+              <Text.Body
+                m={0}
+                css={{ fontSize: "14px", lineHeight: "22px" }}
+                color="gray.300"
+              >
+                {getStatusLabel(domain.domainStatus)}
+              </Text.Body>
+            </Flex>
 
-          <Box>
-            <Text.Heading.ExtraLarge
-              as="h1"
-              m={0}
-              css={{
-                fontSize: "40px",
-                lineHeight: "44px",
-                letterSpacing: "-0.08px",
-                color: colors?.gray?.[100] ?? "#0e0e0e",
-                wordBreak: "break-word",
-              }}
-            >
-              {domain.domainName}
-            </Text.Heading.ExtraLarge>
+            <Box>
+              <Text.Heading.ExtraLarge
+                as="h1"
+                m={0}
+                css={{
+                  fontSize: "40px",
+                  lineHeight: "44px",
+                  letterSpacing: "-0.08px",
+                  color: colors?.gray?.[100] ?? "#0e0e0e",
+                  wordBreak: "break-word",
+                }}
+              >
+                {domain.domainName}
+              </Text.Heading.ExtraLarge>
+            </Box>
+
+            <Flex alignItems="center" gap={1} flexWrap="wrap" width="100%">
+              <Text.Body
+                m={0}
+                color="gray.300"
+                css={{ fontSize: "14px", lineHeight: "22px" }}
+              >
+                Provider: {domain.domainProvider || "—"}
+              </Text.Body>
+              {formattedExpiration && (
+                <>
+                  <Text.Body m={0} color="gray.300" css={{ fontSize: "14px", lineHeight: "22px" }}>
+                    {" | "}Auto-renews on {formattedExpiration}
+                  </Text.Body>
+                  <TextLink
+                    href="#"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      navigate(
+                        `/domains/${encodeURIComponent(effectiveDomainId)}/registration`,
+                        { state: { slideDirection: SLIDE_FORWARD } },
+                      );
+                    }}
+                  >
+                    <Text.Body.Small as="span">Manage</Text.Body.Small>
+                  </TextLink>
+                  <Text.Body m={0} color="gray.300" css={{ fontSize: "14px", lineHeight: "22px" }}>
+                    {" | "}
+                  </Text.Body>
+                  <TextLink
+                    href="#"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      navigate(
+                        `/domains/${encodeURIComponent(effectiveDomainId)}/registration`,
+                        { state: { slideDirection: SLIDE_FORWARD } },
+                      );
+                    }}
+                  >
+                    <Text.Body.Small as="span">Add years</Text.Body.Small>
+                  </TextLink>
+                </>
+              )}
+            </Flex>
           </Box>
-
-          <Flex alignItems="center" gap={1} flexWrap="wrap" width="100%">
-            <Text.Body
-              m={0}
-              color="gray.300"
-              css={{ fontSize: "14px", lineHeight: "22px" }}
-            >
-              Provider: {domain.domainProvider || "—"}
-            </Text.Body>
-            {formattedExpiration && (
-              <>
-                <Text.Body m={0} color="gray.300" css={{ fontSize: "14px", lineHeight: "22px" }}>
-                  {" | "}Auto-renews on {formattedExpiration}
-                </Text.Body>
-                <TextLink
-                  href="#"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    navigate(
-                      `/domains/${encodeURIComponent(effectiveDomainId)}/registration`,
-                      { state: { slideDirection: SLIDE_FORWARD } },
-                    );
-                  }}
-                >
-                  <Text.Body.Small as="span">Manage</Text.Body.Small>
-                </TextLink>
-                <Text.Body m={0} color="gray.300" css={{ fontSize: "14px", lineHeight: "22px" }}>
-                  {" | "}
-                </Text.Body>
-                <TextLink
-                  href="#"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    navigate(
-                      `/domains/${encodeURIComponent(effectiveDomainId)}/registration`,
-                      { state: { slideDirection: SLIDE_FORWARD } },
-                    );
-                  }}
-                >
-                  <Text.Body.Small as="span">Add years</Text.Body.Small>
-                </TextLink>
-              </>
-            )}
-          </Flex>
 
           <ConnectedProducts connections={domain.connections} />
         </Flex>

@@ -57,9 +57,10 @@ export const ACCOUNT_PROTECTIONS = [
   {
     key: "twoFactorAuth",
     title: "2FA",
+    cardTitle: "Two-factor authentication",
     weight: 14,
     description:
-      "Adds a second verification step when signing in, protecting your account against takeover.",
+      "Adds an extra verification step when signing in to keep your account safe.",
     linkLabel: "Account settings",
   },
 ];
@@ -191,6 +192,54 @@ const RATING_STATUS = {
 
 export function getRatingStatus(tierKey) {
   return RATING_STATUS[tierKey] || RATING_STATUS.medium;
+}
+
+const RATING_LEVEL_DEFINITIONS = [
+  {
+    key: "advanced",
+    color: "fg.success",
+    includedWithAddOn: true,
+    description:
+      "Standard features are active alongside Security Add-on automated threat monitoring.",
+  },
+  {
+    key: "excellent",
+    color: "fg.success",
+    description:
+      "Most standard domain features are active, guarding against hijacking, spam, and data exposure.",
+  },
+  {
+    key: "good",
+    color: "fg.warning",
+    description:
+      "Standard domain features are partially enabled, providing basic baseline protection.",
+  },
+  {
+    key: "medium",
+    color: "fg.danger",
+    description:
+      "Standard domain features are disabled. The domain relies solely on basic platform infrastructure.",
+  },
+];
+
+/** Rating levels, highest first, for the "How your rating is calculated" dialog. */
+export const RATING_LEVELS = RATING_LEVEL_DEFINITIONS.map((level) => ({
+  ...level,
+  label: SECURITY_TIERS.find((tier) => tier.key === level.key).label,
+}));
+
+const RATING_EXPLANATIONS = {
+  advanced:
+    "Your domain has maximum protection. Standard features are active and Security Add-on monitoring is watching for threats around the clock.",
+  excellent:
+    "Your domain has top-tier standard protection. Most core standard features are active, keeping your domain secure. Add Security Add-on at any time for advanced monitoring and an advanced rating.",
+  good: "Your domain has good protection. Some standard features are active, but turning on the remaining protections will raise your rating.",
+  medium:
+    "Your domain has baseline protection. Most standard features are off, so turning them on is the fastest way to raise your rating.",
+};
+
+export function getRatingExplanation(tierKey) {
+  return RATING_EXPLANATIONS[tierKey] || RATING_EXPLANATIONS.medium;
 }
 
 /**
