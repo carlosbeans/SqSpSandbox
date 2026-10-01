@@ -49,7 +49,11 @@ function getFillVariants(reduceMotion) {
  * the rest of the card, then staggers its own segments.
  * @see https://www.figma.com/design/7SPZm4hGkNBvVaMmSOhd9s/Security-on-Domains?node-id=2498-96136
  */
-export default function SecurityRatingMeter({ tierIndex, reduceMotion }) {
+export default function SecurityRatingMeter({
+  tierIndex,
+  reduceMotion,
+  id = "domain-overview-security-rating-meter",
+}) {
   const meterVariants = React.useMemo(
     () => getMeterVariants(reduceMotion),
     [reduceMotion],
@@ -61,7 +65,7 @@ export default function SecurityRatingMeter({ tierIndex, reduceMotion }) {
 
   return (
     <motion.div
-      id="domain-overview-security-rating-meter"
+      id={id}
       role="img"
       aria-label={`Security rating: ${SECURITY_TIERS[tierIndex].label}, level ${tierIndex + 1} of ${SECURITY_TIERS.length}`}
       variants={meterVariants}

@@ -40,7 +40,7 @@ export default function DomainSwitcher({ domains, currentDomainName, onChange })
         {isOpen && (
           <Dropdown.Portal>
             <Dropdown.Positioner>
-              <Dropdown.List>
+              <Dropdown.List sx={{ maxHeight: 300 }}>
                 {options.map((option) => (
                   <Dropdown.Option key={option.value} option={option}>
                     <Dropdown.Option.Label>{option.label}</Dropdown.Option.Label>

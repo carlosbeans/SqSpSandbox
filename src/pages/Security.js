@@ -1,12 +1,13 @@
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Box, Flex } from "@sqs/rosetta-primitives";
-import { Card, Chip, Grid, Stack, TextLink, Toggle } from "@sqs/rosetta-elements";
+import { Card, Chip, Grid, Stack, TextLink } from "@sqs/rosetta-elements";
 import { Text } from "@sqs/rosetta-react/text/next";
+import { Toggle } from "@sqs/rosetta-react/toggle/next";
 import { useTheme } from "@sqs/rosetta-styled";
 import { CheckmarkShield } from "@sqs/rosetta-icons";
 import { usePageHeader } from "../layouts/PageHeaderContext";
-import SecurityScoreBanner from "../components/SecurityScoreBanner/SecurityScoreBanner";
+import SecuritySummaryPanel from "../components/SecuritySummaryPanel/SecuritySummaryPanel";
 import { useDomainProtections } from "../contexts/DomainProtectionsContext";
 import { SLIDE_FORWARD } from "../constants/motion";
 import {
@@ -36,8 +37,8 @@ export function SecurityContent({ inlineHeader } = {}) {
   const hasAddOn = Boolean(domain?.securityAddOn);
 
   const handleToggleChange = React.useCallback(
-    (key) => (checked) => {
-      setProtection(key, checked);
+    (key) => (event) => {
+      setProtection(key, event.target.checked);
     },
     [setProtection],
   );
@@ -67,7 +68,7 @@ export function SecurityContent({ inlineHeader } = {}) {
             </Text.Body>
           </Stack>
         )}
-        {domain && <SecurityScoreBanner domain={domain} />}
+        {domain && <SecuritySummaryPanel domain={domain} />}
         <Flex
           flexDirection="column"
           gap={6}
@@ -81,12 +82,17 @@ export function SecurityContent({ inlineHeader } = {}) {
               Privacy and security features standard with every domain.
             </Text.Body>
           </Stack>
-          <Grid.Container gridConstraint={12} margin={0}>
+          <Grid.Container gridConstraint={12} margin={0} gutter={4}>
             {SECURITY_FEATURES.map((feature) => (
-              <Grid.Item key={feature.key} columns={[12, 6, 4]} mb={4}>
-                <Card sx={{ borderRadius: radii[1], height: "100%" }}>
+              <Grid.Item
+                key={feature.key}
+                columns={[12, 6, 4]}
+                mb={4}
+                display="flex"
+              >
+                <Card sx={{ borderRadius: radii[1], width: "100%" }}>
                   <Card.Body>
-                    <Flex flexDirection="column" gap={3} height="100%">
+                    <Flex flexDirection="column" gap={3}>
                       <Flex
                         alignItems="flex-start"
                         justifyContent="space-between"
@@ -96,11 +102,13 @@ export function SecurityContent({ inlineHeader } = {}) {
                           {feature.title}
                         </Text.Heading.Small>
                         {feature.hasToggle && (
-                          <Toggle
-                            checked={Boolean(protections[feature.key])}
-                            onChange={handleToggleChange(feature.key)}
-                            aria-label={feature.title}
-                          />
+                          <Toggle.Root>
+                            <Toggle.Control
+                              checked={Boolean(protections[feature.key])}
+                              onChange={handleToggleChange(feature.key)}
+                              aria-label={feature.title}
+                            />
+                          </Toggle.Root>
                         )}
                       </Flex>
                       <Text.Body color="gray.300">
@@ -143,12 +151,17 @@ export function SecurityContent({ inlineHeader } = {}) {
                 <TextLink href="#">Manage subscription</TextLink>
               </Text.Body>
             </Stack>
-            <Grid.Container gridConstraint={12} margin={0}>
+            <Grid.Container gridConstraint={12} margin={0} gutter={4}>
               {ADDON_PROTECTIONS.map((feature) => (
-                <Grid.Item key={feature.key} columns={[12, 6, 4]} mb={6}>
-                  <Card sx={{ borderRadius: radii[1], height: "100%" }}>
+                <Grid.Item
+                  key={feature.key}
+                  columns={[12, 6, 4]}
+                  mb={4}
+                  display="flex"
+                >
+                  <Card sx={{ borderRadius: radii[1], width: "100%" }}>
                     <Card.Body>
-                      <Flex flexDirection="column" gap={3} height="100%">
+                      <Flex flexDirection="column" gap={3}>
                         <Flex
                           alignItems="flex-start"
                           justifyContent="space-between"
@@ -157,11 +170,13 @@ export function SecurityContent({ inlineHeader } = {}) {
                           <Text.Heading.Small as="h3" m={0}>
                             {feature.title}
                           </Text.Heading.Small>
-                          <Toggle
-                            checked={Boolean(protections[feature.key])}
-                            onChange={handleToggleChange(feature.key)}
-                            aria-label={feature.title}
-                          />
+                          <Toggle.Root>
+                            <Toggle.Control
+                              checked={Boolean(protections[feature.key])}
+                              onChange={handleToggleChange(feature.key)}
+                              aria-label={feature.title}
+                            />
+                          </Toggle.Root>
                         </Flex>
                         <Text.Body color="gray.300">
                           {feature.description}
@@ -182,8 +197,13 @@ export function SecurityContent({ inlineHeader } = {}) {
                 </Grid.Item>
               ))}
               {COMING_SOON_PROTECTIONS.map((feature) => (
-                <Grid.Item key={feature.key} columns={[12, 6, 4]} mb={4}>
-                  <Card sx={{ borderRadius: radii[1], height: "100%" }}>
+                <Grid.Item
+                  key={feature.key}
+                  columns={[12, 6, 4]}
+                  mb={4}
+                  display="flex"
+                >
+                  <Card sx={{ borderRadius: radii[1], width: "100%" }}>
                     <Card.Body>
                       <Stack space={3}>
                         <Flex

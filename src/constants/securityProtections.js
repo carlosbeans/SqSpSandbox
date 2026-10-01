@@ -182,6 +182,17 @@ export function getSecurityTier(score) {
   return { tierIndex, tier: SECURITY_TIERS[tierIndex] };
 }
 
+const RATING_STATUS = {
+  advanced: "Your domain has maximum protection.",
+  excellent: "Your domain has strong protection.",
+  good: "Your domain has good protection.",
+  medium: "Your domain has baseline protection.",
+};
+
+export function getRatingStatus(tierKey) {
+  return RATING_STATUS[tierKey] || RATING_STATUS.medium;
+}
+
 /**
  * Score = platform baseline + the weights of every protection that is on.
  * Add-on protections only earn weight when the domain has the add-on, so a
@@ -197,6 +208,8 @@ export function getSecurityTier(score) {
  *   tier: { key: string, label: string, min: number },
  *   tierIndex: number,
  *   hasAddOn: boolean,
+ *   activeCount: number,
+ *   totalCount: number,
  *   inactive: Array<{ key: string, title: string }>,
  *   addOnProtectionsAvailable: number,
  * }}
@@ -225,6 +238,8 @@ export function getSecuritySummary(domain) {
     tier,
     tierIndex,
     hasAddOn,
+    activeCount: scored.filter((p) => p.on).length,
+    totalCount: scored.length,
     inactive: scored
       .filter((p) => !p.on)
       .map(({ key, title }) => ({ key, title })),

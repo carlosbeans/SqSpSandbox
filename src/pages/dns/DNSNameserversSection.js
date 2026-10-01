@@ -1,5 +1,5 @@
 import React from "react";
-import { Stack } from "@sqs/rosetta-elements";
+import { Stack, TextLink } from "@sqs/rosetta-elements";
 import { Flex, Box } from "@sqs/rosetta-primitives";
 import { Text } from "@sqs/rosetta-react/text/next";
 import { Button } from "@sqs/rosetta-react/button/next";
@@ -16,7 +16,14 @@ export default function DNSNameserversSection({ sectionId, scrollMarginTop }) {
             <Text.Heading.Large as="h2" mb={0}>Nameservers</Text.Heading.Large>
             <Text.Body>
               Use Squarespace Nameservers to manage your domain's
-              nameservers. Learn more about nameservers
+              nameservers.{" "}
+              <TextLink
+                href="https://support.squarespace.com/hc/en-us/articles/4404183898125-Review-change-or-reset-your-domain-s-nameservers"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Learn more about nameservers
+              </TextLink>
             </Text.Body>
           </Stack>
           <Button size="medium" sx={{ whiteSpace: "nowrap", flexShrink: 0 }}>
@@ -56,7 +63,7 @@ export default function DNSNameserversSection({ sectionId, scrollMarginTop }) {
               </Text.Heading.Large>
               <Text.Body>
                 Create a host record to associate a nameserver with an IP
-                address. Learn more
+                address. <TextLink href="https://support.squarespace.com/hc/en-us/articles/31043523769101-Nameserver-registration-glue-records" target="_blank" rel="noopener noreferrer">Learn more</TextLink>
               </Text.Body>
             </Stack>
             <Button size="medium" sx={{ whiteSpace: "nowrap", flexShrink: 0 }}>

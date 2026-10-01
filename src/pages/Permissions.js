@@ -9,6 +9,7 @@ import { useTheme } from "@sqs/rosetta-styled";
 import { Ellipses } from "@sqs/rosetta-icons";
 import { usePageHeader } from "../layouts/PageHeaderContext";
 import { loadJsonData } from "../utils/dataUtils.ts";
+import InviteDomainManagerDialog from "../components/InviteDomainManagerDialog/InviteDomainManagerDialog";
 
 /** Domain owner from mock `domains.json`: nested `owner` if present, else registrant fields on the domain. */
 function getDomainOwnerDisplay(domain) {
@@ -155,6 +156,13 @@ export function PermissionsContent({ inlineHeader } = {}) {
   const [domain, setDomain] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isInviteOpen, setIsInviteOpen] = useState(false);
+  const [invites, setInvites] = useState(CONTRIBUTOR_INVITES);
+
+  const handleInvite = ({ name, email }) => {
+    setInvites((prev) => [...prev, { name, email, role: "Manager", avatar: null }]);
+    setIsInviteOpen(false);
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -219,8 +227,9 @@ export function PermissionsContent({ inlineHeader } = {}) {
           <Button.Strong
             size="large"
             sx={{ whiteSpace: "nowrap", flexShrink: 0 }}
+            onClick={() => setIsInviteOpen(true)}
           >
-            Add Domain Manager
+            Invite Domain Manager
           </Button.Strong>
         </Flex>
       )}
@@ -237,7 +246,7 @@ export function PermissionsContent({ inlineHeader } = {}) {
 
         <Stack space={0} id="permissions-contributor-invites">
           <SectionLabel>Contributor Invites</SectionLabel>
-          {CONTRIBUTOR_INVITES.map((p) => (
+          {invites.map((p) => (
             <PersonRow
               key={p.email}
               name={p.name}
@@ -262,6 +271,11 @@ export function PermissionsContent({ inlineHeader } = {}) {
           ))}
         </Stack>
       </Flex>
+      <InviteDomainManagerDialog
+        isOpen={isInviteOpen}
+        onRequestClose={() => setIsInviteOpen(false)}
+        onInvite={handleInvite}
+      />
     </Box>
   );
 }

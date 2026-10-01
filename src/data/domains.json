@@ -8,6 +8,8 @@
       "expirationDate": "2026-05-16",
       "eligibility": "eligible",
       "securityAddOn": true,
+      "securityAddOnRenewsOn": "Jan 28, 2028",
+      "securityAlerts72h": 0,
       "twoFactorAuth": false,
       "securityProtections": {
         "whoisPrivacy": true,
@@ -117,6 +119,8 @@
       "expirationDate": "2027-02-26",
       "eligibility": "eligible",
       "securityAddOn": true,
+      "securityAddOnRenewsOn": "Mar 3, 2027",
+      "securityAlerts72h": 2,
       "twoFactorAuth": true,
       "securityProtections": {
         "whoisPrivacy": true,
@@ -330,6 +334,8 @@
       "expirationDate": "2027-01-30",
       "eligibility": "eligible",
       "securityAddOn": true,
+      "securityAddOnRenewsOn": "Nov 14, 2027",
+      "securityAlerts72h": 0,
       "twoFactorAuth": true,
       "securityProtections": {
         "whoisPrivacy": true,
@@ -488,6 +494,8 @@
       "expirationDate": "2026-03-22",
       "eligibility": "eligible",
       "securityAddOn": true,
+      "securityAddOnRenewsOn": "Jun 9, 2027",
+      "securityAlerts72h": 1,
       "twoFactorAuth": false,
       "securityProtections": {
         "whoisPrivacy": true,
@@ -654,6 +662,8 @@
       "expirationDate": "2027-03-15",
       "eligibility": "eligible",
       "securityAddOn": true,
+      "securityAddOnRenewsOn": "Feb 21, 2028",
+      "securityAlerts72h": 3,
       "twoFactorAuth": true,
       "securityProtections": {
         "whoisPrivacy": true,
@@ -766,6 +776,8 @@
       "expirationDate": "2026-12-01",
       "eligibility": "eligible",
       "securityAddOn": true,
+      "securityAddOnRenewsOn": "Aug 5, 2027",
+      "securityAlerts72h": 0,
       "twoFactorAuth": true,
       "securityProtections": {
         "whoisPrivacy": true,

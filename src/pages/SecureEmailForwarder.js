@@ -1,7 +1,8 @@
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Box, Flex } from "@sqs/rosetta-primitives";
-import { Stack, Toggle } from "@sqs/rosetta-elements";
+import { Stack } from "@sqs/rosetta-elements";
+import { Toggle } from "@sqs/rosetta-react/toggle/next";
 import { BackButton, Divider } from "@sqs/rosetta-react";
 import { Button } from "@sqs/rosetta-react/button/next";
 import { Text } from "@sqs/rosetta-react/text/next";
@@ -46,8 +47,8 @@ export default function SecureEmailForwarder() {
   }, [domainId, navigate]);
 
   const handleToggleChange = React.useCallback(
-    (checked) => {
-      if (checked) {
+    (event) => {
+      if (event.target.checked) {
         setProtection("secureEmailForwarder", true);
         return;
       }
@@ -64,7 +65,7 @@ export default function SecureEmailForwarder() {
   }, [setProtection]);
 
   return (
-    <Stack space={6} px={6} pt={6} pb={6} id="secure-email-forwarder-page">
+    <Stack space={6} px={6} pt={4} pb={6} id="secure-email-forwarder-page">
       <BackButton label="Back" onClick={handleBack} />
 
       <Stack space={2} sx={{ maxWidth: 650 }}>
@@ -109,11 +110,13 @@ export default function SecureEmailForwarder() {
                 </Flex>
               )}
             </Stack>
-            <Toggle
-              checked={isEnabled}
-              onChange={handleToggleChange}
-              aria-label="Email forwarding"
-            />
+            <Toggle.Root>
+              <Toggle.Control
+                checked={isEnabled}
+                onChange={handleToggleChange}
+                aria-label="Email forwarding"
+              />
+            </Toggle.Root>
           </Flex>
           <Divider />
         </Box>

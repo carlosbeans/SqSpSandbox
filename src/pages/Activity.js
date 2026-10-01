@@ -4,6 +4,7 @@ import { Table } from "@sqs/rosetta-compositions";
 import { Flex } from "@sqs/rosetta-primitives";
 import { Text } from "@sqs/rosetta-react/text/next";
 import { Button } from "@sqs/rosetta-react/button/next";
+import { ChevronSmallRight } from "@sqs/rosetta-icons";
 import { usePageHeader } from "../layouts/PageHeaderContext";
 import { DOMAIN_ACTIVITY } from "../constants/domainActivity";
 import { SLIDE_FORWARD } from "../constants/motion";
@@ -15,6 +16,20 @@ const columns = [
   columnHelper.accessor("name", { header: "Name" }),
   columnHelper.accessor("location", { header: "Location" }),
   columnHelper.accessor("time", { header: "Time" }),
+  columnHelper.display({
+    id: "caret",
+    header: "",
+    cell: () => (
+      <ChevronSmallRight
+        className="activity-row-caret"
+        aria-hidden="true"
+        css={{ width: 16, height: 16, display: "block", marginLeft: "auto", opacity: 0 }}
+      />
+    ),
+    meta: {
+      bodyCellProps: { sx: { width: 16, textAlign: "right" } },
+    },
+  }),
 ];
 
 export function ActivityContent({ inlineHeader } = {}) {
@@ -40,7 +55,12 @@ export function ActivityContent({ inlineHeader } = {}) {
             openDetail();
           }
         }}
-        sx={{ cursor: "pointer" }}
+        sx={{
+          cursor: "pointer",
+          "&:hover .activity-row-caret, &:focus-visible .activity-row-caret": {
+            opacity: 1,
+          },
+        }}
       />
     );
   };
