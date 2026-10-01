@@ -1,15 +1,18 @@
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Box, Flex } from "@sqs/rosetta-primitives";
-import { Stack } from "@sqs/rosetta-elements";
+import { Stack, Toast } from "@sqs/rosetta-elements";
 import { Toggle } from "@sqs/rosetta-react/toggle/next";
 import { BackButton, Divider } from "@sqs/rosetta-react";
 import { Button } from "@sqs/rosetta-react/button/next";
 import { Text } from "@sqs/rosetta-react/text/next";
 import { BasicDialog } from "@sqs/rosetta-compositions";
 import { CheckmarkCircle } from "@sqs/rosetta-icons";
+import { ExclamationMarkCircleFilled } from "@sqs/rosetta-glyphs";
 import { useDomainProtections } from "../contexts/DomainProtectionsContext";
-import { SLIDE_BACK } from "../constants/motion";
+import { EASE_ENTRANCE, EASE_EXIT, SLIDE_BACK } from "../constants/motion";
+import { showProtectionToast } from "../utils/protectionToast";
 
 /**
  * Secure Email Forwarder — standalone page for domains with the Security
@@ -17,7 +20,44 @@ import { SLIDE_BACK } from "../constants/motion";
  * the Security tab.
  * @see https://www.figma.com/design/7SPZm4hGkNBvVaMmSOhd9s/Security-on-Domains?node-id=1674-80437
  * @see https://www.figma.com/design/7SPZm4hGkNBvVaMmSOhd9s/Security-on-Domains?node-id=1318-114889
+ * @see https://www.figma.com/design/7SPZm4hGkNBvVaMmSOhd9s/Security-on-Domains?node-id=1674-80438 (inactive)
  */
+function getVariants(reduceMotion) {
+  const enter = reduceMotion
+    ? { duration: 0 }
+    : { duration: 0.25, ease: EASE_ENTRANCE };
+  const leave = reduceMotion
+    ? { duration: 0 }
+    : { duration: 0.15, ease: EASE_EXIT };
+  return {
+    message: {
+      initial: { opacity: 0, y: reduceMotion ? 0 : 4 },
+      animate: { opacity: 1, y: 0, transition: enter },
+      exit: { opacity: 0, y: reduceMotion ? 0 : -4, transition: leave },
+    },
+    details: {
+      initial: { opacity: 0, height: 0 },
+      animate: { opacity: 1, height: "auto", transition: enter },
+      exit: { opacity: 0, height: 0, transition: leave },
+    },
+  };
+}
+
+// The zero-width space gives the wrapper the text's line height, so the icon
+// centers on the first line even when the message wraps.
+function StatusIcon({ children }) {
+  return (
+    <Text.Body.Small
+      as="span"
+      m={0}
+      sx={{ display: "flex", alignItems: "center", flexShrink: 0 }}
+    >
+      {"\u200b"}
+      {children}
+    </Text.Body.Small>
+  );
+}
+
 function DetailRow({ label, value }) {
   return (
     <Box>
@@ -35,6 +75,12 @@ export default function SecureEmailForwarder() {
   const navigate = useNavigate();
   const { domain, protections, setProtection } = useDomainProtections();
   const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
+  const toastRef = React.useRef(null);
+  const reduceMotion = useReducedMotion();
+  const variants = React.useMemo(
+    () => getVariants(reduceMotion),
+    [reduceMotion],
+  );
 
   const isEnabled = Boolean(protections.secureEmailForwarder);
   const forwarderAddress = domain?.secureEmailForwarder?.address ?? "";
@@ -50,6 +96,7 @@ export default function SecureEmailForwarder() {
     (event) => {
       if (event.target.checked) {
         setProtection("secureEmailForwarder", true);
+        showProtectionToast(toastRef, "Secure email forwarder", true);
         return;
       }
       setIsConfirmOpen(true);
@@ -62,6 +109,7 @@ export default function SecureEmailForwarder() {
   const confirmTurnOff = React.useCallback(() => {
     setProtection("secureEmailForwarder", false);
     setIsConfirmOpen(false);
+    showProtectionToast(toastRef, "Secure email forwarder", false);
   }, [setProtection]);
 
   return (
@@ -92,23 +140,45 @@ export default function SecureEmailForwarder() {
           >
             <Stack space={1}>
               <Text.Body fontWeight="medium">Email forwarding</Text.Body>
-              {isEnabled && (
-                <Flex alignItems="flex-start" gap={1}>
-                  <CheckmarkCircle
-                    css={{
-                      width: 16,
-                      height: 16,
-                      color: "fg.success",
-                      flexShrink: 0,
-                      marginTop: 3,
-                    }}
-                  />
-                  <Text.Body.Small sx={{ color: "fg.success" }}>
-                    Messages to this forwarder address are securely forwarded
-                    to your email {forwardsTo}.
-                  </Text.Body.Small>
-                </Flex>
-              )}
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={isEnabled ? "active" : "inactive"}
+                  variants={variants.message}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                >
+                  {isEnabled ? (
+                    <Flex alignItems="flex-start" gap={1}>
+                      <StatusIcon>
+                        <CheckmarkCircle
+                          color="fg.success"
+                          sx={{ width: 16, height: 16, display: "block" }}
+                        />
+                      </StatusIcon>
+                      <Text.Body.Small sx={{ color: "fg.success" }}>
+                        Messages to this forwarder address are securely
+                        forwarded to your email {forwardsTo}.
+                      </Text.Body.Small>
+                    </Flex>
+                  ) : (
+                    <Flex alignItems="flex-start" gap={1}>
+                      <StatusIcon>
+                        <ExclamationMarkCircleFilled
+                          color="fg.warning"
+                          css={{ width: 16, height: 16, display: "block" }}
+                        />
+                      </StatusIcon>
+                      <Text.Body.Small sx={{ color: "fg.warning" }}>
+                        By turning off secure email forwarding, your email
+                        address {forwarderAddress} will stop receiving messages
+                        and contacts will no longer be able to reach you
+                        through it.
+                      </Text.Body.Small>
+                    </Flex>
+                  )}
+                </motion.div>
+              </AnimatePresence>
             </Stack>
             <Toggle.Root>
               <Toggle.Control
@@ -118,12 +188,28 @@ export default function SecureEmailForwarder() {
               />
             </Toggle.Root>
           </Flex>
-          <Divider />
-        </Box>
-
-        <Box>
-          <DetailRow label="Forwarder address" value={forwarderAddress} />
-          <DetailRow label="Forwards to" value={forwardsTo} />
+          <AnimatePresence initial={false}>
+            {isEnabled && (
+              <motion.div
+                key="address-details"
+                id="secure-email-forwarder-address-details"
+                variants={variants.details}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                style={{ overflow: "hidden" }}
+              >
+                <Divider />
+                <Box mt={4}>
+                  <DetailRow
+                    label="Forwarder address"
+                    value={forwarderAddress}
+                  />
+                  <DetailRow label="Forwards to" value={forwardsTo} />
+                </Box>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </Box>
 
         <Flex gap={2}>
@@ -169,6 +255,7 @@ export default function SecureEmailForwarder() {
           </BasicDialog.Transition>
         </BasicDialog.Modal>
       )}
+      <Toast.Container ref={toastRef} />
     </Stack>
   );
 }

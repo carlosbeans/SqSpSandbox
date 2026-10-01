@@ -1,10 +1,12 @@
 import React from "react";
-import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { ActionList } from "@sqs/rosetta-compositions";
-import { Box, Button, Flex, Text } from "@sqs/rosetta-primitives";
-import { Stack, Toggle } from "@sqs/rosetta-elements";
+import { Box, Flex, Text } from "@sqs/rosetta-primitives";
+import { Dialog } from "@sqs/rosetta-react";
+import { Button } from "@sqs/rosetta-react/button/next";
+import { Toggle } from "@sqs/rosetta-react/toggle/next";
 import { useSandboxTwoFaBanner } from "../../contexts/SandboxTwoFaBannerContext";
+import { useSandboxSingleDomain } from "../../contexts/SandboxSingleDomainContext";
 
 const avatarStyle = {
   width: "40px",
@@ -15,8 +17,6 @@ const avatarStyle = {
   backgroundSize: "100%",
   cursor: "pointer",
 };
-
-const SANDBOX_SETTINGS_MODAL_Z = 1700;
 
 /** Stacks above sticky nav, domain chrome, and 2FA banner; PopOver portals to document.body + position fixed */
 const AVATAR_ACTION_LIST_Z_INDEX = 2000;
@@ -32,105 +32,83 @@ function SandboxSettingsModal({
   setIsNewUser,
   isReturningUser,
   setIsReturningUser,
-  singleDomainUser,
-  setSingleDomainUser,
+  singleDomainEnabled,
+  setSingleDomainEnabled,
   sandboxTwoFaBannerEnabled,
   setSandboxTwoFaBannerEnabled,
 }) {
-  if (!open || typeof document === "undefined") {
+  if (!open) {
     return null;
   }
 
-  return createPortal(
-    <Box
-      id="sandbox-settings-modal-overlay"
-      onClick={onClose}
-      sx={{
-        position: "fixed",
-        inset: 0,
-        bg: "rgba(0, 0, 0, 0.32)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        zIndex: SANDBOX_SETTINGS_MODAL_Z,
-        px: 2,
-      }}
-    >
-      <Box
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="sandbox-settings-title"
-        onClick={(event) => event.stopPropagation()}
-        sx={{
-          bg: "white",
-          width: "100%",
-          maxWidth: 360,
-          borderRadius: 4,
-          boxShadow:
-            "0 16px 40px rgba(26, 26, 26, 0.24), 0 2px 8px rgba(26, 26, 26, 0.12)",
-        }}
-      >
-        <Flex
-          alignItems="center"
-          justifyContent="space-between"
-          px={4}
-          py={3}
-          sx={{ borderBottom: "1px solid", borderColor: "gray.700" }}
+  const flags = [
+    {
+      key: "new-user",
+      label: "New User",
+      checked: isNewUser,
+      onChange: setIsNewUser,
+    },
+    {
+      key: "returning-user",
+      label: "Returning User",
+      checked: isReturningUser,
+      onChange: setIsReturningUser,
+    },
+    {
+      key: "single-domain",
+      label: "Single-domain",
+      checked: singleDomainEnabled,
+      onChange: setSingleDomainEnabled,
+    },
+    {
+      key: "two-fa-banner",
+      label: "2FA Banner",
+      checked: sandboxTwoFaBannerEnabled,
+      onChange: setSandboxTwoFaBannerEnabled,
+    },
+  ];
+
+  return (
+    <Dialog.Modal onRequestClose={onClose} closeOnEsc closeOnOverlayClicked>
+      <Dialog.Overlay />
+      <Dialog.Transition>
+        <Dialog
+          id="sandbox-settings-dialog"
+          size="small"
+          minHeight={{ _: "auto", "mobile-*": "unset" }}
         >
-          <Text.Subtitle id="sandbox-settings-title">Sandbox Settings</Text.Subtitle>
-          <Button.Tertiary size="small" onClick={onClose}>
-            Close
-          </Button.Tertiary>
-        </Flex>
-
-        <Stack space={3} p={4}>
-          <Flex alignItems="center" justifyContent="space-between">
-            <Text.Body>New User</Text.Body>
-            <Toggle
-              checked={isNewUser}
-              onChange={(checked) => setIsNewUser(checked)}
-              aria-label="New User"
-            />
-          </Flex>
-
-          <Flex alignItems="center" justifyContent="space-between">
-            <Text.Body>Returning User</Text.Body>
-            <Toggle
-              checked={isReturningUser}
-              onChange={(checked) => setIsReturningUser(checked)}
-              aria-label="Returning User"
-            />
-          </Flex>
-          <Flex alignItems="center" justifyContent="space-between">
-            <Text.Body>Single-domain</Text.Body>
-            <Toggle
-              checked={singleDomainUser}
-              onChange={(checked) => setSingleDomainUser(checked)}
-              aria-label="Single-domain"
-            />
-          </Flex>
-
-          <Flex alignItems="center" justifyContent="space-between">
-            <Text.Body>2FA Banner</Text.Body>
-            <Toggle
-              checked={sandboxTwoFaBannerEnabled}
-              onChange={(checked) => setSandboxTwoFaBannerEnabled(checked)}
-              aria-label="Show two-factor authentication banner"
-            />
-          </Flex>
-        </Stack>
-
-        <Flex
-          justifyContent="flex-end"
-          px={4}
-          py={3}
-          sx={{ borderTop: "1px solid", borderColor: "gray.700" }}
-        >
-          <Button.Primary onClick={onClose}>Save</Button.Primary>
-        </Flex>
-      </Box>
-    </Box>,
-    document.body
+          <Dialog.Header>
+            <Dialog.Header.Title>Sandbox Settings</Dialog.Header.Title>
+            <Dialog.CloseButton onClick={onClose} />
+          </Dialog.Header>
+          <Dialog.Content>
+            <Flex flexDirection="column" gap={3} width="100%">
+              {flags.map(({ key, label, checked, onChange }) => (
+                <Flex
+                  key={key}
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <Text.Body m={0}>{label}</Text.Body>
+                  <Toggle.Root>
+                    <Toggle.Control
+                      checked={checked}
+                      onChange={(event) => onChange(event.target.checked)}
+                      aria-label={label}
+                    />
+                  </Toggle.Root>
+                </Flex>
+              ))}
+            </Flex>
+          </Dialog.Content>
+          <Dialog.Footer justifyContent="end">
+            <Button.Strong size="small" onClick={onClose}>
+              Save
+            </Button.Strong>
+          </Dialog.Footer>
+        </Dialog>
+      </Dialog.Transition>
+    </Dialog.Modal>
   );
 }
 
@@ -141,7 +119,8 @@ export default function Avatar() {
   const [isSandboxSettingsOpen, setIsSandboxSettingsOpen] = React.useState(false);
   const [isNewUser, setIsNewUser] = React.useState(false);
   const [isReturningUser, setIsReturningUser] = React.useState(false);
-  const [singleDomainUser, setSingleDomainUser] = React.useState(false);
+  const { singleDomainEnabled, setSingleDomainEnabled } =
+    useSandboxSingleDomain();
 
   const documentScrollRoot = React.useMemo(
     () =>
@@ -220,8 +199,8 @@ export default function Avatar() {
         setIsNewUser={setIsNewUser}
         isReturningUser={isReturningUser}
         setIsReturningUser={setIsReturningUser}
-        singleDomainUser={singleDomainUser}
-        setSingleDomainUser={setSingleDomainUser}
+        singleDomainEnabled={singleDomainEnabled}
+        setSingleDomainEnabled={setSingleDomainEnabled}
         sandboxTwoFaBannerEnabled={sandboxTwoFaBannerEnabled}
         setSandboxTwoFaBannerEnabled={setSandboxTwoFaBannerEnabled}
       />

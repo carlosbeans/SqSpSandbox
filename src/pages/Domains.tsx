@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { loadJsonData } from "../utils/dataUtils.ts";
+import { getVisibleDomains } from "../utils/sandboxDomains.ts";
+import { useSandboxSingleDomain } from "../contexts/SandboxSingleDomainContext";
 import { PageHeader, Table, Drawer, Accordion } from "@sqs/rosetta-compositions";
 import { Button, Text, Touchable, Flex } from "@sqs/rosetta-primitives";
 import { Chip } from "@sqs/rosetta-elements";
 import { Breakpoint } from "@sqs/rosetta-utilities";
 import { CheckmarkShield, Ellipses, Refresh } from "@sqs/rosetta-icons";
 import { IconButton } from "@sqs/rosetta-react";
+import { Button as ButtonNext } from "@sqs/rosetta-react/button/next";
 import type { TableColumnDef } from "@sqs/rosetta-compositions";
 import { Stack } from "@sqs/rosetta-elements";
 
@@ -17,6 +20,7 @@ interface Domain {
   domainProvider: string;
   expirationDate: string;
   securityAddOn: boolean;
+  sandboxSingleDomain?: boolean;
 }
 
 interface DomainsData {
@@ -382,6 +386,11 @@ export default function Domains() {
   const [domains, setDomains] = useState<Domain[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [filterOpen, setFilterOpen] = useState(false);
+  const { singleDomainEnabled } = useSandboxSingleDomain();
+  const visibleDomains = useMemo(
+    () => getVisibleDomains(domains, singleDomainEnabled),
+    [domains, singleDomainEnabled],
+  );
 
   useEffect(() => {
     const fetchDomains = async () => {
@@ -459,7 +468,7 @@ export default function Domains() {
 
   return (
     <Stack>
-      <PageHeader>
+      <PageHeader maxWidth="100%">
         <PageHeader.Body>
           <PageHeader.Title title="Domains" />
           <PageHeader.Actions>
@@ -467,8 +476,8 @@ export default function Domains() {
               render={{
                 default: () => (
                   <>
-                    <Button.Tertiary>Transfer Domain</Button.Tertiary>
-                    <Button.Primary
+                    <ButtonNext.Subtle>Transfer Domain</ButtonNext.Subtle>
+                    <ButtonNext.Strong
                       onClick={() =>
                         window.open(
                           "https://domains.squarespace.com/",
@@ -477,7 +486,7 @@ export default function Domains() {
                       }
                     >
                       Get a Domain
-                    </Button.Primary>
+                    </ButtonNext.Strong>
                   </>
                 ),
                 "viewport-xs": () => (
@@ -504,7 +513,7 @@ export default function Domains() {
       <Stack mx={4}>
         <Table
           columns={columns}
-          data={domains}
+          data={visibleDomains}
           enableSearch
           enableFilter
           enableSort

@@ -32,7 +32,7 @@ function DomainSettingsTabPanel({ tab, toastRef }) {
     case "dns":
       return <DNSSettingsContent inlineHeader toastRef={toastRef} />;
     case "security":
-      return <SecurityContent inlineHeader />;
+      return <SecurityContent inlineHeader toastRef={toastRef} />;
     case "activity":
       return <ActivityContent inlineHeader />;
     case "permissions":

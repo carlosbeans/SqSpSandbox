@@ -1,14 +1,17 @@
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Box, Flex } from "@sqs/rosetta-primitives";
-import { Stack, TextLink, Toggle } from "@sqs/rosetta-elements";
+import { Stack, TextLink, Toast, Toggle } from "@sqs/rosetta-elements";
 import { BackButton, Divider, Reveal } from "@sqs/rosetta-react";
 import { Button } from "@sqs/rosetta-react/button/next";
 import { Text } from "@sqs/rosetta-react/text/next";
 import { useTheme } from "@sqs/rosetta-styled";
 import { ExclamationMarkCircle } from "@sqs/rosetta-icons";
-import { loadJsonData } from "../utils/dataUtils.ts";
+import { useDomainProtections } from "../contexts/DomainProtectionsContext";
+import DisableProtectionDialog from "../components/DisableProtectionDialog/DisableProtectionDialog";
+import { BASE_PROTECTIONS } from "../constants/securityProtections";
 import { SLIDE_BACK } from "../constants/motion";
+import { showProtectionToast } from "../utils/protectionToast";
 
 /**
  * WHOIS Privacy Management — standalone page for domains with the Security
@@ -17,6 +20,7 @@ import { SLIDE_BACK } from "../constants/motion";
  * @see https://www.figma.com/design/7SPZm4hGkNBvVaMmSOhd9s/Security-on-Domains?node-id=1318-99122
  */
 const RECORD_LABEL_WIDTH = 159;
+const WHOIS_PROTECTION = BASE_PROTECTIONS.find((p) => p.key === "whoisPrivacy");
 
 function RecordRow({ label, value, isFirst }) {
   return (
@@ -38,26 +42,35 @@ export default function WhoisPrivacy() {
   const { radii } = useTheme();
   const { domainId } = useParams();
   const navigate = useNavigate();
-  const [domain, setDomain] = React.useState(null);
-  const [privacyEnabled, setPrivacyEnabled] = React.useState(true);
+  const { domain, protections, setProtection } = useDomainProtections();
   const [isRecordOpen, setIsRecordOpen] = React.useState(false);
+  const [isDisableOpen, setIsDisableOpen] = React.useState(false);
+  const toastRef = React.useRef(null);
 
-  React.useEffect(() => {
-    let cancelled = false;
-    async function fetchDomain() {
-      const response = await loadJsonData("domains");
-      if (cancelled) return;
-      const all = response.data?.domains || [];
-      const decodedId = domainId ? decodeURIComponent(domainId) : "";
-      const found = all.find((d) => d.domainName === decodedId) || null;
-      setDomain(found);
-      setPrivacyEnabled(Boolean(found?.securityProtections?.whoisPrivacy));
-    }
-    fetchDomain();
-    return () => {
-      cancelled = true;
-    };
-  }, [domainId]);
+  const privacyEnabled = Boolean(protections.whoisPrivacy);
+
+  const handlePrivacyToggle = React.useCallback(
+    (checked) => {
+      if (!checked) {
+        setIsDisableOpen(true);
+        return;
+      }
+      setProtection("whoisPrivacy", true);
+      showProtectionToast(toastRef, WHOIS_PROTECTION.title, true);
+    },
+    [setProtection],
+  );
+
+  const handleDisableCancel = React.useCallback(
+    () => setIsDisableOpen(false),
+    [],
+  );
+
+  const handleDisableConfirm = React.useCallback(() => {
+    setProtection("whoisPrivacy", false);
+    setIsDisableOpen(false);
+    showProtectionToast(toastRef, WHOIS_PROTECTION.title, false);
+  }, [setProtection]);
 
   const handleBack = React.useCallback(() => {
     navigate(`/domains/${encodeURIComponent(domainId)}/settings?tab=security`, {
@@ -68,7 +81,7 @@ export default function WhoisPrivacy() {
   const whoisRecord = domain?.whoisRecord;
 
   return (
-    <Stack space={6} px={6} pt={6} pb={6} id="whois-privacy-page">
+    <Stack space={6} px={6} pt={4} pb={6} id="whois-privacy-page">
       <BackButton label="Back" onClick={handleBack} />
 
       <Stack space={2}>
@@ -97,14 +110,20 @@ export default function WhoisPrivacy() {
             </Text.Heading.Small>
             <Toggle
               checked={privacyEnabled}
-              onChange={setPrivacyEnabled}
+              onChange={handlePrivacyToggle}
               aria-label="Privacy protection"
             />
           </Flex>
           {!privacyEnabled && (
-            <Flex gap={2} alignItems="flex-start">
+            <Flex gap={1} alignItems="center">
               <ExclamationMarkCircle
-                sx={{ color: "fg.warning", flexShrink: 0, mt: "2px" }}
+                sx={{
+                  width: 16,
+                  height: 16,
+                  color: "fg.warning",
+                  flexShrink: 0,
+                  display: "block",
+                }}
               />
               <Text.Body.Small sx={{ color: "fg.warning" }}>
                 By turning off domain privacy, you're consenting to your
@@ -205,6 +224,13 @@ export default function WhoisPrivacy() {
           Save
         </Button.Strong>
       </Flex>
+
+      <DisableProtectionDialog
+        protection={isDisableOpen ? WHOIS_PROTECTION : null}
+        onCancel={handleDisableCancel}
+        onConfirm={handleDisableConfirm}
+      />
+      <Toast.Container ref={toastRef} />
     </Stack>
   );
 }

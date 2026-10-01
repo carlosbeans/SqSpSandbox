@@ -844,6 +844,74 @@
         { "host": "@", "type": "MX", "priority": "20", "ttl": "4 hrs", "data": "mx2.forwardemail.net" },
         { "host": "@", "type": "TXT", "priority": "N/A", "ttl": "1 hr", "data": "v=spf1 a mx include:forwardemail.net ~all" }
       ]
+    },
+    {
+      "thumbnailImage": "/assets/screenshots/connected/Thumbnail%20-%201.jpg",
+      "domainName": "altalomasoap.com",
+      "domainStatus": "active",
+      "domainProvider": "Squarespace",
+      "expirationDate": "2027-03-18",
+      "eligibility": "eligible",
+      "sandboxSingleDomain": true,
+      "securityAddOn": false,
+      "twoFactorAuth": true,
+      "securityProtections": {
+        "whoisPrivacy": true,
+        "dnssec": true,
+        "domainLock": true,
+        "sslCertificate": true
+      },
+      "payLinksEnabled": false,
+      "connectedPayments": [],
+      "connections": {
+        "website": "connected"
+      },
+      "firstName": "Marisol",
+      "lastName": "Vega",
+      "organization": "Alta Loma Soap Co.",
+      "streetAddress": "1240 Alder Lane",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97205",
+      "phone": "+1 (503) 555-0126",
+      "email": "marisol@altalomasoap.com",
+      "secureEmailForwarder": { "address": "contact-s8d4k1@sqsp-secure.com" },
+      "whoisRecord": {
+        "registrant": "Marisol Vega",
+        "email": "marisol@altalomasoap.com",
+        "register": "Squarespace Domains II LLC",
+        "expires": "2027-03-18",
+        "status": "clientTransferProhibited",
+        "nameServers": ["ns1.squarespace.com", "ns2.squarespace.com"]
+      },
+      "billing": {
+        "firstName": "Marisol",
+        "lastName": "Vega",
+        "streetAddress": "1240 Alder Lane",
+        "city": "Portland",
+        "state": "OR",
+        "zip": "97205",
+        "country": "United States",
+        "creditCard": "4716 2038 5519 0472"
+      },
+      "owner": {
+        "firstName": "Marisol",
+        "lastName": "Vega",
+        "organization": "Alta Loma Soap Co.",
+        "streetAddress": "1240 Alder Lane",
+        "city": "Portland",
+        "state": "OR",
+        "zip": "97205",
+        "country": "United States",
+        "phone": "+1 (503) 555-0126",
+        "email": "marisol@altalomasoap.com"
+      },
+      "customDnsRecords": [
+        { "host": "www", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "ext-sq.squarespace.com" },
+        { "host": "@", "type": "MX", "priority": "1", "ttl": "4 hrs", "data": "aspmx.l.google.com" },
+        { "host": "@", "type": "MX", "priority": "5", "ttl": "4 hrs", "data": "alt1.aspmx.l.google.com" },
+        { "host": "@", "type": "TXT", "priority": "N/A", "ttl": "1 hr", "data": "v=spf1 include:_spf.google.com ~all" }
+      ]
     }
   ]
 }

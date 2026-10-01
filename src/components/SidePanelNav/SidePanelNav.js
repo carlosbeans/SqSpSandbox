@@ -14,6 +14,8 @@ import { Settings } from "@sqs/rosetta-glyphs";
 import { SidePanelDomainContext } from "../../layouts/SidePanelDomainContext";
 import { useTopChromeInset } from "../../contexts/TopChromeInsetContext";
 import { loadJsonData } from "../../utils/dataUtils.ts";
+import { getVisibleDomains } from "../../utils/sandboxDomains.ts";
+import { useSandboxSingleDomain } from "../../contexts/SandboxSingleDomainContext";
 import { TOP_CHROME_STICKY_BASE_PX } from "../../constants/layout";
 import DomainSwitcher from "../DomainSwitcher/DomainSwitcher";
 
@@ -59,6 +61,7 @@ export default function SidePanelNav() {
 
   const activeNav = getActiveNav(pathname, domainIdForActive);
 
+  const { singleDomainEnabled } = useSandboxSingleDomain();
   const [allDomains, setAllDomains] = React.useState([]);
   const [currentDomain, setCurrentDomain] = React.useState(null);
 
@@ -144,7 +147,7 @@ export default function SidePanelNav() {
         </Box>
 
         <DomainSwitcher
-          domains={allDomains}
+          domains={getVisibleDomains(allDomains, singleDomainEnabled)}
           currentDomainName={currentDomain?.domainName || domainIdForNav}
           onChange={onDomainSwitch}
         />

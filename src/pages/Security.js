@@ -8,8 +8,11 @@ import { useTheme } from "@sqs/rosetta-styled";
 import { CheckmarkShield } from "@sqs/rosetta-icons";
 import { usePageHeader } from "../layouts/PageHeaderContext";
 import SecuritySummaryPanel from "../components/SecuritySummaryPanel/SecuritySummaryPanel";
+import DisableProtectionDialog from "../components/DisableProtectionDialog/DisableProtectionDialog";
+import ProtectionStatusMessage from "../components/ProtectionStatusMessage/ProtectionStatusMessage";
 import { useDomainProtections } from "../contexts/DomainProtectionsContext";
 import { SLIDE_FORWARD } from "../constants/motion";
+import { showProtectionToast } from "../utils/protectionToast";
 import {
   BASE_PROTECTIONS,
   ACCOUNT_PROTECTIONS,
@@ -36,7 +39,7 @@ const SECURITY_FEATURES = [
   })),
 ];
 
-export function SecurityContent({ inlineHeader } = {}) {
+export function SecurityContent({ inlineHeader, toastRef } = {}) {
   const { radii } = useTheme();
   const { domainId } = useParams();
   const navigate = useNavigate();
@@ -50,16 +53,41 @@ export function SecurityContent({ inlineHeader } = {}) {
       ? Boolean(domain?.twoFactorAuth)
       : Boolean(protections[key]);
 
+  const [pendingDisable, setPendingDisable] = React.useState(null);
+
+  const applyChange = React.useCallback(
+    (feature, checked) => {
+      if (feature.key === "twoFactorAuth") {
+        setTwoFactorAuth(checked);
+      } else {
+        setProtection(feature.key, checked);
+      }
+      showProtectionToast(toastRef, feature.title, checked);
+    },
+    [setProtection, setTwoFactorAuth, toastRef],
+  );
+
   const handleToggleChange = React.useCallback(
-    (key) => (event) => {
-      if (key === "twoFactorAuth") {
-        setTwoFactorAuth(event.target.checked);
+    (feature) => (event) => {
+      const { checked } = event.target;
+      if (!checked && feature.disableWarning) {
+        setPendingDisable(feature);
         return;
       }
-      setProtection(key, event.target.checked);
+      applyChange(feature, checked);
     },
-    [setProtection, setTwoFactorAuth],
+    [applyChange],
   );
+
+  const handleDisableCancel = React.useCallback(
+    () => setPendingDisable(null),
+    [],
+  );
+
+  const handleDisableConfirm = React.useCallback(() => {
+    if (pendingDisable) applyChange(pendingDisable, false);
+    setPendingDisable(null);
+  }, [applyChange, pendingDisable]);
 
   const handleManageClick = React.useCallback(
     (feature) => (event) => {
@@ -100,13 +128,13 @@ export function SecurityContent({ inlineHeader } = {}) {
               Privacy and security features standard with every domain.
             </Text.Body>
           </Stack>
-          <Grid.Container gridConstraint={12} margin={0} gutter={4}>
+          <Grid.Container gridConstraint={12} margin={0} gutter={2}>
             {SECURITY_FEATURES.map((feature) => (
               <Grid.Item
                 key={feature.key}
                 id={`security-standard-protection-${feature.key}`}
                 columns={[12, 6, 4]}
-                mb={4}
+                mb={2}
                 display="flex"
               >
                 <Card sx={{ borderRadius: radii[1], width: "100%" }}>
@@ -124,7 +152,7 @@ export function SecurityContent({ inlineHeader } = {}) {
                           <Toggle.Root>
                             <Toggle.Control
                               checked={isProtectionOn(feature.key)}
-                              onChange={handleToggleChange(feature.key)}
+                              onChange={handleToggleChange(feature)}
                               aria-label={feature.title}
                             />
                           </Toggle.Root>
@@ -133,6 +161,14 @@ export function SecurityContent({ inlineHeader } = {}) {
                       <Text.Body color="gray.300">
                         {feature.description}
                       </Text.Body>
+                      <ProtectionStatusMessage
+                        id={`security-standard-protection-status-${feature.key}`}
+                        message={
+                          feature.hasToggle && !isProtectionOn(feature.key)
+                            ? feature.offStatus
+                            : null
+                        }
+                      />
                       {feature.linkLabel &&
                         (feature.key !== "whoisPrivacy" || hasAddOn) && (
                           <TextLink
@@ -170,12 +206,16 @@ export function SecurityContent({ inlineHeader } = {}) {
                 <TextLink href="#">Manage subscription</TextLink>
               </Text.Body>
             </Stack>
-            <Grid.Container gridConstraint={12} margin={0} gutter={4}>
-              {ADDON_PROTECTIONS.map((feature) => (
+            <Grid.Container gridConstraint={12} margin={0} gutter={2}>
+              {ADDON_PROTECTIONS.map((feature) => {
+                const isOn =
+                  feature.locked || Boolean(protections[feature.key]);
+                return (
                 <Grid.Item
                   key={feature.key}
+                  id={`security-advanced-protection-${feature.key}`}
                   columns={[12, 6, 4]}
-                  mb={4}
+                  mb={2}
                   display="flex"
                 >
                   <Card sx={{ borderRadius: radii[1], width: "100%" }}>
@@ -191,8 +231,9 @@ export function SecurityContent({ inlineHeader } = {}) {
                           </Text.Heading.Small>
                           <Toggle.Root>
                             <Toggle.Control
-                              checked={Boolean(protections[feature.key])}
-                              onChange={handleToggleChange(feature.key)}
+                              checked={isOn}
+                              disabled={feature.locked}
+                              onChange={handleToggleChange(feature)}
                               aria-label={feature.title}
                             />
                           </Toggle.Root>
@@ -200,7 +241,12 @@ export function SecurityContent({ inlineHeader } = {}) {
                         <Text.Body color="gray.300">
                           {feature.description}
                         </Text.Body>
-                        {feature.linkLabel && (
+                        <ProtectionStatusMessage
+                          id={`security-advanced-protection-status-${feature.key}`}
+                          message={isOn ? null : feature.offStatus}
+                        />
+                        {feature.linkLabel &&
+                          !(feature.hideLinkWhenOn && isOn) && (
                           <TextLink
                             href="#"
                             onClick={handleManageClick(feature)}
@@ -214,12 +260,13 @@ export function SecurityContent({ inlineHeader } = {}) {
                     </Card.Body>
                   </Card>
                 </Grid.Item>
-              ))}
+                );
+              })}
               {COMING_SOON_PROTECTIONS.map((feature) => (
                 <Grid.Item
                   key={feature.key}
                   columns={[12, 6, 4]}
-                  mb={4}
+                  mb={2}
                   display="flex"
                 >
                   <Card sx={{ borderRadius: radii[1], width: "100%" }}>
@@ -251,6 +298,11 @@ export function SecurityContent({ inlineHeader } = {}) {
           </Stack>
         )}
       </Flex>
+      <DisableProtectionDialog
+        protection={pendingDisable}
+        onCancel={handleDisableCancel}
+        onConfirm={handleDisableConfirm}
+      />
     </Box>
   );
 }

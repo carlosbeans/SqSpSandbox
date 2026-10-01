@@ -11,7 +11,9 @@ import TwoFactorAuthBanner, {
   TWO_FACTOR_BANNER_HEIGHT_PX,
 } from "../components/TwoFactorAuthBanner/TwoFactorAuthBanner";
 import { SandboxTwoFaBannerContext } from "../contexts/SandboxTwoFaBannerContext";
+import { SandboxSingleDomainContext } from "../contexts/SandboxSingleDomainContext";
 import { TopChromeInsetContext } from "../contexts/TopChromeInsetContext";
+import { useScrollToTopOnNavigate } from "../hooks/useScrollToTopOnNavigate";
 import { appTheme } from "../theme";
 import { viewportBreakpoints } from "../constants/breakpoints";
 
@@ -51,9 +53,15 @@ export default function Root() {
   const outlet = useOutlet();
   const { pathname, search } = useLocation();
   const reduceMotion = useReducedMotion();
+  useScrollToTopOnNavigate();
 
   const [sandboxTwoFaBannerEnabled, setSandboxTwoFaBannerEnabled] =
     React.useState(false);
+  const [singleDomainEnabled, setSingleDomainEnabled] = React.useState(false);
+  const sandboxSingleDomainContextValue = React.useMemo(
+    () => ({ singleDomainEnabled, setSingleDomainEnabled }),
+    [singleDomainEnabled],
+  );
   const [bannerDismissed, setBannerDismissed] = React.useState(() =>
     readBannerDismissed(),
   );
@@ -118,39 +126,43 @@ export default function Root() {
           }}
         >
           <SandboxTwoFaBannerContext.Provider value={sandboxTwoFaBannerContextValue}>
-            <TopChromeInsetContext.Provider value={topChromeInsetPx}>
-              <AnimatePresence
-                initial={false}
-                onExitComplete={onTwoFactorBannerExitComplete}
-              >
-                {twoFactorBannerVisible ? (
-                  <TwoFactorAuthBanner
-                    key="two-factor-auth-banner"
-                    onDismiss={dismissTwoFactorBanner}
-                  />
-                ) : null}
-              </AnimatePresence>
-              <div
-                className="appContainer"
-                style={{ paddingTop: topChromeInsetPx }}
-              >
-                <MainNavigation />
-                <div className="appBody">
-                  <AnimatePresence mode="wait" initial={false}>
-                    <motion.div
-                      key={rootRouteKey}
-                      variants={pageVariants}
-                      initial="initial"
-                      animate="animate"
-                      exit="exit"
-                      transition={pageTransition}
-                    >
-                      {outlet}
-                    </motion.div>
-                  </AnimatePresence>
+            <SandboxSingleDomainContext.Provider
+              value={sandboxSingleDomainContextValue}
+            >
+              <TopChromeInsetContext.Provider value={topChromeInsetPx}>
+                <AnimatePresence
+                  initial={false}
+                  onExitComplete={onTwoFactorBannerExitComplete}
+                >
+                  {twoFactorBannerVisible ? (
+                    <TwoFactorAuthBanner
+                      key="two-factor-auth-banner"
+                      onDismiss={dismissTwoFactorBanner}
+                    />
+                  ) : null}
+                </AnimatePresence>
+                <div
+                  className="appContainer"
+                  style={{ paddingTop: topChromeInsetPx }}
+                >
+                  <MainNavigation />
+                  <div className="appBody">
+                    <AnimatePresence mode="wait" initial={false}>
+                      <motion.div
+                        key={rootRouteKey}
+                        variants={pageVariants}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        transition={pageTransition}
+                      >
+                        {outlet}
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
                 </div>
-              </div>
-            </TopChromeInsetContext.Provider>
+              </TopChromeInsetContext.Provider>
+            </SandboxSingleDomainContext.Provider>
           </SandboxTwoFaBannerContext.Provider>
         </I18nContext.Provider>
       </Breakpoint.Provider>

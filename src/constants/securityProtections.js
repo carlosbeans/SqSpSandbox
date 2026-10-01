@@ -4,8 +4,8 @@
  * tab's Advanced protections section (`src/pages/Security.js`).
  *
  * Every domain always has the four base protections plus the account-level
- * 2FA flag. Add-on domains also carry the five ADDON_PROTECTIONS keys in
- * `domain.securityProtections`. `getSecuritySummary` derives the score and
+ * 2FA flag. Add-on domains also carry the ADDON_PROTECTIONS keys in
+ * `domain.securityProtections`, except `locked` ones, which are always on. `getSecuritySummary` derives the score and
  * rating tier from whichever keys are present, so the rating meter, the
  * "N protections are inactive" copy, and the protection list can never
  * disagree with each other.
@@ -23,6 +23,12 @@ export const BASE_PROTECTIONS = [
       "Hides your name and contact details from the public WHOIS directory, so your personal information stays private.",
     linkLabel: "Manage",
     linkTo: "whois-privacy",
+    offStatus: "Contact info is public",
+    disableWarning: {
+      title: "Turn off WHOIS privacy?",
+      description:
+        "Your name, address, email, and phone number will be visible in the public WHOIS directory, making you a target for spam, scams, and unwanted calls.",
+    },
   },
   {
     key: "dnssec",
@@ -30,6 +36,12 @@ export const BASE_PROTECTIONS = [
     title: "DNSSEC",
     description:
       "Adds cryptographic signatures to DNS records, using a chain of trust to prevent cache poisoning and spoofing.",
+    offStatus: "Traffic protection off",
+    disableWarning: {
+      title: "Turn off DNSSEC?",
+      description:
+        "Visitors will no longer be verified as reaching your authentic site, leaving your domain open to DNS cache poisoning and spoofing attacks that can redirect traffic to impostor sites.",
+    },
   },
   {
     key: "domainLock",
@@ -37,6 +49,12 @@ export const BASE_PROTECTIONS = [
     title: "Domain lock",
     description:
       "Prevents unauthorized transfers by restricting changes to your domain's registrar settings without explicit approval.",
+    offStatus: "Transfers unlocked",
+    disableWarning: {
+      title: "Turn off domain lock?",
+      description:
+        "Transfer requests will no longer require explicit approval, making it possible for someone to move your domain to another registrar without your consent.",
+    },
   },
   {
     key: "sslCertificate",
@@ -62,6 +80,12 @@ export const ACCOUNT_PROTECTIONS = [
     description:
       "Adds an extra verification step when signing in to keep your account safe.",
     linkLabel: "Account settings",
+    offStatus: "Account 2FA off",
+    disableWarning: {
+      title: "Turn off two-factor authentication?",
+      description:
+        "Anyone with your password will be able to sign in to your account and change settings on every domain you manage, with no second verification step.",
+    },
   },
 ];
 
@@ -73,6 +97,12 @@ export const ADDON_PROTECTIONS = [
     title: "Protected action alerts",
     description:
       "Sends instant notifications whenever critical domain settings or records are changed.",
+    offStatus: "Notifications off",
+    disableWarning: {
+      title: "Turn off protected action alerts?",
+      description:
+        "You will no longer be notified when critical domain settings or DNS records change, so unauthorized edits could go unnoticed.",
+    },
   },
   {
     key: "secureEmailForwarder",
@@ -82,10 +112,17 @@ export const ADDON_PROTECTIONS = [
       "Creates private forwarding addresses so you can receive emails without exposing your personal address.",
     linkLabel: "Manage",
     linkTo: "secure-email-forwarder",
+    offStatus: "Forwarding unprotected",
+    disableWarning: {
+      title: "Turn off secure email forwarder?",
+      description:
+        "Private forwarding addresses will stop working, and emails will need to be received at your personal address, exposing it to spammers.",
+    },
   },
   {
     key: "extendedExpiryProtection",
     weight: 2,
+    locked: true,
     title: "Extended expiry protection",
     description:
       "An extra 30 days to renew after your domain expires to prevent squatters can act within hours of a lapse.",
@@ -94,29 +131,35 @@ export const ADDON_PROTECTIONS = [
   {
     key: "improvedDdosPrevention",
     weight: 2,
+    locked: true,
     title: "Improved DDoS prevention",
     description:
       "Absorbs sudden surges of fake web traffic to keep your website online and accessible during automated attacks.",
     linkLabel: "Manage",
+    hideLinkWhenOn: true,
   },
   {
     key: "secondaryDns",
     weight: 2,
+    locked: true,
     title: "Secondary DNS",
     description:
       "Keeps your website online using backup servers if your main provider experiences an outage.",
     linkLabel: "Manage",
+    hideLinkWhenOn: true,
+  },
+  {
+    key: "anycastNetworkPerformance",
+    weight: 2,
+    locked: true,
+    title: "Anycast network performance",
+    description:
+      "Connects visitors to the closest available server instead of one far away, so your site loads faster wherever they are.",
   },
 ];
 
 /** Upcoming add-on protections — do not count toward the score, no toggle. */
 export const COMING_SOON_PROTECTIONS = [
-  {
-    key: "anycastNetworkPerformance",
-    title: "Anycast network performance",
-    description:
-      "Connects visitors to the closest available server instead of one far away, so your site loads faster wherever they are.",
-  },
   {
     key: "dnsHealthAudit",
     title: "DNS health audit",
@@ -245,7 +288,10 @@ export function getRatingExplanation(tierKey) {
 /**
  * Score = platform baseline + the weights of every protection that is on.
  * Add-on protections only earn weight when the domain has the add-on, so a
- * fully-configured non-add-on domain tops out at 90 (Excellent). Only
+ * fully-configured non-add-on domain tops out at 90 (Excellent). Add-on
+ * protections flagged `locked` are always on for add-on domains and cannot be
+ * toggled; with all six add-on protections the raw total reaches 102, so the
+ * score is capped at 100. Only
  * protections the domain actually has (base and account-level always, add-on
  * ones only when `securityAddOn` is true) are returned in `inactive`, since
  * those are the only ones with a "Review" action; unavailable add-on
@@ -267,14 +313,20 @@ export function getSecuritySummary(domain) {
   const hasAddOn = Boolean(domain?.securityAddOn);
   const protections = domain?.securityProtections || {};
 
-  const isOn = (key, account) =>
-    Boolean(account ? domain?.[key] : protections[key]);
+  const isOn = (key, { account = false, locked = false } = {}) =>
+    locked || Boolean(account ? domain?.[key] : protections[key]);
 
   const scored = [
     ...BASE_PROTECTIONS.map((p) => ({ ...p, on: isOn(p.key) })),
-    ...ACCOUNT_PROTECTIONS.map((p) => ({ ...p, on: isOn(p.key, true) })),
+    ...ACCOUNT_PROTECTIONS.map((p) => ({
+      ...p,
+      on: isOn(p.key, { account: true }),
+    })),
     ...(hasAddOn
-      ? ADDON_PROTECTIONS.map((p) => ({ ...p, on: isOn(p.key) }))
+      ? ADDON_PROTECTIONS.map((p) => ({
+          ...p,
+          on: isOn(p.key, { locked: p.locked }),
+        }))
       : []),
   ];
 
