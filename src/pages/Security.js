@@ -10,6 +10,7 @@ import { usePageHeader } from "../layouts/PageHeaderContext";
 import SecuritySummaryPanel from "../components/SecuritySummaryPanel/SecuritySummaryPanel";
 import DisableProtectionDialog from "../components/DisableProtectionDialog/DisableProtectionDialog";
 import ProtectionStatusMessage from "../components/ProtectionStatusMessage/ProtectionStatusMessage";
+import ToggleSkeleton from "../components/ToggleSkeleton/ToggleSkeleton";
 import { useDomainProtections } from "../contexts/DomainProtectionsContext";
 import { SLIDE_FORWARD } from "../constants/motion";
 import { showProtectionToast } from "../utils/protectionToast";
@@ -43,7 +44,7 @@ export function SecurityContent({ inlineHeader, toastRef } = {}) {
   const { radii } = useTheme();
   const { domainId } = useParams();
   const navigate = useNavigate();
-  const { domain, protections, setProtection, setTwoFactorAuth } =
+  const { domain, protections, isLoading, setProtection, setTwoFactorAuth } =
     useDomainProtections();
 
   const hasAddOn = Boolean(domain?.securityAddOn);
@@ -148,15 +149,20 @@ export function SecurityContent({ inlineHeader, toastRef } = {}) {
                         <Text.Heading.Small as="h3" m={0}>
                           {feature.title}
                         </Text.Heading.Small>
-                        {feature.hasToggle && (
-                          <Toggle.Root>
-                            <Toggle.Control
-                              checked={isProtectionOn(feature.key)}
-                              onChange={handleToggleChange(feature)}
-                              aria-label={feature.title}
+                        {feature.hasToggle &&
+                          (isLoading ? (
+                            <ToggleSkeleton
+                              label={`Loading ${feature.title}`}
                             />
-                          </Toggle.Root>
-                        )}
+                          ) : (
+                            <Toggle.Root>
+                              <Toggle.Control
+                                checked={isProtectionOn(feature.key)}
+                                onChange={handleToggleChange(feature)}
+                                aria-label={feature.title}
+                              />
+                            </Toggle.Root>
+                          ))}
                       </Flex>
                       <Text.Body color="gray.300">
                         {feature.description}
@@ -164,7 +170,9 @@ export function SecurityContent({ inlineHeader, toastRef } = {}) {
                       <ProtectionStatusMessage
                         id={`security-standard-protection-status-${feature.key}`}
                         message={
-                          feature.hasToggle && !isProtectionOn(feature.key)
+                          !isLoading &&
+                          feature.hasToggle &&
+                          !isProtectionOn(feature.key)
                             ? feature.offStatus
                             : null
                         }
@@ -229,21 +237,25 @@ export function SecurityContent({ inlineHeader, toastRef } = {}) {
                           <Text.Heading.Small as="h3" m={0}>
                             {feature.title}
                           </Text.Heading.Small>
-                          <Toggle.Root>
-                            <Toggle.Control
-                              checked={isOn}
-                              disabled={feature.locked}
-                              onChange={handleToggleChange(feature)}
-                              aria-label={feature.title}
-                            />
-                          </Toggle.Root>
+                          {isLoading ? (
+                            <ToggleSkeleton label={`Loading ${feature.title}`} />
+                          ) : (
+                            <Toggle.Root>
+                              <Toggle.Control
+                                checked={isOn}
+                                disabled={feature.locked}
+                                onChange={handleToggleChange(feature)}
+                                aria-label={feature.title}
+                              />
+                            </Toggle.Root>
+                          )}
                         </Flex>
                         <Text.Body color="gray.300">
                           {feature.description}
                         </Text.Body>
                         <ProtectionStatusMessage
                           id={`security-advanced-protection-status-${feature.key}`}
-                          message={isOn ? null : feature.offStatus}
+                          message={isLoading || isOn ? null : feature.offStatus}
                         />
                         {feature.linkLabel &&
                           !(feature.hideLinkWhenOn && isOn) && (

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { Stack, Chip, Toast, StepIndicator } from "@sqs/rosetta-elements";
+import { Stack, Chip, Toast, StepIndicator, TextLink } from "@sqs/rosetta-elements";
 import { TextInput } from "@sqs/rosetta-elements/textinput/next";
 import { Flex, Box } from "@sqs/rosetta-primitives";
 import { Checkbox } from "@sqs/rosetta-react/checkbox/next";
@@ -12,7 +12,7 @@ import {
   BasicDialog,
   Dialog,
 } from "@sqs/rosetta-compositions";
-import { Search } from "@sqs/rosetta-icons";
+import { CheckmarkShield, Search } from "@sqs/rosetta-icons";
 import { usePageHeader } from "../layouts/PageHeaderContext";
 import { useTopChromeInset } from "../contexts/TopChromeInsetContext";
 import {
@@ -345,6 +345,28 @@ export function DNSSettingsContent({ toastRef, inlineHeader }) {
   const hasActiveFilters = activeFilters.size > 0;
 
   return (
+    <>
+    {inlineHeader && (
+      <Stack space={1} mb={2} id="dns-settings-page-header">
+        <Flex alignItems="center" gap={2} flexWrap="wrap">
+          <Text.Heading.Large as="h2" mb={0}>
+            DNS Settings
+          </Text.Heading.Large>
+          {domain?.securityAddOn && (
+            <Chip
+              label="Advanced Domain Security"
+              glyph={<CheckmarkShield />}
+              usage="badge"
+            />
+          )}
+        </Flex>
+        <Text.Body sx={{ color: "gray.500" }}>
+          DNS records point to services your domain uses, like forwarding your
+          domain or setting up an email service.{" "}
+          <TextLink href="#">Learn more about DNS settings</TextLink>
+        </Text.Body>
+      </Stack>
+    )}
     <Flex
       id="dnsSettingsPage"
       px={inlineHeader ? 0 : 6}
@@ -678,6 +700,7 @@ export function DNSSettingsContent({ toastRef, inlineHeader }) {
         </Drawer.Modal>
       )}
     </Flex>
+    </>
   );
 }
 

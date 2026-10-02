@@ -2,11 +2,12 @@ import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Box, Flex } from "@sqs/rosetta-primitives";
 import { Stack, TextLink, Toast, Toggle } from "@sqs/rosetta-elements";
-import { BackButton, Divider, Reveal } from "@sqs/rosetta-react";
+import { BackButton, Divider, Reveal, Skeleton } from "@sqs/rosetta-react";
 import { Button } from "@sqs/rosetta-react/button/next";
 import { Text } from "@sqs/rosetta-react/text/next";
 import { useTheme } from "@sqs/rosetta-styled";
 import { ExclamationMarkCircle } from "@sqs/rosetta-icons";
+import ToggleSkeleton from "../components/ToggleSkeleton/ToggleSkeleton";
 import { useDomainProtections } from "../contexts/DomainProtectionsContext";
 import DisableProtectionDialog from "../components/DisableProtectionDialog/DisableProtectionDialog";
 import { BASE_PROTECTIONS } from "../constants/securityProtections";
@@ -42,7 +43,8 @@ export default function WhoisPrivacy() {
   const { radii } = useTheme();
   const { domainId } = useParams();
   const navigate = useNavigate();
-  const { domain, protections, setProtection } = useDomainProtections();
+  const { domain, protections, isLoading, setProtection } =
+    useDomainProtections();
   const [isRecordOpen, setIsRecordOpen] = React.useState(false);
   const [isDisableOpen, setIsDisableOpen] = React.useState(false);
   const toastRef = React.useRef(null);
@@ -108,13 +110,18 @@ export default function WhoisPrivacy() {
             <Text.Heading.Small as="h2" m={0}>
               Privacy protection
             </Text.Heading.Small>
-            <Toggle
-              checked={privacyEnabled}
-              onChange={handlePrivacyToggle}
-              aria-label="Privacy protection"
-            />
+            {isLoading ? (
+              <ToggleSkeleton label="Loading privacy protection" />
+            ) : (
+              <Toggle
+                checked={privacyEnabled}
+                onChange={handlePrivacyToggle}
+                aria-label="Privacy protection"
+              />
+            )}
           </Flex>
-          {!privacyEnabled && (
+          {isLoading && <Skeleton height="sizes.100" width="100%" />}
+          {!isLoading && !privacyEnabled && (
             <Flex gap={1} alignItems="center">
               <ExclamationMarkCircle
                 sx={{

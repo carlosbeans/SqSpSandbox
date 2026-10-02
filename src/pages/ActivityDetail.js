@@ -1,12 +1,17 @@
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Box, Flex } from "@sqs/rosetta-primitives";
-import { Stack } from "@sqs/rosetta-elements";
-import { BackButton } from "@sqs/rosetta-react";
+import { Stack, Toast } from "@sqs/rosetta-elements";
+import { BackButton, Banner } from "@sqs/rosetta-react";
 import { Button } from "@sqs/rosetta-react/button/next";
 import { Text } from "@sqs/rosetta-react/text/next";
+import RevertActivityDialog from "../components/RevertActivityDialog/RevertActivityDialog";
+import { useDomainProtections } from "../contexts/DomainProtectionsContext";
+import { useRevertedActivities } from "../hooks/useRevertedActivities";
 import { findActivityById } from "../constants/domainActivity";
-import { SLIDE_BACK } from "../constants/motion";
+import { EASE_ENTRANCE, SLIDE_BACK } from "../constants/motion";
+import { SANDBOX_USER_NAME } from "../constants/sandboxUser";
 
 /**
  * Activity detail — reached by clicking a row in the Activity tab on Domain
@@ -15,6 +20,20 @@ import { SLIDE_BACK } from "../constants/motion";
  */
 const LABEL_WIDTH = 159;
 const CHANGE_LABEL_WIDTH = { _: 96, "from-m": LABEL_WIDTH };
+
+const bannerVariants = {
+  initial: { opacity: 0, y: -8 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -8 },
+};
+
+function formatRevertDate(date) {
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
 
 const rowBorderSx = {
   borderBottom: "1px solid",
@@ -83,7 +102,32 @@ function ChangeRow({ field, before, after }) {
 export default function ActivityDetail() {
   const { domainId, activityId } = useParams();
   const navigate = useNavigate();
-  const activity = findActivityById(activityId);
+  const { domain } = useDomainProtections();
+  const { reverted, markReverted } = useRevertedActivities();
+  const activity = findActivityById(activityId, reverted);
+  const reduceMotion = useReducedMotion();
+  const toastRef = React.useRef(null);
+  const [isRevertDialogOpen, setIsRevertDialogOpen] = React.useState(false);
+  const [isBannerDismissed, setIsBannerDismissed] = React.useState(false);
+
+  const revertRecord = reverted[activityId];
+  const canRevert = Boolean(domain?.securityAddOn) && !activity?.isRevert;
+
+  const handleRevertConfirm = React.useCallback(() => {
+    const now = new Date();
+    markReverted(activityId, {
+      revertedBy: SANDBOX_USER_NAME,
+      revertedOn: formatRevertDate(now),
+      revertedAt: now.toISOString(),
+    });
+    setIsBannerDismissed(false);
+    setIsRevertDialogOpen(false);
+    toastRef.current?.show({
+      content: "Action successfully reverted",
+      variant: "success",
+      duration: 4000,
+    });
+  }, [activityId, markReverted]);
 
   const handleBack = React.useCallback(() => {
     navigate(`/domains/${encodeURIComponent(domainId)}/settings?tab=activity`, {
@@ -104,12 +148,39 @@ export default function ActivityDetail() {
 
   return (
     <Stack space={6} px={6} pt={4} id="activity-detail-page">
-      <Stack space={1} id="activity-detail-header">
-        <BackButton label="Back" onClick={handleBack} />
-        <Text.Heading.Large as="h1" mt={2}>
-          {activity.action}
-        </Text.Heading.Large>
-      </Stack>
+      <Box id="activity-detail-top">
+        <Stack space={1} id="activity-detail-header">
+          <BackButton label="Back" onClick={handleBack} />
+          <Text.Heading.Large as="h1" mt={2}>
+            {activity.action}
+          </Text.Heading.Large>
+        </Stack>
+
+        <AnimatePresence initial={false}>
+          {revertRecord && !isBannerDismissed && (
+            <motion.div
+              key="reverted-banner"
+              id="activity-detail-reverted-banner"
+              variants={bannerVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={
+                reduceMotion
+                  ? { duration: 0 }
+                  : { duration: 0.28, ease: EASE_ENTRANCE }
+              }
+              style={{ paddingTop: 22 }}
+            >
+              <Banner
+                title="This action was reverted"
+                body={`${revertRecord.revertedBy} reverted this on ${revertRecord.revertedOn}.`}
+                closeButtonProps={{ onClick: () => setIsBannerDismissed(true) }}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </Box>
 
       <Box as="section" id="activity-detail-details">
         <Box py={1}>
@@ -130,18 +201,35 @@ export default function ActivityDetail() {
         ))}
       </Box>
 
-      <Stack
-        space={1}
-        id="activity-detail-revert"
-        sx={{ maxWidth: 650, width: "100%" }}
-      >
-        <Box>
-          <Button.Strong size="large">Revert</Button.Strong>
-        </Box>
-        <Text.Body.Small sx={{ color: "gray.400" }}>
-          Can be reverted until {activity.revertUntil}
-        </Text.Body.Small>
-      </Stack>
+      {canRevert && (
+        <Stack
+          space={1}
+          id="activity-detail-revert"
+          sx={{ maxWidth: 650, width: "100%" }}
+        >
+          <Box>
+            <Button.Strong
+              size="large"
+              disabled={Boolean(revertRecord)}
+              onClick={() => setIsRevertDialogOpen(true)}
+            >
+              Revert
+            </Button.Strong>
+          </Box>
+          {!revertRecord && (
+            <Text.Body.Small sx={{ color: "gray.400" }}>
+              Can be reverted until {activity.revertUntil}
+            </Text.Body.Small>
+          )}
+        </Stack>
+      )}
+
+      <RevertActivityDialog
+        activity={isRevertDialogOpen ? activity : null}
+        onCancel={() => setIsRevertDialogOpen(false)}
+        onConfirm={handleRevertConfirm}
+      />
+      <Toast.Container ref={toastRef} />
     </Stack>
   );
 }

@@ -912,6 +912,73 @@
         { "host": "@", "type": "MX", "priority": "5", "ttl": "4 hrs", "data": "alt1.aspmx.l.google.com" },
         { "host": "@", "type": "TXT", "priority": "N/A", "ttl": "1 hr", "data": "v=spf1 include:_spf.google.com ~all" }
       ]
+    },
+    {
+      "thumbnailImage": "/assets/screenshots/Img8_Landscape.jpeg",
+      "domainName": "innovativehub.com",
+      "domainStatus": "active",
+      "domainProvider": "Squarespace",
+      "expirationDate": "2027-10-02",
+      "eligibility": "eligible",
+      "securityAddOn": true,
+      "securityAddOnRenewsOn": "Oct 2, 2027",
+      "securityAlerts72h": 0,
+      "twoFactorAuth": true,
+      "securityProtections": {
+        "whoisPrivacy": true,
+        "dnssec": true,
+        "domainLock": true,
+        "sslCertificate": true,
+        "protectedActionAlerts": true,
+        "secureEmailForwarder": true,
+        "extendedExpiryProtection": true,
+        "improvedDdosPrevention": true,
+        "secondaryDns": true
+      },
+      "payLinksEnabled": false,
+      "connectedPayments": [],
+      "connections": {},
+      "firstName": "Amy",
+      "lastName": "Poehler",
+      "streetAddress": "1234 Address St",
+      "city": "Brooklyn",
+      "state": "NY",
+      "zip": "11222",
+      "phone": "+1 (718) 555-0142",
+      "email": "amypoehler@secondcity.com",
+      "secureEmailForwarder": { "address": "contact-i7h3b9@sqsp-secure.com" },
+      "whoisRecord": {
+        "registrant": "Amy Poehler",
+        "email": "amypoehler@secondcity.com",
+        "register": "Squarespace Domains II LLC",
+        "expires": "2027-10-02",
+        "status": "clientTransferProhibited",
+        "nameServers": ["ns1.squarespace.com", "ns2.squarespace.com"]
+      },
+      "billing": {
+        "firstName": "Amy",
+        "lastName": "Poehler",
+        "streetAddress": "1234 Address St",
+        "city": "Brooklyn",
+        "state": "NY",
+        "zip": "11222",
+        "country": "United States",
+        "creditCard": "4929 3813 7720 5146"
+      },
+      "owner": {
+        "firstName": "Amy",
+        "lastName": "Poehler",
+        "streetAddress": "1234 Address St",
+        "city": "Brooklyn",
+        "state": "NY",
+        "zip": "11222",
+        "country": "United States",
+        "phone": "+1 (718) 555-0142",
+        "email": "amypoehler@secondcity.com"
+      },
+      "customDnsRecords": [
+        { "host": "www", "type": "CNAME", "priority": "N/A", "ttl": "4 hrs", "data": "ext-sq.squarespace.com" }
+      ]
     }
   ]
 }

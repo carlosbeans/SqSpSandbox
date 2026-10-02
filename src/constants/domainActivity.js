@@ -1,3 +1,10 @@
+import {
+  SANDBOX_USER_DEVICE,
+  SANDBOX_USER_FULL_LOCATION,
+  SANDBOX_USER_IP,
+  SANDBOX_USER_LOCATION,
+} from "./sandboxUser";
+
 export const DOMAIN_ACTIVITY = [
   {
     id: "registered-domain",
@@ -30,6 +37,7 @@ export const DOMAIN_ACTIVITY = [
     ip: "72.14.201.36",
     device: "Safari on Mac",
     revertUntil: "Oct 3, 2026 at 1:12 PM",
+    revertWarning: "Reverting a transfer may take up to 24 hours and can briefly interrupt your website and email.",
     changes: [
       { field: "Registrar", before: "GoDaddy", after: "Squarespace" },
       { field: "Transfer lock", before: "Unlocked", after: "Locked" },
@@ -68,6 +76,7 @@ export const DOMAIN_ACTIVITY = [
     ip: "72.14.201.36",
     device: "Firefox on Windows",
     revertUntil: "Sep 2, 2026 at 8:30 PM",
+    revertWarning: "DNS changes can take up to 48 hours to propagate, so your site or email may be unavailable in the meantime.",
     changes: [
       { field: "A record", before: "198.49.23.144", after: "198.185.159.144" },
       { field: "CNAME (www)", before: "ext-cust.squarespace.com", after: "ext-sq.squarespace.com" },
@@ -115,6 +124,72 @@ export const DOMAIN_ACTIVITY = [
   },
 ];
 
-export function findActivityById(activityId) {
+export const REVERT_ID_PREFIX = "revert-";
+
+function formatShortDate(date) {
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+function formatRelativeTime(isoString) {
+  const then = isoString ? new Date(isoString) : null;
+  if (!then || Number.isNaN(then.getTime())) return "Just now";
+  const minutes = Math.floor((Date.now() - then.getTime()) / 60000);
+  if (minutes < 1) return "Just now";
+  if (minutes < 60) return `${minutes} min ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} ${hours === 1 ? "hr" : "hrs"} ago`;
+  return formatShortDate(then);
+}
+
+function formatClockTimeGmt(date) {
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}:${pad(date.getUTCSeconds())} GMT`;
+}
+
+export function buildRevertActivity(original, record) {
+  const revertedAt = record.revertedAt ? new Date(record.revertedAt) : null;
+  const hasValidDate = revertedAt && !Number.isNaN(revertedAt.getTime());
+  return {
+    id: `${REVERT_ID_PREFIX}${original.id}`,
+    isRevert: true,
+    action: `Reverted: ${original.action}`,
+    name: record.revertedBy,
+    location: SANDBOX_USER_LOCATION,
+    time: formatRelativeTime(record.revertedAt),
+    date: hasValidDate
+      ? `${revertedAt.toLocaleDateString("en-US", { weekday: "long" })} ${formatShortDate(revertedAt)}`
+      : record.revertedOn,
+    clockTime: hasValidDate ? formatClockTimeGmt(revertedAt) : "—",
+    fullLocation: SANDBOX_USER_FULL_LOCATION,
+    ip: SANDBOX_USER_IP,
+    device: SANDBOX_USER_DEVICE,
+    revertedAtMs: hasValidDate ? revertedAt.getTime() : 0,
+    changes: original.changes
+      .filter((change) => change.before !== change.after)
+      .map((change) => ({
+        field: change.field,
+        before: change.after,
+        after: change.before,
+      })),
+  };
+}
+
+export function getRevertActivities(reverted = {}) {
+  return DOMAIN_ACTIVITY.filter((activity) => reverted[activity.id])
+    .map((activity) => buildRevertActivity(activity, reverted[activity.id]))
+    .sort((a, b) => b.revertedAtMs - a.revertedAtMs);
+}
+
+export function findActivityById(activityId, reverted = {}) {
+  if (activityId?.startsWith(REVERT_ID_PREFIX)) {
+    const originalId = activityId.slice(REVERT_ID_PREFIX.length);
+    const original = DOMAIN_ACTIVITY.find((activity) => activity.id === originalId);
+    const record = reverted[originalId];
+    return original && record ? buildRevertActivity(original, record) : null;
+  }
   return DOMAIN_ACTIVITY.find((activity) => activity.id === activityId) || null;
 }

@@ -4,12 +4,13 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Box, Flex } from "@sqs/rosetta-primitives";
 import { Stack, Toast } from "@sqs/rosetta-elements";
 import { Toggle } from "@sqs/rosetta-react/toggle/next";
-import { BackButton, Divider } from "@sqs/rosetta-react";
+import { BackButton, Divider, IconButton, Skeleton } from "@sqs/rosetta-react";
 import { Button } from "@sqs/rosetta-react/button/next";
 import { Text } from "@sqs/rosetta-react/text/next";
 import { BasicDialog } from "@sqs/rosetta-compositions";
-import { CheckmarkCircle } from "@sqs/rosetta-icons";
+import { CheckmarkCircle, Duplicate } from "@sqs/rosetta-icons";
 import { ExclamationMarkCircleFilled } from "@sqs/rosetta-glyphs";
+import ToggleSkeleton from "../components/ToggleSkeleton/ToggleSkeleton";
 import { useDomainProtections } from "../contexts/DomainProtectionsContext";
 import { EASE_ENTRANCE, EASE_EXIT, SLIDE_BACK } from "../constants/motion";
 import { showProtectionToast } from "../utils/protectionToast";
@@ -58,22 +59,71 @@ function StatusIcon({ children }) {
   );
 }
 
-function DetailRow({ label, value }) {
+function DetailRow({ label, value, onCopy, copyLabel }) {
   return (
     <Box>
-      <Stack space={1} py={3}>
-        <Text.Body>{label}</Text.Body>
-        <Text.Body.Small sx={{ color: "gray.400" }}>{value}</Text.Body.Small>
-      </Stack>
+      <Flex alignItems="center" justifyContent="space-between" gap={2} py={3}>
+        <Stack space={1} sx={{ minWidth: 0 }}>
+          <Text.Body>{label}</Text.Body>
+          <Text.Body.Small sx={{ color: "gray.400", overflowWrap: "anywhere" }}>
+            {value}
+          </Text.Body.Small>
+        </Stack>
+        {onCopy && (
+          <IconButton.Subtle
+            icon={Duplicate}
+            label={copyLabel}
+            onClick={onCopy}
+            sx={{ flexShrink: 0 }}
+          />
+        )}
+      </Flex>
       <Divider />
     </Box>
   );
 }
 
+function DetailRowSkeleton({ label }) {
+  return (
+    <Box>
+      <Flex alignItems="center" justifyContent="space-between" gap={2} py={3}>
+        <Stack space={1} sx={{ minWidth: 0, width: "100%" }}>
+          <Text.Body>{label}</Text.Body>
+          <Skeleton height="sizes.100" width="240px" />
+        </Stack>
+      </Flex>
+      <Divider />
+    </Box>
+  );
+}
+
+async function copyTextToClipboard(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    const field = document.createElement("textarea");
+    field.value = text;
+    field.setAttribute("readonly", "");
+    field.style.position = "fixed";
+    field.style.opacity = "0";
+    document.body.appendChild(field);
+    field.select();
+    try {
+      return document.execCommand("copy");
+    } catch {
+      return false;
+    } finally {
+      document.body.removeChild(field);
+    }
+  }
+}
+
 export default function SecureEmailForwarder() {
   const { domainId } = useParams();
   const navigate = useNavigate();
-  const { domain, protections, setProtection } = useDomainProtections();
+  const { domain, protections, isLoading, setProtection } =
+    useDomainProtections();
   const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
   const toastRef = React.useRef(null);
   const reduceMotion = useReducedMotion();
@@ -104,6 +154,17 @@ export default function SecureEmailForwarder() {
     [setProtection],
   );
 
+  const handleCopyAddress = React.useCallback(async () => {
+    const copied = await copyTextToClipboard(forwarderAddress);
+    toastRef.current?.show({
+      content: copied
+        ? "Forwarder address copied to clipboard"
+        : "Couldn't copy the forwarder address",
+      variant: copied ? "success" : "error",
+      duration: 4000,
+    });
+  }, [forwarderAddress]);
+
   const closeConfirm = React.useCallback(() => setIsConfirmOpen(false), []);
 
   const confirmTurnOff = React.useCallback(() => {
@@ -131,6 +192,27 @@ export default function SecureEmailForwarder() {
         id="secure-email-forwarder-details"
         sx={{ maxWidth: 650, width: "100%" }}
       >
+        {isLoading ? (
+          <Box id="secure-email-forwarder-loading">
+            <Flex
+              alignItems="flex-start"
+              justifyContent="space-between"
+              gap={2}
+              py={3}
+            >
+              <Stack space={1} sx={{ width: "100%" }}>
+                <Text.Body fontWeight="medium">Email forwarding</Text.Body>
+                <Skeleton height="sizes.100" width="320px" />
+              </Stack>
+              <ToggleSkeleton label="Loading email forwarding" />
+            </Flex>
+            <Divider />
+            <Box mt={4}>
+              <DetailRowSkeleton label="Forwarder address" />
+              <DetailRowSkeleton label="Forwards to" />
+            </Box>
+          </Box>
+        ) : (
         <Box>
           <Flex
             alignItems="flex-start"
@@ -204,6 +286,8 @@ export default function SecureEmailForwarder() {
                   <DetailRow
                     label="Forwarder address"
                     value={forwarderAddress}
+                    onCopy={handleCopyAddress}
+                    copyLabel="Copy forwarder address"
                   />
                   <DetailRow label="Forwards to" value={forwardsTo} />
                 </Box>
@@ -211,6 +295,7 @@ export default function SecureEmailForwarder() {
             )}
           </AnimatePresence>
         </Box>
+        )}
 
         <Flex gap={2}>
           <Button.Strong size="large" onClick={handleBack}>

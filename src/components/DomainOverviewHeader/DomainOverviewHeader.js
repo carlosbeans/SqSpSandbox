@@ -40,7 +40,10 @@ function getStatusDotColor(status, colors) {
 
 function formatExpirationDate(dateStr) {
   if (!dateStr) return null;
-  const date = new Date(dateStr);
+  const isoMatch = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateStr);
+  const date = isoMatch
+    ? new Date(Number(isoMatch[1]), Number(isoMatch[2]) - 1, Number(isoMatch[3]))
+    : new Date(dateStr);
   if (Number.isNaN(date.getTime())) return dateStr;
   return date.toLocaleDateString("en-US", {
     month: "short",
@@ -99,6 +102,7 @@ export default function DomainOverviewHeader() {
   }
 
   const formattedExpiration = formatExpirationDate(domain.expirationDate);
+  const statusColor = getStatusDotColor(domain.domainStatus, colors);
 
   return (
     <Flex>
@@ -139,13 +143,12 @@ export default function DomainOverviewHeader() {
                   width: 8,
                   height: 8,
                   borderRadius: "50%",
-                  backgroundColor: getStatusDotColor(domain.domainStatus, colors),
+                  backgroundColor: statusColor,
                 }}
               />
               <Text.Body
                 m={0}
-                css={{ fontSize: "14px", lineHeight: "22px" }}
-                color="gray.300"
+                css={{ fontSize: "14px", lineHeight: "22px", color: statusColor }}
               >
                 {getStatusLabel(domain.domainStatus)}
               </Text.Body>

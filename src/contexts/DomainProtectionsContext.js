@@ -7,6 +7,7 @@ const noop = () => {};
 const DomainProtectionsContext = React.createContext({
   domain: null,
   protections: {},
+  isLoading: true,
   setProtection: noop,
   setTwoFactorAuth: noop,
 });
@@ -46,6 +47,7 @@ export function DomainProtectionsProvider() {
   const [protections, setProtections] = React.useState({});
   const [twoFactorAuth, setTwoFactorAuthState] = React.useState(false);
   const [hydratedFor, setHydratedFor] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     let cancelled = false;
@@ -67,11 +69,13 @@ export function DomainProtectionsProvider() {
           : Boolean(found?.twoFactorAuth),
       );
       setHydratedFor(found?.domainName || null);
+      setIsLoading(false);
     }
     setHydratedFor(null);
     setBaseDomain(null);
     setProtections({});
     setTwoFactorAuthState(false);
+    setIsLoading(true);
     fetchDomain();
     return () => {
       cancelled = true;
@@ -95,8 +99,15 @@ export function DomainProtectionsProvider() {
     const domain = baseDomain
       ? { ...baseDomain, securityProtections: protections, twoFactorAuth }
       : null;
-    return { domain, protections, setProtection, setTwoFactorAuth };
-  }, [baseDomain, protections, twoFactorAuth, setProtection, setTwoFactorAuth]);
+    return { domain, protections, isLoading, setProtection, setTwoFactorAuth };
+  }, [
+    baseDomain,
+    protections,
+    twoFactorAuth,
+    isLoading,
+    setProtection,
+    setTwoFactorAuth,
+  ]);
 
   return (
     <DomainProtectionsContext.Provider value={value}>
