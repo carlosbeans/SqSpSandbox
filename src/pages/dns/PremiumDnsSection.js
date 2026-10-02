@@ -29,7 +29,8 @@ function StatusCell({ label, isActive, showStartBorder }) {
         <Flex alignItems="center" gap={1}>
           {isActive && (
             <CheckmarkCircle
-              css={{ width: 16, height: 16, color: "fg.success", flexShrink: 0 }}
+              color="fg.success"
+              css={{ width: 16, height: 16, flexShrink: 0 }}
             />
           )}
           <Text.Body sx={{ color: isActive ? "fg.success" : "gray.300" }}>

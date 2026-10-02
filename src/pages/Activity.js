@@ -101,7 +101,6 @@ export function ActivityContent({ inlineHeader } = {}) {
                 <Chip
                   label="Advanced Domain Security"
                   glyph={<CheckmarkShield />}
-                  usage="badge"
                 />
               )}
             </Flex>

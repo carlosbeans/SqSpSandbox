@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Tabs, Toast } from "@sqs/rosetta-elements";
 import { Flex, Box } from "@sqs/rosetta-primitives";
@@ -53,11 +53,23 @@ export default function DomainSettings() {
   const toastRef = React.useRef(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const tabParam = searchParams.get("tab");
-  const activeTab = TAB_KEYS.includes(tabParam) ? tabParam : "dns";
+  const { pathname } = useLocation();
+  const settingsPathRef = React.useRef(pathname);
+  const [activeTab, setActiveTab] = React.useState(() =>
+    TAB_KEYS.includes(tabParam) ? tabParam : "dns",
+  );
   const reduceMotion = useReducedMotion();
+
+  React.useEffect(() => {
+    // Off the settings route this component is only an exiting snapshot, so
+    // hold the tab instead of resetting it and re-animating on the way out.
+    if (pathname !== settingsPathRef.current) return;
+    setActiveTab(TAB_KEYS.includes(tabParam) ? tabParam : "dns");
+  }, [pathname, tabParam]);
 
   const handleTabChange = React.useCallback(
     (value) => {
+      setActiveTab(value);
       setSearchParams(
         (prev) => {
           const next = new URLSearchParams(prev);

@@ -106,9 +106,17 @@ export function SecurityContent({ inlineHeader, toastRef } = {}) {
       <Flex flexDirection="column" gap={8}>
         {inlineHeader && (
           <Stack space={1}>
-            <Text.Heading.Large as="h2" mb={0}>
-              Security
-            </Text.Heading.Large>
+            <Flex alignItems="center" gap={2} flexWrap="wrap">
+              <Text.Heading.Large as="h2" mb={0}>
+                Security
+              </Text.Heading.Large>
+              {hasAddOn && (
+                <Chip
+                  label="Advanced Domain Security"
+                  glyph={<CheckmarkShield />}                  
+                />
+              )}
+            </Flex>
             <Text.Body sx={{ color: "gray.500" }}>
               Configure security settings related to your domain, like WHOIS
               privacy, DNSSEC, and domain lock.

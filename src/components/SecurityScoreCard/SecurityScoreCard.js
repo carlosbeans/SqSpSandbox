@@ -161,7 +161,6 @@ export default function SecurityScoreCard({ domain }) {
                     <Chip
                       label="Advanced Domain Security"
                       glyph={<CheckmarkShield />}
-                      usage="badge"
                     />
                   )}
                 </Flex>

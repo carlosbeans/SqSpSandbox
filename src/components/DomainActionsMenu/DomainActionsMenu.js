@@ -42,7 +42,7 @@ export default function DomainActionsMenu() {
             onClick={onRequestClose}
             sx={{ color: "fg.danger" }}
           >
-            Delete domain
+            Cancel domain
           </ActionList.Item>
         </Flex>
       )}

@@ -355,8 +355,7 @@ export function DNSSettingsContent({ toastRef, inlineHeader }) {
           {domain?.securityAddOn && (
             <Chip
               label="Advanced Domain Security"
-              glyph={<CheckmarkShield />}
-              usage="badge"
+              glyph={<CheckmarkShield />}              
             />
           )}
         </Flex>
